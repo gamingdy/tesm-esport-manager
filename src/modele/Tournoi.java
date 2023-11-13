@@ -10,12 +10,12 @@ public class Tournoi {
 
 	private Saison saison;
 	private String nom;
-	private Custom_Date debut;
-	private Custom_Date fin;
+	private CustomDate debut;
+	private CustomDate fin;
 	private Niveau niveau;
 	//private Map<Character,Poule> poules;
 
-	public Tournoi(Saison saison, String nom, Custom_Date debut, Custom_Date fin, Niveau niveau) throws FausseDate {
+	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau) throws FausseDate {
 		if (debut.getAnnee() < saison.getAnnee()) {
 			throw new FausseDate("La date de début du tournoi est avant la date de début de la saison");
 		}
@@ -46,19 +46,19 @@ public class Tournoi {
 		this.nom = nom;
 	}
 
-	public Custom_Date getDebut() {
+	public CustomDate getDebut() {
 		return debut;
 	}
 
-	public void setDebut(Custom_Date debut) {
+	public void setDebut(CustomDate debut) {
 		this.debut = debut;
 	}
 
-	public Custom_Date getFin() {
+	public CustomDate getFin() {
 		return fin;
 	}
 
-	public void setFin(Custom_Date fin) {
+	public void setFin(CustomDate fin) {
 		this.fin = fin;
 	}
 

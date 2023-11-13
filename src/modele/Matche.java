@@ -9,7 +9,7 @@ public class Matche {
 
 	private final int id;
 
-	private Custom_Date dateDebutMatche;
+	private CustomDate dateDebutMatche;
 	private Categorie libelle;
 	private Equipe equipe1;
 	private Equipe equipe2;
@@ -17,7 +17,7 @@ public class Matche {
 	private int vainqueur;
 
 
-	public Matche(int id, int nombreMaxParties, Custom_Date dateDebutMatche, Categorie libelle,
+	public Matche(int id, int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
 		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
 			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
@@ -50,11 +50,11 @@ public class Matche {
 		this.nombreMaxParties = nombreMaxParties;
 	}
 
-	public Custom_Date getDateDebutMatche() {
+	public CustomDate getDateDebutMatche() {
 		return dateDebutMatche;
 	}
 
-	public void setDateDebutMatche(Custom_Date dateDebutMatche) {
+	public void setDateDebutMatche(CustomDate dateDebutMatche) {
 		this.dateDebutMatche = dateDebutMatche;
 	}
 
