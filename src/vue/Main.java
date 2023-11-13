@@ -13,7 +13,9 @@ public class Main extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Font font;
 	private JPanel contentPane;
+	private TitleBar topPanel;
 	private MenuNavBar navbar;
+	private Point compCoords;
 
 
 	private void setFont() {
@@ -57,7 +59,7 @@ public class Main extends JFrame {
 	private void setCustomTitleBar() {
 		// Set title bar to custom title bar
 		setUndecorated(true);
-		topPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
+		topPanel = new TitleBar(this, compCoords);
 		final JButton minimize = new JButton("-");
 		final JButton exit = new JButton("X");
 
@@ -71,36 +73,10 @@ public class Main extends JFrame {
 				setState(JFrame.ICONIFIED);
 			}
 		});
+
 		compCoords = null;
-		topPanel.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {
-				compCoords = null;
-			}
 
-			public void mousePressed(MouseEvent e) {
-				compCoords = e.getPoint();
-			}
 
-			public void mouseExited(MouseEvent e) {
-				topPanel.setBackground(Color.black);
-			}
-
-			public void mouseEntered(MouseEvent e) {
-				topPanel.setBackground(Color.red);
-			}
-
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		topPanel.addMouseMotionListener(new MouseMotionListener() {
-			public void mouseMoved(MouseEvent e) {
-			}
-
-			public void mouseDragged(MouseEvent e) {
-				Point currCoords = e.getLocationOnScreen();
-				setLocation(currCoords.x - compCoords.x, currCoords.y - compCoords.y);
-			}
-		});
 		topPanel.add(minimize);
 		Color color = new Color(25, 11, 52);
 		topPanel.setBackground(color);
@@ -151,7 +127,7 @@ public class Main extends JFrame {
 		GridBagConstraints contraintesPanelMenu = new GridBagConstraints();
 		panelMenu.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
 		panelMenu.setBackground(Color.black);
-		panelMenu.setBorder(BorderFactory.createMatteBorder(3,4,4,4,Color.red));
+		panelMenu.setBorder(BorderFactory.createMatteBorder(3, 4, 4, 4, Color.red));
 		contraintesPanelMenu.fill = GridBagConstraints.HORIZONTAL;
 		contraintesPanelMenu.weightx = 0.2;
 		contraintesPanelMenu.gridx = 0;
