@@ -1,20 +1,21 @@
 package modele;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import exceptions.PouleComplete;
 
 public class Poule {
 
 	private Tournoi tournoi;
-	private char libelle;
-	private Set<Equipe> equipes;
+	private Character libelle;
+	private Map<Equipe,Integer> equipes;
 	
-	public Poule(Tournoi tournoi, char libelle) {
+	public Poule(Tournoi tournoi, Character libelle) {
 		this.tournoi = tournoi;
 		this.libelle = libelle;
-		this.equipes = new TreeSet<Equipe>();
+		this.equipes = new HashMap<Equipe,Integer>();
 	}
 
 	public Tournoi getTournoi() {
@@ -25,19 +26,31 @@ public class Poule {
 		this.tournoi = tournoi;
 	}
 
-	public char getLibelle() {
+	public Character getLibelle() {
 		return libelle;
 	}
 
-	public void setLibelle(char libelle) {
+	public void setLibelle(Character libelle) {
 		this.libelle = libelle;
+	}
+
+	public Integer getPoint(Equipe equipe){
+		return this.equipes.get(equipe);
+	}
+
+	public void ajouterPoint(Equipe equipe, Integer point){
+		this.equipes.put(equipe, this.equipes.get(equipe)+point);
+	}
+
+	public void enleverPoint(Equipe equipe, Integer point){
+		this.equipes.put(equipe, this.equipes.get(equipe) - point);
 	}
 	
 	public void addEquipe(Equipe equipe) throws PouleComplete {
 		if (this.equipes.size()==8) {
 			throw new PouleComplete("La poule est complète");
 		}
-		this.equipes.add(equipe);
+		this.equipes.put(equipe,0);
 	}
 	
 	public void deleteEquipe(Equipe equipe) {
@@ -45,6 +58,16 @@ public class Poule {
 	}
 
 	public Set<Equipe> getEquipes() {
-		return equipes;
+		return this.equipes.keySet();
+	}
+
+	@Override
+	public String toString(){
+		String str = "";
+		for (Equipe e : this.getEquipes()){
+			str += e.getNom() + " : " + this.equipes.get(e);
+			str += System.lineSeparator();
+		}
+		return str;
 	}
 }
