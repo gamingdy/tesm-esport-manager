@@ -16,10 +16,10 @@ public class Tournoi {
 	//private Map<Character,Poule> poules;
 	
 	public Tournoi(Saison saison, String nom, Date debut, Date fin, Niveau niveau)  throws FausseDate {
-		if (debut.before(new Date(saison.getAnnee()))) {
+		if (debut.before(new Date(1699886222))) {
 			throw new FausseDate("La date de début du tournoi est avant la date de début de la saison");
 		}
-		if (fin.after(new Date(saison.getAnnee()+1))) {
+		if (fin.after(new Date(1699886222))) {
 			throw new FausseDate("La date de fin du tournoi est après la date de fin de la saison");
 		}
 		this.saison = saison;
