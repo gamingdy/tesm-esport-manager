@@ -1,8 +1,8 @@
 package modele;
 
 public class Arbitre {
-	
-	private int id;
+
+	private final int id;
 	private String nom;
 	private String prenom;
 
