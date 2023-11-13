@@ -1,6 +1,8 @@
 package modele;
 
-public class Joueur {
+
+public class Joueur implements Comparable<Joueur>{
+	
 
 	private int id;
 	private String pseudo;
@@ -22,5 +24,14 @@ public class Joueur {
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
+
+	public  int compareTo(Joueur j){
+		if (j.getId()==this.getId()){
+			return 0;
+		}else{
+			return j.getPseudo().compareTo(this.getPseudo());
+		}
+	}
+
 
 }
