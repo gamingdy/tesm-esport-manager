@@ -2,15 +2,11 @@ package modele.test;
 
 import static org.junit.Assert.*;
 
-import exceptions.PointsNegatifs;
-import org.junit.After;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import exceptions.EquipeComplete;
-import exceptions.EquipeVide;
-import exceptions.JoueurNonPresent;
-import modele.Equipe;
+
 import modele.Joueur;
 
 public class testJoueur {
