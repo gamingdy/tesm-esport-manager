@@ -75,7 +75,7 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		setFont();
-		setIconImage(Toolkit.getDefaultToolkit().getImage("assets/logo.png"));
+		setIconImage(new ImageIcon("assets/logo.png").getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);
 		try {
