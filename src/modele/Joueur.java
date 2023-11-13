@@ -23,5 +23,4 @@ public class Joueur {
 		this.pseudo = pseudo;
 	}
 
-
 }

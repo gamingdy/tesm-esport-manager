@@ -88,6 +88,5 @@ public class Matche {
 	public void setTournoi(Tournoi tournoi) {
 		this.tournoi = tournoi;
 	}
-
-
+	
 }
