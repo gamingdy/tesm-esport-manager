@@ -9,6 +9,7 @@ import exceptions.PouleComplete;
 public class Poule {
 
 	private Tournoi tournoi;
+
 	private Character libelle;
 	private Map<Equipe,Integer> equipes;
 	
@@ -21,11 +22,6 @@ public class Poule {
 	public Tournoi getTournoi() {
 		return tournoi;
 	}
-
-	public void setTournoi(Tournoi tournoi) {
-		this.tournoi = tournoi;
-	}
-
 	public Character getLibelle() {
 		return libelle;
 	}
@@ -47,12 +43,12 @@ public class Poule {
 	}
 	
 	public void addEquipe(Equipe equipe) throws PouleComplete {
-		if (this.equipes.size()==8) {
+		if (this.equipes.size() == 8) {
 			throw new PouleComplete("La poule est complète");
 		}
 		this.equipes.put(equipe,0);
 	}
-	
+
 	public void deleteEquipe(Equipe equipe) {
 		this.equipes.remove(equipe);
 	}

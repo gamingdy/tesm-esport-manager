@@ -3,7 +3,7 @@ package modele;
 import java.sql.Date;
 
 public class Matche {
-	
+
 	private int id;
 	private byte nombreMaxParties;
 	private Date dateDebutMatche;
@@ -12,10 +12,9 @@ public class Matche {
 	private Equipe equipe1;
 	private Equipe equipe2;
 	private Tournoi tournoi;
-	
+
 	public Matche(int id, byte nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
-			Equipe equipe1, Equipe equipe2, Tournoi tournoi) {
-		super();
+				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) {
 		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
@@ -90,8 +89,4 @@ public class Matche {
 		this.tournoi = tournoi;
 	}
 	
-	
-	
-	
-
 }
