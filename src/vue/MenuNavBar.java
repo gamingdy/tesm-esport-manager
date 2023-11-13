@@ -66,10 +66,10 @@ public class MenuNavBar extends JPanel {
 		boutons.entrySet().stream()
 		.forEach(e -> {
 			if (e.getKey() == bouton.getText()) {
-				bouton.selectionner();
+				e.getValue().selectionner();
 			}
 			else if (e.getKey() != "Déconnexion") {
-				bouton.deselectionner();
+				e.getValue().deselectionner();
 			}
 		});;
 	}

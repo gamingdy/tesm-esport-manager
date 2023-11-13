@@ -183,6 +183,7 @@ public class Main extends JFrame {
 
 
 		panelMenu.add(navbar, navbar.getGBC());
+		
 	}
 
 }
