@@ -3,6 +3,7 @@ package modele.test;
 import static org.junit.Assert.*;
 
 import exceptions.PointsNegatifs;
+import modele.Country;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +29,9 @@ public class testEquipe {
 
 	@Before
 	public void setUp() {
-		equipe1 = new Equipe("Faze");
+		equipe1 = new Equipe("Faze", Country.ALGERIA);
 		j = new Joueur(1, "Cricri");
-		equipe2 = new Equipe("Patate");
+		equipe2 = new Equipe("Patate", Country.ALGERIA);
 	}
 
 	@After

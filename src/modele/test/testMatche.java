@@ -1,41 +1,65 @@
 package modele.test;
 
+import exceptions.FausseDate;
 import org.junit.Before;
 import org.junit.Test;
 import modele.*;
 
-import java.sql.Date;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
 public class testMatche {
 	Matche m;
-	Equipe e1 = new Equipe("Faze");
-	Equipe e2 = new Equipe("KC");
+	Equipe e1 = new Equipe("Faze", Country.PALAU);
+	Equipe e2 = new Equipe("KC", Country.ALGERIA);
+	LocalDate d1;
+	LocalDate d2;
 
-	Saison s = new Saison((short) 2022);
-	Tournoi tournoi = new Tournoi(s, "RLCS", new Date(2022, 01, 1), new Date(2022, 12, 20), Niveau.INTERNATIONAL);
+	Saison s = new Saison(2022);
+	Tournoi tournoi;
+
+	{
+		try {
+			String t1 = "13-11-2022";
+			String t2 = "10-10-2022";
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			d2 = LocalDate.parse(t2, dtf);
+			d1 = LocalDate.parse(t1, dtf);
+
+			tournoi = new Tournoi(s, "RLCS", d1, d2, Niveau.INTERNATIONAL);
+		} catch (FausseDate e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 
 	@Before
 	public void setUp() throws Exception {
 
-		m = new Matche(1, (byte) 1, new Date(2022, 12, 2), Categorie.DEMI_FINALE, e1, e2, tournoi);
+		m = new Matche(1, 1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
 
 	@Test
 	public void getId() {
+		System.out.println(d1.toString());
 		assertEquals(1, m.getId());
 	}
 
 	@Test
 	public void getNombreMaxParties() {
-		assertEquals((byte) 1, m.getNombreMaxParties());
+		assertEquals(1, m.getNombreMaxParties());
 	}
 
 	@Test
 	public void setNombreMaxParties() {
-		m.setNombreMaxParties((byte) 2);
-		assertEquals((byte) 2, m.getNombreMaxParties());
+		m.setNombreMaxParties(2);
+		assertEquals(2, m.getNombreMaxParties());
 	}
 
 	@Test
@@ -45,8 +69,8 @@ public class testMatche {
 
 	@Test
 	public void setDateDebutMatche() {
-		m.setDateDebutMatche(new Date(2022, 12, 3));
-		assertEquals(new Date(2022, 12, 3), m.getDateDebutMatche());
+		m.setDateDebutMatche(d2);
+		assertEquals(d2, m.getDateDebutMatche());
 	}
 
 
@@ -69,7 +93,7 @@ public class testMatche {
 	@Test
 	public void setEquipe1() {
 		m.setEquipe1(e2);
-		
+
 	}
 
 	@Test
