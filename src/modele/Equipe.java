@@ -59,4 +59,7 @@ public class Equipe {
 	public void deleteJoueur(Joueur joueur) {
 		this.equipe.remove(joueur);
 	}
+	public int getNombreJoueurs(){
+		return this.equipe.size();
+	}
 }
