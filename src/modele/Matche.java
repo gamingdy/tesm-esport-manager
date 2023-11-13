@@ -2,6 +2,8 @@ package modele;
 
 import java.sql.Date;
 
+import exceptions.FausseDate;
+
 public class Matche {
 
 	private int id;
@@ -15,7 +17,13 @@ public class Matche {
 	private int vainqueur;
 
 	public Matche(int id, int nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
-				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) {
+				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate {
+		if (dateDebutMatche.after(tournoi.getDebut())) {
+			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
+		}
+		if (dateFinMatche.after(tournoi.getFin())) {
+			throw new FausseDate("La date de fin du matche est après la date de fin du tournoi");
+		}
 		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;

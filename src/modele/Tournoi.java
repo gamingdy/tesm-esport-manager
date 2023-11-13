@@ -6,15 +6,15 @@ import java.sql.Date;
 
 public class Tournoi {
 	
-	private Saison annee;
+	private Saison saison;
 	private String nom;
 	private Date debut;
 	private Date fin;
 	private Niveau niveau;
 	//private Map<Character,Poule> poules;
 	
-	public Tournoi(Saison annee, String nom, Date debut, Date fin, Niveau niveau) {
-		this.annee = annee;
+	public Tournoi(Saison saison, String nom, Date debut, Date fin, Niveau niveau) {
+		this.saison = saison;
 		this.nom = nom;
 		this.debut = debut;
 		this.fin = fin;
@@ -22,11 +22,11 @@ public class Tournoi {
 		//this.poules = new HashMap<Character,Poule>();
 	}
 	
-	public Saison getAnnee() {
-		return annee;
+	public Saison getSaison() {
+		return saison;
 	}
-	public void setAnnee(Saison annee) {
-		this.annee = annee;
+	public void setSaison(Saison saison) {
+		this.saison = saison;
 	}
 	public String getNom() {
 		return nom;

@@ -7,21 +7,21 @@ import java.util.HashMap;
 
 public class Saison {
 
-	private short annee;
+	private int annee;
 	private Map<Equipe,Integer> equipes;
 	private Set<Arbitre> arbitres;
 	
-	public Saison(short annee) {
+	public Saison(int annee) {
 		this.equipes=new HashMap<Equipe,Integer>();
 		this.arbitres=new TreeSet<Arbitre>();
 		this.annee = annee;
 	}
 
-	public short getAnnee() {
+	public int getAnnee() {
 		return annee;
 	}
 
-	public void setAnnee(short annee) {
+	public void setAnnee(int annee) {
 		this.annee = annee;
 	}
 	
