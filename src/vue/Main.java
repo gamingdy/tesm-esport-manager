@@ -34,7 +34,8 @@ public class Main extends JFrame{
 	private void setFont() {
 		this.font = null;
 		try {
-		     font =Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("assets/ChakraPetch-Regular.ttf"));
+			File font_file = new File("assets/ChakraPetch-Regular.ttf");
+			font = Font.createFont(Font.TRUETYPE_FONT, font_file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
