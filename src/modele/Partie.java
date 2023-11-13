@@ -3,11 +3,11 @@ package modele;
 public class Partie {
 
 	private int id;
-	private byte numeroPartie;
+	private int numeroPartie;
 	private String equipeGagnante;
 	private Matche matche;
 	
-	public Partie(int id, byte numeroPartie, String equipeGagnante, Matche matche) {
+	public Partie(int id, int numeroPartie, String equipeGagnante, Matche matche) {
 		this.id = id;
 		this.numeroPartie = numeroPartie;
 		this.equipeGagnante = equipeGagnante;
@@ -22,11 +22,11 @@ public class Partie {
 		this.id = id;
 	}
 
-	public byte getNumeroPartie() {
+	public int getNumeroPartie() {
 		return numeroPartie;
 	}
 
-	public void setNumeroPartie(byte numeroPartie) {
+	public void setNumeroPartie(int numeroPartie) {
 		this.numeroPartie = numeroPartie;
 	}
 

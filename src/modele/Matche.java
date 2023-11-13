@@ -5,16 +5,16 @@ import java.sql.Date;
 public class Matche {
 
 	private int id;
-	private byte nombreMaxParties;
+	private int nombreMaxParties;
 	private Date dateDebutMatche;
 	private Date dateFinMatche;
 	private Categorie libelle;
 	private Equipe equipe1;
 	private Equipe equipe2;
 	private Tournoi tournoi;
-	private byte vainqueur;
+	private int vainqueur;
 
-	public Matche(int id, byte nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
+	public Matche(int id, int nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) {
 		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
@@ -35,11 +35,11 @@ public class Matche {
 		this.id = id;
 	}
 
-	public byte getNombreMaxParties() {
+	public int getNombreMaxParties() {
 		return nombreMaxParties;
 	}
 
-	public void setNombreMaxParties(byte nombreMaxParties) {
+	public void setNombreMaxParties(int nombreMaxParties) {
 		this.nombreMaxParties = nombreMaxParties;
 	}
 
@@ -102,7 +102,7 @@ public class Matche {
 		return equipe;
 	}
 
-	public void setVainqueur(byte vainqueur) {
+	public void setVainqueur(int vainqueur) {
 		this.vainqueur = vainqueur;
 	}
 	
