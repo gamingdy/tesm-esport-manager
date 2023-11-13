@@ -13,11 +13,21 @@ public class Equipe {
 	private String nom;
 	private Set<Joueur> equipe;
 	private int point;
+	private Country pays;
 
-	public Equipe(String nom) {
+	public Equipe(String nom, Country pays) {
 		this.equipe = new TreeSet<Joueur>();
 		this.nom = nom;
 		this.point = 0;
+		this.pays = pays;
+	}
+
+	public Country getPays() {
+		return this.pays;
+	}
+
+	public void setPays(Country pays) {
+		this.pays = pays;
 	}
 
 	public Set<Joueur> getEquipe() {
