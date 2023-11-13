@@ -5,10 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -24,12 +22,7 @@ public class Main extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Font font;
 	private JPanel contentPane;
-	private BoutonMenu boutonAccueil;
-	private BoutonMenu boutonEquipes;
-	private BoutonMenu boutonTournois;
-	private BoutonMenu boutonArbitres;
-	private BoutonMenu boutonSaisons;
-	private BoutonMenu boutonDeconnexion;
+	private MenuNavBar navbar;
 
 
 	private void setFont() {
@@ -74,6 +67,7 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		navbar = new MenuNavBar();
 		setFont();
 		setIconImage(new ImageIcon("assets/logo.png").getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,7 +77,7 @@ public class Main extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		contentPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		contentPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red));
 
 
 		//Création du contentPane principal avec 
@@ -106,7 +100,7 @@ public class Main extends JFrame {
 		GridBagConstraints contraintesPanelMenu = new GridBagConstraints();
 		panelMenu.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
 		panelMenu.setBackground(Color.black);
-		panelMenu.setBorder(BorderFactory.createLineBorder(Color.red, 4));
+		panelMenu.setBorder(BorderFactory.createMatteBorder(3,4,4,4,Color.red));
 		contraintesPanelMenu.fill = GridBagConstraints.HORIZONTAL;
 		contraintesPanelMenu.weightx = 0.2;
 		contraintesPanelMenu.gridx = 0;
@@ -137,41 +131,7 @@ public class Main extends JFrame {
 		panelMenu.add(labelMenu, contraintesLabelMenu);
 
 
-		JPanel panelNavbar = new JPanel();
-		GridBagLayout gbl_panelNavbar = new GridBagLayout();
-		panelNavbar.setLayout(gbl_panelNavbar);
-		gbl_panelNavbar.columnWidths = new int[]{0};
-		gbl_panelNavbar.rowHeights = new int[]{0};
-		gbl_panelNavbar.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_panelNavbar.rowWeights = new double[]{Double.MIN_VALUE};
-
-		GridBagConstraints contraintesPanelNavbar = new GridBagConstraints();
-		panelNavbar.setBackground(Color.black);
-		contraintesPanelNavbar.fill = GridBagConstraints.VERTICAL;
-		contraintesPanelNavbar.weighty = 0.9;
-		contraintesPanelNavbar.weightx = 1;
-		contraintesPanelNavbar.gridx = 0;
-		contraintesPanelNavbar.gridy = 1;
-		panelMenu.add(panelNavbar, contraintesPanelNavbar);
-
-		boutonAccueil = new BoutonMenu(this, "Accueil", 0);
-		panelNavbar.add(boutonAccueil, boutonAccueil.getContraintes());
-
-		boutonEquipes = new BoutonMenu(this, "Equipes", 1);
-		panelNavbar.add(boutonEquipes, boutonEquipes.getContraintes());
-
-		boutonTournois = new BoutonMenu(this, "Tournois", 2);
-		panelNavbar.add(boutonTournois, boutonTournois.getContraintes());
-
-		boutonArbitres = new BoutonMenu(this, "Arbitres", 3);
-		panelNavbar.add(boutonArbitres, boutonArbitres.getContraintes());
-
-		boutonSaisons = new BoutonMenu(this, "Saisons précédentes", 4);
-		panelNavbar.add(boutonSaisons, boutonSaisons.getContraintes());
-
-		boutonDeconnexion = new BoutonMenu(this, "Déconnexion", 5);
-		boutonDeconnexion.setBorder(BorderFactory.createEmptyBorder());
-		panelNavbar.add(boutonDeconnexion, boutonDeconnexion.getContraintes());
+		panelMenu.add(navbar, navbar.getGBC());
 	}
 
 }

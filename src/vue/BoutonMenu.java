@@ -2,6 +2,7 @@ package vue;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,13 +12,13 @@ public class BoutonMenu extends JButton {
 	
 	GridBagConstraints contraintesBouton;
 	
-	public BoutonMenu(Main main,String name,int y) {
+	public BoutonMenu(MenuNavBar menuNavBar,String name,int y, ActionListener controlleur) {
 		super(name);
-		this.setFont(main.getFont().deriveFont(20F));
+		this.setFont(menuNavBar.getFont().deriveFont(20F));
 		this.setForeground(Color.white);
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
-		this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red));
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red),BorderFactory.createEmptyBorder(0, 0, 1, 0)));
 		this.setFocusable(false);
 		this.contraintesBouton = new GridBagConstraints();
 		this.contraintesBouton.fill = GridBagConstraints.BOTH;
@@ -25,10 +26,18 @@ public class BoutonMenu extends JButton {
 		this.contraintesBouton.weightx = 1;
 		this.contraintesBouton.gridx = 0;
 		this.contraintesBouton.gridy = y;
+		this.addActionListener(controlleur);
 	}
 	
 	public GridBagConstraints getContraintes() {
 		return this.contraintesBouton;
 	}
 
+	public void selectionner() {
+		this.setBorder(BorderFactory.createMatteBorder(0,0,2,0,Color.red));
+	}
+	
+	public void deselectionner() {
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red),BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black)));
+	}
 }
