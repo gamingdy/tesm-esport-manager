@@ -1,10 +1,10 @@
 package modele;
 
+import java.time.LocalDate;
+
 //import java.util.HashMap;
 //import java.util.Map;
 
-import java.time.LocalDate;
-import java.util.Date;
 
 import exceptions.FausseDate;
 
@@ -12,16 +12,16 @@ public class Tournoi {
 
 	private Saison saison;
 	private String nom;
-	private LocalDate debut;
-	private LocalDate fin;
+	private Custom_Date debut;
+	private Custom_Date fin;
 	private Niveau niveau;
 	//private Map<Character,Poule> poules;
 
-	public Tournoi(Saison saison, String nom, LocalDate debut, LocalDate fin, Niveau niveau) throws FausseDate {
-		if (debut.getYear() < saison.getAnnee()) {
+	public Tournoi(Saison saison, String nom, Custom_Date debut, Custom_Date fin, Niveau niveau) throws FausseDate {
+		if (debut.getAnnee() < saison.getAnnee()) {
 			throw new FausseDate("La date de début du tournoi est avant la date de début de la saison");
 		}
-		if (fin.getYear() > saison.getAnnee()) {
+		if (fin.getAnnee() > saison.getAnnee()) {
 			throw new FausseDate("La date de fin du tournoi est après la date de fin de la saison");
 		}
 		this.saison = saison;
@@ -48,19 +48,19 @@ public class Tournoi {
 		this.nom = nom;
 	}
 
-	public LocalDate getDebut() {
+	public Custom_Date getDebut() {
 		return debut;
 	}
 
-	public void setDebut(LocalDate debut) {
+	public void setDebut(Custom_Date debut) {
 		this.debut = debut;
 	}
 
-	public LocalDate getFin() {
+	public Custom_Date getFin() {
 		return fin;
 	}
 
-	public void setFin(LocalDate fin) {
+	public void setFin(Custom_Date fin) {
 		this.fin = fin;
 	}
 

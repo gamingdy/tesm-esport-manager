@@ -120,6 +120,13 @@ public class Custom_Date {
 		this.min = min;
 	}
 
+	public Boolean estAvant(Custom_Date Date) {
+		if (Date.hashCode() >= this.hashCode()){
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public int hashCode() {
 		return (this.annee * 100000000 + this.mois * 1000000 + this.jour * 10000 + this.heure * 100 + this.min);

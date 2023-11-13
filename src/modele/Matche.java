@@ -1,7 +1,7 @@
 package modele;
 
+
 import java.time.LocalDate;
-import java.util.Date;
 
 import exceptions.FausseDate;
 import exceptions.MemeEquipe;
@@ -12,7 +12,7 @@ public class Matche {
 
 	private final int id;
 
-	private LocalDate dateDebutMatche;
+	private Custom_Date dateDebutMatche;
 	private Categorie libelle;
 	private Equipe equipe1;
 	private Equipe equipe2;
@@ -20,9 +20,9 @@ public class Matche {
 	private int vainqueur;
 
 
-	public Matche(int id, int nombreMaxParties, LocalDate dateDebutMatche, Categorie libelle,
+	public Matche(int id, int nombreMaxParties, Custom_Date dateDebutMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
-		if (dateDebutMatche.isBefore(tournoi.getDebut())) {
+		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
 			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
 		}
 		if (equipe1.getNom() == equipe2.getNom()) {
@@ -53,11 +53,11 @@ public class Matche {
 		this.nombreMaxParties = nombreMaxParties;
 	}
 
-	public LocalDate getDateDebutMatche() {
+	public Custom_Date getDateDebutMatche() {
 		return dateDebutMatche;
 	}
 
-	public void setDateDebutMatche(LocalDate dateDebutMatche) {
+	public void setDateDebutMatche(Custom_Date dateDebutMatche) {
 		this.dateDebutMatche = dateDebutMatche;
 	}
 
