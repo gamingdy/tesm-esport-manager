@@ -20,10 +20,10 @@ public class testEquipe {
 	Equipe equipe1;
 	Joueur j;
 	Equipe equipe2;
-	Joueur j2 = new Joueur(2, "Soso");
-	Joueur j3 = new Joueur(3, "SoSo");
-	Joueur j4 = new Joueur(4, "Sososo");
-	Joueur j5 = new Joueur(5, "Sosososo");
+	Joueur j2 = new Joueur(2, "Soso1");
+	Joueur j3 = new Joueur(3, "SoSo2");
+	Joueur j4 = new Joueur(4, "Sososo3");
+	Joueur j5 = new Joueur(5, "Sosososo4");
 	Joueur j6 = new Joueur(5, "Simon");
 
 	@Before
@@ -128,7 +128,7 @@ public class testEquipe {
 	@Test
 	public void testSetNom() {
 		equipe2.setNom("Faz2");
-		assertEquals("Faz2", equipe1.getNom());
+		assertEquals("Faz2", equipe2.getNom());
 	}
 
 	@Test(expected = PointsNegatifs.class)
