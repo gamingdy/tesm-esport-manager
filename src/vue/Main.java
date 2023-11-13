@@ -14,6 +14,8 @@ public class Main extends JFrame {
 	private Font font;
 	private JPanel contentPane;
 	private MenuNavBar navbar;
+	private JPanel topPanel;
+	private Point compCoords;
 
 
 	private void setFont() {
@@ -37,6 +39,7 @@ public class Main extends JFrame {
 	public class JPanelWithBackground extends JPanel {
 
 		private Image backgroundImage;
+		private Image scaled;
 
 		// Some code to initialize the background image.
 		// Here, we use the constructor to load the image. This
@@ -46,14 +49,28 @@ public class Main extends JFrame {
 			backgroundImage = icon.getImage().getScaledInstance(1300, 800, DO_NOTHING_ON_CLOSE);
 		}
 
+		//Pour la resize
+		@Override
+		  public void invalidate() {
+		    super.invalidate();
+		    int width = getWidth();
+		    int height = getHeight();
+
+		    if (width > 0 && height > 0) {
+		      scaled = backgroundImage.getScaledInstance(getWidth(), getHeight(),
+		          Image.SCALE_FAST);
+		    }
+		  }
+		
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
+			
 
 			// Draw the background image.
-			g.drawImage(backgroundImage, 0, 0, this);
+			g.drawImage(scaled, 0, 0, this);
 		}
 	}
-
+	
 	private void setCustomTitleBar() {
 		// Set title bar to custom title bar
 		setUndecorated(true);
@@ -183,6 +200,7 @@ public class Main extends JFrame {
 
 
 		panelMenu.add(navbar, navbar.getGBC());
+		
 		
 	}
 
