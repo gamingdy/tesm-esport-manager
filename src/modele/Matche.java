@@ -12,6 +12,7 @@ public class Matche {
 	private Equipe equipe1;
 	private Equipe equipe2;
 	private Tournoi tournoi;
+	private byte vainqueur;
 
 	public Matche(int id, byte nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) {
@@ -23,6 +24,7 @@ public class Matche {
 		this.equipe1 = equipe1;
 		this.equipe2 = equipe2;
 		this.tournoi = tournoi;
+		this.vainqueur = 0;
 	}
 
 	public int getId() {
@@ -87,6 +89,21 @@ public class Matche {
 
 	public void setTournoi(Tournoi tournoi) {
 		this.tournoi = tournoi;
+	}
+
+	public Equipe getVainqueur() {
+		Equipe equipe = null;
+		if (this.vainqueur == 1) {
+			equipe = this.equipe1;
+		}
+		if (this.vainqueur == 2) {
+			equipe = this.equipe2;
+		}
+		return equipe;
+	}
+
+	public void setVainqueur(byte vainqueur) {
+		this.vainqueur = vainqueur;
 	}
 	
 }

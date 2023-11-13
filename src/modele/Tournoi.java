@@ -1,7 +1,7 @@
 package modele;
 
-import java.util.HashMap;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.Map;
 import java.sql.Date;
 
 public class Tournoi {
@@ -11,7 +11,7 @@ public class Tournoi {
 	private Date debut;
 	private Date fin;
 	private Niveau niveau;
-	private Map<Character,Poule> poules;
+	//private Map<Character,Poule> poules;
 	
 	public Tournoi(Saison annee, String nom, Date debut, Date fin, Niveau niveau) {
 		this.annee = annee;
@@ -19,7 +19,7 @@ public class Tournoi {
 		this.debut = debut;
 		this.fin = fin;
 		this.niveau = niveau;
-		this.poules = new HashMap<Character,Poule>();
+		//this.poules = new HashMap<Character,Poule>();
 	}
 	
 	public Saison getAnnee() {
