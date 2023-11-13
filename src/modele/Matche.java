@@ -1,8 +1,5 @@
 package modele;
 
-
-import java.time.LocalDate;
-
 import exceptions.FausseDate;
 import exceptions.MemeEquipe;
 

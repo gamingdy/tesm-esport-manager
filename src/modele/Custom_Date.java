@@ -2,7 +2,7 @@ package modele;
 
 import exceptions.ErreurDate;
 
-public class Custom_Date {
+public class Custom_Date  implements Comparable<Custom_Date>{
     private int annee;
     private int mois;
     private int jour;
@@ -16,12 +16,12 @@ public class Custom_Date {
         this.annee = annee;
         this.mois = 1;
         this.jour = 1;
+		this.heure = 0;
+		this.min = 0;
     }
 
     public Custom_Date(int annee, int mois, int jour) throws ErreurDate {
-    	if (annee < 2000 || annee > 10000) {
-    		throw new ErreurDate("L'annee saisie n'est pas correcte");
-    	}
+    	this(annee);
     	if (mois < 1 || mois > 12) {
     		throw new ErreurDate("Le mois saisi n'est pas correct");
     	}
@@ -40,42 +40,18 @@ public class Custom_Date {
     	if ((mois == 2) && (jour > 28)) {
     		throw new ErreurDate("Le jour saisi est supérieur à 28");
     	}
-        this.annee = annee;
         this.mois = mois;
         this.jour = jour;
     }
 
     public Custom_Date(int annee, int mois, int jour, int heure, int min) throws ErreurDate {
-    	if (annee < 2000 || annee > 10000) {
-    		throw new ErreurDate("L'annee saisie n'est pas correcte");
-    	}
-    	if (mois < 1 || mois > 12) {
-    		throw new ErreurDate("Le mois saisi n'est pas correct");
-    	}
-    	if (jour < 1) {
-    		throw new ErreurDate("Le jour saisi est inférieur à 1");
-    	}
-    	if (jour > 31) {
-    		throw new ErreurDate("Le jour saisi est supérieur à 31");
-    	}
-    	if ((mois == 4 || mois == 6 || mois == 9 || mois == 11) && (jour > 30)) {
-    		throw new ErreurDate("Le jour saisi est supérieur à 30");
-    	}
-    	if ((mois == 2) && (jour > 29) && ((annee % 4 != 0) || ((annee % 100 == 0) && (annee % 400 != 0)))) {
-    		throw new ErreurDate("Le jour saisi est supérieur à 29");
-    	}
-    	if ((mois == 2) && (jour > 28)) {
-    		throw new ErreurDate("Le jour saisi est supérieur à 28");
-    	}
+    	this(annee, mois, jour);
     	if (heure < 0 || heure > 23) {
     		throw new ErreurDate("L'heure saisie n'est pas correcte");
     	}
     	if (min < 0 || min > 59) {
     		throw new ErreurDate("Les minutes saisies ne sont pas correctes");
     	}
-        this.annee = annee;
-        this.mois = mois;
-        this.jour = jour;
         this.heure = heure;
         this.min = min;
     }
@@ -126,7 +102,19 @@ public class Custom_Date {
 		}
 		return false;
 	}
+
+	public Boolean estApres(Custom_Date Date) {
+		if (Date.hashCode() <= this.hashCode()){
+			return true;
+		}
+		return false;
+	}
 	
+	@Override
+	public String toString(){
+		return annee + "/" + mois + "/" + jour + "  " + heure + ":" + min;
+	}
+
 	@Override
 	public int hashCode() {
 		return (this.annee * 100000000 + this.mois * 1000000 + this.jour * 10000 + this.heure * 100 + this.min);
@@ -161,5 +149,10 @@ public class Custom_Date {
 		  return false;
 	  }
 	  return true;
+	}
+
+	@Override
+	public int compareTo(Custom_Date c) {
+		return this.toString().compareTo(c.toString());
 	}
 }
