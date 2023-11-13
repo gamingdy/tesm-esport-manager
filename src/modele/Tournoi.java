@@ -4,6 +4,8 @@ package modele;
 //import java.util.Map;
 import java.sql.Date;
 
+import exceptions.FausseDate;
+
 public class Tournoi {
 	
 	private Saison saison;
@@ -13,7 +15,13 @@ public class Tournoi {
 	private Niveau niveau;
 	//private Map<Character,Poule> poules;
 	
-	public Tournoi(Saison saison, String nom, Date debut, Date fin, Niveau niveau) {
+	public Tournoi(Saison saison, String nom, Date debut, Date fin, Niveau niveau)  throws FausseDate {
+		if (debut.before(new Date(saison.getAnnee()))) {
+			throw new FausseDate("La date de début du tournoi est avant la date de début de la saison");
+		}
+		if (fin.after(new Date(saison.getAnnee()+1))) {
+			throw new FausseDate("La date de fin du tournoi est après la date de fin de la saison");
+		}
 		this.saison = saison;
 		this.nom = nom;
 		this.debut = debut;
