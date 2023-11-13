@@ -6,8 +6,9 @@ public class Partie {
 	private int numeroPartie;
 	private String equipeGagnante;
 	private Matche matche;
-	
-	public Partie(int id, int numeroPartie, String equipeGagnante, Matche matche) {
+
+
+	public Partie(int id, byte numeroPartie, String nom, Matche matche) {
 		this.id = id;
 		this.numeroPartie = numeroPartie;
 		this.equipeGagnante = equipeGagnante;
@@ -18,9 +19,6 @@ public class Partie {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getNumeroPartie() {
 		return numeroPartie;
@@ -45,7 +43,6 @@ public class Partie {
 	public void setmatche(Matche matche) {
 		this.matche = matche;
 	}
-	
-	
-	
+
+
 }

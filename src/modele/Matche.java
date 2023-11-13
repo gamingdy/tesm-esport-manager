@@ -6,15 +6,17 @@ import exceptions.FausseDate;
 
 public class Matche {
 
-	private int id;
 	private int nombreMaxParties;
+
+	private final int id;
+
 	private Date dateDebutMatche;
-	private Date dateFinMatche;
 	private Categorie libelle;
 	private Equipe equipe1;
 	private Equipe equipe2;
 	private Tournoi tournoi;
 	private int vainqueur;
+
 
 	public Matche(int id, int nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate {
@@ -27,7 +29,6 @@ public class Matche {
 		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
-		this.dateFinMatche = dateFinMatche;
 		this.libelle = libelle;
 		this.equipe1 = equipe1;
 		this.equipe2 = equipe2;
@@ -39,9 +40,6 @@ public class Matche {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getNombreMaxParties() {
 		return nombreMaxParties;
@@ -57,14 +55,6 @@ public class Matche {
 
 	public void setDateDebutMatche(Date dateDebutMatche) {
 		this.dateDebutMatche = dateDebutMatche;
-	}
-
-	public Date getDateFinMatche() {
-		return dateFinMatche;
-	}
-
-	public void setDateFinMatche(Date dateFinMatche) {
-		this.dateFinMatche = dateFinMatche;
 	}
 
 	public Categorie getLibelle() {
@@ -113,5 +103,4 @@ public class Matche {
 	public void setVainqueur(int vainqueur) {
 		this.vainqueur = vainqueur;
 	}
-	
 }
