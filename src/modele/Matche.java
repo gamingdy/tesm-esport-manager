@@ -20,7 +20,7 @@ public class Matche {
 
 	public Matche(int id, int nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate {
-		if (dateDebutMatche.after(tournoi.getDebut())) {
+		if (dateDebutMatche.before(tournoi.getDebut())) {
 			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
 		}
 		if (dateFinMatche.after(tournoi.getFin())) {
