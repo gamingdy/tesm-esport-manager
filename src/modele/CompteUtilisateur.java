@@ -14,17 +14,11 @@ public class CompteUtilisateur {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getMdp() {
 		return mdp;
 	}
 
-	public void setMdp(String mdp) {
-		this.mdp = mdp;
-	}
+
 	
 	
 	
