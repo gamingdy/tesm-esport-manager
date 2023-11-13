@@ -8,8 +8,7 @@ public class Joueur {
 	private String pseudo;
 	private String nom;
 	
-	public Joueur(int id, String pseudo, String nom) {
-		this.id = id;
+	public Joueur(String pseudo, String nom) {
 		this.pseudo = pseudo;
 		this.nom = nom;
 	}

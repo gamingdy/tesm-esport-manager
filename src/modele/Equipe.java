@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,20 +22,6 @@ public class Equipe {
 
 	public Set<Joueur> getEquipe() {
 		return equipe;
-	}
-
-	public String getNom() {
-		return this.nom;
-	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public Integer getPoint() {
-		return this.point;
-	}
-	public void setPoint(Integer point) {
-		this.point = point;
 	}
 
 	public void addJoueur(Joueur joueur) throws EquipeComplete{
@@ -59,7 +46,20 @@ public class Equipe {
 	public void deleteJoueur(Joueur joueur) {
 		this.equipe.remove(joueur);
 	}
-	public int getNombreJoueurs(){
-		return this.equipe.size();
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
 	}
 }

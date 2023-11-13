@@ -5,9 +5,7 @@ public class Arbitre {
 	private int id;
 	private String nom;
 	private String prenom;
-	public Arbitre(int id, String nom, String prenom) {
-		super();
-		this.id = id;
+	public Arbitre(String nom, String prenom) {
 		this.nom = nom;
 		this.prenom = prenom;
 	}

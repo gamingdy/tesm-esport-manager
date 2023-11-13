@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,7 +15,7 @@ public class Poule {
 	public Poule(Tournoi tournoi, char libelle) {
 		this.tournoi = tournoi;
 		this.libelle = libelle;
-		this.equipes = new TreeSet<Equipe>();
+		this.equipes = new HashSet<Equipe>();
 	}
 
 	public Tournoi getTournoi() {
