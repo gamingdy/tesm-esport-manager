@@ -6,13 +6,14 @@ import java.util.TreeSet;
 import exceptions.EquipeComplete;
 import exceptions.EquipeVide;
 import exceptions.JoueurNonPresent;
+import exceptions.PointsNegatifs;
 
 public class Equipe {
 
 	private String nom;
 	private Set<Joueur> equipe;
-	private Integer point;
-	
+	private int point;
+
 	public Equipe(String nom) {
 		this.equipe = new TreeSet<Joueur>();
 		this.nom = nom;
@@ -26,40 +27,58 @@ public class Equipe {
 	public String getNom() {
 		return this.nom;
 	}
+
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-	public Integer getPoint() {
+	public int getPoint() {
 		return this.point;
 	}
-	public void setPoint(Integer point) {
+
+	public void setPoint(int point) throws PointsNegatifs {
+		if (point < 0) {
+			throw new PointsNegatifs("On ne peut pas mettre des points négatifs");
+		}
 		this.point = point;
 	}
 
-	public void addJoueur(Joueur joueur) throws EquipeComplete{
-		if (this.equipe.size()==5) {
+	public void addJoueur(Joueur joueur) throws EquipeComplete {
+		if (this.equipe.size() == 5) {
 			throw new EquipeComplete("L'équipe est pleine");
 		}
 		this.equipe.add(joueur);
 	}
-	
+
 	public Joueur getJoueur(Joueur joueur) throws JoueurNonPresent, EquipeVide {
-		if(this.equipe.size()==0) {
+		if (this.equipe.isEmpty()) {
 			throw new EquipeVide("L'équipe est vide");
 		}
-		for(Joueur j : this.equipe) {
-			if(j.getId()==joueur.getId()) {
+		for (Joueur j : this.equipe) {
+			if (j.getId() == joueur.getId()) {
 				return j;
 			}
 		}
 		throw new JoueurNonPresent("Le joueur ne fait pas partie de l'équipe");
 	}
-	
-	public void deleteJoueur(Joueur joueur) {
+
+	public void deleteJoueur(Joueur joueur) throws JoueurNonPresent, EquipeVide {
+		if (this.equipe.isEmpty()) {
+			throw new EquipeVide("L'équipe est vide");
+		}
+		Joueur joueur_res = null;
+		for (Joueur j : this.equipe) {
+			if (j.getId() == joueur.getId()) {
+				joueur_res = j;
+			}
+		}
+		if (joueur_res == null) {
+			throw new JoueurNonPresent("Le joueur ne fait pas partie de l'équipe");
+		}
 		this.equipe.remove(joueur);
 	}
-	public int getNombreJoueurs(){
+
+	public int getNombreJoueurs() {
 		return this.equipe.size();
 	}
 }
