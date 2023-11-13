@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class BoutonMenu extends JButton {
-	
+
 	GridBagConstraints contraintesBouton;
 	
 	public BoutonMenu(MenuNavBar menuNavBar,String name,int y, ActionListener controlleur) {
@@ -22,13 +22,13 @@ public class BoutonMenu extends JButton {
 		this.setFocusable(false);
 		this.contraintesBouton = new GridBagConstraints();
 		this.contraintesBouton.fill = GridBagConstraints.BOTH;
-		this.contraintesBouton.weighty = 1F/6F;
+		this.contraintesBouton.weighty = 1F / 6F;
 		this.contraintesBouton.weightx = 1;
 		this.contraintesBouton.gridx = 0;
 		this.contraintesBouton.gridy = y;
 		this.addActionListener(controlleur);
 	}
-	
+
 	public GridBagConstraints getContraintes() {
 		return this.contraintesBouton;
 	}

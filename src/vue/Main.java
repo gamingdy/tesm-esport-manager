@@ -1,20 +1,11 @@
 package vue;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 public class Main extends JFrame {
 
@@ -63,6 +54,60 @@ public class Main extends JFrame {
 		}
 	}
 
+	private void setCustomTitleBar() {
+		// Set title bar to custom title bar
+		setUndecorated(true);
+		topPanel = new JPanel((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
+		final JButton minimize = new JButton("-");
+		final JButton exit = new JButton("X");
+
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		minimize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setState(JFrame.ICONIFIED);
+			}
+		});
+		compCoords = null;
+		topPanel.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent e) {
+				compCoords = null;
+			}
+
+			public void mousePressed(MouseEvent e) {
+				compCoords = e.getPoint();
+			}
+
+			public void mouseExited(MouseEvent e) {
+				topPanel.setBackground(Color.black);
+			}
+
+			public void mouseEntered(MouseEvent e) {
+				topPanel.setBackground(Color.red);
+			}
+
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		topPanel.addMouseMotionListener(new MouseMotionListener() {
+			public void mouseMoved(MouseEvent e) {
+			}
+
+			public void mouseDragged(MouseEvent e) {
+				Point currCoords = e.getLocationOnScreen();
+				setLocation(currCoords.x - compCoords.x, currCoords.y - compCoords.y);
+			}
+		});
+		topPanel.add(minimize);
+		Color color = new Color(25, 11, 52);
+		topPanel.setBackground(color);
+		topPanel.add(exit);
+		topPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, Color.black));
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -72,22 +117,28 @@ public class Main extends JFrame {
 		setIconImage(new ImageIcon("assets/logo.png").getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);
+		setLocationRelativeTo(null);
+		setCustomTitleBar();
+		getContentPane().add(topPanel, BorderLayout.NORTH);
+
+		JPanel PanelContenu = new JPanel();
+
 		try {
-			contentPane = new JPanelWithBackground("assets/background.jpg");
+			PanelContenu = new JPanelWithBackground("assets/background.jpg");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		contentPane.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red));
-
+		PanelContenu.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		getContentPane().add(PanelContenu, BorderLayout.CENTER);
 
 		//Création du contentPane principal avec 
-		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0};
-		gbl_contentPane.rowHeights = new int[]{0};
-		gbl_contentPane.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+
+		GridBagLayout gbl_PanelContenu = new GridBagLayout();
+		gbl_PanelContenu.columnWidths = new int[]{0};
+		gbl_PanelContenu.rowHeights = new int[]{0};
+		gbl_PanelContenu.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_PanelContenu.rowWeights = new double[]{Double.MIN_VALUE};
+		PanelContenu.setLayout(gbl_PanelContenu);
 
 		JPanel panelMenu = new JPanel();
 		GridBagLayout gbl_panelMenu = new GridBagLayout();
@@ -105,7 +156,7 @@ public class Main extends JFrame {
 		contraintesPanelMenu.weightx = 0.2;
 		contraintesPanelMenu.gridx = 0;
 		contraintesPanelMenu.gridy = 0;
-		contentPane.add(panelMenu, contraintesPanelMenu);
+		PanelContenu.add(panelMenu, contraintesPanelMenu);
 
 		JPanel panelMain = new JPanel();
 		GridBagConstraints contraintesPanelMain = new GridBagConstraints();
@@ -115,7 +166,7 @@ public class Main extends JFrame {
 		contraintesPanelMain.weightx = 0.8;
 		contraintesPanelMain.gridx = 1;
 		contraintesPanelMain.gridy = 0;
-		contentPane.add(panelMain, contraintesPanelMain);
+		PanelContenu.add(panelMain, contraintesPanelMain);
 
 		JLabel labelMenu = new JLabel("Menu");
 		labelMenu.setForeground(Color.white);
