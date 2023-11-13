@@ -11,7 +11,7 @@ public class Partie {
 	public Partie(int id, byte numeroPartie, String nom, Matche matche) {
 		this.id = id;
 		this.numeroPartie = numeroPartie;
-		this.equipeGagnante = equipeGagnante;
+		this.equipeGagnante = null;
 		this.matche = matche;
 	}
 

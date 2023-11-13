@@ -28,7 +28,7 @@ public class Matche {
 			throw new FausseDate("La date de fin du matche est après la date de fin du tournoi");
 		}
 		if (equipe1.getNom() == equipe2.getNom()){
-			throw new MemeEquipe("Les 2 équipes sont identiques")
+			throw new MemeEquipe("Les 2 équipes sont identiques");
 		}
 		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
