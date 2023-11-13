@@ -19,17 +19,15 @@ public class Matche {
 	private int vainqueur;
 
 
-	public Matche(int id, int nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
+	public Matche(int id, int nombreMaxParties, Date dateDebutMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
 		if (dateDebutMatche.before(tournoi.getDebut())) {
 			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
 		}
-		if (dateFinMatche.after(tournoi.getFin())) {
-			throw new FausseDate("La date de fin du matche est après la date de fin du tournoi");
-		}
-		if (equipe1.getNom() == equipe2.getNom()){
+		if (equipe1.getNom() == equipe2.getNom()) {
 			throw new MemeEquipe("Les 2 équipes sont identiques");
 		}
+
 		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
