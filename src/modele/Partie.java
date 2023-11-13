@@ -5,13 +5,13 @@ public class Partie {
 	private int id;
 	private byte numeroPartie;
 	private String nom;
-	private Tournoi tournoi;
+	private Matche matche;
 	
-	public Partie(int id, byte numeroPartie, String nom, Tournoi tournoi) {
+	public Partie(int id, byte numeroPartie, String nom, Matche matche) {
 		this.id = id;
 		this.numeroPartie = numeroPartie;
 		this.nom = nom;
-		this.tournoi = tournoi;
+		this.matche = matche;
 	}
 
 	public int getId() {
@@ -38,12 +38,12 @@ public class Partie {
 		this.nom = nom;
 	}
 
-	public Tournoi getTournoi() {
-		return tournoi;
+	public Matche getmatche() {
+		return matche;
 	}
 
-	public void setTournoi(Tournoi tournoi) {
-		this.tournoi = tournoi;
+	public void setmatche(Matche matche) {
+		this.matche = matche;
 	}
 	
 	

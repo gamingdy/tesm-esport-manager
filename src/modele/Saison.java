@@ -2,15 +2,17 @@ package modele;
 
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Saison {
 
 	private short annee;
-	private Set<Equipe> equipes;
+	private Map<Equipe,Integer> equipes;
 	private Set<Arbitre> arbitres;
 	
 	public Saison(short annee) {
-		this.equipes=new TreeSet<Equipe>();
+		this.equipes=new HashMap<Equipe,Integer>();
 		this.arbitres=new TreeSet<Arbitre>();
 		this.annee = annee;
 		
@@ -37,7 +39,7 @@ public class Saison {
 	}
 	
 	public void addEquipe(Equipe equipe) {
-		this.equipes.add(equipe);
+		this.equipes.put(equipe,1000);
 	}
 	
 	public void deleteEquipe(Equipe equipe) {
@@ -45,9 +47,17 @@ public class Saison {
 	}
 
 	public Set<Equipe> getEquipes() {
-		return equipes;
+		return this.equipes.keySet();
 	}
 
-	
+	@Override
+	public String toString(){
+		String str = "";
+		for (Equipe e : this.getEquipes()){
+			str += e.getNom() + " : " + this.equipes.get(e);
+			str += System.lineSeparator();
+		}
+		return str;
+	}
 	
 }

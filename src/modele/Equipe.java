@@ -9,14 +9,32 @@ import exceptions.JoueurNonPresent;
 
 public class Equipe {
 
+	private String nom;
 	private Set<Joueur> equipe;
+	private Integer point;
 	
-	public Equipe() {
+	public Equipe(String nom) {
 		this.equipe = new TreeSet<Joueur>();
+		this.nom = nom;
+		this.point = 0;
 	}
 
 	public Set<Joueur> getEquipe() {
 		return equipe;
+	}
+
+	public String getNom() {
+		return this.nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Integer getPoint() {
+		return this.point;
+	}
+	public void setPoint(Integer point) {
+		this.point = point;
 	}
 
 	public void addJoueur(Joueur joueur) throws EquipeComplete{

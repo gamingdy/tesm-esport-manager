@@ -47,9 +47,4 @@ public class Poule {
 	public Set<Equipe> getEquipes() {
 		return equipes;
 	}
-	
-	
-	
-	
-	
 }
