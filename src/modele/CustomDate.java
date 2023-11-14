@@ -1,5 +1,9 @@
 package modele;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import exceptions.ErreurDate;
 
 public class CustomDate  implements Comparable<CustomDate>{
@@ -9,6 +13,20 @@ public class CustomDate  implements Comparable<CustomDate>{
     private int heure;
     private int min;
     
+	/**
+ 	* Créer un Date correspondant à minuit de la date passée en paramètre
+ 	*
+ 	* @param date la date au format java.sql.Date
+ 	*/
+	public CustomDate(Date date){
+		LocalDate localDate = date.toLocalDate();
+		this.annee = localDate.getYear();
+		this.mois = localDate.getMonthValue();
+		this.jour = localDate.getDayOfMonth();
+		this.heure = 0;
+		this.min = 0;
+	}
+
 	/**
  	* Créer un Date correspondant au premier jour de l'année passé en paramètre
  	*
@@ -241,6 +259,17 @@ public class CustomDate  implements Comparable<CustomDate>{
 		return false;
 	}
 	
+	/**
+ 	* Converti la CustomDate en Date
+	*
+	* @return la CustomDate au format sql.Date
+	* 
+ 	*/
+	public Date CustomDateToSQL(){
+		LocalDate localDate1 = LocalDate.of(this.annee, this.mois, this.jour);
+		return Date.valueOf(localDate1);
+	}
+
 	@Override
 	public String toString(){
 		return annee + "/" + mois + "/" + jour + "  " + heure + ":" + min;
@@ -284,6 +313,6 @@ public class CustomDate  implements Comparable<CustomDate>{
 
 	@Override
 	public int compareTo(CustomDate c) {
-		return this.toString().compareTo(c.toString());
+		return this.CustomDateToSQL().compareTo(c.CustomDateToSQL());
 	}
 }
