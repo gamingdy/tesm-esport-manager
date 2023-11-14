@@ -1,7 +1,6 @@
 package modele;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 import exceptions.ErreurDate;
@@ -31,12 +30,8 @@ public class CustomDate  implements Comparable<CustomDate>{
  	* Créer un Date correspondant au premier jour de l'année passé en paramètre
  	*
  	* @param annee L'année correspondant à la date
- 	* @exception	ErreurDate si l'année est trop grande ou trop petite
  	*/
-    public CustomDate(int annee) throws ErreurDate {
-    	if (annee < 2000 || annee > 10000) {
-    		throw new ErreurDate("L'annee saisie n'est pas correcte");
-    	}
+    public CustomDate(int annee) {
         this.annee = annee;
         this.mois = 1;
         this.jour = 1;
@@ -50,7 +45,6 @@ public class CustomDate  implements Comparable<CustomDate>{
  	* @param annee L'année correspondant à la date
 	* @param mois Le mois correspondant à la date, en Integer (1 pour janvier, ...)
 	* @param jour Le jour correspondant à la date
- 	* @exception	ErreurDate si l'année est trop grande ou trop petite
 	* @exception	ErreurDate si le mois est trop grand (>12) ou trop petit (<12)
 	* @exception	ErreurDate si le jour est trop petit (<1)
 	* @exception	ErreurDate si le jour est trop grand (>31)
@@ -90,7 +84,6 @@ public class CustomDate  implements Comparable<CustomDate>{
 	* @param jour Le jour correspondant à la date
 	* @param heure L'heure correspondant à la date
 	* @param min Le nombre de minutes correspondant à la date
- 	* @exception	ErreurDate si l'année est trop grande ou trop petite
 	* @exception	ErreurDate si le mois est trop grand (>12) ou trop petit (<12)
 	* @exception	ErreurDate si le jour est trop petit (<1)
 	* @exception	ErreurDate si le jour est trop grand (>31)
@@ -124,12 +117,8 @@ public class CustomDate  implements Comparable<CustomDate>{
  	* Modifie l'année de la Date en fonction du paramètre
  	*
  	* @param annee L'année correspondant à la date
- 	* @exception	ErreurDate si l'année est trop grande ou trop petite
  	*/
-	public void setAnnee(int annee) throws ErreurDate {
-		if (annee < 2000 || annee > 10000) {
-    		throw new ErreurDate("L'annee saisie n'est pas correcte");
-    	}
+	public void setAnnee(int annee) {
 		this.annee = annee;
 	}
 
@@ -265,7 +254,7 @@ public class CustomDate  implements Comparable<CustomDate>{
 	* @return la CustomDate au format sql.Date
 	* 
  	*/
-	public Date CustomDateToSQL(){
+	public Date toSQL(){
 		LocalDate localDate1 = LocalDate.of(this.annee, this.mois, this.jour);
 		return Date.valueOf(localDate1);
 	}
@@ -313,6 +302,6 @@ public class CustomDate  implements Comparable<CustomDate>{
 
 	@Override
 	public int compareTo(CustomDate c) {
-		return this.CustomDateToSQL().compareTo(c.CustomDateToSQL());
+		return this.toSQL().compareTo(c.toSQL());
 	}
 }
