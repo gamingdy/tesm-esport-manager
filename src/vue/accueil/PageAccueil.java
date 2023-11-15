@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -68,7 +69,13 @@ public class PageAccueil extends JPanel {
 		gbc_lblNewLabel.gridy = 0;
 		panelClassement.add(lblNewLabel, gbc_lblNewLabel);
 		
-		JScrollPane scrollPane = new JScrollPane(new PanelEquipeClassement(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		Object[] equipe = {"1","assets/logo.png","ekip","667"};
+		DefaultListModel<Object[]> mesEquipes = new DefaultListModel<Object[]>();
+		mesEquipes.addElement(equipe);
+		JList<Object[]> listeEquipes = new JList<Object[]>(mesEquipes);
+		listeEquipes.setCellRenderer(new EquipeCellRenderer());
+		
+		JScrollPane scrollPane = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
