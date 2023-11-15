@@ -12,11 +12,11 @@ public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Font font;
-	private JPanel contentPane;
 	private TitleBar topPanel;
 	private MenuNavBar navbar;
-	private JPanel topPanel;
 	private Point compCoords;
+	private JPanelWithBackground panelContenu;
+	private ConteneurMain panelMain;
 
 
 	private void setFont() {
@@ -36,41 +36,6 @@ public class Main extends JFrame {
 		return this.font;
 	}
 
-	@SuppressWarnings("serial")
-	public class JPanelWithBackground extends JPanel {
-
-		private Image backgroundImage;
-		private Image scaled;
-
-		// Some code to initialize the background image.
-		// Here, we use the constructor to load the image. This
-		// can vary depending on the use case of the panel.
-		public JPanelWithBackground(String fileName) throws IOException {
-			ImageIcon icon = new ImageIcon(fileName);
-			backgroundImage = icon.getImage().getScaledInstance(1300, 800, DO_NOTHING_ON_CLOSE);
-		}
-
-		//Pour la resize
-		@Override
-		  public void invalidate() {
-		    super.invalidate();
-		    int width = getWidth();
-		    int height = getHeight();
-
-		    if (width > 0 && height > 0) {
-		      scaled = backgroundImage.getScaledInstance(getWidth(), getHeight(),
-		          Image.SCALE_FAST);
-		    }
-		  }
-		
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			
-
-			// Draw the background image.
-			g.drawImage(scaled, 0, 0, this);
-		}
-	}
 	
 	private void setCustomTitleBar() {
 		// Set title bar to custom title bar
@@ -113,24 +78,30 @@ public class Main extends JFrame {
 		setCustomTitleBar();
 		getContentPane().add(topPanel, BorderLayout.NORTH);
 
-		JPanel PanelContenu = new JPanel();
+		panelContenu = null;
 
 		try {
-			PanelContenu = new JPanelWithBackground("assets/background.jpg");
+			panelContenu = new JPanelWithBackground("assets/background.jpg");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		PanelContenu.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-		getContentPane().add(PanelContenu, BorderLayout.CENTER);
+		panelContenu.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		getContentPane().add(panelContenu, BorderLayout.CENTER);
 
-		//Création du contentPane principal avec 
+		//Création du jpanel principal avec le menu
 
+		setMenu();
+		
+		setContenu("Accueil");
+	}
+
+	public void setMenu() {
 		GridBagLayout gbl_PanelContenu = new GridBagLayout();
 		gbl_PanelContenu.columnWidths = new int[]{0};
 		gbl_PanelContenu.rowHeights = new int[]{0};
 		gbl_PanelContenu.columnWeights = new double[]{Double.MIN_VALUE};
 		gbl_PanelContenu.rowWeights = new double[]{Double.MIN_VALUE};
-		PanelContenu.setLayout(gbl_PanelContenu);
+		panelContenu.setLayout(gbl_PanelContenu);
 
 		JPanel panelMenu = new JPanel();
 		GridBagLayout gbl_panelMenu = new GridBagLayout();
@@ -148,17 +119,7 @@ public class Main extends JFrame {
 		contraintesPanelMenu.weightx = 0.2;
 		contraintesPanelMenu.gridx = 0;
 		contraintesPanelMenu.gridy = 0;
-		PanelContenu.add(panelMenu, contraintesPanelMenu);
-
-		JPanel panelMain = new JPanel();
-		GridBagConstraints contraintesPanelMain = new GridBagConstraints();
-		panelMain.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
-		panelMain.setOpaque(false);
-		contraintesPanelMain.fill = GridBagConstraints.HORIZONTAL;
-		contraintesPanelMain.weightx = 0.8;
-		contraintesPanelMain.gridx = 1;
-		contraintesPanelMain.gridy = 0;
-		PanelContenu.add(panelMain, contraintesPanelMain);
+		panelContenu.add(panelMenu, contraintesPanelMenu);
 
 		JLabel labelMenu = new JLabel("Menu");
 		labelMenu.setForeground(Color.white);
@@ -176,7 +137,16 @@ public class Main extends JFrame {
 
 		panelMenu.add(navbar, navbar.getGBC());
 		
-		
-	}
 
+		panelMain = new ConteneurMain();
+		panelContenu.add(panelMain, panelMain.getGridBagConstraints());
+	}
+	
+	/**
+	 * Change la partie contenu du main
+	 * @param identifiant 
+	 */
+	public void setContenu(String identifiant) {
+		((CardLayout) panelMain.getLayout()).show(panelMain, identifiant);
+	}
 }
