@@ -33,7 +33,7 @@ public class Saison {
 		this.arbitres.remove(arbitre);
 	}
 
-	public Set<Arbitre> getArbitre() {
+	public Set<Arbitre> getArbitres() {
 		return arbitres;
 	}
 	
