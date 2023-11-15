@@ -32,5 +32,15 @@ public class Arbitre {
 		this.prenom = prenom;
 	}
 
+	@Override
+	public int hashCode(){
+		return this.toString().hashCode();
+	}
+	
+	@Override
+	public String toString(){
+		return "("+this.getId()+")"+this.getNom()+" "+this.getPrenom();
+	}
+
 
 }
