@@ -54,6 +54,22 @@ public class testEquipe {
 	}
 
 	@Test
+	public void testgetCountry() {
+		assertEquals(Country.ALGERIA, equipe1.getPays());
+	}
+
+	@Test
+	public void testsetCountry() {
+		equipe1.setPays(Country.PALAU);
+		assertEquals(Country.PALAU, equipe1.getPays());
+	}
+
+	@Test
+	public void testCountry() {
+		assertEquals("Palau", Country.PALAU.getCountry());
+	}
+
+	@Test
 	public void testAjoutJoueurDifferent() throws EquipeComplete {
 		Joueur j2 = new Joueur(2, "Soso");
 		equipe1.addJoueur(j);

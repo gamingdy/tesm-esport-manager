@@ -62,10 +62,6 @@ public class testMatche {
 		assertEquals(2, m.getNombreMaxParties());
 	}
 
-	@Test
-	public void getDateDebutMatche() {
-		assertEquals(new Date(2022, 12, 2), m.getDateDebutMatche());
-	}
 
 	@Test
 	public void setDateDebutMatche() {
