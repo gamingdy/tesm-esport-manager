@@ -1,4 +1,4 @@
-package vue;
+package vue.main;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;

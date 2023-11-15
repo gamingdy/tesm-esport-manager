@@ -1,4 +1,4 @@
-package vue;
+package vue.main;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
+
+import vue.common.JPanelWithBackground;
 
 public class Main extends JFrame {
 

@@ -1,4 +1,4 @@
-package vue;
+package vue.common;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-class JPanelWithBackground extends JPanel {
+public class JPanelWithBackground extends JPanel {
 
 	private Image backgroundImage;
 	private Image scaled;

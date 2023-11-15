@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import vue.BoutonMenu;
-import vue.MenuNavBar;
+import vue.main.BoutonMenu;
+import vue.main.MenuNavBar;
 
 public class BoutonMenuControlleur implements ActionListener, MouseListener {
 

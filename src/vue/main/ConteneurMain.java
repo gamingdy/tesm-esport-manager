@@ -1,11 +1,15 @@
-package vue;
+package vue.main;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
+
+import vue.accueil.PageAccueil;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
@@ -27,8 +31,7 @@ public class ConteneurMain extends JPanel {
 		CardLayout cl_main = new CardLayout();
 		this.setLayout(cl_main);
 
-		this.add(new JLabel("test"),"test");
-		this.add(new JLabel("TRUC"),"Accueil");
+		this.add(new PageAccueil(),"Accueil");
 		((CardLayout)this.getLayout()).show(this,"test");
 	}
 	
