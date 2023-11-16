@@ -8,36 +8,17 @@ import java.io.IOException;
 import javax.swing.*;
 
 import vue.common.JPanelWithBackground;
+import vue.common.MaFont;
 
 public class Main extends JFrame {
 
 
 	private static final long serialVersionUID = 1L;
-	private Font font;
 	private TitleBar topPanel;
 	private MenuNavBar navbar;
 	private Point compCoords;
 	private JPanelWithBackground panelContenu;
 	private ConteneurMain panelMain;
-
-
-	private void setFont() {
-		this.font = null;
-		try {
-			File font_file = new File("assets/ChakraPetch-Regular.ttf");
-			font = Font.createFont(Font.TRUETYPE_FONT, font_file);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public Font getFont() {
-		if (this.font == null) {
-			this.setFont();
-		}
-		return this.font;
-	}
-
 	
 	private void setCustomTitleBar() {
 		// Set title bar to custom title bar
@@ -72,7 +53,6 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		navbar = new MenuNavBar();
-		setFont();
 		setIconImage(new ImageIcon("assets/logo.png").getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);
@@ -126,7 +106,7 @@ public class Main extends JFrame {
 		JLabel labelMenu = new JLabel("Menu");
 		labelMenu.setForeground(Color.white);
 		labelMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, Color.red));
-		labelMenu.setFont(font.deriveFont(54F));
+		labelMenu.setFont(MaFont.getFontMenu());
 		labelMenu.setHorizontalAlignment(JLabel.CENTER);
 		GridBagConstraints contraintesLabelMenu = new GridBagConstraints();
 		contraintesLabelMenu.gridx = 0;

@@ -72,10 +72,13 @@ public class PageAccueil extends JPanel {
 		Object[] equipe = {"1","assets/logo.png","ekip","667"};
 		DefaultListModel<Object[]> mesEquipes = new DefaultListModel<Object[]>();
 		mesEquipes.addElement(equipe);
+		mesEquipes.addElement(equipe);
+		mesEquipes.addElement(equipe);
 		JList<Object[]> listeEquipes = new JList<Object[]>(mesEquipes);
 		listeEquipes.setCellRenderer(new EquipeCellRenderer());
 		
 		JScrollPane scrollPane = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setWheelScrollingEnabled(true);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;

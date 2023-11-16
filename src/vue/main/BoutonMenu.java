@@ -8,6 +8,8 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
+import vue.common.MaFont;
+
 @SuppressWarnings("serial")
 public class BoutonMenu extends JButton {
 
@@ -15,7 +17,7 @@ public class BoutonMenu extends JButton {
 	
 	public BoutonMenu(MenuNavBar menuNavBar,String name,int y, Object controlleur) {
 		super(name);
-		this.setFont(menuNavBar.getFont().deriveFont(20F));
+		this.setFont(MaFont.getFontBoutonMenu());
 		this.setForeground(Color.white);
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
