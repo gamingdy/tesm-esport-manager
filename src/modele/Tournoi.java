@@ -9,13 +9,17 @@ public class Tournoi {
 	private Date debut;
 	private Date fin;
 	private Niveau niveau;
+	private String usernameArbitre;
+	private String mdpArbitre;
 	
-	public Tournoi(Saison annee, String nom, Date debut, Date fin, Niveau niveau) {
+	public Tournoi(Saison annee, String nom, Date debut, Date fin, Niveau niveau, String usernameArbitre, String mdpArbitre) {
 		this.annee = annee;
 		this.nom = nom;
 		this.debut = debut;
 		this.fin = fin;
 		this.niveau = niveau;
+		this.usernameArbitre = usernameArbitre;
+		this.mdpArbitre = mdpArbitre;
 	}
 	
 	public Saison getAnnee() {
@@ -47,6 +51,22 @@ public class Tournoi {
 	}
 	public void setNiveau(Niveau niveau) {
 		this.niveau = niveau;
+	}
+
+	public String getUsernameArbitre() {
+		return usernameArbitre;
+	}
+
+	public void setUsernameArbitre(String usernameArbitre) {
+		this.usernameArbitre = usernameArbitre;
+	}
+
+	public String getMdpArbitre() {
+		return mdpArbitre;
+	}
+
+	public void setMdpArbitre(String mdpArbitre) {
+		this.mdpArbitre = mdpArbitre;
 	}
 	
 	

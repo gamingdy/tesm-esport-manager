@@ -24,7 +24,7 @@ public enum Niveau {
 		return nom;
 	}
 	
-	public Niveau getNiveau(String nom) {
+	public static Niveau getNiveau(String nom) {
 		for(Niveau n : Niveau.values()) {
 			if (n.getNom().equals(nom)) {
 				return n;

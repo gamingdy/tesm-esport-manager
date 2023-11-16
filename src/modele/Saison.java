@@ -21,9 +21,4 @@ public class Saison {
 	public void setAnnee(short annee) {
 		this.annee = annee;
 	}
-	
-	
-
-	
-	
 }

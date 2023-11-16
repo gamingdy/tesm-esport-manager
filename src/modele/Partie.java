@@ -7,8 +7,7 @@ public class Partie {
 	private String nom;
 	private Matche matche;
 	
-	public Partie(int id, byte numeroPartie, String nom, Matche matche) {
-		this.id = id;
+	public Partie(byte numeroPartie, String nom, Matche matche) {
 		this.numeroPartie = numeroPartie;
 		this.nom = nom;
 		this.matche = matche;
