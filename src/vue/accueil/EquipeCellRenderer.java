@@ -15,7 +15,7 @@ public class EquipeCellRenderer implements ListCellRenderer<Object[]> {
 			boolean isSelected, boolean cellHasFocus) {
 	
 		PanelEquipeClassement equipe = new PanelEquipeClassement((String) value[0],(String) value[1],(String) value[2],(String) value[3]);
-		
+		equipe.setOpaque(false);
         return equipe;
         
 	}

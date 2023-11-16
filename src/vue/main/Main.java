@@ -37,7 +37,7 @@ public class Main extends JFrame {
 		panelContenu = null;
 
 		try {
-			panelContenu = new JPanelWithBackground("assets/background.jpg");
+			panelContenu = new JPanelWithBackground("assets/background.jpg",1300,800);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -14,10 +14,11 @@ public class PanelNomTournoi extends JPanel {
 		setBorder(null);
 				setLayout(new BorderLayout(0, 0));
 				
-				JLabel lblNewLabel = new JLabel(nomDuTournoi);
-				add(lblNewLabel);
-				lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				JLabel labelNewLabel = new JLabel(nomDuTournoi);
 				
+				add(labelNewLabel);
+				labelNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				labelNewLabel.setForeground(Color.white);
 				setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red,1),BorderFactory.createEmptyBorder(3,0,3,0)));
 	}
 

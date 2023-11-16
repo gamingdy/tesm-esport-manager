@@ -2,8 +2,10 @@ package vue.common;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class MaFont{
@@ -28,7 +30,6 @@ public class MaFont{
 		if (laFont == null) {
 			laFont = maFont.deriveFont(54F);
 			mesFonts.put("Menu", laFont);
-			System.out.println(mesFonts);
 		}
 		return laFont;
 	}
@@ -38,61 +39,60 @@ public class MaFont{
 		if (laFont == null) {
 			laFont = maFont.deriveFont(20F);
 			mesFonts.put("BoutonMenu", laFont);
-			System.out.println(mesFonts);
 		}
 		return laFont;
 	}
 	
 	public static Font getFontTitre1() {
-		Font laFont = getFont("Titre");
+		Font laFont = getFont("Titre1");
 		if (laFont == null) {
 			laFont = maFont.deriveFont(24F);
-			mesFonts.put("Titre",laFont);
+			mesFonts.put("Titre1",laFont);
 		}
 		return laFont;
 	}
 	
 	public static Font getFontTitre2() {
-		Font laFont = getFont("Titre");
+		Font laFont = getFont("Titre2");
 		if (laFont == null) {
 			laFont = maFont.deriveFont(20F);
-			mesFonts.put("Titre",laFont);
+			mesFonts.put("Titre2",laFont);
 		}
 		return laFont;
 	}
 	
 	public static Font getFontTitre3() {
-		Font laFont = getFont("Titre");
+		Font laFont = getFont("Titre3");
 		if (laFont == null) {
 			laFont = maFont.deriveFont(20F);
-			mesFonts.put("Titre",laFont);
+			mesFonts.put("Titre3",laFont);
 		}
 		return laFont;
 	}
 
 	public static Font getFontTitre4() {
-		Font laFont = getFont("Titre");
+		Font laFont = getFont("Titre4");
 		if (laFont == null) {
 			laFont = maFont.deriveFont(16F);
-			mesFonts.put("Titre",laFont);
+			mesFonts.put("Titre4",laFont);
 		}
 		return laFont;
 	}
 	
 	public static Font getFontTitre5() {
-		Font laFont = getFont("Titre");
+		Font laFont = getFont("Titre5");
 		if (laFont == null) {
 			laFont = maFont.deriveFont(12F);
-			mesFonts.put("Titre",laFont);
+			mesFonts.put("Titre5",laFont);
 		}
 		return laFont;
 	}
 	
 	public static Font getFontTitre6() {
-		Font laFont = getFont("Titre");
+		Font laFont = getFont("Titre6");
 		if (laFont == null) {
 			laFont = maFont.deriveFont(8F);
-			mesFonts.put("Titre",laFont);
+			mesFonts.put("Titre6",laFont);
 		}
 		return laFont;
 	}

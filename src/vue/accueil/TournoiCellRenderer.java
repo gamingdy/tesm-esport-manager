@@ -1,9 +1,12 @@
 package vue.accueil;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
 
@@ -18,12 +21,33 @@ public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
 			boolean isSelected, boolean cellHasFocus) {
 		
 		JPanel panelTournoi = new JPanel();
+		panelTournoi.setLayout(new BorderLayout());
 		
-		if (this.nbTournois == 0) {
-			JLabel panelTournoiFini = new JLabel("Précédents");
-			panelTournoiFini.setFont(MaFont.getFontTitre5());
+		JLabel legende = null;
+		if ((Boolean) value[1]) {
+			legende = new JLabel("En cours");
+			legende.setFont(MaFont.getFontTitre4());
+			panelTournoi.add(legende,BorderLayout.NORTH);
+			legende.setOpaque(false);
+			legende.setForeground(Color.white);
+		}
+		else if (this.nbTournois == 0) {
+			legende = new JLabel("Précédents");
+			legende.setFont(MaFont.getFontTitre4());
+			this.nbTournois += 1;
+			panelTournoi.add(legende,BorderLayout.NORTH);
+			legende.setOpaque(false);
+			legende.setForeground(Color.white);
 		}
 		
+		PanelNomTournoi panelNomTournoi = new PanelNomTournoi((String) value[0]);
+		panelTournoi.add(panelNomTournoi, BorderLayout.CENTER);
+		panelNomTournoi.setOpaque(false);
+		panelNomTournoi.setForeground(Color.white);
+		panelTournoi.setOpaque(false);
+		if (legende != null)  {
+			legende.setBorder(BorderFactory.createLineBorder(Color.blue,2));
+		}
 		return panelTournoi;
 	}
 

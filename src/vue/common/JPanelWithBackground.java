@@ -16,9 +16,9 @@ public class JPanelWithBackground extends JPanel {
 	// Some code to initialize the background image.
 	// Here, we use the constructor to load the image. This
 	// can vary depending on the use case of the panel.
-	public JPanelWithBackground(String fileName) throws IOException {
+	public JPanelWithBackground(String fileName, int largeur, int hauteur) throws IOException {
 		ImageIcon icon = new ImageIcon(fileName);
-		backgroundImage = icon.getImage().getScaledInstance(1300, 800, 0);
+		backgroundImage = icon.getImage().getScaledInstance(largeur, hauteur, 0);
 	}
 
 	//Pour la resize
