@@ -2,9 +2,7 @@ package vue.main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 public class TitleBar extends JPanel {
 
@@ -12,6 +10,31 @@ public class TitleBar extends JPanel {
 
 	public TitleBar(JFrame mainWindow, Point coords) {
 		super((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
+
+		mainWindow.setUndecorated(true);
+
+		final JButton minimize = new JButton("-");
+		final JButton exit = new JButton("X");
+
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		minimize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainWindow.setState(JFrame.ICONIFIED);
+			}
+		});
+
+
+		this.add(minimize);
+		Color color = new Color(25, 11, 52);
+		this.setBackground(color);
+		this.add(exit);
+		this.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, Color.black));
+
+
 		this.coordsWin = coords;
 		addMouseListener(new MouseAdapter() {
 			@Override

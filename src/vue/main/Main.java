@@ -19,45 +19,19 @@ public class Main extends JFrame {
 	private Point compCoords;
 	private JPanelWithBackground panelContenu;
 	private ConteneurMain panelMain;
-	
-	private void setCustomTitleBar() {
-		// Set title bar to custom title bar
-		setUndecorated(true);
-		topPanel = new TitleBar(this, compCoords);
-		final JButton minimize = new JButton("-");
-		final JButton exit = new JButton("X");
 
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		minimize.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setState(JFrame.ICONIFIED);
-			}
-		});
-
-		compCoords = null;
-
-
-		topPanel.add(minimize);
-		Color color = new Color(25, 11, 52);
-		topPanel.setBackground(color);
-		topPanel.add(exit);
-		topPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, Color.black));
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public Main() {
+		
 		navbar = new MenuNavBar();
+		topPanel = new TitleBar(this, compCoords);
 		setIconImage(new ImageIcon("assets/logo.png").getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);
 		setLocationRelativeTo(null);
-		setCustomTitleBar();
 		getContentPane().add(topPanel, BorderLayout.NORTH);
 
 		panelContenu = null;
@@ -73,7 +47,7 @@ public class Main extends JFrame {
 		//Création du jpanel principal avec le menu
 
 		setMenu();
-		
+
 		setContenu("Accueil");
 	}
 
@@ -118,15 +92,16 @@ public class Main extends JFrame {
 
 
 		panelMenu.add(navbar, navbar.getGBC());
-		
+
 
 		panelMain = new ConteneurMain();
 		panelContenu.add(panelMain, panelMain.getGridBagConstraints());
 	}
-	
+
 	/**
 	 * Change la partie contenu du main
-	 * @param identifiant 
+	 *
+	 * @param identifiant
 	 */
 	public void setContenu(String identifiant) {
 		((CardLayout) panelMain.getLayout()).show(panelMain, identifiant);
