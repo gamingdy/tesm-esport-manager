@@ -15,7 +15,7 @@ import vue.common.MaFont;
 
 public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
 	
-	private int nbTournois = 0;
+	private boolean tournoisEnCours = false;
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Object[]> list, Object[] value, int index,
@@ -27,16 +27,18 @@ public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
 		JLabel legende = null;
 		if ((Boolean) value[1]) {
 			legende = new JLabel("En cours");
-			legende.setFont(MaFont.getFontTitre4());
+			legende.setFont(MaFont.getFontTitre2());
 			panelTournoi.add(legende,BorderLayout.NORTH);
+			panelTournoi.setBorder(BorderFactory.createEmptyBorder(40,0,0,0));
 			legende.setOpaque(false);
 			legende.setForeground(Vue.BLANC);
+			tournoisEnCours=true;
 		}
-		else if (this.nbTournois == 0) {
+		else if (this.tournoisEnCours && index ==1 || !this.tournoisEnCours && index ==0) {
 			legende = new JLabel("Précédents");
-			legende.setFont(MaFont.getFontTitre4());
-			this.nbTournois += 1;
+			legende.setFont(MaFont.getFontTitre2());
 			panelTournoi.add(legende,BorderLayout.NORTH);
+			panelTournoi.setBorder(BorderFactory.createEmptyBorder(40,0,0,0));
 			legende.setOpaque(false);
 			legende.setForeground(Vue.BLANC);
 		}
@@ -46,9 +48,7 @@ public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
 		panelNomTournoi.setOpaque(false);
 		panelNomTournoi.setForeground(Vue.BLANC);
 		panelTournoi.setOpaque(false);
-		if (legende != null)  {
-			legende.setBorder(BorderFactory.createLineBorder(Color.blue,2));
-		}
+		panelNomTournoi.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0,55,0,75),panelNomTournoi.getBorder()));
 		return panelTournoi;
 	}
 

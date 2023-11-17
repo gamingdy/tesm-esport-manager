@@ -32,7 +32,7 @@ public class ConteneurMain extends JPanel {
 		this.setLayout(cl_main);
 
 		this.add(new PageAccueil(),"Accueil");
-		((CardLayout)this.getLayout()).show(this,"test");
+		cl_main.show(this,"Accueil");
 	}
 	
 	public GridBagConstraints getGridBagConstraints() {

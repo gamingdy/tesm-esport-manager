@@ -22,7 +22,7 @@ public class BoutonMenu extends JButton {
 		this.setForeground(Vue.BLANC);
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
-		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red),BorderFactory.createEmptyBorder(0, 0, 1, 0)));
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Vue.ROSE_CONTOURS),BorderFactory.createEmptyBorder(0, 0, 1, 0)));
 		this.setFocusable(false);
 		this.contraintesBouton = new GridBagConstraints();
 		this.contraintesBouton.fill = GridBagConstraints.BOTH;
@@ -43,7 +43,7 @@ public class BoutonMenu extends JButton {
 	}
 	
 	public void deselectionner() {
-		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red),BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black)));
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Vue.ROSE_CONTOURS),BorderFactory.createEmptyBorder(0, 0, 1, 0)));
 	}
 	
 	public void survoller() {
