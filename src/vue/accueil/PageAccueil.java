@@ -23,6 +23,7 @@ import java.awt.GridLayout;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
+import vue.Vue;
 import vue.common.MaFont;
 
 import javax.swing.JScrollBar;
@@ -48,8 +49,8 @@ public class PageAccueil extends JPanel {
 		setLayout(gridBagLayout);
 		
 		JPanel panelClassement = new JPanel();
-		panelClassement.setBorder(BorderFactory.createLineBorder(Color.red,2));
-		panelClassement.setBackground(Color.black);
+		panelClassement.setBorder(BorderFactory.createLineBorder(Vue.ROSE_CONTOURS,2));
+		panelClassement.setBackground(Vue.BACKGROUND_MAIN);
 		GridBagConstraints gbc_panelClassement = new GridBagConstraints();
 		gbc_panelClassement.weighty = 0.3;
 		gbc_panelClassement.insets = new Insets(0, 0, 20, 0);
@@ -66,7 +67,7 @@ public class PageAccueil extends JPanel {
 		
 		JLabel labelTitreClassement = new JLabel("Classement des équipes année précédente");
 		labelTitreClassement.setFont(MaFont.getFontTitre1());
-		labelTitreClassement.setForeground(Color.white);
+		labelTitreClassement.setForeground(Vue.BLANC);
 		GridBagConstraints gbcLabelTitreClassement = new GridBagConstraints();
 		gbcLabelTitreClassement.insets = new Insets(0, 20, 5, 5);
 		gbcLabelTitreClassement.weighty = 0.2;
@@ -83,7 +84,7 @@ public class PageAccueil extends JPanel {
 		}
 		JList<Object[]> listeEquipes = new JList<Object[]>(mesEquipes);
 		listeEquipes.setCellRenderer(new EquipeCellRenderer());
-		listeEquipes.setBackground(Color.black);
+		listeEquipes.setBackground(Vue.BACKGROUND_MAIN);
 		
 		JScrollPane scrollPaneEquipe = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneEquipe.setOpaque(false);
@@ -112,7 +113,7 @@ public class PageAccueil extends JPanel {
 		panelBas.setLayout(gbl_panelBas);
 		
 		JPanel panelTournois = new JPanel();
-		panelTournois.setBackground(Color.black);
+		panelTournois.setBackground(Vue.BACKGROUND_MAIN);
 		GridBagConstraints gbc_panelTournois = new GridBagConstraints();
 		gbc_panelTournois.insets = new Insets(0, 0, 0, 10);
 		gbc_panelTournois.weighty = 1.0;
@@ -127,10 +128,10 @@ public class PageAccueil extends JPanel {
 		gbl_panelTournois.columnWeights = new double[]{1.0};
 		gbl_panelTournois.rowWeights = new double[]{0.0,  1.0};
 		panelTournois.setLayout(gbl_panelTournois);
-		panelTournois.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red,2), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		panelTournois.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Vue.ROSE_CONTOURS,2), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
 		JLabel labelTitreTournois = new JLabel("Tournois");
-		labelTitreTournois.setForeground(Color.white);
+		labelTitreTournois.setForeground(Vue.BLANC);
 		labelTitreTournois.setFont(MaFont.getFontTitre1());
 		GridBagConstraints gbcLabelTitreTournois = new GridBagConstraints();
 		gbcLabelTitreTournois.fill = GridBagConstraints.BOTH;
@@ -149,7 +150,7 @@ public class PageAccueil extends JPanel {
 		mesTournois.addElement(tournoi3);
 		JList<Object[]> listeTournois = new JList<Object[]>(mesTournois);
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
-		listeTournois.setBackground(Color.black);
+		listeTournois.setBackground(Vue.BACKGROUND_MAIN);
 		
 		
 		JScrollPane scrollPaneTournois = new JScrollPane(listeTournois, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -158,6 +159,7 @@ public class PageAccueil extends JPanel {
 		scrollPaneTournois.setBorder(null);
 		GridBagConstraints gbcScrollPaneTournois = new GridBagConstraints();
 		gbcScrollPaneTournois.fill = GridBagConstraints.BOTH;
+		gbcScrollPaneTournois.insets = new Insets(0,20,0,0);
 		gbcScrollPaneTournois.gridx = 0;
 		gbcScrollPaneTournois.gridy = 1;
 		panelTournois.add(scrollPaneTournois, gbcScrollPaneTournois);

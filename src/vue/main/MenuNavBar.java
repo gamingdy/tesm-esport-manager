@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controller.BoutonMenuControlleur;
+import vue.Vue;
 
 @SuppressWarnings("serial")
 public class MenuNavBar extends JPanel {
@@ -30,7 +31,7 @@ public class MenuNavBar extends JPanel {
 		gbl_this.rowWeights = new double[]{Double.MIN_VALUE};
 
 		gbc = new GridBagConstraints();
-		this.setBackground(Color.black);
+		this.setBackground(Vue.BACKGROUND_MENU);
 		gbc.fill = GridBagConstraints.VERTICAL;
 		gbc.weighty = 0.9;
 		gbc.weightx = 1;

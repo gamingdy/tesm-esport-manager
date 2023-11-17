@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
+import vue.Vue;
 import vue.common.MaFont;
 
 @SuppressWarnings("serial")
@@ -18,7 +19,7 @@ public class BoutonMenu extends JButton {
 	public BoutonMenu(MenuNavBar menuNavBar,String name,int y, Object controlleur) {
 		super(name);
 		this.setFont(MaFont.getFontBoutonMenu());
-		this.setForeground(Color.white);
+		this.setForeground(Vue.BLANC);
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
 		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.red),BorderFactory.createEmptyBorder(0, 0, 1, 0)));
@@ -38,7 +39,7 @@ public class BoutonMenu extends JButton {
 	}
 
 	public void selectionner() {
-		this.setBorder(BorderFactory.createMatteBorder(0,0,2,0,Color.red));
+		this.setBorder(BorderFactory.createMatteBorder(0,0,2,0,Vue.ROSE_CONTOURS));
 	}
 	
 	public void deselectionner() {
@@ -46,10 +47,10 @@ public class BoutonMenu extends JButton {
 	}
 	
 	public void survoller() {
-		this.setForeground(Color.red);
+		this.setForeground(Vue.ROSE_CONTOURS);
 	}
 	
 	public void finSurvoller() {
-		this.setForeground(Color.white);
+		this.setForeground(Vue.BLANC);
 	}
 }

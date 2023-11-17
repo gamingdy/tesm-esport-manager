@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
 
+import vue.Vue;
 import vue.common.MaFont;
 
 public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
@@ -29,7 +30,7 @@ public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
 			legende.setFont(MaFont.getFontTitre4());
 			panelTournoi.add(legende,BorderLayout.NORTH);
 			legende.setOpaque(false);
-			legende.setForeground(Color.white);
+			legende.setForeground(Vue.BLANC);
 		}
 		else if (this.nbTournois == 0) {
 			legende = new JLabel("Précédents");
@@ -37,13 +38,13 @@ public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
 			this.nbTournois += 1;
 			panelTournoi.add(legende,BorderLayout.NORTH);
 			legende.setOpaque(false);
-			legende.setForeground(Color.white);
+			legende.setForeground(Vue.BLANC);
 		}
 		
 		PanelNomTournoi panelNomTournoi = new PanelNomTournoi((String) value[0]);
 		panelTournoi.add(panelNomTournoi, BorderLayout.CENTER);
 		panelNomTournoi.setOpaque(false);
-		panelNomTournoi.setForeground(Color.white);
+		panelNomTournoi.setForeground(Vue.BLANC);
 		panelTournoi.setOpaque(false);
 		if (legende != null)  {
 			legende.setBorder(BorderFactory.createLineBorder(Color.blue,2));

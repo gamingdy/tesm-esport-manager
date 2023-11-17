@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
+import vue.Vue;
+
 @SuppressWarnings("serial")
 public class PanelEquipeClassement extends JPanel {
 	public PanelEquipeClassement(String place, String cheminImage, String nom, String points) {
@@ -16,7 +18,7 @@ public class PanelEquipeClassement extends JPanel {
 		setLayout(new GridLayout(1, 0, 0, 0));
 		setOpaque(false);
 		JLabel labelPlace = new JLabel(place);
-		labelPlace.setForeground(Color.white);
+		labelPlace.setForeground(Vue.BLANC);
 		labelPlace.setOpaque(false);
 		add(labelPlace);
 		
@@ -26,12 +28,12 @@ public class PanelEquipeClassement extends JPanel {
 		add(labelImage);
 		
 		JLabel labelNom = new JLabel(nom);
-		labelNom.setForeground(Color.white);
+		labelNom.setForeground(Vue.BLANC);
 		labelNom.setOpaque(false);
 		add(labelNom);
 		
 		JLabel labelPoints = new JLabel(points);
-		labelPoints.setForeground(Color.white);
+		labelPoints.setForeground(Vue.BLANC);
 		labelPoints.setOpaque(false);
 		add(labelPoints);
 		

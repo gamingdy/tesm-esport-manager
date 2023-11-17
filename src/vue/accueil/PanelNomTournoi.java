@@ -6,6 +6,7 @@ import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import vue.Vue;
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
 
@@ -18,7 +19,7 @@ public class PanelNomTournoi extends JPanel {
 				
 				add(labelNewLabel);
 				labelNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				labelNewLabel.setForeground(Color.white);
+				labelNewLabel.setForeground(Vue.BLANC);
 				setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red,1),BorderFactory.createEmptyBorder(3,0,3,0)));
 	}
 

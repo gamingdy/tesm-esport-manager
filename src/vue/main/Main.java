@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import vue.Vue;
 import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
 
@@ -69,8 +70,8 @@ public class Main extends JFrame {
 
 		GridBagConstraints contraintesPanelMenu = new GridBagConstraints();
 		panelMenu.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
-		panelMenu.setBackground(Color.black);
-		panelMenu.setBorder(BorderFactory.createMatteBorder(3, 4, 4, 4, Color.red));
+		panelMenu.setBackground(Vue.BACKGROUND_MENU);
+		panelMenu.setBorder(BorderFactory.createMatteBorder(3, 4, 4, 4, Vue.ROSE_CONTOURS));
 		contraintesPanelMenu.fill = GridBagConstraints.HORIZONTAL;
 		contraintesPanelMenu.weightx = 0.2;
 		contraintesPanelMenu.gridx = 0;
@@ -78,8 +79,8 @@ public class Main extends JFrame {
 		panelContenu.add(panelMenu, contraintesPanelMenu);
 
 		JLabel labelMenu = new JLabel("Menu");
-		labelMenu.setForeground(Color.white);
-		labelMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, Color.red));
+		labelMenu.setForeground(Vue.BLANC);
+		labelMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, Vue.ROSE_CONTOURS));
 		labelMenu.setFont(MaFont.getFontMenu());
 		labelMenu.setHorizontalAlignment(JLabel.CENTER);
 		GridBagConstraints contraintesLabelMenu = new GridBagConstraints();
