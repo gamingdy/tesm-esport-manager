@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import modele.Arbitre;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
 public class testArbitre {
@@ -40,5 +43,17 @@ public class testArbitre {
 	public void setPrenom() {
 		a.setPrenom("T");
 		assertEquals("T", a.getPrenom());
+	}
+
+	@Test
+	public void testtoString() {
+		assertEquals("(5)Brando Titouan", "(" + a.getId() + ")" + a.getNom() + " " + a.getPrenom());
+	}
+
+	@Test
+	public void testHashcodeArbitre() {
+		Set<Arbitre> set = new HashSet<Arbitre>();
+		set.add(a);
+		set.add(a);
 	}
 }

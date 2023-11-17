@@ -1,16 +1,17 @@
 package modele.test;
 
+import exceptions.ErreurDate;
 import exceptions.FausseDate;
 import org.junit.Before;
 import org.junit.Test;
 import modele.*;
 
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -18,22 +19,22 @@ public class testMatche {
 	Matche m;
 	Equipe e1 = new Equipe("Faze", Country.PALAU);
 	Equipe e2 = new Equipe("KC", Country.ALGERIA);
-	LocalDate d1;
-	LocalDate d2;
+	CustomDate d1;
+	CustomDate d2;
 
 	Saison s = new Saison(2022);
 	Tournoi tournoi;
 
 	{
 		try {
-			String t1 = "13-11-2022";
-			String t2 = "10-10-2022";
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-			d2 = LocalDate.parse(t2, dtf);
-			d1 = LocalDate.parse(t1, dtf);
+			d2 = new CustomDate(2022, 11, 13);
+			d1 = new CustomDate(2022, 10, 10);
+			;
 
 			tournoi = new Tournoi(s, "RLCS", d1, d2, Niveau.INTERNATIONAL);
 		} catch (FausseDate e) {
+			throw new RuntimeException(e);
+		} catch (ErreurDate e) {
 			throw new RuntimeException(e);
 		}
 	}
