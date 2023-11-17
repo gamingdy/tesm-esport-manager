@@ -20,14 +20,18 @@ public class Main extends JFrame {
 	private JPanelWithBackground panelContenu;
 	private ConteneurMain panelMain;
 
+	private final int HEIGHT = 800;
+	private final int WIDTH = 1300;
+
 
 	/**
 	 * Create the frame.
 	 */
 	public Main() {
-
 		navbar = new MenuNavBar();
 		topPanel = new TitleBar(this);
+		//WindowResizer resizer = new WindowResizer(this, HEIGHT, WIDTH);
+
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);
@@ -36,7 +40,7 @@ public class Main extends JFrame {
 		panelContenu = null;
 
 		try {
-			panelContenu = new JPanelWithBackground("assets/background.jpg", 1300, 800);
+			panelContenu = new JPanelWithBackground("assets/background.jpg", WIDTH, HEIGHT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
