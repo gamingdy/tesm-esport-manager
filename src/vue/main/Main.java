@@ -25,9 +25,9 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		
+
 		navbar = new MenuNavBar();
-		topPanel = new TitleBar(this, compCoords);
+		topPanel = new TitleBar(this);
 		setIconImage(new ImageIcon("assets/logo.png").getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);

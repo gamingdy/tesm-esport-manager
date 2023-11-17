@@ -8,7 +8,7 @@ public class TitleBar extends JPanel {
 
 	private Point coordsWin;
 
-	public TitleBar(JFrame mainWindow, Point coords) {
+	public TitleBar(JFrame mainWindow) {
 		super((LayoutManager) new FlowLayout(FlowLayout.RIGHT));
 
 		mainWindow.setUndecorated(true);
@@ -35,7 +35,6 @@ public class TitleBar extends JPanel {
 		this.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, Color.black));
 
 
-		this.coordsWin = coords;
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -49,7 +48,6 @@ public class TitleBar extends JPanel {
 
 
 		addMouseMotionListener(new MouseAdapter() {
-
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
