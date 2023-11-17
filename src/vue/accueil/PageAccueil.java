@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -11,20 +12,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JSlider;
 import javax.swing.ListModel;
 
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import vue.Vue;
 import vue.common.MaFont;
+import vue.common.CustomScrollBarUI;
 
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -96,6 +103,12 @@ public class PageAccueil extends JPanel {
 		gbcScrollPaneEquipe.gridx = 0;
 		gbcScrollPaneEquipe.gridy = 1;
 		panelClassement.add(scrollPaneEquipe, gbcScrollPaneEquipe);
+		
+		JScrollBar scrollBarEquipe = scrollPaneEquipe.getVerticalScrollBar();
+		scrollBarEquipe.setOpaque(false);
+		
+		scrollBarEquipe.setForeground(Vue.ROSE_CONTOURS);
+		scrollBarEquipe.setUI(new CustomScrollBarUI());
 		
 		JPanel panelBas = new JPanel();
 		panelBas.setOpaque(false);

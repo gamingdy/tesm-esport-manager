@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
 import vue.Vue;
+import vue.common.MaFont;
 
 @SuppressWarnings("serial")
 public class PanelEquipeClassement extends JPanel {
@@ -20,6 +21,7 @@ public class PanelEquipeClassement extends JPanel {
 		JLabel labelPlace = new JLabel(place);
 		labelPlace.setForeground(Vue.BLANC);
 		labelPlace.setOpaque(false);
+		labelPlace.setFont(MaFont.getFontTitre3());
 		add(labelPlace);
 		
 		JLabel labelImage = new JLabel();
@@ -30,11 +32,13 @@ public class PanelEquipeClassement extends JPanel {
 		JLabel labelNom = new JLabel(nom);
 		labelNom.setForeground(Vue.BLANC);
 		labelNom.setOpaque(false);
+		labelNom.setFont(MaFont.getFontTitre3());
 		add(labelNom);
 		
 		JLabel labelPoints = new JLabel(points);
 		labelPoints.setForeground(Vue.BLANC);
 		labelPoints.setOpaque(false);
+		labelPoints.setFont(MaFont.getFontTitre3());
 		add(labelPoints);
 		
 		setOpaque(false);
