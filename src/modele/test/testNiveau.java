@@ -21,16 +21,4 @@ public class testNiveau {
 	public void getNom() {
 		assertEquals("Local", Niveau.LOCAL.getNom());
 	}
-
-	@Test
-	public void getNiveau() {
-		Niveau n = Niveau.LOCAL;
-		assertEquals(Niveau.LOCAL, n.getNiveau("Local"));
-	}
-
-	@Test
-	public void getNiveauNull() {
-		Niveau n = Niveau.LOCAL;
-		assertEquals(null, n.getNiveau("dfsf"));
-	}
 }

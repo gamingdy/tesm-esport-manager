@@ -23,13 +23,4 @@ public enum Niveau {
 	public String getNom() {
 		return nom;
 	}
-	
-	public Niveau getNiveau(String nom) {
-		for(Niveau n : Niveau.values()) {
-			if (n.getNom().equals(nom)) {
-				return n;
-			}
-		}
-		return null;
-	}
 }
