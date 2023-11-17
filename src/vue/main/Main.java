@@ -17,7 +17,6 @@ public class Main extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private TitleBar topPanel;
 	private MenuNavBar navbar;
-	private Point compCoords;
 	private JPanelWithBackground panelContenu;
 	private ConteneurMain panelMain;
 
@@ -29,16 +28,15 @@ public class Main extends JFrame {
 
 		navbar = new MenuNavBar();
 		topPanel = new TitleBar(this);
-		setIconImage(new ImageIcon("assets/logo.png").getImage());
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);
-		setLocationRelativeTo(null);
 		getContentPane().add(topPanel, BorderLayout.NORTH);
 
 		panelContenu = null;
 
 		try {
-			panelContenu = new JPanelWithBackground("assets/background.jpg",1300,800);
+			panelContenu = new JPanelWithBackground("assets/background.jpg", 1300, 800);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
