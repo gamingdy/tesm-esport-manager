@@ -16,11 +16,5 @@ public class CompteUtilisateur {
 
 	public String getMdp() {
 		return mdp;
-	}
-
-
-	
-	
-	
-	
+	}	
 }
