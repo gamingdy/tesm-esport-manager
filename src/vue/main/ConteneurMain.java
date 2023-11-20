@@ -12,7 +12,8 @@ import javax.swing.ListModel;
 import vue.accueil.PageAccueil;
 import vue.accueil.LigneEquipe;
 import vue.accueil.LigneTournoi;
-import vue.accueil.LigneMatche;
+import vue.accueil.LigneMatche
+;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {

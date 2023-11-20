@@ -15,9 +15,6 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")

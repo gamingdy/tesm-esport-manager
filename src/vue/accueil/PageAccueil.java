@@ -41,8 +41,12 @@ import javax.swing.JScrollPane;
 public class PageAccueil extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	JList<PanelEquipeClassement> listeEquipes;
+
+	private JList<LigneMatche> listeMatches;
+
+	private JList<LigneTournoi> listeTournois;
+
+	private JList<LigneEquipe> listeEquipes;
 
 	/**
 	 * Create the panel.
@@ -86,7 +90,7 @@ public class PageAccueil extends JPanel {
 		gbcLabelTitreClassement.gridy = 0;
 		panelClassement.add(labelTitreClassement, gbcLabelTitreClassement);
 		
-		JList<LigneEquipe> listeEquipes = new JList<LigneEquipe>(equipes);
+		listeEquipes = new JList<LigneEquipe>(equipes);
 		listeEquipes.setCellRenderer(new EquipeCellRenderer());
 		listeEquipes.setBackground(Vue.BACKGROUND_MAIN);
 		
@@ -150,7 +154,7 @@ public class PageAccueil extends JPanel {
 		gbcLabelTitreTournois.gridy = 0;
 		panelTournois.add(labelTitreTournois, gbcLabelTitreTournois);
 		
-		JList<LigneTournoi> listeTournois = new JList<LigneTournoi>(tournois);
+		listeTournois = new JList<LigneTournoi>(tournois);
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
 		listeTournois.setBackground(Vue.BACKGROUND_MAIN);
 		
@@ -185,11 +189,11 @@ public class PageAccueil extends JPanel {
 		gblPanelMatch.rowWeights = new double[]{0.0,  1.0};
 		panelMatchs.setLayout(gblPanelMatch);
 		
-		JList<LigneMatche> listeMatchs = new JList<LigneMatche>(matches);
-		listeMatchs.setCellRenderer(new MatchCellRenderer());
-		listeMatchs.setBackground(Vue.BACKGROUND_MAIN);
+		listeMatches = new JList<LigneMatche>(matches);
+		listeMatches.setCellRenderer(new MatchCellRenderer());
+		listeMatches.setBackground(Vue.BACKGROUND_MAIN);
 		
-		JScrollPane scrollPaneMatch = new JScrollPane(listeMatchs,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane scrollPaneMatch = new JScrollPane(listeMatches,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		GridBagConstraints gbcScrollPaneMatchs = new GridBagConstraints();
 		gbcScrollPaneMatchs.fill = GridBagConstraints.BOTH;
 		gbcScrollPaneMatchs.insets = new Insets(0,20,0,0);
@@ -212,6 +216,18 @@ public class PageAccueil extends JPanel {
 		panelMatchs.add(labelTitreMatch, gbcLabelTitreMatch);
 		panelMatchs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Vue.ROSE_CONTOURS, 1),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
+	}
+	
+	public void setListeEquipes(DefaultListModel<LigneEquipe> equipes) {
+		this.listeEquipes.setModel(equipes);
+	}
+	
+	public void setListeTournois(DefaultListModel<LigneTournoi> tournois) {
+		this.listeTournois.setModel(tournois);
+	}
+	
+	public void setListeMatches(DefaultListModel<LigneMatche> matches) {
+		this.listeMatches.setModel(matches);
 	}
 
 }
