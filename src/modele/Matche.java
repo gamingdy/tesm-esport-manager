@@ -34,7 +34,7 @@ public class Matche {
 	}
 
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
-				  Equipe equipe1, Equipe equipe2, String nomTournoi, int anneeTournoi) throws FausseDate, MemeEquipe {
+				  Equipe equipe1, Equipe equipe2, String nomTournoi, Saison saison) throws FausseDate, MemeEquipe {
 		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
 			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
 		}
@@ -46,7 +46,8 @@ public class Matche {
 		this.libelle = libelle;
 		this.equipe1 = equipe1;
 		this.equipe2 = equipe2;
-		this.tournoi = saison.getTournoi(nomTournoi);
+		this.saison = saison;
+		this.tournoi = this.saison.getTournoi(nomTournoi);
 		this.vainqueur = 0;
 	}
 
