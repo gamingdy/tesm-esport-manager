@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 
 import exceptions.FausseDate;
+import exceptions.PointsNegatifs;
 
 public class Tournoi {
 
@@ -105,5 +106,16 @@ public class Tournoi {
 
 	public void setMatches(Set<Matche> matches) {
 		this.matches = matches;
+	}
+
+	public void assignerPointFinTournoi() throws PointsNegatifs {
+		for (Equipe equipe : this.equipes) {
+			equipe.setPoints(equipe.getPoints() + this.getPointsFinTournoi(equipe));
+		}
+	}
+
+	public int getPointsFinTournoi(Equipe equipe){
+		
+		return 0;
 	}
 }

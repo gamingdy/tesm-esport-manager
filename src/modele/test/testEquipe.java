@@ -150,13 +150,13 @@ public class testEquipe {
 
 	@Test(expected = PointsNegatifs.class)
 	public void testSetPointNegatif() throws PointsNegatifs {
-		equipe1.setPoint(-1);
+		equipe1.setPoints(-1);
 	}
 
 	@Test
 	public void testSetGetPoint() throws PointsNegatifs {
-		equipe1.setPoint(10);
-		assertEquals(10, equipe1.getPoint());
+		equipe1.setPoints(10);
+		assertEquals(10, equipe1.getPoints());
 	}
 
 	@Test

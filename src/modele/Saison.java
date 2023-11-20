@@ -10,6 +10,7 @@ public class Saison {
 	private int annee;
 	private Map<Equipe,Integer> equipes;
 	private Set<Arbitre> arbitres;
+	private Set<Tournoi> tournois;
 	
 	public Saison(int annee) {
 		this.equipes=new HashMap<Equipe,Integer>();
@@ -63,5 +64,26 @@ public class Saison {
 		}
 		return str;
 	}
-	
+
+	public void addTournoi(Tournoi tournoi) {
+		this.tournois.add(tournoi);
+	}
+
+	public void deleteTournoi(Tournoi tournoi) {
+		this.tournois.remove(tournoi);
+	}
+
+	public Set<Tournoi> getTournois() {
+		return tournois;
+	}
+
+	public Tournoi getTournoi(String nom) {
+		Tournoi tournoi = null;
+		for (Tournoi t : this.tournois) {
+			if (t.getNom() == nom) {
+				tournoi = t;
+			}
+		}
+		return tournoi;
+	}
 }
