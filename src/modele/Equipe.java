@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -90,5 +91,17 @@ public class Equipe {
 
 	public int getNombreJoueurs() {
 		return this.equipe.size();
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
 	}
 }

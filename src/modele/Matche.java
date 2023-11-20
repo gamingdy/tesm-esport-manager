@@ -91,12 +91,12 @@ public class Matche {
 		this.equipe2 = equipe2;
 	}
 
-	public Tournoi getTournoi() {
-		return tournoi;
+	public String getNomTournoi() {
+		return nomTournoi;
 	}
 
-	public void setTournoi(Tournoi tournoi) {
-		this.tournoi = tournoi;
+	public Short getAnneeTournoi() {
+		return anneeTournoi;
 	}
 
 	public Equipe getVainqueur() {

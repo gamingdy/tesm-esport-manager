@@ -41,12 +41,12 @@ public class Partie {
 		}
 	}
 
-	public Matche getmatche() {
-		return matche;
+	public Integer getIdMatche() {
+		return idMatch;
 	}
 
-	public void setmatche(Matche matche) {
-		this.matche = matche;
+	public void setIdMatche(Integer idMatche) {
+		this.idMatch = idMatche;
 	}
 
 
