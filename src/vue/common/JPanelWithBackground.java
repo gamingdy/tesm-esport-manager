@@ -1,11 +1,14 @@
 package vue.common;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import vue.Vue;
 
 @SuppressWarnings("serial")
 public class JPanelWithBackground extends JPanel {

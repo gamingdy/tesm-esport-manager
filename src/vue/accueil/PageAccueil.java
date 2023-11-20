@@ -15,6 +15,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -161,6 +162,20 @@ public class PageAccueil extends JPanel {
 		mesTournois.addElement(tournoi2);
 		Object[] tournoi3 = {"Tournoi fini vieux",false};
 		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
 		JList<Object[]> listeTournois = new JList<Object[]>(mesTournois);
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
 		listeTournois.setBackground(Vue.BACKGROUND_MAIN);
@@ -177,6 +192,8 @@ public class PageAccueil extends JPanel {
 		gbcScrollPaneTournois.gridy = 1;
 		panelTournois.add(scrollPaneTournois, gbcScrollPaneTournois);
 		
+		scrollPaneTournois.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		
 		JPanel panelMatchs = new JPanel();
 		panelMatchs.setBackground(Color.black);
 		GridBagConstraints gbc_panelMatchs = new GridBagConstraints();
@@ -189,8 +206,8 @@ public class PageAccueil extends JPanel {
 		panelBas.add(panelMatchs, gbc_panelMatchs);
 		panelMatchs.setLayout(new BorderLayout(0, 0));
 		
-		JList list_1 = new JList();
-		panelMatchs.add(list_1);
+		JList listeMatchs = new JList();
+		panelMatchs.add(listeMatchs);
 		
 		JLabel lblNewLabel_1 = new JLabel("Derniers Matchs");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
