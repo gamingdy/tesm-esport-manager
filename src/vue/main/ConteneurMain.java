@@ -15,6 +15,7 @@ import vue.accueil.PageAccueil;
 public class ConteneurMain extends JPanel {
 
 	private GridBagConstraints gbc;
+	private CardLayout cardLayout;
 	
 	public ConteneurMain() {
 		this.gbc = new GridBagConstraints();
@@ -28,14 +29,18 @@ public class ConteneurMain extends JPanel {
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		
-		CardLayout cl_main = new CardLayout();
-		this.setLayout(cl_main);
+		cardLayout = new CardLayout();
+		this.setLayout(cardLayout);
 
 		this.add(new PageAccueil(),"Accueil");
-		cl_main.show(this,"Accueil");
+		cardLayout.show(this,"Accueil");
 	}
 	
 	public GridBagConstraints getGridBagConstraints() {
 		return this.gbc;
+	}
+	
+	public void show(String str) {
+		cardLayout.show(this,str);
 	}
 }

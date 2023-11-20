@@ -14,18 +14,18 @@ import vue.common.MaFont;
 
 @SuppressWarnings("serial")
 public class PanelEquipeClassement extends JPanel {
-	public PanelEquipeClassement(String place, String cheminImage, String nom, String points) {
+	public PanelEquipeClassement(int place, ImageIcon imageIcon, String nom, int points) {
 		setBorder(new EmptyBorder(0, 20, 0, 0));
 		setLayout(new GridLayout(1, 0, 0, 0));
 		setOpaque(false);
-		JLabel labelPlace = new JLabel(place);
+		JLabel labelPlace = new JLabel(""+place);
 		labelPlace.setForeground(Vue.BLANC);
 		labelPlace.setOpaque(false);
 		labelPlace.setFont(MaFont.getFontTitre3());
 		add(labelPlace);
 		
 		JLabel labelImage = new JLabel();
-		labelImage.setIcon(new ImageIcon(new ImageIcon(cheminImage).getImage().getScaledInstance(50, 50, 0)));
+		labelImage.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance(50, 50, 0)));
 		labelImage.setOpaque(false);
 		add(labelImage);
 		
@@ -35,7 +35,7 @@ public class PanelEquipeClassement extends JPanel {
 		labelNom.setFont(MaFont.getFontTitre3());
 		add(labelNom);
 		
-		JLabel labelPoints = new JLabel(points);
+		JLabel labelPoints = new JLabel(""+points);
 		labelPoints.setForeground(Vue.BLANC);
 		labelPoints.setOpaque(false);
 		labelPoints.setFont(MaFont.getFontTitre3());
