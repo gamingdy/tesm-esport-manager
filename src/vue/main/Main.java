@@ -30,7 +30,6 @@ public class Main extends JFrame {
 	public Main() {
 		navbar = new MenuNavBar();
 		topPanel = new TitleBar(this);
-		//WindowResizer resizer = new WindowResizer(this, HEIGHT, WIDTH);
 
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,6 +51,7 @@ public class Main extends JFrame {
 		setMenu();
 
 		setContenu("Accueil");
+		new WindowResizer(this, panelContenu, HEIGHT, WIDTH);
 	}
 
 	public void setMenu() {

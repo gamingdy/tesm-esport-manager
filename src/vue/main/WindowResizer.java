@@ -15,14 +15,15 @@ enum SIDE {
 public class WindowResizer {
 	private int currentHeight;
 	private int currentWidth;
-	private Main mainWindow;
-	private JPanelWithBackground contenu;
+	private final Main mainWindow;
 	private SIDE side;
 	private boolean isResizing;
 	private Point originalPosition;
+	private final JPanelWithBackground background;
 
-	public WindowResizer(Main mainWindow, int height, int width) {
+	public WindowResizer(Main mainWindow, JPanelWithBackground background, int height, int width) {
 		this.mainWindow = mainWindow;
+		this.background = background;
 		this.currentHeight = height;
 		this.currentWidth = width;
 		this.side = SIDE.NONE;
