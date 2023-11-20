@@ -2,6 +2,7 @@ package modele.test;
 
 import exceptions.ErreurDate;
 import exceptions.FausseDate;
+import exceptions.MemeEquipe;
 import modele.*;
 import org.junit.Test;
 import exceptions.idNotSet;
@@ -25,10 +26,11 @@ public class testTournoi {
 	private Matche m1;
 
 	@Before
-	public void setUp() throws ErreurDate, FausseDate {
+	public void setUp() throws ErreurDate, FausseDate, MemeEquipe {
 		saison = new Saison(2023);
 		debut = new CustomDate(2023, 10, 20);
 		fin = new CustomDate(2023, 10, 25);
+
 		tournoi = new Tournoi(saison, "RLCS", debut, fin, niveau);
 	}
 
@@ -64,20 +66,25 @@ public class testTournoi {
 
 	@Test
 	public void addEquipe() {
-		
+		tournoi.addEquipe(e1);
+		assertEquals(1, tournoi.getEquipes().size());
 	}
 
 	@Test
 	public void removeEquipe() {
+		tournoi.addEquipe(e1);
+		tournoi.removeEquipe(e1);
+		assertEquals(0, tournoi.getEquipes().size());
 	}
 
 	@Test
 	public void setEquipes() {
+		Set<Equipe> setequipes = new HashSet<Equipe>();
+		setequipes.add(e1);
+		tournoi.setEquipes(setequipes);
+		assertEquals(1, tournoi.getEquipes().size());
 	}
 
-	@Test
-	public void addMatche() {
-	}
 
 	@Test
 	public void removeMatche() {
