@@ -16,6 +16,7 @@ public class Tournoi {
 	private CustomDate fin;
 	private Niveau niveau;
 	private Set<Equipe> equipes;
+	private Set<Matche> matches;
 	//private Map<Character,Poule> poules;
 
 	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau) throws FausseDate {
@@ -90,6 +91,19 @@ public class Tournoi {
 		this.equipes = equipes;
 	}
 
+	public Set<Matche> getMatches() {
+		return matches;
+	}
 
+	public void addMatche(Matche matche) {
+		this.matches.add(matche);
+	}
 
+	public void removeMatche(Matche matche) {
+		this.matches.remove(matche);
+	}
+
+	public void setMatches(Set<Matche> matches) {
+		this.matches = matches;
+	}
 }
