@@ -5,7 +5,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.ButtonModel;
-import java.awt.Image;
+import java.awt.Dimension;
 
 public class ButtonTitleBar extends JButton {
 
@@ -17,7 +17,7 @@ public class ButtonTitleBar extends JButton {
 
 		setBackground(bgColor);
 		setHorizontalAlignment(SwingConstants.CENTER);
-		setPreferredSize(new java.awt.Dimension(60, 40));
+		setPreferredSize(new Dimension(60, 40));
 		setForeground(Color.white);
 		setFocusPainted(false);
 
