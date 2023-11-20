@@ -47,5 +47,8 @@ public class Joueur implements Comparable<Joueur> {
 		return this.equipe.getNom();
 	}
 
+	public Equipe getEquipe() {
+		return this.equipe;
+	}
 
 }
