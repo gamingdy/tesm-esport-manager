@@ -1,13 +1,9 @@
 package modele.test;
 
 import modele.Niveau;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import modele.Arbitre;
 
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
