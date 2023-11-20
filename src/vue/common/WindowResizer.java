@@ -1,6 +1,6 @@
-package vue.main;
+package vue.common;
 
-import vue.common.JPanelWithBackground;
+import vue.main.Main;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -19,11 +19,12 @@ public class WindowResizer {
 	private SIDE side;
 	private boolean isResizing;
 	private Point originalPosition;
-	private final JPanelWithBackground background;
+	private final int BORDERSIZE = 5;
+	private final int MINIMUMHEIGHT = 600;
+	private final int MINIMUMWIDTH = 1100;
 
-	public WindowResizer(Main mainWindow, JPanelWithBackground background, int height, int width) {
+	public WindowResizer(Main mainWindow, int height, int width) {
 		this.mainWindow = mainWindow;
-		this.background = background;
 		this.currentHeight = height;
 		this.currentWidth = width;
 		this.side = SIDE.NONE;
@@ -33,7 +34,6 @@ public class WindowResizer {
 	}
 
 	private void findBorder(Point p) {
-		int BORDERSIZE = 5;
 		if (p.x <= BORDERSIZE) {
 			this.side = SIDE.LEFT;
 		} else if (currentWidth - BORDERSIZE <= p.x && p.x <= currentWidth) {
@@ -45,6 +45,10 @@ public class WindowResizer {
 		}
 	}
 
+	private boolean isMinimumSize(int width, int height) {
+		return height + this.currentHeight >= MINIMUMHEIGHT && width + this.currentWidth >= MINIMUMWIDTH;
+	}
+
 	private void resize(int width, int height) {
 		this.mainWindow.setSize(currentWidth + width, currentHeight + height);
 	}
@@ -53,7 +57,8 @@ public class WindowResizer {
 	private void updateSize() {
 		this.currentHeight = this.mainWindow.getHeight();
 		this.currentWidth = this.mainWindow.getWidth();
-		this.background.updateBackgroundSize(this.currentWidth, this.currentHeight);
+		System.out.println("Height: " + this.currentHeight + " Width: " + this.currentWidth);
+		this.mainWindow.updateBackgroundSize();
 
 	}
 
@@ -78,13 +83,22 @@ public class WindowResizer {
 					Point originalPos = mainWindow.getLocationOnScreen();
 					if (side == SIDE.LEFT) {
 						int newWidth = originalPosition.x - pOnScreen.x;
+						if (!isMinimumSize(newWidth, 0)) {
+							return;
+						}
 						mainWindow.setLocation(pOnScreen.x, originalPos.y);
 						resize(newWidth, 0);
 					} else if (side == SIDE.RIGHT) {
 						int newWidth = pOnScreen.x - originalPosition.x;
+						if (!isMinimumSize(newWidth, 0)) {
+							return;
+						}
 						resize(newWidth, 0);
 					} else if (side == SIDE.BOTTOM) {
 						int newHeight = pOnScreen.y - originalPosition.y;
+						if (!isMinimumSize(0, newHeight)) {
+							return;
+						}
 						resize(0, newHeight);
 					}
 				}

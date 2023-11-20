@@ -1,8 +1,6 @@
 package vue.main;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -10,12 +8,13 @@ import javax.swing.*;
 import vue.Vue;
 import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
+import vue.common.WindowResizer;
 
 public class Main extends JFrame {
 
 
 	private static final long serialVersionUID = 1L;
-	private TitleBar topPanel;
+	private TitleBar titleBar;
 	private MenuNavBar navbar;
 	private JPanelWithBackground panelContenu;
 	private ConteneurMain panelMain;
@@ -29,12 +28,12 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		navbar = new MenuNavBar();
-		topPanel = new TitleBar(this);
+		titleBar = new TitleBar(this);
 
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1300, 800);
-		getContentPane().add(topPanel, BorderLayout.NORTH);
+		getContentPane().add(titleBar, BorderLayout.NORTH);
 
 		panelContenu = null;
 
@@ -51,7 +50,12 @@ public class Main extends JFrame {
 		setMenu();
 
 		setContenu("Accueil");
-		new WindowResizer(this, panelContenu, HEIGHT, WIDTH);
+		titleBar.setTitle("Accueil");
+		new WindowResizer(this, HEIGHT, WIDTH);
+	}
+
+	public void updateBackgroundSize() {
+		panelContenu.updateBackgroundSize(this.getWidth(), this.getHeight());
 	}
 
 	public void setMenu() {
