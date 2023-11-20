@@ -48,7 +48,8 @@ public class Main extends JFrame {
 		//Création du jpanel principal avec le menu
 
 		setMenu();
-
+		panelMain = new ConteneurMain();
+		panelContenu.add(panelMain, panelMain.getGridBagConstraints());
 		setContenu("Accueil");
 		titleBar.setTitle("Accueil");
 		new WindowResizer(this, HEIGHT, WIDTH);
@@ -104,8 +105,6 @@ public class Main extends JFrame {
 		panelMenu.add(navbar, navbar.getGBC());
 
 
-		panelMain = new ConteneurMain();
-		panelContenu.add(panelMain, panelMain.getGridBagConstraints());
 	}
 
 	/**
