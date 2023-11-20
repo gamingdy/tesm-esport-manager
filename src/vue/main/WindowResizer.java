@@ -28,13 +28,27 @@ public class WindowResizer {
 		this.currentWidth = width;
 		this.side = SIDE.NONE;
 		this.isResizing = false;
-		//mouseMotion();
-		//mouseEvent();
+		mouseMotion();
+		mouseEvent();
+	}
+
+	private void findBorder(Point p) {
+		int BORDERSIZE = 5;
+		if (p.x <= BORDERSIZE) {
+			this.side = SIDE.LEFT;
+		} else if (currentWidth - BORDERSIZE <= p.x && p.x <= currentWidth) {
+			this.side = SIDE.RIGHT;
+		} else if (currentHeight - BORDERSIZE <= p.y && p.y <= currentHeight) {
+			this.side = SIDE.BOTTOM;
+		} else {
+			this.side = SIDE.NONE;
+		}
 	}
 
 	private void resize(int width, int height) {
 		this.mainWindow.setSize(currentWidth + width, currentHeight + height);
 	}
+
 
 	private void updateSize() {
 		this.currentHeight = this.mainWindow.getHeight();
@@ -49,9 +63,6 @@ public class WindowResizer {
 		return event.getPoint();
 	}
 
-	private boolean isOnBorder(Point p) {
-		return p.x == 0 || p.x == currentWidth - 1 || p.y == currentHeight - 1;
-	}
 
 	private void mouseMotion() {
 		this.mainWindow.addMouseMotionListener(new MouseMotionAdapter() {
