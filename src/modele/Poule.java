@@ -8,22 +8,16 @@ import exceptions.PouleComplete;
 
 public class Poule {
 
-	private Tournoi tournoi;
+	private Short anneeTournoi;
+	private String nomTournoi;
 	private String libelle;
 	private Set<Equipe> equipes;
 	
-	public Poule(Tournoi tournoi, String libelle) {
-		this.tournoi = tournoi;
+	public Poule(Object[] idTournoi, String libelle) {
+		this.anneeTournoi = (Short) idTournoi[0];
+		this.nomTournoi = (String) idTournoi[1];
 		this.libelle = libelle;
 		this.equipes = new HashSet<Equipe>();
-	}
-
-	public Tournoi getTournoi() {
-		return tournoi;
-	}
-
-	public void setTournoi(Tournoi tournoi) {
-		this.tournoi = tournoi;
 	}
 
 	public String getLibelle() {
@@ -47,5 +41,13 @@ public class Poule {
 
 	public Set<Equipe> getEquipes() {
 		return equipes;
+	}
+
+	public Short getAnneeTournoi() {
+		return anneeTournoi;
+	}
+
+	public String getNomTournoi() {
+		return nomTournoi;
 	}
 }
