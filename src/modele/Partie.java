@@ -2,21 +2,15 @@ package modele;
 
 public class Partie {
 
-	private int id;
 	private int numeroPartie;
 	private int vainqueur;
 	private Matche matche;
 
 
-	public Partie(int id, byte numeroPartie, String nom, Matche matche) {
-		this.id = id;
+	public Partie(byte numeroPartie, String nom, Matche matche) {
 		this.numeroPartie = numeroPartie;
 		this.vainqueur = 0;
 		this.matche = matche;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	public int getNumeroPartie() {
