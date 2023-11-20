@@ -12,9 +12,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -161,6 +163,20 @@ public class PageAccueil extends JPanel {
 		mesTournois.addElement(tournoi2);
 		Object[] tournoi3 = {"Tournoi fini vieux",false};
 		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
+		mesTournois.addElement(tournoi3);
 		JList<Object[]> listeTournois = new JList<Object[]>(mesTournois);
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
 		listeTournois.setBackground(Vue.BACKGROUND_MAIN);
@@ -177,6 +193,8 @@ public class PageAccueil extends JPanel {
 		gbcScrollPaneTournois.gridy = 1;
 		panelTournois.add(scrollPaneTournois, gbcScrollPaneTournois);
 		
+		scrollPaneTournois.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		
 		JPanel panelMatchs = new JPanel();
 		panelMatchs.setBackground(Color.black);
 		GridBagConstraints gbc_panelMatchs = new GridBagConstraints();
@@ -187,15 +205,58 @@ public class PageAccueil extends JPanel {
 		gbc_panelMatchs.gridx = 1;
 		gbc_panelMatchs.gridy = 0;
 		panelBas.add(panelMatchs, gbc_panelMatchs);
-		panelMatchs.setLayout(new BorderLayout(0, 0));
+		GridBagLayout gblPanelMatch= new GridBagLayout();
+		gblPanelMatch.columnWidths = new int[] {0};
+		gblPanelMatch.rowHeights = new int[] {0, 0};
+		gblPanelMatch.columnWeights = new double[]{1.0};
+		gblPanelMatch.rowWeights = new double[]{0.0,  1.0};
+		panelMatchs.setLayout(gblPanelMatch);
 		
-		JList list_1 = new JList();
-		panelMatchs.add(list_1);
+		Object[] match = {"La date","assets/logo.png","Equipe1","assets/trophéeGagnant.png","assets/logo.png","Equipe2","assets/trophéePerdant.png"};
+		DefaultListModel<Object[]> mesMatchs = new DefaultListModel<Object[]>();
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		mesMatchs.addElement(match);
+		JList<Object[]> listeMatchs = new JList<Object[]>(mesMatchs);
+		listeMatchs.setCellRenderer(new MatchCellRenderer());
+		listeMatchs.setBackground(Vue.BACKGROUND_MAIN);
 		
-		JLabel lblNewLabel_1 = new JLabel("Derniers Matchs");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panelMatchs.add(lblNewLabel_1, BorderLayout.NORTH);
-
+		JScrollPane scrollPaneMatch = new JScrollPane(listeMatchs,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		GridBagConstraints gbcScrollPaneMatchs = new GridBagConstraints();
+		gbcScrollPaneMatchs.fill = GridBagConstraints.BOTH;
+		gbcScrollPaneMatchs.insets = new Insets(0,20,0,0);
+		gbcScrollPaneMatchs.gridx = 0;
+		gbcScrollPaneMatchs.gridy = 1;
+		panelMatchs.add(scrollPaneMatch,gbcScrollPaneMatchs);
+		scrollPaneMatch.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		scrollPaneMatch.setOpaque(false);
+		scrollPaneMatch.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+		
+		JLabel labelTitreMatch = new JLabel("Derniers Matchs");
+		labelTitreMatch.setForeground(Vue.BLANC);
+		labelTitreMatch.setFont(MaFont.getFontTitre1());
+		labelTitreMatch.setHorizontalAlignment(SwingConstants.LEADING);
+		GridBagConstraints gbcLabelTitreMatch = new GridBagConstraints();
+		gbcLabelTitreMatch.fill = GridBagConstraints.BOTH;
+		gbcLabelTitreMatch.insets = new Insets(5,20,0,0);
+		gbcLabelTitreMatch.gridx = 0;
+		gbcLabelTitreMatch.gridy = 0;
+		panelMatchs.add(labelTitreMatch, gbcLabelTitreMatch);
+		panelMatchs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Vue.ROSE_CONTOURS, 1),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		
 	}
 
 }
