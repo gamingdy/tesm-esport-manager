@@ -1,62 +1,61 @@
 package modele;
 
-import java.sql.Date;
+import exceptions.FausseDate;
+import exceptions.MemeEquipe;
 
 public class Matche {
-	
-	private int id;
-	private byte nombreMaxParties;
-	private Date dateDebutMatche;
-	private Date dateFinMatche;
+
+
+	private final int id;
+
+	private CustomDate dateDebutMatche;
+	private int nombreMaxParties;
 	private Categorie libelle;
 	private Equipe equipe1;
 	private Equipe equipe2;
-	private String nomTournoi;
-	private Short anneeTournoi;
-	
-	public Matche(byte nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
-			Equipe equipe1, Equipe equipe2, Object[] idTournoi) {
-		super();
+	private Tournoi tournoi;
+	private int vainqueur;
+
+
+	public Matche(int id, int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
+				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
+		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
+			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
+		}
+		if (equipe1.getNom() == equipe2.getNom()) {
+			throw new MemeEquipe("Les 2 équipes sont identiques");
+		}
+
+		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
-		this.dateFinMatche = dateFinMatche;
 		this.libelle = libelle;
 		this.equipe1 = equipe1;
 		this.equipe2 = equipe2;
-		this.anneeTournoi = (Short)idTournoi[0];
-		this.nomTournoi = (String) idTournoi[1];
+		this.tournoi = tournoi;
+		this.vainqueur = 0;
 	}
 
 	public int getId() {
 		return id;
+
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
-	public byte getNombreMaxParties() {
+	public int getNombreMaxParties() {
 		return nombreMaxParties;
 	}
 
-	public void setNombreMaxParties(byte nombreMaxParties) {
+	public void setNombreMaxParties(int nombreMaxParties) {
 		this.nombreMaxParties = nombreMaxParties;
 	}
 
-	public Date getDateDebutMatche() {
+	public CustomDate getDateDebutMatche() {
 		return dateDebutMatche;
 	}
 
-	public void setDateDebutMatche(Date dateDebutMatche) {
+	public void setDateDebutMatche(CustomDate dateDebutMatche) {
 		this.dateDebutMatche = dateDebutMatche;
-	}
-
-	public Date getDateFinMatche() {
-		return dateFinMatche;
-	}
-
-	public void setDateFinMatche(Date dateFinMatche) {
-		this.dateFinMatche = dateFinMatche;
 	}
 
 	public Categorie getLibelle() {
@@ -89,5 +88,33 @@ public class Matche {
 
 	public Short getAnneeTournoi() {
 		return anneeTournoi;
+	}
+
+	public Equipe getVainqueur() {
+		Equipe equipe = null;
+		if (this.vainqueur == 1) {
+			equipe = this.equipe1;
+		}
+		if (this.vainqueur == 2) {
+			equipe = this.equipe2;
+		}
+		return equipe;
+	}
+
+	public void setVainqueur(Equipe vainqueur) {
+		if (vainqueur.getNom() == this.equipe1.getNom()) {
+			this.vainqueur = 1;
+		}
+		if (vainqueur.getNom() == this.equipe2.getNom()) {
+			this.vainqueur = 2;
+		}
+	}
+
+	public int getVainqueurInt() {
+		return vainqueur;
+	}
+
+	public void setVainqueurInt(int vainqueur) {
+		this.vainqueur = vainqueur;
 	}
 }

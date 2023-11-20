@@ -1,53 +1,69 @@
 package modele;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import exceptions.PouleComplete;
 
 public class Poule {
 
-	private Short anneeTournoi;
-	private String nomTournoi;
-	private String libelle;
-	private Set<Equipe> equipes;
+	private Tournoi tournoi;
+
+	private Character libelle;
+	private Map<Equipe,Integer> equipes;
 	
-	public Poule(Object[] idTournoi, String libelle) {
-		this.anneeTournoi = (Short) idTournoi[0];
-		this.nomTournoi = (String) idTournoi[1];
+	public Poule(Tournoi tournoi, Character libelle) {
+		this.tournoi = tournoi;
 		this.libelle = libelle;
-		this.equipes = new HashSet<Equipe>();
+		this.equipes = new HashMap<Equipe,Integer>();
 	}
 
-	public String getLibelle() {
+	public Tournoi getTournoi() {
+		return tournoi;
+	}
+	public Character getLibelle() {
 		return libelle;
 	}
 
-	public void setLibelle(String libelle) {
+	public void setLibelle(Character libelle) {
 		this.libelle = libelle;
+	}
+
+	public Integer getPoint(Equipe equipe){
+		return this.equipes.get(equipe);
+	}
+
+	public void ajouterPoint(Equipe equipe, Integer point){
+		this.equipes.put(equipe, this.equipes.get(equipe)+point);
+	}
+
+	public void enleverPoint(Equipe equipe, Integer point){
+		this.equipes.put(equipe, this.equipes.get(equipe) - point);
 	}
 	
 	public void addEquipe(Equipe equipe) throws PouleComplete {
-		if (this.equipes.size()==8) {
+		if (this.equipes.size() == 8) {
 			throw new PouleComplete("La poule est complète");
 		}
-		this.equipes.add(equipe);
+		this.equipes.put(equipe,0);
 	}
-	
+
 	public void deleteEquipe(Equipe equipe) {
 		this.equipes.remove(equipe);
 	}
 
 	public Set<Equipe> getEquipes() {
-		return equipes;
+		return this.equipes.keySet();
 	}
 
-	public Short getAnneeTournoi() {
-		return anneeTournoi;
-	}
-
-	public String getNomTournoi() {
-		return nomTournoi;
+	@Override
+	public String toString(){
+		String str = "";
+		for (Equipe e : this.getEquipes()){
+			str += e.getNom() + " : " + this.equipes.get(e);
+			str += System.lineSeparator();
+		}
+		return str;
 	}
 }
