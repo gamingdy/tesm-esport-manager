@@ -54,6 +54,10 @@ public class Main extends JFrame {
 		new WindowResizer(this, panelContenu, HEIGHT, WIDTH);
 	}
 
+	public void updateBackgroundSize() {
+		panelContenu.updateBackgroundSize(this.getWidth(), this.getHeight());
+	}
+
 	public void setMenu() {
 		GridBagLayout gbl_PanelContenu = new GridBagLayout();
 		gbl_PanelContenu.columnWidths = new int[]{0};

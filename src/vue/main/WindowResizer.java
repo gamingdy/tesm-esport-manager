@@ -53,7 +53,7 @@ public class WindowResizer {
 	private void updateSize() {
 		this.currentHeight = this.mainWindow.getHeight();
 		this.currentWidth = this.mainWindow.getWidth();
-		this.background.updateBackgroundSize(this.currentWidth, this.currentHeight);
+		this.mainWindow.updateBackgroundSize();
 
 	}
 

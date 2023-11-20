@@ -9,14 +9,16 @@ public class TitleBar extends JPanel {
 	private Point coordsWin;
 	final ButtonTitleBar minimize;
 	final ButtonTitleBar exit;
+	final ButtonTitleBar enlarge;
 
-	public TitleBar(JFrame mainWindow) {
+	public TitleBar(Main mainWindow) {
 		super(new BorderLayout());
 
 		mainWindow.setUndecorated(true);
 		Color titleBarColor = new Color(25, 11, 52);
 
-		minimize = new ButtonTitleBar("Reduire", titleBarColor);
+		minimize = new ButtonTitleBar("Minimiser", titleBarColor);
+		enlarge = new ButtonTitleBar("Agrandir", titleBarColor);
 		exit = new ButtonTitleBar("Fermer", titleBarColor);
 
 		exit.addActionListener(e -> System.exit(0));
@@ -25,9 +27,23 @@ public class TitleBar extends JPanel {
 		minimize.addActionListener(e -> mainWindow.setState(JFrame.ICONIFIED));
 		minimize.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
+		enlarge.addActionListener(e -> {
+			if (mainWindow.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+				mainWindow.setExtendedState(JFrame.NORMAL);
+				enlarge.updateIcon("Agrandir");
+				mainWindow.updateBackgroundSize();
+			} else {
+				mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				enlarge.updateIcon("Reduire");
+				mainWindow.updateBackgroundSize();
+			}
+		});
+		enlarge.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
 		JPanel titleBarButton = new JPanel(new GridLayout(1, 2));
 		titleBarButton.setBackground(titleBarColor);
 		titleBarButton.add(minimize);
+		titleBarButton.add(enlarge);
 		titleBarButton.add(exit);
 
 		JPanel titleBarIcon = new JPanel(new BorderLayout());

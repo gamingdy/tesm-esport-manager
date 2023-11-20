@@ -13,7 +13,7 @@ public class ButtonTitleBar extends JButton {
 
 	public ButtonTitleBar(String name, Color bgColor) {
 		super();
-		setIcon(new ImageIcon("assets/bouton" + name + ".png"));
+		updateIcon(name);
 
 		setBackground(bgColor);
 		setHorizontalAlignment(SwingConstants.CENTER);
@@ -27,7 +27,6 @@ public class ButtonTitleBar extends JButton {
 			hoverColor = new Color(52, 22, 98);
 		}
 
-
 		this.getModel().addChangeListener(e -> {
 			ButtonModel model = (ButtonModel) e.getSource();
 			if (model.isRollover()) {
@@ -36,6 +35,10 @@ public class ButtonTitleBar extends JButton {
 				setBackground(bgColor);
 			}
 		});
+	}
+
+	public void updateIcon(String name) {
+		setIcon(new ImageIcon("assets/bouton" + name + ".png"));
 	}
 
 }
