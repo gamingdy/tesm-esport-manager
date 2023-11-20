@@ -2,21 +2,21 @@ package modele;
 
 public class Partie {
 
-	private int id;
+	private Integer idMatch;
 	private int numeroPartie;
 	private int vainqueur;
 	private Matche matche;
 
 
 	public Partie(int id, byte numeroPartie, String nom, Matche matche) {
-		this.id = id;
+		this.idMatch = id;
 		this.numeroPartie = numeroPartie;
 		this.vainqueur = 0;
 		this.matche = matche;
 	}
 
 	public int getId() {
-		return id;
+		return idMatch;
 	}
 
 	public int getNumeroPartie() {
@@ -48,11 +48,11 @@ public class Partie {
 	}
 
 	public Integer getIdMatche() {
-		return idMatche;
+		return idMatch;
 	}
 
 	public void setIdMatche(Integer idMatche) {
-		this.idMatche = idMatche;
+		this.idMatch = idMatche;
 	}
 
 
