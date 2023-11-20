@@ -40,7 +40,6 @@ public class Matche {
 		this.tournoi = tournoi;
 		this.vainqueur = 0;
 		this.saison = tournoi.getSaison();
-		this.tournoi.addMatche(this);
 	}
 
 
