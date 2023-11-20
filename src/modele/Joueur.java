@@ -2,19 +2,11 @@ package modele;
 
 
 public class Joueur implements Comparable<Joueur> {
-
-
-	private final int id;
 	private String pseudo;
 
 
-	public Joueur(int id, String pseudo) {
-		this.id = id;
+	public Joueur(String pseudo) {
 		this.pseudo = pseudo;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	public String getPseudo() {
@@ -26,11 +18,12 @@ public class Joueur implements Comparable<Joueur> {
 	}
 
 	public int compareTo(Joueur j) {
-		if (j.getId() == this.getId()) {
-			return 0;
-		} else {
-			return j.getPseudo().compareTo(this.getPseudo());
-		}
+		return j.getPseudo().compareTo(this.getPseudo());
+	}
+
+	@Override
+	public int hashCode() {
+		return this.pseudo.hashCode();
 	}
 
 
