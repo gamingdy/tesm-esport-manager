@@ -2,6 +2,7 @@ package modele;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import exceptions.ErreurDate;
 
@@ -250,6 +251,17 @@ public class CustomDate implements Comparable<CustomDate> {
 	 */
 	public Date toSQL() {
 		LocalDate localDate1 = LocalDate.of(this.annee, this.mois, this.jour);
+		return Date.valueOf(localDate1);
+	}
+
+	/**
+	 * Converti la CustomDate en Date
+	 *
+	 * @return la CustomDate au format sql.Date
+	 */
+	public Date toSQLHeureMinute() {
+		LocalDateTime Time = LocalDateTime.of(this.annee, this.mois, this.jour, this.heure, this.min);
+		LocalDate localDate1 = Time.toLocalDate();
 		return Date.valueOf(localDate1);
 	}
 
