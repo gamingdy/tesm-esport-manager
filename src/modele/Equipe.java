@@ -90,7 +90,7 @@ public class Equipe {
 		return this.equipe.size();
 	}
 
-	public Integer getPoint() {
+	public int getPoint() {
 		return point;
 	}
 }

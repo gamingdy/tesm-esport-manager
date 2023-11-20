@@ -21,16 +21,16 @@ public class testEquipe {
 	Equipe equipe1;
 	Joueur j;
 	Equipe equipe2;
-	Joueur j2 = new Joueur(2, "Soso1");
-	Joueur j3 = new Joueur(3, "SoSo2");
-	Joueur j4 = new Joueur(4, "Sososo3");
-	Joueur j5 = new Joueur(5, "Sosososo4");
-	Joueur j6 = new Joueur(5, "Simon");
+	Joueur j2 = new Joueur("Soso1");
+	Joueur j3 = new Joueur("SoSo2");
+	Joueur j4 = new Joueur("Sososo3");
+	Joueur j5 = new Joueur("Sosososo4");
+	Joueur j6 = new Joueur("Simon");
 
 	@Before
 	public void setUp() {
 		equipe1 = new Equipe("Faze", Country.ALGERIA);
-		j = new Joueur(1, "Cricri");
+		j = new Joueur("Cricri");
 		equipe2 = new Equipe("Patate", Country.ALGERIA);
 	}
 
@@ -71,7 +71,7 @@ public class testEquipe {
 
 	@Test
 	public void testAjoutJoueurDifferent() throws EquipeComplete {
-		Joueur j2 = new Joueur(2, "Soso");
+		Joueur j2 = new Joueur("Soso");
 		equipe1.addJoueur(j);
 		equipe1.addJoueur(j2);
 		assertEquals(2, equipe1.getNombreJoueurs());
@@ -105,7 +105,7 @@ public class testEquipe {
 	@Test(expected = JoueurNonPresent.class)
 	public void testgetJoueurInexistant() throws JoueurNonPresent, EquipeVide, EquipeComplete {
 		equipe1.addJoueur(j);
-		equipe1.getJoueur(new Joueur(9, "ui"));
+		equipe1.getJoueur(new Joueur("klklk"));
 	}
 
 	@Test(expected = EquipeVide.class)
@@ -150,13 +150,13 @@ public class testEquipe {
 
 	@Test(expected = PointsNegatifs.class)
 	public void testSetPointNegatif() throws PointsNegatifs {
-		equipe1.setPoints(-1);
+		equipe1.setPoint(-1);
 	}
 
 	@Test
 	public void testSetGetPoint() throws PointsNegatifs {
-		equipe1.setPoints(10);
-		assertEquals(10, equipe1.getPoints());
+		equipe1.setPoint(10);
+		assertEquals(10, equipe1.getPoint());
 	}
 
 	@Test
