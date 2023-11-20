@@ -21,16 +21,16 @@ public class testEquipe {
 	Equipe equipe1;
 	Joueur j;
 	Equipe equipe2;
-	Joueur j2 = new Joueur("Soso1");
-	Joueur j3 = new Joueur("SoSo2");
-	Joueur j4 = new Joueur("Sososo3");
-	Joueur j5 = new Joueur("Sosososo4");
-	Joueur j6 = new Joueur("Simon");
+	Joueur j2 = new Joueur("Soso1", "Faze");
+	Joueur j3 = new Joueur("SoSo2", "Faze");
+	Joueur j4 = new Joueur("Sososo3", "Faze");
+	Joueur j5 = new Joueur("Sosososo4", "Faze");
+	Joueur j6 = new Joueur("Simon", "Faze");
 
 	@Before
 	public void setUp() {
 		equipe1 = new Equipe("Faze", Country.ALGERIA);
-		j = new Joueur("Cricri");
+		j = new Joueur("Cricri", "Faze");
 		equipe2 = new Equipe("Patate", Country.ALGERIA);
 	}
 
@@ -71,7 +71,7 @@ public class testEquipe {
 
 	@Test
 	public void testAjoutJoueurDifferent() throws EquipeComplete {
-		Joueur j2 = new Joueur("Soso");
+		Joueur j2 = new Joueur("Soso", "Faze");
 		equipe1.addJoueur(j);
 		equipe1.addJoueur(j2);
 		assertEquals(2, equipe1.getNombreJoueurs());
@@ -105,7 +105,7 @@ public class testEquipe {
 	@Test(expected = JoueurNonPresent.class)
 	public void testgetJoueurInexistant() throws JoueurNonPresent, EquipeVide, EquipeComplete {
 		equipe1.addJoueur(j);
-		equipe1.getJoueur(new Joueur("klklk"));
+		equipe1.getJoueur(new Joueur("klklk", "Faze"));
 	}
 
 	@Test(expected = EquipeVide.class)
