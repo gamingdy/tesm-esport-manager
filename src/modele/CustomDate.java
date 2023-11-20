@@ -261,8 +261,7 @@ public class CustomDate implements Comparable<CustomDate> {
 	 */
 	public Date toSQLHeureMinute() {
 		LocalDateTime Time = LocalDateTime.of(this.annee, this.mois, this.jour, this.heure, this.min);
-		LocalDate localDate1 = Time.toLocalDate();
-		return Date.valueOf(localDate1);
+		return Date.valueOf(Time.toLocalDate());
 	}
 
 	@Override
