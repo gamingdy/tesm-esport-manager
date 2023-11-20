@@ -33,6 +33,7 @@ public class Matche {
 		this.tournoi = tournoi;
 		this.vainqueur = 0;
 		this.saison = tournoi.getSaison();
+		this.tournoi.addMatche(this);
 	}
 
 
@@ -103,5 +104,9 @@ public class Matche {
 
 	public void setVainqueurInt(int vainqueur) {
 		this.vainqueur = vainqueur;
+	}
+
+	public Saison getSaison() {
+		return saison;
 	}
 }
