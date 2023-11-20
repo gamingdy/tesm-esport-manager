@@ -19,7 +19,7 @@ public class WindowResizer {
 	private SIDE side;
 	private boolean isResizing;
 	private Point originalPosition;
-	private final int BORDERSIZE = 5;
+	private final int BORDERSIZE = 10;
 	private final int MINIMUMHEIGHT = 600;
 	private final int MINIMUMWIDTH = 1100;
 

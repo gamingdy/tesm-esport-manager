@@ -52,6 +52,9 @@ public class Main extends JFrame {
 		setContenu("Accueil");
 		titleBar.setTitle("Accueil");
 		new WindowResizer(this, HEIGHT, WIDTH);
+		ImageIcon logo = new ImageIcon("assets/logo.png");
+		Image newimg = logo.getImage().getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
+		setIconImage(newimg);
 	}
 
 	public void updateBackgroundSize() {
