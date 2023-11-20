@@ -2,6 +2,8 @@
 .metadata/
 bin/
 out/
+TESM/
+derby.log
 .classpath
 .project
 
