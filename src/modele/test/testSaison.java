@@ -16,11 +16,11 @@ public class testSaison {
 
 	@Before
 	public void setUp() throws Exception {
-		s1=new Saison(2022);
-		e1=new Equipe("Faze",Country.ALGERIA);
-		e2=new Equipe("KC",Country.PALAU);
-		a1=new Arbitre("Christian","Gikapa");
-		a2=new Arbitre()
+		s1 = new Saison(2022);
+		e1 = new Equipe("Faze", Country.ALGERIA);
+		e2 = new Equipe("KC", Country.PALAU);
+		a1 = new Arbitre("Gikapa", "Christian");
+		a2 = new Arbitre("Brando", "Titouan");
 	}
 
 	@Test

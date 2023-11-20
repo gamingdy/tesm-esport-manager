@@ -1,5 +1,7 @@
 package modele;
 
+import exceptions.idNotSet;
+
 public class Arbitre {
 
 	private int id;
@@ -9,13 +11,17 @@ public class Arbitre {
 	public Arbitre(String nom, String prenom) {
 		this.nom = nom;
 		this.prenom = prenom;
+		this.id = -1;
 	}
 
 	public void setId(int newid) {
 		this.id = newid;
 	}
 
-	public int getId() {
+	public int getId() throws idNotSet {
+		if (id == -1) {
+			throw new idNotSet("Le id de l'objet n'est pas set");
+		}
 		return id;
 	}
 
@@ -42,7 +48,11 @@ public class Arbitre {
 
 	@Override
 	public String toString() {
-		return "(" + this.getId() + ")" + this.getNom() + " " + this.getPrenom();
+		try {
+			return "(" + this.getId() + ")" + this.getNom() + " " + this.getPrenom();
+		} catch (idNotSet e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 

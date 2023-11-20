@@ -16,7 +16,7 @@ public class testCompteArbitreAdmin {
 
 	@Before
 	public void setUp() throws Exception {
-		a = new Arbitre(1, "Michel", "Jean");
+		a = new Arbitre("Michel", "Jean");
 		CustomDate d1 = new CustomDate(2022, 11, 13);
 		CustomDate d2 = new CustomDate(2022, 10, 10);
 		s = new Saison(2022);
@@ -32,7 +32,7 @@ public class testCompteArbitreAdmin {
 
 	@Test
 	public void setArbitre() {
-		Arbitre b = new Arbitre(2, "Christian", "G");
+		Arbitre b = new Arbitre("Christian", "G");
 		compteArbitre.setArbitre(b);
 		assertEquals(b, compteArbitre.getArbitre());
 	}
