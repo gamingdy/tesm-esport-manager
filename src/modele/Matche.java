@@ -3,6 +3,8 @@ package modele;
 import exceptions.FausseDate;
 import exceptions.MemeEquipe;
 
+import java.util.Objects;
+
 public class Matche {
 
 	private CustomDate dateDebutMatche;
@@ -20,7 +22,7 @@ public class Matche {
 		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
 			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
 		}
-		if (equipe1.getNom() == equipe2.getNom()) {
+		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
 			throw new MemeEquipe("Les 2 équipes sont identiques");
 		}
 		this.nombreMaxParties = nombreMaxParties;
@@ -31,24 +33,7 @@ public class Matche {
 		this.tournoi = tournoi;
 		this.vainqueur = 0;
 		this.saison = tournoi.getSaison();
-	}
-
-	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
-				  Equipe equipe1, Equipe equipe2, String nomTournoi, Saison saison) throws FausseDate, MemeEquipe {
-		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
-			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
-		}
-		if (equipe1.getNom() == equipe2.getNom()) {
-			throw new MemeEquipe("Les 2 équipes sont identiques");
-		}
-		this.nombreMaxParties = nombreMaxParties;
-		this.dateDebutMatche = dateDebutMatche;
-		this.libelle = libelle;
-		this.equipe1 = equipe1;
-		this.equipe2 = equipe2;
-		this.saison = saison;
-		this.tournoi = this.saison.getTournoi(nomTournoi);
-		this.vainqueur = 0;
+		this.tournoi.addMatche(this);
 	}
 
 
@@ -119,5 +104,9 @@ public class Matche {
 
 	public void setVainqueurInt(int vainqueur) {
 		this.vainqueur = vainqueur;
+	}
+
+	public Saison getSaison() {
+		return saison;
 	}
 }

@@ -3,7 +3,10 @@ package modele.test;
 import static org.junit.Assert.*;
 
 
+import exceptions.EquipeComplete;
 import exceptions.idNotSet;
+import modele.Country;
+import modele.Equipe;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,11 +14,13 @@ import org.junit.Test;
 import modele.Joueur;
 
 public class testJoueur {
-	Joueur j;
+	private Joueur j;
+	private Equipe equipe1;
 
 	@Before
-	public void setUp() {
-		j = new Joueur("Cricri");
+	public void setUp() throws EquipeComplete {
+		equipe1 = new Equipe("Faze", Country.ALGERIA);
+		j = new Joueur("Cricri", equipe1);
 	}
 
 	@Test
@@ -33,5 +38,10 @@ public class testJoueur {
 	@Test(expected = idNotSet.class)
 	public void testIdnotSet() throws idNotSet {
 		j.getId();
+	}
+
+	@Test
+	public void testgetNomEquipe() {
+		assertEquals("Faze", j.getNomEquipe());
 	}
 }

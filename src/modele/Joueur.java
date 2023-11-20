@@ -1,16 +1,18 @@
 package modele;
 
 
+import exceptions.EquipeComplete;
 import exceptions.idNotSet;
 
 public class Joueur implements Comparable<Joueur> {
 	private String pseudo;
 	private Integer id;
-	private String nomEquipe;
+	private Equipe equipe;
 
-	public Joueur(String pseudo, String nomEquipe) {
+	public Joueur(String pseudo, Equipe equipe) throws EquipeComplete{
 		this.pseudo = pseudo;
-		this.nomEquipe = nomEquipe;
+		this.equipe = equipe;
+		this.equipe.addJoueur(this);
 	}
 
 	public String getPseudo() {
@@ -42,7 +44,7 @@ public class Joueur implements Comparable<Joueur> {
 	}
 
 	public String getNomEquipe() {
-		return this.nomEquipe;
+		return this.equipe.getNom();
 	}
 
 

@@ -8,9 +8,6 @@ import static org.junit.Assert.*;
 
 import modele.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class testSaison {
 	private Saison s1;
 	private Equipe e1;

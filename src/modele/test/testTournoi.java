@@ -5,14 +5,11 @@ import exceptions.FausseDate;
 import exceptions.MemeEquipe;
 import modele.*;
 import org.junit.Test;
-import exceptions.idNotSet;
 import org.junit.Before;
-import modele.Arbitre;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 
 public class testTournoi {
