@@ -6,9 +6,11 @@ import exceptions.idNotSet;
 public class Joueur implements Comparable<Joueur> {
 	private String pseudo;
 	private Integer id;
+	private String nomEquipe;
 
-	public Joueur(String pseudo) {
+	public Joueur(String pseudo, String nomEquipe) {
 		this.pseudo = pseudo;
+		this.nomEquipe = nomEquipe;
 	}
 
 	public String getPseudo() {
@@ -37,6 +39,10 @@ public class Joueur implements Comparable<Joueur> {
 	@Override
 	public int hashCode() {
 		return this.pseudo.hashCode();
+	}
+
+	public String getNomEquipe() {
+		return this.nomEquipe;
 	}
 
 
