@@ -1,5 +1,6 @@
 package dao;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,74 +11,73 @@ import java.util.List;
 import exceptions.EquipeComplete;
 import modele.Equipe;
 import modele.Joueur;
+import modele.Niveau;
 
-public class DaoEquipe implements Dao<Equipe,String>{
+public class DaoNiveau implements Dao<Niveau,String>{
 	
 	private Connexion connexion;
 	
-	public DaoEquipe(Connexion connexion) {
+	public DaoNiveau(Connexion connexion) {
 		this.connexion = connexion;
 	}
 
 	@Override
 	public void createTable() throws SQLException {
-		String createTableSql = "CREATE TABLE Equipe (" +
-                "Nom_Equipe VARCHAR(50)" +
-                "World_rank INT " +
-                "PRIMARY KEY (Nom_Equipe))";
+		String createTableSql = "CREATE TABLE Niveau("
+				   +"Libelle_Niveau VARCHAR(50),"
+				   +"Coefficient DECIMAL(2,1) NOT NULL,"
+				   +"PRIMARY KEY(Libelle_Niveau)";
+
 		Statement createTable;
 		
 		createTable = connexion.getConnexion().createStatement();
 		createTable.execute(createTableSql);
-        System.out.println("Table 'Equipe' créée avec succès");
+        System.out.println("Table 'Niveau' créée avec succès");
 	}
 
 	@Override
 	public boolean dropTable() throws SQLException {
 		Statement deleteTable;
 		deleteTable = connexion.getConnexion().createStatement();
-		return deleteTable.execute("drop table Equipe");
+		return deleteTable.execute("drop table Niveau");
 	}
 
 	@Override
-	public List<Equipe> getAll() throws Exception {
+	public List<Niveau> getAll() throws Exception {
 		Statement getAll = connexion.getConnexion().createStatement();
-		ResultSet resultat = getAll.executeQuery("SELECT * FROM Equipe");
-		List<Equipe> sortie = new ArrayList<>();
+		ResultSet resultat = getAll.executeQuery("SELECT * FROM Niveau");
+		List<Niveau> sortie = new ArrayList<>();
 		while(resultat.next()) {
-			Equipe equipe = new Equipe(resultat.getString("Nom_Equipe"));
-			equipe.setPoint(resultat.getInt("World_rank"));
-			sortie.add(equipe);
+			sortie.add(Niveau.valueOf(resultat.getString("Libelle_Niveau")));
 		}
 		return sortie;
 	}
 
 	@Override
-	public Equipe getById(String... nom) throws Exception {
-		PreparedStatement getById = connexion.getConnexion().prepareStatement("SELECT * FROM Equipe WHERE Nom_Equipe = ?");
+	public Niveau getById(String... nom) throws Exception {
+		PreparedStatement getById = connexion.getConnexion().prepareStatement("SELECT * FROM Niveau WHERE Libelle_Niveau = ?");
 		getById.setString(1, nom[0]);
 		ResultSet resultat = getById.executeQuery();
-		Equipe equipe = new Equipe(resultat.getString("Nom_Equipe"));
-		equipe.setPoint(resultat.getInt("World_rank"));
-		return equipe;
+		Niveau niveau = Niveau.valueOf(resultat.getString("Nom_Equipe"));
+		return niveau;
 	}
 
 	@Override
-	public boolean add(Equipe value) throws Exception {
+	public boolean add(Niveau value) throws Exception {
 		PreparedStatement add = connexion.getConnexion().prepareStatement(
-				"INSERT INTO Equipe(Nom_Equipe,World_rank) values (?,?)");
+				"INSERT INTO Niveau(Libelle_Niveau,Coefficient) values (?,?)");
 		add.setString(1, value.getNom());
-		add.setInt(2, value.getPoint());
+		add.setFloat(2, value.getCoefficient());
 		return add.execute();
 	}
 
 	@Override
-	public boolean update(Equipe value) throws Exception {
+	public boolean update(Niveau value) throws Exception {
 		PreparedStatement update = connexion.getConnexion().prepareStatement(
-				"UPDATE Equipe SET "
-				+"World_rank = ? "
-				+"WHERE Nom_Equipe = ?");
-		update.setInt(1, value.getPoint());
+				"UPDATE Niveau SET "
+				+"Coefficient = ? "
+				+"WHERE Libelle_Niveau = ?");
+		update.setFloat(1, value.getCoefficient());
 		update.setString(2, value.getNom());
 		return update.execute();
 	}
@@ -85,8 +85,9 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	@Override
 	public boolean delete(String... value) throws Exception {
 		PreparedStatement delete = connexion.getConnexion().prepareStatement(
-				"DELETE FROM Equipe where Nom_Equipe = ?");
+				"DELETE FROM Niveau where Libelle_Niveau = ?");
 		delete.setString(1,value[0]);
 		return delete.execute();
 	}
 }
+
