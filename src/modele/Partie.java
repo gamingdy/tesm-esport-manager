@@ -41,13 +41,5 @@ public class Partie {
 		}
 	}
 
-	public Integer getIdMatche() {
-		return idMatch;
-	}
-
-	public void setIdMatche(Integer idMatche) {
-		this.idMatch = idMatche;
-	}
-
 
 }

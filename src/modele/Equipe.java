@@ -93,10 +93,6 @@ public class Equipe {
 		return this.equipe.size();
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
 	public Integer getPoint() {
 		return point;
 	}
