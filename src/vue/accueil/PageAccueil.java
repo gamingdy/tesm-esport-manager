@@ -47,7 +47,7 @@ public class PageAccueil extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PageAccueil() {
+	public PageAccueil(ListModel<LigneEquipe> equipes, ListModel<LigneTournoi> tournois, ListModel<LigneMatche> matches) {
 		setOpaque(false);
 		setBorder(new EmptyBorder(20, 20, 20, 20));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -86,16 +86,11 @@ public class PageAccueil extends JPanel {
 		gbcLabelTitreClassement.gridy = 0;
 		panelClassement.add(labelTitreClassement, gbcLabelTitreClassement);
 		
-		Object[] equipe = {"1","assets/logo.png","ekip","667"};
-		DefaultListModel<Object[]> mesEquipes = new DefaultListModel<Object[]>();
-		for (int i = 0; i<10; i++) {
-			mesEquipes.addElement(equipe);
-		}
-		JList<Object[]> listeEquipes = new JList<Object[]>(mesEquipes);
+		JList<LigneEquipe> listeEquipes = new JList<LigneEquipe>(equipes);
 		listeEquipes.setCellRenderer(new EquipeCellRenderer());
 		listeEquipes.setBackground(Vue.BACKGROUND_MAIN);
 		
-		JScrollPane scrollPaneEquipe = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPaneEquipe = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneEquipe.setOpaque(false);
 		scrollPaneEquipe.setWheelScrollingEnabled(true);
 		scrollPaneEquipe.setBorder(null);
@@ -155,29 +150,7 @@ public class PageAccueil extends JPanel {
 		gbcLabelTitreTournois.gridy = 0;
 		panelTournois.add(labelTitreTournois, gbcLabelTitreTournois);
 		
-
-		Object[] tournoi1 = {"Tournoi en cours",true};
-		DefaultListModel<Object[]> mesTournois = new DefaultListModel<Object[]>();
-		mesTournois.addElement(tournoi1);
-		Object[] tournoi2 = {"Tournoi fini récent",false};
-		mesTournois.addElement(tournoi2);
-		Object[] tournoi3 = {"Tournoi fini vieux",false};
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		mesTournois.addElement(tournoi3);
-		JList<Object[]> listeTournois = new JList<Object[]>(mesTournois);
+		JList<LigneTournoi> listeTournois = new JList<LigneTournoi>(tournois);
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
 		listeTournois.setBackground(Vue.BACKGROUND_MAIN);
 		
@@ -212,25 +185,7 @@ public class PageAccueil extends JPanel {
 		gblPanelMatch.rowWeights = new double[]{0.0,  1.0};
 		panelMatchs.setLayout(gblPanelMatch);
 		
-		Object[] match = {"La date","assets/logo.png","Equipe1","assets/trophéeGagnant.png","assets/logo.png","Equipe2","assets/trophéePerdant.png"};
-		DefaultListModel<Object[]> mesMatchs = new DefaultListModel<Object[]>();
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		mesMatchs.addElement(match);
-		JList<Object[]> listeMatchs = new JList<Object[]>(mesMatchs);
+		JList<LigneMatche> listeMatchs = new JList<LigneMatche>(matches);
 		listeMatchs.setCellRenderer(new MatchCellRenderer());
 		listeMatchs.setBackground(Vue.BACKGROUND_MAIN);
 		

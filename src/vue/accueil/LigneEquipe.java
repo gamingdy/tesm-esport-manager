@@ -17,7 +17,6 @@ public class LigneEquipe {
 	 * @return le paramètre LigneEquipe nécessaire pour une ligne d'équipe de la page d'accueil
 	 */
 	public LigneEquipe(int place, ImageIcon logo, String nom, int points) {
-		super();
 		this.place = place;
 		this.logo = logo;
 		this.nom = nom;

@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.ListModel;
 
 import vue.accueil.PageAccueil;
+import vue.accueil.LigneEquipe;
+import vue.accueil.LigneTournoi;
+import vue.accueil.LigneMatche;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
@@ -32,7 +35,7 @@ public class ConteneurMain extends JPanel {
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
 
-		this.add(new PageAccueil(),"Accueil");
+		this.add(new PageAccueil(new DefaultListModel<LigneEquipe>(),new DefaultListModel<LigneTournoi>(),new DefaultListModel<LigneMatche>()),"Accueil");
 		cardLayout.show(this,"Accueil");
 	}
 	

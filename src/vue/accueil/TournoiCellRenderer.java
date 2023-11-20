@@ -13,19 +13,19 @@ import javax.swing.ListCellRenderer;
 import vue.Vue;
 import vue.common.MaFont;
 
-public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
+public class TournoiCellRenderer implements ListCellRenderer<LigneTournoi> {
 	
 	private boolean tournoisEnCours = false;
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends Object[]> list, Object[] value, int index,
+	public Component getListCellRendererComponent(JList<? extends LigneTournoi> list, LigneTournoi value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		
 		JPanel panelTournoi = new JPanel();
 		panelTournoi.setLayout(new BorderLayout());
 		
 		JLabel legende = null;
-		if ((Boolean) value[1]) {
+		if (value.isEnCours()) {
 			legende = new JLabel("En cours");
 			legende.setFont(MaFont.getFontTitre2());
 			panelTournoi.add(legende,BorderLayout.NORTH);
@@ -43,7 +43,7 @@ public class TournoiCellRenderer implements ListCellRenderer<Object[]> {
 			legende.setForeground(Vue.BLANC);
 		}
 		
-		PanelNomTournoi panelNomTournoi = new PanelNomTournoi((String) value[0]);
+		PanelNomTournoi panelNomTournoi = new PanelNomTournoi(value.getNom());
 		panelTournoi.add(panelNomTournoi, BorderLayout.CENTER);
 		panelNomTournoi.setOpaque(false);
 		panelNomTournoi.setForeground(Vue.BLANC);
