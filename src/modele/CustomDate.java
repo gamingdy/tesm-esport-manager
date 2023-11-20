@@ -255,7 +255,7 @@ public class CustomDate implements Comparable<CustomDate> {
 	}
 
 	/**
-	 * Converti la CustomDate en Date
+	 * Converti la CustomDate en Date avec heure et minute
 	 *
 	 * @return la CustomDate au format sql.Date
 	 */
