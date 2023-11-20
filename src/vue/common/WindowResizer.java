@@ -57,7 +57,6 @@ public class WindowResizer {
 	private void updateSize() {
 		this.currentHeight = this.mainWindow.getHeight();
 		this.currentWidth = this.mainWindow.getWidth();
-		System.out.println("Height: " + this.currentHeight + " Width: " + this.currentWidth);
 		this.mainWindow.updateBackgroundSize();
 
 	}
@@ -140,8 +139,11 @@ public class WindowResizer {
 			}
 
 			public void mouseReleased(MouseEvent e) {
+				if (isResizing) {
+					updateSize();
+				}
 				isResizing = false;
-				updateSize();
+
 			}
 
 		});
