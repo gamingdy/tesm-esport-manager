@@ -40,5 +40,13 @@ public class Partie {
 		}
 	}
 
+	public Matche getMatche() {
+		return matche;
+	}
+
+	public void setMatche(Matche matche) {
+		this.matche = matche;
+	}
+
 
 }

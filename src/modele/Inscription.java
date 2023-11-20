@@ -3,11 +3,11 @@ package modele;
 public class Inscription {
 	
 	private String nom;
-	private short annee;
+	private Integer annee;
 	
-	public Inscription(short annee, String nom) {
+	public Inscription(int i, String nom) {
 		this.nom = nom;
-		this.annee = annee;
+		this.annee = i;
 	}
 
 	public String getNom() {
@@ -18,11 +18,11 @@ public class Inscription {
 		this.nom = nom;
 	}
 
-	public short getAnnee() {
+	public Integer getAnnee() {
 		return annee;
 	}
 
-	public void setAnnee(short annee) {
+	public void setAnnee(Integer annee) {
 		this.annee = annee;
 	}
 

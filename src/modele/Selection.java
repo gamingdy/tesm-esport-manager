@@ -3,11 +3,11 @@ package modele;
 public class Selection {
 	
 	private int idArbitre;
-	private short annee;
+	private int annee;
 	
-	public Selection(int idArbitre, short annee) {
+	public Selection(int idArbitre, int i) {
 		this.idArbitre = idArbitre;
-		this.annee = annee;
+		this.annee = i;
 	}
 
 	public int getIdArbitre() {
@@ -18,11 +18,11 @@ public class Selection {
 		this.idArbitre = idArbitre;
 	}
 
-	public short getAnnee() {
+	public int getAnnee() {
 		return annee;
 	}
 
-	public void setAnnee(short annee) {
+	public void setAnnee(int annee) {
 		this.annee = annee;
 	}
 

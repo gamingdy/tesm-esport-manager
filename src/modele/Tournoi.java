@@ -13,9 +13,10 @@ public class Tournoi {
 	private CustomDate fin;
 	private Niveau niveau;
 	private boolean estEncours;
+	private CompteArbitre compteArbitre;
 	//private Map<Character,Poule> poules;
 
-	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau) throws FausseDate {
+	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDate {
 		if (debut.getAnnee() < saison.getAnnee()) {
 			throw new FausseDate("La date de début du tournoi est avant la date de début de la saison");
 		}
@@ -77,5 +78,13 @@ public class Tournoi {
 
 	public void setEstEncours(boolean estEncours) {
 		this.estEncours = estEncours;
+	}
+
+	public CompteArbitre getCompteArbitre() {
+		return compteArbitre;
+	}
+
+	public void setCompteArbitre(CompteArbitre compteArbitre) {
+		this.compteArbitre = compteArbitre;
 	}
 }
