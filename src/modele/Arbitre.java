@@ -1,18 +1,27 @@
 package modele;
 
+import exceptions.idNotSet;
+
 public class Arbitre {
 
-	private final int id;
+	private int id;
 	private String nom;
 	private String prenom;
 
-	public Arbitre(int id, String nom, String prenom) {
-		this.id = id;
+	public Arbitre(String nom, String prenom) {
 		this.nom = nom;
 		this.prenom = prenom;
+		this.id = -1;
 	}
 
-	public int getId() {
+	public void setId(int newid) {
+		this.id = newid;
+	}
+
+	public int getId() throws idNotSet {
+		if (id == -1) {
+			throw new idNotSet("Le id de l'objet n'est pas set");
+		}
 		return id;
 	}
 
@@ -33,13 +42,17 @@ public class Arbitre {
 	}
 
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return this.toString().hashCode();
 	}
-	
+
 	@Override
-	public String toString(){
-		return "("+this.getId()+")"+this.getNom()+" "+this.getPrenom();
+	public String toString() {
+		try {
+			return "(" + this.getId() + ")" + this.getNom() + " " + this.getPrenom();
+		} catch (idNotSet e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 

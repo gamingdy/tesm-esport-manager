@@ -8,11 +8,19 @@ import static org.junit.Assert.*;
 import modele.*;
 
 public class testSaison {
-	Saison s1;
+	private Saison s1;
+	private Equipe e1;
+	private Equipe e2;
+	private Arbitre a1;
+	private Arbitre a2;
 
 	@Before
 	public void setUp() throws Exception {
-
+		s1 = new Saison(2022);
+		e1 = new Equipe("Faze", Country.ALGERIA);
+		e2 = new Equipe("KC", Country.PALAU);
+		a1 = new Arbitre("Gikapa", "Christian");
+		a2 = new Arbitre("Brando", "Titouan");
 	}
 
 	@Test
@@ -49,5 +57,37 @@ public class testSaison {
 
 	@Test
 	public void testToString() {
+	}
+
+	@Test
+	public void testSetAnnee() {
+	}
+
+	@Test
+	public void testAddArbitre() {
+	}
+
+	@Test
+	public void testDeleteArbitre() {
+	}
+
+	@Test
+	public void getArbitres() {
+	}
+
+	@Test
+	public void testAddEquipe() {
+	}
+
+	@Test
+	public void testDeleteEquipe() {
+	}
+
+	@Test
+	public void testGetEquipes() {
+	}
+
+	@Test
+	public void testToString1() {
 	}
 }
