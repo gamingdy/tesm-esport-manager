@@ -19,7 +19,7 @@ public class WindowResizer {
 	private SIDE side;
 	private boolean isResizing;
 	private Point originalPosition;
-	private final int BORDERSIZE = 5;
+	private final int BORDERSIZE = 10;
 	private final int MINIMUMHEIGHT = 600;
 	private final int MINIMUMWIDTH = 1100;
 
@@ -57,7 +57,6 @@ public class WindowResizer {
 	private void updateSize() {
 		this.currentHeight = this.mainWindow.getHeight();
 		this.currentWidth = this.mainWindow.getWidth();
-		System.out.println("Height: " + this.currentHeight + " Width: " + this.currentWidth);
 		this.mainWindow.updateBackgroundSize();
 
 	}
@@ -140,8 +139,11 @@ public class WindowResizer {
 			}
 
 			public void mouseReleased(MouseEvent e) {
+				if (isResizing) {
+					updateSize();
+				}
 				isResizing = false;
-				updateSize();
+
 			}
 
 		});
