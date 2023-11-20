@@ -1,302 +1,205 @@
 package modele;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
-import exceptions.ErreurDate;
-
 public class CustomDate implements Comparable<CustomDate> {
-	private int annee;
-	private int mois;
-	private int jour;
-	private int heure;
-	private int min;
+	private LocalDateTime date;
 
 	/**
-	 * Créer un Date correspondant à minuit de la date passée en paramètre
+	 * Crée une CustomDate correspondant à partir d'un Timestamp
 	 *
-	 * @param date la date au format java.sql.Date
+	 * @param date la date au format java.sql.Timestamp
 	 */
-	public CustomDate(Date date) {
-		LocalDate localDate = date.toLocalDate();
-		this.annee = localDate.getYear();
-		this.mois = localDate.getMonthValue();
-		this.jour = localDate.getDayOfMonth();
-		this.heure = 0;
-		this.min = 0;
+	public CustomDate(Timestamp date) {
+		this.date = date.toLocalDateTime();
 	}
 
 	/**
-	 * Créer un Date correspondant au premier jour de l'année passé en paramètre
+	 * Crée une CustomDate correspondant au premier jour de l'année passé en paramètre
 	 *
 	 * @param annee L'année correspondant à la date
-	 */
+	 **/
 	public CustomDate(int annee) {
-		this.annee = annee;
-		this.mois = 1;
-		this.jour = 1;
-		this.heure = 0;
-		this.min = 0;
+		this(annee, 1, 1, 0, 0);
 	}
 
 	/**
-	 * Créer un Date correspondant à minuit de la date passée en paramètre
+	 * Crée une CustomDate correspondant à minuit de la date passée en paramètre
 	 *
 	 * @param annee L'année correspondant à la date
 	 * @param mois  Le mois correspondant à la date, en Integer (1 pour janvier, ...)
 	 * @param jour  Le jour correspondant à la date
-	 * @throws ErreurDate si le mois est trop grand (>12) ou trop petit (<12)
-	 * @throws ErreurDate si le jour est trop petit (<1)
-	 * @throws ErreurDate si le jour est trop grand (>31)
-	 * @throws ErreurDate si le jour est trop grand (traitement des mois à 30 jours --> (>30))
-	 * @throws ErreurDate si le jour est trop grand (traitement de février en année bissextile --> (>29))
-	 * @throws ErreurDate si le jour est trop grand (traitement de février hors année bissextile --> (>29))
-	 */
-	public CustomDate(int annee, int mois, int jour) throws ErreurDate {
-		this(annee);
-		DateCorrecte(this.annee, this.mois, this.jour);
-		this.mois = mois;
-		this.jour = jour;
-
+	 * @throws DateTimeException si la date n'est pas valide
+	 **/
+	public CustomDate(int annee, int mois, int jour) throws DateTimeException {
+		this(annee, mois, jour, 0, 0);
 	}
 
 	/**
-	 * Créer un Date correspondant aux paramètres
+	 * Créer une CustomDate correspondant aux paramètres
 	 *
 	 * @param annee L'année correspondant à la date
 	 * @param mois  Le mois correspondant à la date, en Integer (1 pour janvier, ...)
 	 * @param jour  Le jour correspondant à la date
 	 * @param heure L'heure correspondant à la date
 	 * @param min   Le nombre de minutes correspondant à la date
-	 * @throws ErreurDate si le mois est trop grand (>12) ou trop petit (<12)
-	 * @throws ErreurDate si le jour est trop petit (<1)
-	 * @throws ErreurDate si le jour est trop grand (>31)
-	 * @throws ErreurDate si le jour est trop grand (traitement des mois à 30 jours --> (>30))
-	 * @throws ErreurDate si le jour est trop grand (traitement de février en année bissextile --> (>29))
-	 * @throws ErreurDate si le jour est trop grand (traitement de février hors année bissextile --> (>29))
-	 * @throws ErreurDate si l'heure est trop grande (>23) ou trop petite (<0)
-	 * @throws ErreurDate si le nombre de minute est trop grand (>59) ou trop petit (<0)
-	 */
-	public CustomDate(int annee, int mois, int jour, int heure, int min) throws ErreurDate {
-		this(annee, mois, jour);
-		if (heure < 0 || heure > 23) {
-			throw new ErreurDate("L'heure saisie n'est pas correcte");
-		}
-		if (min < 0 || min > 59) {
-			throw new ErreurDate("Les minutes saisies ne sont pas correctes");
-		}
-		this.heure = heure;
-		this.min = min;
+	 * @throws DateTimeException si la date n'est pas valide
+	 **/
+	public CustomDate(int annee, int mois, int jour, int heure, int min) throws DateTimeException {
+		this.date = LocalDateTime.of(annee, mois, jour, heure, min);
 	}
 
 	/**
 	 * Retourne l'année correspondant à la Date
 	 *
 	 * @return l'année, en Integer
-	 */
+	 **/
 	public int getAnnee() {
-		return this.annee;
+		return this.date.getYear();
 	}
 
 	/**
 	 * Modifie l'année de la Date en fonction du paramètre
 	 *
 	 * @param annee L'année correspondant à la date
-	 */
+	 **/
 	public void setAnnee(int annee) {
-		this.annee = annee;
+		this.date = this.date.withYear(annee);
 	}
 
 	/**
 	 * Retourne le mois correspondant à la Date
 	 *
 	 * @return le mois, en Integer (1 pour janvier, ...)
-	 */
+	 **/
 	public int getMois() {
-		return this.mois;
+		return this.date.getMonthValue();
 	}
 
 	/**
 	 * Modifie le mois de la Date en fonction du paramètre
 	 *
 	 * @param mois Le mois correspondant à la date, en Integer (1 pour janvier, ...)
-	 * @throws ErreurDate si le mois est trop grand (>12) ou trop petit (<12)
-	 */
-	public void setMois(int mois) throws ErreurDate {
-		DateCorrecte(this.annee, mois, this.jour);
-		this.mois = mois;
-
+	 * @throws DateTimeException si le mois est trop grand (>12) ou trop petit (<12)
+	 **/
+	public void setMois(int mois) throws DateTimeException {
+		this.date = this.date.withMonth(mois);
 	}
 
 	/**
 	 * Retourne le jour correspondant à la Date
 	 *
 	 * @return le jour, en Integer
-	 */
+	 **/
 	public int getJour() {
-		return this.jour;
+		return this.date.getDayOfMonth();
 	}
 
 	/**
 	 * Modifie le jour de la Date en fonction du paramètre
 	 *
 	 * @param jour Le jour correspondant à la date
-	 * @throws ErreurDate si le jour est trop petit (<1)
-	 * @throws ErreurDate si le jour est trop grand (>31)
-	 * @throws ErreurDate si le jour est trop grand (traitement des mois à 30 jours --> (>30))
-	 * @throws ErreurDate si le jour est trop grand (traitement de février en année bissextile --> (>29))
-	 * @throws ErreurDate si le jour est trop grand (traitement de février hors année bissextile --> (>29))
+	 * @throws DateTimeException si le jour est négatif ou trop grand
 	 */
-	public void setJour(int jour) throws ErreurDate {
-		DateCorrecte(this.annee, this.mois, jour);
-		this.jour = jour;
-	}
-
-	private void DateCorrecte(int annee, int mois, int jour) throws ErreurDate {
-		if (mois < 1 || mois > 12) {
-			throw new ErreurDate("Le mois saisi n'est pas correct");
-		}
-		if (jour < 1) {
-			throw new ErreurDate("Le jour saisi est inférieur à 1");
-		}
-		if (jour > 31) {
-			throw new ErreurDate("Le jour saisi est supérieur à 31");
-		}
-		if ((mois == 4 || mois == 6 || mois == 9 || mois == 11) && (jour > 30)) {
-			throw new ErreurDate("Le jour saisi est supérieur à 30");
-		}
-		if ((mois == 2) && (jour > 29)) {
-			throw new ErreurDate("Le jour saisi est supérieur à 29");
-		}
-		if ((mois == 2) && (jour > 28) && ((annee % 4 != 0) || ((annee % 100 == 0) && (annee % 400 != 0)))) {
-			throw new ErreurDate("Le jour saisi est supérieur à 28");
-		}
+	public void setJour(int jour) throws DateTimeException {
+		this.date = this.date.withDayOfMonth(jour);
 	}
 
 	/**
 	 * Retourne l'heure correspondant à la Date
 	 *
 	 * @return l'heure, en Integer
-	 */
+	 **/
 	public int getHeure() {
-		return this.heure;
+		return this.date.getHour();
 	}
 
 	/**
 	 * Modifie l'heure de la Date en fonction du paramètre
 	 *
 	 * @param heure L'heure correspondant à la date
-	 * @throws ErreurDate si l'heure est trop grande (>23) ou trop petite (<0)
-	 */
-	public void setHeure(int heure) throws ErreurDate {
-		if (heure < 0 || heure > 23) {
-			throw new ErreurDate("L'heure saisie n'est pas correcte");
-		}
-		this.heure = heure;
+	 * @throws DateTimeException si l'heure est négative ou trop grande (>23)
+	 **/
+	public void setHeure(int heure) throws DateTimeException {
+		this.date = this.date.withHour(heure);
 	}
 
 	/**
 	 * Retourne le nombre de minutes correspondant à la Date
 	 *
 	 * @return les minutes, en Integer
-	 */
+	 **/
 	public int getMinute() {
-		return this.min;
+		return this.date.getMinute();
 	}
 
 	/**
-	 * Modifie l'es minutes de la Date en fonction du paramètre
+	 * Modifie les minutes de la Date en fonction du paramètre
 	 *
 	 * @param min le nombre de minutes correspondant à la date
-	 * @throws ErreurDate si le nombre de minute est trop grand (>59) ou trop petit (<0)
-	 */
-	public void setMinute(int min) throws ErreurDate {
-		if (min < 0 || min > 59) {
-			throw new ErreurDate("Les minutes saisies ne sont pas correctes");
-		}
-		this.min = min;
-	}
-
-	/**
-	 * Vérifie si la date passée en paramètre est avant la date active
-	 *
-	 * @param CustomDate la date à tester
-	 * @return true si la date passée en paramètre est avant la date active, false sinon
-	 */
-	public Boolean estAvant(CustomDate Date) {
-		if (Date.hashCode() > this.hashCode()) {
-			return true;
-		}
-		return false;
+	 * @throws DateTimeException si le nombre de minutes est trop grand (>59) ou trop petit (<0)
+	 **/
+	public void setMinute(int min) throws DateTimeException {
+		this.date = this.date.withMinute(min);
 	}
 
 	/**
 	 * Vérifie si la date passée en paramètre est après la date active
 	 *
-	 * @param CustomDate la date à tester
+	 * @param date la date à tester
 	 * @return true si la date passée en paramètre est après la date active, false sinon
-	 */
-	public Boolean estApres(CustomDate Date) {
-		if (Date.hashCode() < this.hashCode()) {
-			return true;
-		}
-		return false;
+	 **/
+	public Boolean estAvant(CustomDate date) {
+		return this.date.isBefore(date.date);
+	}
+
+	/**
+	 * Vérifie si la date passée en paramètre est avant la date active
+	 *
+	 * @param date la date à tester
+	 * @return true si la date passée en paramètre est avant la date active, false sinon
+	 **/
+	public Boolean estApres(CustomDate date) {
+		return this.date.isAfter(date.date);
 	}
 
 	/**
 	 * Converti la CustomDate en Date
 	 *
-	 * @return la CustomDate au format sql.Date
-	 */
-	public Date toSQL() {
-		LocalDate localDate1 = LocalDate.of(this.annee, this.mois, this.jour);
-		return Date.valueOf(localDate1);
-	}
-
-	/**
-	 * Converti la CustomDate en Date avec heure et minute
-	 *
-	 * @return la CustomDate au format sql.Date
-	 */
-	public Date toSQLHeureMinute() {
-		LocalDateTime Time = LocalDateTime.of(this.annee, this.mois, this.jour, this.heure, this.min);
-		return Date.valueOf(Time.toLocalDate());
+	 * @return la CustomDate au format java.sql.Timestamp
+	 **/
+	public Timestamp toSQL() {
+		return Timestamp.valueOf(this.date);
 	}
 
 	@Override
-	public String toString() {
-		return annee + "/" + mois + "/" + jour + "  " + heure + ":" + min;
-	}
-
-	@Override
-	public int hashCode() {
-		return (this.annee * 100000000 + this.mois * 1000000 + this.jour * 10000 + this.heure * 100 + this.min);
+	public int compareTo(CustomDate c) {
+		return this.date.compareTo(c.date);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-
 		if (obj == null) {
 			return false;
 		}
 		if (!(obj instanceof CustomDate)) {
 			return false;
 		}
-		if (obj instanceof CustomDate && this == obj) {
-			return true;
-		}
 
 		CustomDate dateComparable = (CustomDate) obj;
 
-		if (this.hashCode() == dateComparable.hashCode()) {
-			return true;
-		}
-		return false;
+		return this.date.equals(dateComparable.date);
 	}
 
 	@Override
-	public int compareTo(CustomDate c) {
-		return this.toSQL().compareTo(c.toSQL());
+	public String toString() {
+		String heure = String.format("%02d", this.getHeure());
+		String minute = String.format("%02d", this.getMinute());
+		String jour = String.format("%02d", this.getJour());
+		String mois = String.format("%02d", this.getMois());
+		return heure + "h" + minute + " " + jour + "/" + mois + "/" + this.getAnnee();
+
 	}
 }
