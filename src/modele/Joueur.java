@@ -5,26 +5,15 @@ import exceptions.EquipeComplete;
 import exceptions.idNotSet;
 
 public class Joueur implements Comparable<Joueur> {
-	private String pseudo;
+	
 	private Integer id;
+	private String pseudo;
 	private Equipe equipe;
 
 	public Joueur(String pseudo, Equipe equipe) throws EquipeComplete{
 		this.pseudo = pseudo;
 		this.equipe = equipe;
 		this.equipe.addJoueur(this);
-	}
-
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
-
-	public int compareTo(Joueur j) {
-		return j.getPseudo().compareTo(this.getPseudo());
 	}
 
 	public void setId(Integer newId) {
@@ -38,9 +27,12 @@ public class Joueur implements Comparable<Joueur> {
 		return this.id;
 	}
 
-	@Override
-	public int hashCode() {
-		return this.pseudo.hashCode();
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
 	}
 
 	public String getNomEquipe() {
@@ -51,4 +43,12 @@ public class Joueur implements Comparable<Joueur> {
 		return this.equipe;
 	}
 
+	public int compareTo(Joueur j) {
+		return j.getPseudo().compareTo(this.getPseudo());
+	}
+
+	@Override
+	public int hashCode() {
+		return this.pseudo.hashCode();
+	}
 }
