@@ -30,14 +30,14 @@ public class testTournoi {
 		saison = new Saison(2023);
 		debut = new CustomDate(2023, 10, 20);
 		fin = new CustomDate(2023, 10, 25);
-
+		m1 = new Matche(3, debut, Categorie.DEMI_FINALE, e1, e2, tournoi);
 		tournoi = new Tournoi(saison, "RLCS", debut, fin, niveau);
 	}
 
 	@Test
 	public void setSaison() {
 		tournoi.setSaison(new Saison(2022));
-		assertEquals(2022, tournoi.getSaison());
+		assertEquals(2022, tournoi.getSaison().getAnnee());
 	}
 
 	@Test
@@ -88,9 +88,8 @@ public class testTournoi {
 
 	@Test
 	public void removeMatche() {
+
 	}
 
-	@Test
-	public void setMatches() {
-	}
+
 }
