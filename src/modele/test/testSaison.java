@@ -1,11 +1,15 @@
 package modele.test;
 
+import exceptions.EquipeInexistante;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import modele.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class testSaison {
 	private Saison s1;
@@ -20,74 +24,60 @@ public class testSaison {
 		e1 = new Equipe("Faze", Country.ALGERIA);
 		e2 = new Equipe("KC", Country.PALAU);
 		a1 = new Arbitre("Gikapa", "Christian");
+		a1.setId(42);
 		a2 = new Arbitre("Brando", "Titouan");
+		a2.setId(2);
 	}
 
 	@Test
 	public void getAnnee() {
+		assertEquals(2022, s1.getAnnee());
 	}
 
 	@Test
 	public void setAnnee() {
+		s1.setAnnee(2023);
+		assertEquals(2023, s1.getAnnee());
 	}
 
 	@Test
 	public void addArbitre() {
+		s1.addArbitre(a1);
+		assertEquals(1, s1.getArbitres().size());
 	}
 
 	@Test
 	public void deleteArbitre() {
-	}
-
-	@Test
-	public void getArbitre() {
-	}
-
-	@Test
-	public void addEquipe() {
-	}
-
-	@Test
-	public void deleteEquipe() {
+		s1.addArbitre(a1);
+		s1.addArbitre(a2);
+		s1.deleteArbitre(a2);
+		assertEquals(1, s1.getArbitres().size());
 	}
 
 	@Test
 	public void getEquipes() {
+		s1.addEquipe(e1);
+		assertEquals(1, s1.getEquipes().size());
+
 	}
 
 	@Test
 	public void testToString() {
+		s1.addEquipe(e1);
+		assertEquals("Faze : 1000" + System.lineSeparator(), s1.toString());
 	}
 
 	@Test
-	public void testSetAnnee() {
+	public void testDeleteEquipe() throws EquipeInexistante {
+		s1.addEquipe(e1);
+		s1.deleteEquipe(e1);
+		assertEquals(0, s1.getEquipes().size());
 	}
 
-	@Test
-	public void testAddArbitre() {
+	@Test(expected = EquipeInexistante.class)
+	public void testDeleteEquipeEquipeInexistante() throws EquipeInexistante {
+		s1.addEquipe(e1);
+		s1.deleteEquipe(e2);
 	}
 
-	@Test
-	public void testDeleteArbitre() {
-	}
-
-	@Test
-	public void getArbitres() {
-	}
-
-	@Test
-	public void testAddEquipe() {
-	}
-
-	@Test
-	public void testDeleteEquipe() {
-	}
-
-	@Test
-	public void testGetEquipes() {
-	}
-
-	@Test
-	public void testToString1() {
-	}
 }

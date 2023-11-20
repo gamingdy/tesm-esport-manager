@@ -2,7 +2,7 @@ package modele;
 
 import exceptions.idNotSet;
 
-public class Arbitre {
+public class Arbitre implements Comparable<Arbitre> {
 
 	private int id;
 	private String nom;
@@ -55,5 +55,24 @@ public class Arbitre {
 		}
 	}
 
+	@Override
+	public int compareTo(Arbitre autreArbitre) {
+		if (this == autreArbitre) {
+			return 0;
+		} else {
+			return this.toString().compareTo(autreArbitre.toString());
+		}
+	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+		if (!(o instanceof Arbitre)) {
+			return false;
+		}
+		Arbitre autreArbitre = (Arbitre) o;
+		return this.id == autreArbitre.id;
+	}
 }
