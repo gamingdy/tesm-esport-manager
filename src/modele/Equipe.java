@@ -43,11 +43,8 @@ public class Equipe {
 		this.nom = nom;
 	}
 
-	public int getPoints() {
-		return this.point;
-	}
 
-	public void setPoints(int point) throws PointsNegatifs {
+	public void setPoint(int point) throws PointsNegatifs {
 		if (point < 0) {
 			throw new PointsNegatifs("On ne peut pas mettre des points négatifs");
 		}
@@ -93,15 +90,7 @@ public class Equipe {
 		return this.equipe.size();
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
 	public Integer getPoint() {
 		return point;
 	}
 
-	public void setPoint(Integer point) {
-		this.point = point;
-	}
-}
