@@ -15,7 +15,7 @@ public class testJoueur {
 
 	@Before
 	public void setUp() {
-		j = new Joueur("Cricri");
+		j = new Joueur("Cricri", "Faze");
 	}
 
 	@Test
@@ -33,5 +33,10 @@ public class testJoueur {
 	@Test(expected = idNotSet.class)
 	public void testIdnotSet() throws idNotSet {
 		j.getId();
+	}
+
+	@Test
+	public void testgetNomEquipe() {
+		assertEquals("Faze", j.getNomEquipe());
 	}
 }
