@@ -7,9 +7,6 @@ import modele.*;
 import org.junit.Test;
 import org.junit.Before;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.Assert.*;
 
 public class testTournoi {
@@ -18,23 +15,19 @@ public class testTournoi {
 	private CustomDate debut;
 	private CustomDate fin;
 	private Niveau niveau;
-	private Equipe e1;
-	private Equipe e2;
-	private Matche m1;
 
 	@Before
 	public void setUp() throws ErreurDate, FausseDate, MemeEquipe {
 		saison = new Saison(2023);
 		debut = new CustomDate(2023, 10, 20);
 		fin = new CustomDate(2023, 10, 25);
-
 		tournoi = new Tournoi(saison, "RLCS", debut, fin, niveau);
 	}
 
 	@Test
 	public void setSaison() {
 		tournoi.setSaison(new Saison(2022));
-		assertEquals(2022, tournoi.getSaison());
+		assertEquals(2022, tournoi.getSaison().getAnnee());
 	}
 
 	@Test
@@ -61,33 +54,11 @@ public class testTournoi {
 		assertEquals(Niveau.INTERNATIONAL, tournoi.getNiveau());
 	}
 
-	@Test
-	public void addEquipe() {
-		tournoi.addEquipe(e1);
-		assertEquals(1, tournoi.getEquipes().size());
-	}
-
-	@Test
-	public void removeEquipe() {
-		tournoi.addEquipe(e1);
-		tournoi.removeEquipe(e1);
-		assertEquals(0, tournoi.getEquipes().size());
-	}
-
-	@Test
-	public void setEquipes() {
-		Set<Equipe> setequipes = new HashSet<Equipe>();
-		setequipes.add(e1);
-		tournoi.setEquipes(setequipes);
-		assertEquals(1, tournoi.getEquipes().size());
-	}
-
 
 	@Test
 	public void removeMatche() {
+
 	}
 
-	@Test
-	public void setMatches() {
-	}
+
 }

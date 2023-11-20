@@ -2,6 +2,7 @@ package modele;
 
 import exceptions.FausseDate;
 import exceptions.MemeEquipe;
+import exceptions.idNotSet;
 
 import java.util.Objects;
 
@@ -39,7 +40,6 @@ public class Matche {
 		this.tournoi = tournoi;
 		this.vainqueur = 0;
 		this.saison = tournoi.getSaison();
-		this.tournoi.addMatche(this);
 	}
 
 
@@ -117,7 +117,11 @@ public class Matche {
 	}
 
 
-	public Integer getId() {
+	public Integer getId() throws idNotSet {
+		if (this.id == null) {
+			throw new idNotSet("le id du Matche n'est pas set");
+		}
+
 		return id;
 	}
 

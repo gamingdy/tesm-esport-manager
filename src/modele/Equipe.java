@@ -11,9 +11,10 @@ import exceptions.PointsNegatifs;
 public class Equipe {
 
 	private String nom;
-	private Set<Joueur> equipe;
-	private int point;
+	private Set<Joueur> equipe; //à voir si on laisse ou créer une classe association
+	private int point; //calculable donc pas dans le MCDi
 	private Country pays;
+
 
 	public Equipe(String nom, Country pays) {
 		this.equipe = new TreeSet<Joueur>();

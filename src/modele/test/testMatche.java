@@ -2,6 +2,7 @@ package modele.test;
 
 import exceptions.ErreurDate;
 import exceptions.FausseDate;
+import exceptions.idNotSet;
 import org.junit.Before;
 import org.junit.Test;
 import modele.*;
@@ -16,14 +17,14 @@ import java.time.format.DateTimeFormatter;
 import static org.junit.Assert.*;
 
 public class testMatche {
-	Matche m;
-	Equipe e1 = new Equipe("Faze", Country.PALAU);
-	Equipe e2 = new Equipe("KC", Country.ALGERIA);
-	CustomDate d1;
-	CustomDate d2;
+	private Matche m;
+	private Equipe e1 = new Equipe("Faze", Country.PALAU);
+	private Equipe e2 = new Equipe("KC", Country.ALGERIA);
+	private CustomDate d1;
+	private CustomDate d2;
 
-	Saison s = new Saison(2022);
-	Tournoi tournoi;
+	private Saison s = new Saison(2022);
+	private Tournoi tournoi;
 
 	{
 		try {
@@ -43,13 +44,18 @@ public class testMatche {
 	@Before
 	public void setUp() throws Exception {
 
-		m = new Matche(1, 1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
+		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
 
 	@Test
-	public void getId() {
-		System.out.println(d1.toString());
-		assertEquals(1, m.getId());
+	public void getId() throws idNotSet {
+		m.setId(1);
+		assertEquals((Integer) 1, m.getId());
+	}
+
+	@Test(expected = idNotSet.class)
+	public void getIdNotSet() throws idNotSet {
+		assertEquals((Integer) 1, m.getId());
 	}
 
 	@Test
@@ -100,6 +106,7 @@ public class testMatche {
 
 	@Test
 	public void setEquipe2() {
+		m.setEquipe2(e1);
 	}
 
 	@Test

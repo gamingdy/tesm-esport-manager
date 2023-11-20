@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.Objects;
-
 public class Selection {
 	
 	private int idArbitre;
