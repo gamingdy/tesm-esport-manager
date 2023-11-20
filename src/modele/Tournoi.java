@@ -2,6 +2,8 @@ package modele;
 
 //import java.util.HashMap;
 //import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 
 import exceptions.FausseDate;
@@ -13,6 +15,7 @@ public class Tournoi {
 	private CustomDate debut;
 	private CustomDate fin;
 	private Niveau niveau;
+	private Set<Equipe> equipes;
 	//private Map<Character,Poule> poules;
 
 	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau) throws FausseDate {
@@ -27,6 +30,7 @@ public class Tournoi {
 		this.debut = debut;
 		this.fin = fin;
 		this.niveau = niveau;
+		this.equipes = new HashSet<Equipe>();
 		//this.poules = new HashMap<Character,Poule>();
 	}
 
@@ -69,6 +73,23 @@ public class Tournoi {
 	public void setNiveau(Niveau niveau) {
 		this.niveau = niveau;
 	}
+
+	public Set<Equipe> getEquipes() {
+		return equipes;
+	}
+
+	public void addEquipe(Equipe equipe) {
+		this.equipes.add(equipe);
+	}
+
+	public void removeEquipe(Equipe equipe) {
+		this.equipes.remove(equipe);
+	}
+
+	public void setEquipes(Set<Equipe> equipes) {
+		this.equipes = equipes;
+	}
+
 
 
 }
