@@ -6,3 +6,4 @@ out/
 .project
 
 *.iml
+*.jar
