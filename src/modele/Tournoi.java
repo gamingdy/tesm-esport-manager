@@ -2,6 +2,7 @@ package modele;
 
 //import java.util.HashMap;
 //import java.util.Map;
+
 import java.util.Set;
 import java.util.HashSet;
 
@@ -112,12 +113,12 @@ public class Tournoi {
 
 	public void assignerPointFinTournoi() throws PointsNegatifs {
 		for (Equipe equipe : this.equipes) {
-			equipe.setPoints(equipe.getPoints() + this.getPointsFinTournoi(equipe));
+			equipe.setPoint(equipe.getPoint() + this.getPointsFinTournoi(equipe));
 		}
 	}
 
-	public int getPointsFinTournoi(Equipe equipe){
-		
+	public int getPointsFinTournoi(Equipe equipe) {
+
 		return 0;
 	}
 

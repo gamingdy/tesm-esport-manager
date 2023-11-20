@@ -91,13 +91,6 @@ public class Matche {
 		this.equipe2 = equipe2;
 	}
 
-	public String getNomTournoi() {
-		return nomTournoi;
-	}
-
-	public Short getAnneeTournoi() {
-		return anneeTournoi;
-	}
 
 	public Equipe getVainqueur() {
 		Equipe equipe = null;

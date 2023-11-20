@@ -63,7 +63,7 @@ public class Equipe {
 			throw new EquipeVide("L'équipe est vide");
 		}
 		for (Joueur j : this.equipe) {
-			if (j.getId() == joueur.getId()) {
+			if (j.equals(joueur)) {
 				return j;
 			}
 		}
@@ -76,7 +76,7 @@ public class Equipe {
 		}
 		Joueur joueur_res = null;
 		for (Joueur j : this.equipe) {
-			if (j.getId() == joueur.getId()) {
+			if (j.equals(joueur)) {
 				joueur_res = j;
 			}
 		}
@@ -93,4 +93,5 @@ public class Equipe {
 	public Integer getPoint() {
 		return point;
 	}
+}
 
