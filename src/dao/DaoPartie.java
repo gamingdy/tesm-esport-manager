@@ -17,10 +17,14 @@ import modele.Tournoi;
 public class DaoPartie implements Dao<Partie,Integer>{
 	
 	private Connexion connexion;
+	private DaoEquipe daoequipe;
+	private DaoMatche daomatche;
 	
 	
 	public DaoPartie(Connexion connexion) {
 		this.connexion = connexion;
+		this.daoequipe = new DaoEquipe(connexion);
+		this.daomatche = new DaoMatche(connexion);
 		
 	}
 
@@ -55,8 +59,8 @@ public class DaoPartie implements Dao<Partie,Integer>{
 		List<Partie> sortie = new ArrayList<>();
 		while(resultat.next()) {
 			Partie partie = new Partie(
-					new Equipe(resultat.getString("Nom_Equipe")),
-					resultat.getInt("Id_Match"));
+					resultat.getString("Nom_Equipe"),
+					daomatche.getById(resultat.getInt("Id_Match")));
 			partie.setNumeroPartie(resultat.getInt("Id_Partie"));
 			sortie.add(partie);
 		}
@@ -70,8 +74,8 @@ public class DaoPartie implements Dao<Partie,Integer>{
 		getById.setInt(2, id[1]);
 		ResultSet resultat = getById.executeQuery();
 		Partie partie = new Partie(
-				new Equipe(resultat.getString("Nom_Equipe")),
-				resultat.getInt("Id_Match"));
+				resultat.getString("Nom_Equipe"),
+				daomatche.getById(resultat.getInt("Id_Match")));
 		partie.setNumeroPartie(resultat.getInt("Id_Partie"));
 		return partie;
 	}
@@ -79,8 +83,9 @@ public class DaoPartie implements Dao<Partie,Integer>{
 	@Override
 	public boolean add(Partie value) throws Exception {
 		PreparedStatement add = connexion.getConnexion().prepareStatement(
-				"INSERT INTO Partie(Id_Match,Nom_Equipe) values (?,?)");
-		add.setInt(1, value.getIdMatche());
+				"INSERT INTO Partie(Id_Match,Nom_Equipe) values (?)");
+		add.setInt(1, value.getMatche().getId());
+		
 		return add.execute();
 	}
 
@@ -91,8 +96,8 @@ public class DaoPartie implements Dao<Partie,Integer>{
 				+ "Nom_Equipe = ?"
 				+ "Id_Match = ?"
 				+ "WHERE Id_Partie = ?");
-		update.setString(1, value.getEquipeGagnante().getNom());
-		update.setInt(2, value.getIdMatche());
+		update.setString(1, value.getVainqueur().getNom());
+		update.setInt(2, value.getMatche().getId());
 		update.setInt(3, value.getNumeroPartie());
 		return update.execute();
 	}

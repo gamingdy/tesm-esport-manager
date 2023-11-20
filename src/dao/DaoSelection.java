@@ -22,7 +22,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 	public void createTable() throws SQLException {
 		String createTableSql = "CREATE TABLE Selection("
 				  + "Id_Arbitre INT,"
-				  + "Annee SMALLINT,"
+				  + "Annee INT,"
 				  + "PRIMARY KEY(Id_Arbitre, Annee),"
 				  + "FOREIGN KEY(Id_Arbitre) REFERENCES Arbitre(Id_Arbitre),"
 				  + "FOREIGN KEY(Annee) REFERENCES Saison(Annee)";
@@ -50,7 +50,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 		while(resultat.next()) {
 			Selection inscription = new Selection(
 					resultat.getInt("Id_Arbitre"),
-					resultat.getShort("Annee"));
+					resultat.getInt("Annee"));
 			sortie.add(inscription);
 		}
 		return sortie;
@@ -64,7 +64,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 		ResultSet resultat = getById.executeQuery();
 		Selection selection = new Selection(
 				resultat.getInt("Id_Arbitre"),
-				resultat.getShort("Annee"));
+				resultat.getInt("Annee"));
 		return selection;
 	}
 
@@ -73,7 +73,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 		PreparedStatement add = connexion.getConnexion().prepareStatement(
 				"INSERT INTO Inscription(Id_Arbitre,Annee) values (?,?)");
 		add.setInt(1, value.getIdArbitre());
-		add.setShort(2, value.getAnnee());
+		add.setInt(2, value.getAnnee());
 		return add.execute();
 	}
 
@@ -88,7 +88,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 		PreparedStatement delete = connexion.getConnexion().prepareStatement(
 				"DELETE FROM Selection where Id_Arbitre = ? AND Annee = ?");
 		delete.setInt(1,(Integer)value[0]);
-		delete.setShort(2,(Short)value[1]);
+		delete.setInt(2,(Integer)value[1]);
 		return delete.execute();
 	}
 

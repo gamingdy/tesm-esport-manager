@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.EquipeComplete;
+import modele.CompteArbitre;
+import modele.CustomDate;
 import modele.Equipe;
 import modele.Joueur;
 import modele.Niveau;
@@ -17,15 +19,17 @@ import modele.Tournoi;
 public class DaoTournoi implements Dao<Tournoi,Object>{
 
 	private Connexion connexion;
+	private DaoArbitrage daoarbitrage;
 	
 	public DaoTournoi(Connexion connexion) {
 		this.connexion = connexion;
+		this.daoarbitrage = new DaoArbitrage(connexion);
 	}
 
 	@Override
 	public void createTable() throws SQLException {
 		String createTableSql = "CREATE TABLE Tournoi("
-				   +"Annee SMALLINT,"
+				   +"Annee INT,"
 				   +"Nom_tournoi VARCHAR(50),"
 				   +"Date_Début DATETIME,"
 				   +"Date_Fin DATETIME,"
@@ -57,13 +61,15 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 		List<Tournoi> sortie = new ArrayList<>();
 		while(resultat.next()) {
 			Tournoi tournoi = new Tournoi(
-					new Saison(resultat.getShort("Annee")),
+					new Saison(resultat.getInt("Annee")),
 					resultat.getString("Nom_Tournoi"),
-					resultat.getDate("Date_Début"),
-					resultat.getDate("Date_Fin"),
+					new CustomDate(resultat.getTimestamp("Date_Début")),
+					new CustomDate(resultat.getTimestamp("Date_Fin")),
 					Niveau.valueOf(resultat.getString("Libelle_Niveau")),
-					resultat.getString("username"),
-					resultat.getString("mdp"));
+					new CompteArbitre(
+							resultat.getString("username"),
+							resultat.getString("mdp"))
+					);
 			sortie.add(tournoi);
 		}
 		return sortie;
@@ -76,13 +82,15 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 		getById.setShort(2, (Short)id[1]);
 		ResultSet resultat = getById.executeQuery();
 		Tournoi tournoi = new Tournoi(
-				new Saison(resultat.getShort("Annee")),
+				new Saison(resultat.getInt("Annee")),
 				resultat.getString("Nom_Tournoi"),
-				resultat.getDate("Date_Début"),
-				resultat.getDate("Date_Fin"),
+				new CustomDate(resultat.getTimestamp("Date_Début")),
+				new CustomDate(resultat.getTimestamp("Date_Fin")),
 				Niveau.valueOf(resultat.getString("Libelle_Niveau")),
-				resultat.getString("username"),
-				resultat.getString("mdp"));
+				new CompteArbitre(
+						resultat.getString("username"),
+						resultat.getString("mdp"))
+				);
 		return tournoi;
 	}
 
@@ -90,12 +98,12 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 	public boolean add(Tournoi value) throws Exception {
 		PreparedStatement add = connexion.getConnexion().prepareStatement(
 				"INSERT INTO Tournoi(Annee,Nom_Tournoi,Date_Début,Date_Fin,username,mdp,Libelle_Niveau) values (?,?,?,?,?,?,?)");
-		add.setShort(1, value.getAnnee().getAnnee());
+		add.setInt(1, value.getSaison().getAnnee());
 		add.setString(2, value.getNom());
-		add.setDate(3, value.getDebut());
-		add.setDate(4, value.getFin());
-		add.setString(5, value.getUsernameArbitre());
-		add.setString(6, value.getMdpArbitre());
+		add.setTimestamp(3, value.getDebut().toSQL());
+		add.setTimestamp(4, value.getFin().toSQL());
+		add.setString(5, value.getCompteArbitre().getUsername());
+		add.setString(6, value.getCompteArbitre().getMdp());
 		add.setString(7, value.getNiveau().getNom());
 		
 		return add.execute();
@@ -103,7 +111,7 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 
 	@Override
 	public boolean update(Tournoi value) throws Exception {
-		PreparedStatement add = connexion.getConnexion().prepareStatement(
+		PreparedStatement update = connexion.getConnexion().prepareStatement(
 				"UPDATE Tournoi SET"
 				+"Date_Début = ?"
 				+"Date_Fin = ?" 
@@ -111,23 +119,23 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 				+"mdp = ?"
 				+"Libelle_Niveau = ?"
 				+"WHERE Annee = ? AND Nom_Tournoi = ?");
-		add.setShort(6, value.getAnnee().getAnnee());
-		add.setString(7, value.getNom());
-		add.setDate(1, value.getDebut());
-		add.setDate(2, value.getFin());
-		add.setString(3, value.getUsernameArbitre());
-		add.setString(4, value.getMdpArbitre());
-		add.setString(5, value.getNiveau().getNom());
+		update.setInt(6, value.getSaison().getAnnee());
+		update.setString(7, value.getNom());
+		update.setTimestamp(1, value.getDebut().toSQL());
+		update.setTimestamp(2, value.getFin().toSQL());
+		update.setString(3, value.getCompteArbitre().getUsername());
+		update.setString(4, value.getCompteArbitre().getMdp());
+		update.setString(5, value.getNiveau().getNom());
 		
-		return add.execute();
+		return update.execute();
 	}
 
 	@Override
 	public boolean delete(Object... value) throws Exception {
 		PreparedStatement delete = connexion.getConnexion().prepareStatement(
 				"DELETE FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?");
-		delete.setShort(1,(Short)value[0]);
-		delete.setString(1,(String)value[1]);
+		delete.setInt(1,(Integer)value[0]);
+		delete.setString(2,(String)value[1]);
 		return delete.execute();
 	}
 }

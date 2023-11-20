@@ -20,7 +20,7 @@ public class DaoInscription implements Dao<Inscription,Object>{
 	public void createTable() throws SQLException {
 		String createTableSql = "CREATE TABLE Inscription("
 				  + "Nom_Equipe VARCHAR(50),"
-				  + "Annee SMALLINT,"
+				  + "Annee INT,"
 				  + "PRIMARY KEY(Nom_Equipe, Annee),"
 				  + "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe),"
 				  + "FOREIGN KEY(Annee) REFERENCES Saison(Annee)";
@@ -48,7 +48,7 @@ public class DaoInscription implements Dao<Inscription,Object>{
 		List<Inscription> sortie = new ArrayList<>();
 		while(resultat.next()) {
 			Inscription inscription = new Inscription(
-					resultat.getShort("Annee"),
+					resultat.getInt("Annee"),
 					resultat.getString("Nom_Equipe"));
 			sortie.add(inscription);
 		}
@@ -71,7 +71,7 @@ public class DaoInscription implements Dao<Inscription,Object>{
 	public boolean add(Inscription value) throws Exception {
 		PreparedStatement add = connexion.getConnexion().prepareStatement(
 				"INSERT INTO Inscription(Annee,Nom_Equipe) values (?,?)");
-		add.setShort(1, value.getAnnee());
+		add.setInt(1, value.getAnnee());
 		add.setString(2, value.getNom());
 		return add.execute();
 	}

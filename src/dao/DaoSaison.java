@@ -21,7 +21,7 @@ public class DaoSaison implements Dao<Saison,Integer>{
 	@Override
 	public void createTable() throws SQLException {
 		String createTableSql = "CREATE TABLE Saison("
-				   +"Annee SMALLINT,"
+				   +"Annee INT,"
 				   +"PRIMARY KEY(Annee)";
 		Statement createTable;
 		
@@ -44,7 +44,7 @@ public class DaoSaison implements Dao<Saison,Integer>{
 		List<Saison> sortie = new ArrayList<>();
 		while(resultat.next()) {
 			Saison saison = new Saison(
-					resultat.getShort("Annee"));
+					resultat.getInt("Annee"));
 			sortie.add(saison);
 		}
 		return sortie;
@@ -56,7 +56,7 @@ public class DaoSaison implements Dao<Saison,Integer>{
 		getById.setInt(1, id[0]);
 		ResultSet resultat = getById.executeQuery();
 		Saison saison = new Saison(
-				resultat.getShort("Annee"));
+				resultat.getInt("Annee"));
 		return saison;
 	}
 
@@ -64,7 +64,7 @@ public class DaoSaison implements Dao<Saison,Integer>{
 	public boolean add(Saison value) throws Exception {
 		PreparedStatement add = connexion.getConnexion().prepareStatement(
 				"INSERT INTO Saison(Annee) values (?)");
-		add.setShort(1, value.getAnnee());
+		add.setInt(1, value.getAnnee());
 		return add.execute();
 	}
 

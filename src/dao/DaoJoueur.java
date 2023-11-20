@@ -12,9 +12,11 @@ import modele.Joueur;
 public class DaoJoueur implements Dao<Joueur,Integer>{
 	
 	private Connexion connexion;
+	private DaoEquipe daoequipe;
 	
 	public DaoJoueur(Connexion connexion) {
 		this.connexion = connexion;
+		this.daoequipe = new DaoEquipe(connexion);
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		while(resultat.next()) {
 			Joueur joueur = new Joueur(
 					resultat.getString("Pseudo"),
-					resultat.getString("Nom_Equipe"));
+					daoequipe.getById(resultat.getString("Nom_Equipe")));
 			joueur.setId(resultat.getInt("Id_Joueur"));
 			sortie.add(joueur);
 		}
@@ -62,7 +64,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		ResultSet resultat = getById.executeQuery();
 		Joueur joueur = new Joueur(
 				resultat.getString("Pseudo"),
-				resultat.getString("Nom_Equipe"));
+				daoequipe.getById(resultat.getString("Nom_Equipe")));
 		joueur.setId(resultat.getInt("Id_Joueur"));
 		return joueur;
 	}
@@ -72,7 +74,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		PreparedStatement add = connexion.getConnexion().prepareStatement(
 				"INSERT INTO Joueur(Pseudo,Nom_Equipe) values (?,?)");
 		add.setString(1, value.getPseudo());
-		add.setString(2, value.getNom());
+		add.setString(2, value.getNomEquipe());
 		return add.execute();
 	}
 
@@ -84,7 +86,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 				+"Nom_Equipe = ? "
 				+"WHERE Id_Joueur = ?");
 		update.setString(1, value.getPseudo());
-		update.setString(2, value.getNom());
+		update.setString(2, value.getNomEquipe());
 		update.setInt(3, value.getId());
 		return update.execute();		
 	}
@@ -105,7 +107,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		while(resultat.next()) {
 			Joueur joueur = new Joueur(
 					resultat.getString("Pseudo"),
-					resultat.getString("Nom_Equipe"));
+					daoequipe.getById(resultat.getString("Nom_Equipe")));
 			joueur.setId(resultat.getInt("Id_Joueur"));
 			sortie.add(joueur);
 		}
