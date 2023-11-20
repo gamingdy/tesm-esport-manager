@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class Matche {
 
+	private Integer id;
 	private CustomDate dateDebutMatche;
 	private int nombreMaxParties;
 	private Categorie libelle;
@@ -19,8 +20,13 @@ public class Matche {
 
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
-		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
-			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
+		if (tournoi != null) {
+			if (dateDebutMatche.estAvant(tournoi.getDebut())) {
+				throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
+			}
+			if (equipe1.getNom() == equipe2.getNom()) {
+				throw new MemeEquipe("Les 2 équipes sont identiques");
+			}
 		}
 		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
 			throw new MemeEquipe("Les 2 équipes sont identiques");
@@ -108,5 +114,35 @@ public class Matche {
 
 	public Saison getSaison() {
 		return saison;
+	}
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public Tournoi getTournoi() {
+		return tournoi;
+	}
+
+
+	public void setTournoi(Tournoi tournoi) {
+		this.tournoi = tournoi;
+	}
+
+
+	public void setVainqueur(int vainqueur) {
+		this.vainqueur = vainqueur;
+	}
+
+
+	public void setSaison(Saison saison) {
+		this.saison = saison;
 	}
 }

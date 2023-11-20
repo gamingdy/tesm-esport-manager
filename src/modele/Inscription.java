@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.Objects;
-
 public class Inscription {
 	
 	private String nom;
