@@ -13,7 +13,7 @@ public class TitleBar extends JPanel {
 	public TitleBar(JFrame mainWindow) {
 		super(new BorderLayout());
 
-		//mainWindow.setUndecorated(true);
+		mainWindow.setUndecorated(true);
 		Color titleBarColor = new Color(25, 11, 52);
 
 		minimize = new ButtonTitleBar("Reduire", titleBarColor);

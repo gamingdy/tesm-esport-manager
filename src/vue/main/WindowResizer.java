@@ -69,7 +69,6 @@ public class WindowResizer {
 	private void mouseMotion() {
 		this.mainWindow.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent evt) {
-				Point p = mouseLocationOnApp(evt);
 				if (!isResizing) {
 					originalPosition = mouseLocationOnScreen(evt);
 				}
@@ -93,7 +92,8 @@ public class WindowResizer {
 
 			public void mouseMoved(MouseEvent e) {
 				Point p = mouseLocationOnApp(e);
-				if (!isOnBorder(p)) {
+				findBorder(p);
+				if (side == SIDE.NONE) {
 					mainWindow.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
 			}
@@ -109,13 +109,14 @@ public class WindowResizer {
 					return;
 				}
 				Point p = mouseLocationOnApp(e);
-				if (p.x == 0) {
+				findBorder(p);
+				if (side == SIDE.LEFT) {
 					mainWindow.setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
 					side = SIDE.LEFT;
-				} else if (p.x == currentWidth - 1) {
+				} else if (side == SIDE.RIGHT) {
 					mainWindow.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
 					side = SIDE.RIGHT;
-				} else if (p.y == currentHeight - 1) {
+				} else if (side == SIDE.BOTTOM) {
 					mainWindow.setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
 					side = SIDE.BOTTOM;
 				} else {
