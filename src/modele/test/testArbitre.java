@@ -26,6 +26,7 @@ public class testArbitre {
 
 	@Test
 	public void getId() throws idNotSet {
+		a.setId(5);
 		assertEquals(5, a.getId());
 	}
 
@@ -59,8 +60,24 @@ public class testArbitre {
 
 	@Test
 	public void testHashcodeArbitre() {
+		a.setId(1);
 		Set<Arbitre> set = new HashSet<Arbitre>();
 		set.add(a);
 		set.add(a);
+	}
+
+	@Test
+	public void testEquals() {
+		assertFalse(a.equals(null));
+	}
+
+	@Test
+	public void testEqualsnotSameClass() {
+		assertFalse(a.equals(1));
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testToString() {
+		a.toString();
 	}
 }
