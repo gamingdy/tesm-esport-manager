@@ -34,8 +34,6 @@ public class DaoPartie implements Dao<Partie,Integer>{
 				+ "FOREIGN KEY(Id_Match) REFERENCES Matche(Id_Match),"
 				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe)";
 				
-
-
 		Statement createTable;
 		
 		createTable = connexion.getConnexion().createStatement();
