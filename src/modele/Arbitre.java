@@ -2,27 +2,13 @@ package modele;
 
 import exceptions.idNotSet;
 
-public class Arbitre {
-
-	private int id;
+public class Arbitre implements Comparable<Arbitre> {
 	private String nom;
 	private String prenom;
 
 	public Arbitre(String nom, String prenom) {
 		this.nom = nom;
 		this.prenom = prenom;
-		this.id = -1;
-	}
-
-	public void setId(int newid) {
-		this.id = newid;
-	}
-
-	public int getId() throws idNotSet {
-		if (id == -1) {
-			throw new idNotSet("Le id de l'objet n'est pas set");
-		}
-		return id;
 	}
 
 	public String getNom() {
@@ -42,18 +28,30 @@ public class Arbitre {
 	}
 
 	@Override
-	public int hashCode() {
-		return this.toString().hashCode();
+	public String toString() {
+		return this.getNom() + " " + this.getPrenom();
 	}
 
 	@Override
-	public String toString() {
-		try {
-			return "(" + this.getId() + ")" + this.getNom() + " " + this.getPrenom();
-		} catch (idNotSet e) {
-			throw new RuntimeException(e);
+	public int compareTo(Arbitre autreArbitre) {
+		if (this == autreArbitre) {
+			return 0;
+		} else {
+			return this.toString().compareTo(autreArbitre.toString());
 		}
 	}
 
-
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+		if (!(o instanceof Arbitre)) {
+			return false;
+		}
+		if (this.hashCode() == o.hashCode()) {
+			return true;
+		}
+		return false;
+	}
 }

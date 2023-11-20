@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 
 import exceptions.FausseDate;
+import exceptions.PointsNegatifs;
 
 public class Tournoi {
 
@@ -17,6 +18,7 @@ public class Tournoi {
 	private Niveau niveau;
 	private Set<Equipe> equipes;
 	private Set<Matche> matches;
+	private boolean estEncours;
 	//private Map<Character,Poule> poules;
 
 	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau) throws FausseDate {
@@ -32,6 +34,7 @@ public class Tournoi {
 		this.fin = fin;
 		this.niveau = niveau;
 		this.equipes = new HashSet<Equipe>();
+		this.estEncours = false;
 		//this.poules = new HashMap<Character,Poule>();
 	}
 
@@ -105,5 +108,24 @@ public class Tournoi {
 
 	public void setMatches(Set<Matche> matches) {
 		this.matches = matches;
+	}
+
+	public void assignerPointFinTournoi() throws PointsNegatifs {
+		for (Equipe equipe : this.equipes) {
+			equipe.setPoints(equipe.getPoints() + this.getPointsFinTournoi(equipe));
+		}
+	}
+
+	public int getPointsFinTournoi(Equipe equipe){
+		
+		return 0;
+	}
+
+	public boolean isEstEncours() {
+		return estEncours;
+	}
+
+	public void setEstEncours(boolean estEncours) {
+		this.estEncours = estEncours;
 	}
 }
