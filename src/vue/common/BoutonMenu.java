@@ -1,4 +1,4 @@
-package vue.main;
+package vue.common;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -10,19 +10,20 @@ import javax.swing.JButton;
 
 import vue.Vue;
 import vue.common.MaFont;
+import vue.main.MenuNavBar;
 
 @SuppressWarnings("serial")
 public class BoutonMenu extends JButton {
 
 	GridBagConstraints contraintesBouton;
-	
-	public BoutonMenu(MenuNavBar menuNavBar,String name,int y, Object controlleur) {
+
+	public BoutonMenu(MenuNavBar menuNavBar, String name, int y, Object controlleur) {
 		super(name);
 		this.setFont(MaFont.getFontBoutonMenu());
 		this.setForeground(Vue.BLANC);
 		this.setOpaque(false);
 		this.setContentAreaFilled(false);
-		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Vue.ROSE_CONTOURS),BorderFactory.createEmptyBorder(0, 0, 1, 0)));
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Vue.ROSE_CONTOURS), BorderFactory.createEmptyBorder(0, 0, 1, 0)));
 		this.setFocusable(false);
 		this.contraintesBouton = new GridBagConstraints();
 		this.contraintesBouton.fill = GridBagConstraints.BOTH;
@@ -39,17 +40,17 @@ public class BoutonMenu extends JButton {
 	}
 
 	public void selectionner() {
-		this.setBorder(BorderFactory.createMatteBorder(0,0,2,0,Vue.ROSE_CONTOURS));
+		this.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Vue.ROSE_CONTOURS));
 	}
-	
+
 	public void deselectionner() {
-		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Vue.ROSE_CONTOURS),BorderFactory.createEmptyBorder(0, 0, 1, 0)));
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Vue.ROSE_CONTOURS), BorderFactory.createEmptyBorder(0, 0, 1, 0)));
 	}
-	
+
 	public void survoller() {
 		this.setForeground(Vue.ROSE_CONTOURS);
 	}
-	
+
 	public void finSurvoller() {
 		this.setForeground(Vue.BLANC);
 	}

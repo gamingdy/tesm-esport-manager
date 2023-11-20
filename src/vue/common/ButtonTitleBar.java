@@ -1,4 +1,4 @@
-package vue.main;
+package vue.common;
 
 import javax.swing.SwingConstants;
 import javax.swing.JButton;

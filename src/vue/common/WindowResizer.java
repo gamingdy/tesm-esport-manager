@@ -1,6 +1,6 @@
-package vue.main;
+package vue.common;
 
-import vue.common.JPanelWithBackground;
+import vue.main.Main;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

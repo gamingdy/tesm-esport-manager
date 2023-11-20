@@ -1,5 +1,6 @@
 package vue.main;
 
+import vue.common.ButtonTitleBar;
 import vue.common.MaFont;
 
 import javax.swing.*;

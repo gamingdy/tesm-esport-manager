@@ -1,6 +1,5 @@
 package vue.main;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.HashMap;
@@ -10,19 +9,20 @@ import javax.swing.JPanel;
 
 import controller.BoutonMenuControlleur;
 import vue.Vue;
+import vue.common.BoutonMenu;
 
 @SuppressWarnings("serial")
 public class MenuNavBar extends JPanel {
-	
-	HashMap<String,BoutonMenu> boutons;
+
+	HashMap<String, BoutonMenu> boutons;
 	GridBagConstraints gbc;
-	
+
 	public MenuNavBar() {
 		super();
-		
+
 		BoutonMenuControlleur controlleurBoutons = new BoutonMenuControlleur(this);
 		this.boutons = new HashMap<String, BoutonMenu>();
-		
+
 		GridBagLayout gbl_this = new GridBagLayout();
 		this.setLayout(gbl_this);
 		gbl_this.columnWidths = new int[]{0};
@@ -54,25 +54,25 @@ public class MenuNavBar extends JPanel {
 		boutons.put("Saisons précédentes", new BoutonMenu(this, "Saisons précédentes", 4, controlleurBoutons));
 		this.add(boutons.get("Saisons précédentes"), boutons.get("Saisons précédentes").getContraintes());
 
-		boutons.put("Déconnexion",new BoutonMenu(this, "Déconnexion", 5, controlleurBoutons));
+		boutons.put("Déconnexion", new BoutonMenu(this, "Déconnexion", 5, controlleurBoutons));
 		boutons.get("Déconnexion").setBorder(BorderFactory.createEmptyBorder());
 		this.add(boutons.get("Déconnexion"), boutons.get("Déconnexion").getContraintes());
 	}
-	
+
 	public GridBagConstraints getGBC() {
 		return this.gbc;
 	}
-	
+
 	public void selectionner(BoutonMenu bouton) {
 		boutons.entrySet().stream()
-		.forEach(e -> {
-			if (e.getKey() == bouton.getText()) {
-				e.getValue().selectionner();
-			}
-			else if (e.getKey() != "Déconnexion") {
-				e.getValue().deselectionner();
-			}
-		});;
+				.forEach(e -> {
+					if (e.getKey() == bouton.getText()) {
+						e.getValue().selectionner();
+					} else if (e.getKey() != "Déconnexion") {
+						e.getValue().deselectionner();
+					}
+				});
+		;
 	}
 
 }

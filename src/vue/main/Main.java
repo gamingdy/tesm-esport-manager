@@ -1,8 +1,6 @@
 package vue.main;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -10,6 +8,7 @@ import javax.swing.*;
 import vue.Vue;
 import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
+import vue.common.WindowResizer;
 
 public class Main extends JFrame {
 
