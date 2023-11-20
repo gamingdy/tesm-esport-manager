@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class testCompteArbitre {
+public class testCompteArbitreAdmin {
 	private CompteArbitre compteArbitre;
 	private Arbitre a;
 	private Tournoi tournoi;
@@ -35,7 +35,6 @@ public class testCompteArbitre {
 		Arbitre b = new Arbitre(2, "Christian", "G");
 		compteArbitre.setArbitre(b);
 		assertEquals(b, compteArbitre.getArbitre());
-
 	}
 
 	@Test
@@ -48,5 +47,10 @@ public class testCompteArbitre {
 		Tournoi t1 = new Tournoi(s, "RLCS23", new CustomDate(2022, 10, 2), new CustomDate(2022, 11, 3), Niveau.INTERNATIONAL);
 		compteArbitre.setTournoi(t1);
 		assertEquals(t1, compteArbitre.getTournoi());
+	}
+
+	@Test
+	public void testCompteAdmin() {
+		CompteAdmin ca = new CompteAdmin("admin", "123fd4");
 	}
 }

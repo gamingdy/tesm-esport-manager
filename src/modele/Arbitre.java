@@ -2,14 +2,17 @@ package modele;
 
 public class Arbitre {
 
-	private final int id;
+	private int id;
 	private String nom;
 	private String prenom;
 
-	public Arbitre(int id, String nom, String prenom) {
-		this.id = id;
+	public Arbitre(String nom, String prenom) {
 		this.nom = nom;
 		this.prenom = prenom;
+	}
+
+	public void setId(int newid) {
+		this.id = newid;
 	}
 
 	public int getId() {
@@ -33,13 +36,13 @@ public class Arbitre {
 	}
 
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return this.toString().hashCode();
 	}
-	
+
 	@Override
-	public String toString(){
-		return "("+this.getId()+")"+this.getNom()+" "+this.getPrenom();
+	public String toString() {
+		return "(" + this.getId() + ")" + this.getNom() + " " + this.getPrenom();
 	}
 
 
