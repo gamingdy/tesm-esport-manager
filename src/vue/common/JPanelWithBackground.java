@@ -19,25 +19,18 @@ public class JPanelWithBackground extends JPanel {
 	public JPanelWithBackground(String fileName, int largeur, int hauteur) throws IOException {
 		ImageIcon icon = new ImageIcon(fileName);
 		backgroundImage = icon.getImage().getScaledInstance(largeur, hauteur, 0);
+		scaled = backgroundImage;
 	}
 
 	//Pour la resize
-	@Override
-	  public void invalidate() {
-	    super.invalidate();
-	    int width = getWidth();
-	    int height = getHeight();
 
-	    if (width > 0 && height > 0) {
-	      scaled = backgroundImage.getScaledInstance(getWidth(), getHeight(),
-	          Image.SCALE_FAST);
-	    }
-	  }
-	
+	public void updateBackgroundSize(int width, int height) {
+		scaled = backgroundImage.getScaledInstance(width, height, Image.SCALE_FAST);
+		paintComponent(this.getGraphics());
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-
 		// Draw the background image.
 		g.drawImage(scaled, 0, 0, this);
 	}
