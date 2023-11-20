@@ -11,19 +11,20 @@ public class Matche {
 	private Categorie libelle;
 	private Equipe equipe1;
 	private Equipe equipe2;
-	private Tournoi tournoi;
+	private String nomTournoi;
+	private Short anneeTournoi;
 	
-	public Matche(int id, byte nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
-			Equipe equipe1, Equipe equipe2, Tournoi tournoi) {
+	public Matche(byte nombreMaxParties, Date dateDebutMatche, Date dateFinMatche, Categorie libelle,
+			Equipe equipe1, Equipe equipe2, Object[] idTournoi) {
 		super();
-		this.id = id;
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
 		this.dateFinMatche = dateFinMatche;
 		this.libelle = libelle;
 		this.equipe1 = equipe1;
 		this.equipe2 = equipe2;
-		this.tournoi = tournoi;
+		this.anneeTournoi = (Short)idTournoi[0];
+		this.nomTournoi = (String) idTournoi[1];
 	}
 
 	public int getId() {
@@ -82,16 +83,11 @@ public class Matche {
 		this.equipe2 = equipe2;
 	}
 
-	public Tournoi getTournoi() {
-		return tournoi;
+	public String getNomTournoi() {
+		return nomTournoi;
 	}
 
-	public void setTournoi(Tournoi tournoi) {
-		this.tournoi = tournoi;
+	public Short getAnneeTournoi() {
+		return anneeTournoi;
 	}
-	
-	
-	
-	
-
 }

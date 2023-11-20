@@ -2,49 +2,37 @@ package modele;
 
 public class Partie {
 
-	private int id;
-	private byte numeroPartie;
-	private String nom;
-	private Matche matche;
 	
-	public Partie(byte numeroPartie, String nom, Matche matche) {
-		this.numeroPartie = numeroPartie;
-		this.nom = nom;
-		this.matche = matche;
+	private int numeroPartie;
+	private Equipe equipeGagnante;
+	private Integer idMatche;
+	
+	public Partie(Equipe equipeGagnante, Integer idMatche) {
+		this.equipeGagnante = equipeGagnante;
+		this.idMatche = idMatche;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public byte getNumeroPartie() {
+	public int getNumeroPartie() {
 		return numeroPartie;
 	}
 
-	public void setNumeroPartie(byte numeroPartie) {
+	public void setNumeroPartie(int numeroPartie) {
 		this.numeroPartie = numeroPartie;
 	}
 
-	public String getNom() {
-		return nom;
+	public Equipe getEquipeGagnante() {
+		return equipeGagnante;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setEquipeGagnante(Equipe equipeGagnante) {
+		this.equipeGagnante = equipeGagnante;
 	}
 
-	public Matche getmatche() {
-		return matche;
+	public Integer getIdMatche() {
+		return idMatche;
 	}
 
-	public void setmatche(Matche matche) {
-		this.matche = matche;
+	public void setIdMatche(Integer idMatche) {
+		this.idMatche = idMatche;
 	}
-	
-	
-	
 }

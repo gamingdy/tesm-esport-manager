@@ -2,25 +2,30 @@ package modele;
 
 public class Appartenance {
 	
-	private String nomEquipe;
-	private String libellePoule;
+	private Equipe equipe;
+	private Poule poule;
 	
-	public Appartenance(String nomEquipe, String libellePoule) {
-		this.nomEquipe = nomEquipe;
-		this.libellePoule = libellePoule;
+	public Appartenance(Equipe equipe, Poule poule) {
+		this.equipe = equipe;
+		this.poule = poule;
 	}
-	public String getNomEquipe() {
-		return nomEquipe;
+
+	public Equipe getEquipe() {
+		return equipe;
 	}
-	public void setNomEquipe(String nomEquipe) {
-		this.nomEquipe = nomEquipe;
+
+	public void setEquipe(Equipe equipe) {
+		this.equipe = equipe;
 	}
-	public String getLibellePoule() {
-		return libellePoule;
+
+	public Poule getPoule() {
+		return poule;
 	}
-	public void setLibellePoule(String libellePoule) {
-		this.libellePoule = libellePoule;
+
+	public void setPoule(Poule poule) {
+		this.poule = poule;
 	}
+	
 	
 	
 

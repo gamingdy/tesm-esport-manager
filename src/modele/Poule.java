@@ -9,10 +9,10 @@ import exceptions.PouleComplete;
 public class Poule {
 
 	private Tournoi tournoi;
-	private char libelle;
+	private String libelle;
 	private Set<Equipe> equipes;
 	
-	public Poule(Tournoi tournoi, char libelle) {
+	public Poule(Tournoi tournoi, String libelle) {
 		this.tournoi = tournoi;
 		this.libelle = libelle;
 		this.equipes = new HashSet<Equipe>();
@@ -26,11 +26,11 @@ public class Poule {
 		this.tournoi = tournoi;
 	}
 
-	public char getLibelle() {
+	public String getLibelle() {
 		return libelle;
 	}
 
-	public void setLibelle(char libelle) {
+	public void setLibelle(String libelle) {
 		this.libelle = libelle;
 	}
 	
