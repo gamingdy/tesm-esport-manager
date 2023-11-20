@@ -12,7 +12,7 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 public class testArbitre {
-	Arbitre a;
+	private Arbitre a;
 
 	@Before
 	public void setUp() throws Exception {
