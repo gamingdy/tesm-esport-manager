@@ -3,6 +3,7 @@ package modele;
 import exceptions.idNotSet;
 
 public class Arbitre implements Comparable<Arbitre> {
+	private Integer id;
 	private String nom;
 	private String prenom;
 
@@ -53,5 +54,13 @@ public class Arbitre implements Comparable<Arbitre> {
 			return true;
 		}
 		return false;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }
