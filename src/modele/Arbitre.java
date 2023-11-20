@@ -56,7 +56,10 @@ public class Arbitre implements Comparable<Arbitre> {
 		return false;
 	}
 
-	public Integer getId() {
+	public Integer getId() throws idNotSet {
+		if (this.id == null) {
+			throw new idNotSet("le id de l'objet n'est pas set");
+		}
 		return id;
 	}
 

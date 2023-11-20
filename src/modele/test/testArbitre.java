@@ -27,7 +27,7 @@ public class testArbitre {
 	@Test
 	public void getId() throws idNotSet {
 		a.setId(5);
-		assertEquals(5, a.getId());
+		assertEquals((Integer) 5, a.getId());
 	}
 
 	@Test
