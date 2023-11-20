@@ -5,11 +5,11 @@ import exceptions.MemeEquipe;
 
 public class Matche {
 
-	private int nombreMaxParties;
 
 	private final int id;
 
 	private CustomDate dateDebutMatche;
+	private int nombreMaxParties;
 	private Categorie libelle;
 	private Equipe equipe1;
 	private Equipe equipe2;
@@ -101,7 +101,20 @@ public class Matche {
 		return equipe;
 	}
 
-	public void setVainqueur(int vainqueur) {
+	public void setVainqueur(Equipe vainqueur) {
+		if (vainqueur.getNom() == this.equipe1.getNom()) {
+			this.vainqueur = 1;
+		}
+		if (vainqueur.getNom() == this.equipe2.getNom()) {
+			this.vainqueur = 2;
+		}
+	}
+
+	public int getVainqueurInt() {
+		return vainqueur;
+	}
+
+	public void setVainqueurInt(int vainqueur) {
 		this.vainqueur = vainqueur;
 	}
 }

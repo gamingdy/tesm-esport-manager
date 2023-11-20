@@ -4,21 +4,20 @@ public class Partie {
 
 	private int id;
 	private int numeroPartie;
-	private String equipeGagnante;
+	private int vainqueur;
 	private Matche matche;
 
 
 	public Partie(int id, byte numeroPartie, String nom, Matche matche) {
 		this.id = id;
 		this.numeroPartie = numeroPartie;
-		this.equipeGagnante = null;
+		this.vainqueur = 0;
 		this.matche = matche;
 	}
 
 	public int getId() {
 		return id;
 	}
-
 
 	public int getNumeroPartie() {
 		return numeroPartie;
@@ -28,12 +27,24 @@ public class Partie {
 		this.numeroPartie = numeroPartie;
 	}
 
-	public String getEquipeGagnante() {
-		return equipeGagnante;
+	public Equipe getVainqueur() {
+		Equipe equipe = null;
+		if (this.vainqueur == 1) {
+			equipe = this.matche.getEquipe1();
+		}
+		if (this.vainqueur == 2) {
+			equipe = this.matche.getEquipe2();
+		}
+		return equipe;
 	}
 
-	public void setEquipeGagnante(String equipeGagnante) {
-		this.equipeGagnante = equipeGagnante;
+	public void setVainqueur(Equipe vainqueur) {
+		if (vainqueur.getNom() == this.matche.getEquipe1().getNom()) {
+			this.vainqueur = 1;
+		}
+		if (vainqueur.getNom() == this.matche.getEquipe2().getNom()) {
+			this.vainqueur = 2;
+		}
 	}
 
 	public Matche getmatche() {
