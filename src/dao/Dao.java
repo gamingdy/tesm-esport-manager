@@ -2,9 +2,6 @@ package dao;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
-
-import modele.Arbitre;
 
 public interface Dao<T, T1>{
 

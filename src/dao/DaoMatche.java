@@ -6,14 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import exceptions.EquipeComplete;
 import modele.Categorie;
 import modele.CustomDate;
-import modele.Equipe;
-import modele.Joueur;
 import modele.Matche;
-import modele.Tournoi;
 
 public class DaoMatche implements Dao<Matche,Integer>{
 	

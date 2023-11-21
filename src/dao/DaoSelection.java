@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import modele.Inscription;
 import modele.Selection;
 
 public class DaoSelection implements Dao<Selection,Object>{

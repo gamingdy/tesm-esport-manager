@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import modele.Arbitre;
-import modele.Saison;
 
 public class DaoArbitre implements Dao<Arbitre,Integer> {
 

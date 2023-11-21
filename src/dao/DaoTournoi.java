@@ -6,12 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import exceptions.EquipeComplete;
 import modele.CompteArbitre;
 import modele.CustomDate;
-import modele.Equipe;
-import modele.Joueur;
 import modele.Niveau;
 import modele.Saison;
 import modele.Tournoi;
@@ -19,11 +15,9 @@ import modele.Tournoi;
 public class DaoTournoi implements Dao<Tournoi,Object>{
 
 	private Connexion connexion;
-	private DaoArbitrage daoarbitrage;
 	
 	public DaoTournoi(Connexion connexion) {
 		this.connexion = connexion;
-		this.daoarbitrage = new DaoArbitrage(connexion);
 	}
 
 	@Override

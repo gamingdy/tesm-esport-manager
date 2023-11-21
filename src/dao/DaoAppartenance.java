@@ -6,26 +6,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import modele.Appartenance;
-import modele.Arbitrage;
-import modele.Arbitre;
 import modele.Equipe;
-import modele.Inscription;
-import modele.Selection;
+
 
 public class DaoAppartenance implements Dao<Appartenance,Object>{
 
 	private Connexion connexion;
 	private DaoPoule daopoule;
 	private DaoEquipe daoequipe;
-	private DaoTournoi daotournoi;
 	
 	public DaoAppartenance(Connexion connexion) {
 		this.connexion = connexion;
 		this.daopoule=new DaoPoule(connexion);
 		this.daoequipe= new DaoEquipe(connexion);
-		this.daotournoi=new DaoTournoi(connexion);
 	}
 	
 	@Override

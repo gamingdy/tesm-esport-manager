@@ -6,24 +6,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import exceptions.EquipeComplete;
-import modele.Equipe;
-import modele.Joueur;
 import modele.Partie;
-import modele.Poule;
-import modele.Tournoi;
 
 public class DaoPartie implements Dao<Partie,Integer>{
 	
 	private Connexion connexion;
-	private DaoEquipe daoequipe;
 	private DaoMatche daomatche;
 	
 	
 	public DaoPartie(Connexion connexion) {
 		this.connexion = connexion;
-		this.daoequipe = new DaoEquipe(connexion);
 		this.daomatche = new DaoMatche(connexion);
 		
 	}

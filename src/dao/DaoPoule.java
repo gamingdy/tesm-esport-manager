@@ -6,12 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import exceptions.EquipeComplete;
-import modele.Equipe;
-import modele.Joueur;
 import modele.Poule;
-import modele.Tournoi;
 
 public class DaoPoule implements Dao<Poule,Object>{
 	

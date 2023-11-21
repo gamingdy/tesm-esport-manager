@@ -7,10 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import exceptions.EquipeComplete;
-import modele.Equipe;
-import modele.Joueur;
 import modele.Niveau;
 
 public class DaoNiveau implements Dao<Niveau,String>{

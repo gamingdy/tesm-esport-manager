@@ -9,8 +9,6 @@ import java.util.List;
 
 import modele.Arbitrage;
 import modele.Arbitre;
-import modele.Inscription;
-import modele.Selection;
 
 public class DaoArbitrage implements Dao<Arbitrage,Object>{
 
