@@ -9,15 +9,15 @@ import java.util.List;
 import modele.Partie;
 
 public class DaoPartie implements Dao<Partie,Integer>{
-	
+
 	private Connexion connexion;
 	private DaoMatche daomatche;
-	
-	
+
+
 	public DaoPartie(Connexion connexion) {
 		this.connexion = connexion;
 		this.daomatche = new DaoMatche(connexion);
-		
+
 	}
 
 	@Override
@@ -29,77 +29,81 @@ public class DaoPartie implements Dao<Partie,Integer>{
 				+ "PRIMARY KEY(Numero_Partie),"
 				+ "FOREIGN KEY(Id_Match) REFERENCES Matche(Id_Match),"
 				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe)";
-				
-		Statement createTable;
-		
-		createTable = connexion.getConnexion().createStatement();
-		createTable.execute(createTableSql);
-        System.out.println("Table 'Partie' créée avec succès");
+
+		try(Statement createTable = connexion.getConnection().createStatement()){
+			createTable.execute(createTableSql);
+			System.out.println("Table 'Partie' créée avec succès");
+		}
 	}
 
 	@Override
 	public boolean dropTable() throws SQLException {
-		Statement deleteTable;
-		deleteTable = connexion.getConnexion().createStatement();
-		return deleteTable.execute("drop table Partie");
+		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			return deleteTable.execute("drop table Partie");
+		}
 	}
 
 	@Override
 	public List<Partie> getAll() throws Exception {
-		Statement getAll = connexion.getConnexion().createStatement();
-		ResultSet resultat = getAll.executeQuery("SELECT * FROM Partie");
-		List<Partie> sortie = new ArrayList<>();
-		while(resultat.next()) {
-			Partie partie = new Partie(
-					resultat.getString("Nom_Equipe"),
-					daomatche.getById(resultat.getInt("Id_Match")));
-			partie.setNumeroPartie(resultat.getInt("Id_Partie"));
-			sortie.add(partie);
+		try(Statement getAll = connexion.getConnection().createStatement()){
+			ResultSet resultat = getAll.executeQuery("SELECT * FROM Partie");
+			List<Partie> sortie = new ArrayList<>();
+			while(resultat.next()) {
+				Partie partie = new Partie(
+						resultat.getString("Nom_Equipe"),
+						daomatche.getById(resultat.getInt("Id_Match")));
+				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
+				sortie.add(partie);
+			}
+			return sortie;
 		}
-		return sortie;
 	}
 
 	@Override
 	public Partie getById(Integer... id) throws Exception {
-		PreparedStatement getById = connexion.getConnexion().prepareStatement("SELECT * FROM Partie WHERE Id_Match = ? AND Numero_Partie = ?");
-		getById.setInt(1, id[0]);
-		getById.setInt(2, id[1]);
-		ResultSet resultat = getById.executeQuery();
-		Partie partie = new Partie(
-				resultat.getString("Nom_Equipe"),
-				daomatche.getById(resultat.getInt("Id_Match")));
-		partie.setNumeroPartie(resultat.getInt("Id_Partie"));
-		return partie;
+		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Partie WHERE Id_Match = ? AND Numero_Partie = ?")){
+			getById.setInt(1, id[0]);
+			getById.setInt(2, id[1]);
+			ResultSet resultat = getById.executeQuery();
+			Partie partie = new Partie(
+					resultat.getString("Nom_Equipe"),
+					daomatche.getById(resultat.getInt("Id_Match")));
+			partie.setNumeroPartie(resultat.getInt("Id_Partie"));
+			return partie;
+		}
 	}
 
 	@Override
 	public boolean add(Partie value) throws Exception {
-		PreparedStatement add = connexion.getConnexion().prepareStatement(
-				"INSERT INTO Partie(Id_Match,Nom_Equipe) values (?)");
-		add.setInt(1, value.getMatche().getId());
-		
-		return add.execute();
+		try(PreparedStatement add = connexion.getConnection().prepareStatement(
+				"INSERT INTO Partie(Id_Match,Nom_Equipe) values (?)")){
+			add.setInt(1, value.getMatche().getId());
+
+			return add.execute();
+		}
 	}
 
 	@Override
 	public boolean update(Partie value) throws Exception {
-		PreparedStatement update = connexion.getConnexion().prepareStatement(
+		try(PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Partie SET "
-				+ "Nom_Equipe = ?"
-				+ "Id_Match = ?"
-				+ "WHERE Id_Partie = ?");
-		update.setString(1, value.getVainqueur().getNom());
-		update.setInt(2, value.getMatche().getId());
-		update.setInt(3, value.getNumeroPartie());
-		return update.execute();
+						+ "Nom_Equipe = ?"
+						+ "Id_Match = ?"
+						+ "WHERE Id_Partie = ?")){
+			update.setString(1, value.getVainqueur().getNom());
+			update.setInt(2, value.getMatche().getId());
+			update.setInt(3, value.getNumeroPartie());
+			return update.execute();
+		}
 	}
 
 	@Override
 	public boolean delete(Integer... value) throws Exception {
-		PreparedStatement delete = connexion.getConnexion().prepareStatement(
-				"DELETE FROM Partie where Numero_Partie = ?");
-		delete.setInt(1,value[0]);
-		return delete.execute();
+		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
+				"DELETE FROM Partie where Numero_Partie = ?")){
+			delete.setInt(1,value[0]);
+			return delete.execute();
+		}
 	}
 }
 
