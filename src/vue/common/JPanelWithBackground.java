@@ -28,7 +28,7 @@ public class JPanelWithBackground extends JPanel {
 	//Pour la resize
 
 	public void updateBackgroundSize(int width, int height) {
-		scaled = backgroundImage.getScaledInstance(width, height, Image.SCALE_FAST);
+		scaled = backgroundImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		paintComponent(this.getGraphics());
 	}
 

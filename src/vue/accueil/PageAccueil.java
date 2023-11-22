@@ -92,7 +92,7 @@ public class PageAccueil extends JPanel {
 		
 		listeEquipes = new JList<LigneEquipe>(equipes);
 		listeEquipes.setCellRenderer(new EquipeCellRenderer());
-		listeEquipes.setBackground(Vue.BACKGROUND_MAIN);
+		listeEquipes.setBackground(Vue.TRANSPARENT);
 		
 		JScrollPane scrollPaneEquipe = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneEquipe.setOpaque(false);
@@ -156,7 +156,7 @@ public class PageAccueil extends JPanel {
 		
 		listeTournois = new JList<LigneTournoi>(tournois);
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
-		listeTournois.setBackground(Vue.BACKGROUND_MAIN);
+		listeTournois.setBackground(Vue.TRANSPARENT);
 		
 		
 		JScrollPane scrollPaneTournois = new JScrollPane(listeTournois, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -173,7 +173,7 @@ public class PageAccueil extends JPanel {
 		scrollPaneTournois.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		
 		JPanel panelMatchs = new JPanel();
-		panelMatchs.setBackground(Color.black);
+		panelMatchs.setBackground(Vue.BACKGROUND_MAIN);
 		GridBagConstraints gbc_panelMatchs = new GridBagConstraints();
 		gbc_panelMatchs.insets = new Insets(0, 10, 0, 0);
 		gbc_panelMatchs.weighty = 1.0;
@@ -191,7 +191,7 @@ public class PageAccueil extends JPanel {
 		
 		listeMatches = new JList<LigneMatche>(matches);
 		listeMatches.setCellRenderer(new MatchCellRenderer());
-		listeMatches.setBackground(Vue.BACKGROUND_MAIN);
+		listeMatches.setBackground(Vue.TRANSPARENT);
 		
 		JScrollPane scrollPaneMatch = new JScrollPane(listeMatches,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		GridBagConstraints gbcScrollPaneMatchs = new GridBagConstraints();

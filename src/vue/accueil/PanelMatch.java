@@ -35,7 +35,7 @@ public class PanelMatch extends JPanel {
 		panelBot = new JPanel();
 		add(panelBot, BorderLayout.CENTER);
 		panelBot.setLayout(new GridLayout(1,0, 0, 0));
-		panelBot.setBorder(new LineBorder(new Color(188, 19, 254)));
+		panelBot.setBorder(new LineBorder(Vue.ROSE_CONTOURS));
 		
 		
 		panelEquipeUn = new JPanel();
