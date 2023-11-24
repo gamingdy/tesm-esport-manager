@@ -52,8 +52,13 @@ public class TestEquipe {
 	}
 
 	@Test
-	public void testCountry() {
-		assertEquals("Palau", Country.PALAU.getCountry());
+	public void testCountryName() {
+		assertEquals("Palau", Country.PALAU.getName());
+	}
+
+	@Test
+	public void testCountryCode() {
+		assertEquals("pw", Country.PALAU.getCode());
 	}
 
 
@@ -129,9 +134,10 @@ public class TestEquipe {
 		equipe2.addJoueur(j);
 		assertEquals(set, equipe2.getEquipe());
 	}
+
 	@Test(expected = JoueurNonPresent.class)
 	public void testDeleteJoueur() throws EquipeComplete, ErreurJoueur, JoueurNonPresent, EquipeVide {
-		j=new Joueur("fjkdfj",equipe2);
+		j = new Joueur("fjkdfj", equipe2);
 		equipe1.deleteJoueur(j);
 	}
 
