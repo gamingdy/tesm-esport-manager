@@ -2,9 +2,9 @@ package modele;
 
 public class Poule {
 
-	private Tournoi tournoi;
-	private Character libelle;
-	
+	private final Tournoi tournoi;
+	private final Character libelle;
+
 	public Poule(Tournoi tournoi, Character libelle) {
 		this.tournoi = tournoi;
 		this.libelle = libelle;
@@ -13,11 +13,9 @@ public class Poule {
 	public Tournoi getTournoi() {
 		return tournoi;
 	}
+
 	public Character getLibelle() {
 		return libelle;
 	}
 
-	public void setLibelle(Character libelle) {
-		this.libelle = libelle;
-	}
 }

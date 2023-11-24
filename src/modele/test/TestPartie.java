@@ -34,7 +34,19 @@ public class TestPartie {
 		partie.setNumeroPartie(1);
 		assertEquals(1,partie.getNumeroPartie());
 	}
-
+	@Test(expected = IllegalArgumentException.class)
+	public void setNumeroPartieNegatif() {
+		partie.setNumeroPartie(-1);
+		assertEquals(1,partie.getNumeroPartie());
+	}
+	@Test(expected = IllegalArgumentException.class)
+	public void constructeurPointsNegatifs(){
+		partie=new Partie("RLCS aout",matche,-10);
+	}
+	@Test
+	public void constructeurAvecNumeroPartie(){
+		partie=new Partie("RLCS aout",matche,5);
+	}
 	@Test
 	public void testSetVainqueur1() throws GagnantNonChoisi {
 		partie.setVainqueur(equipe1);

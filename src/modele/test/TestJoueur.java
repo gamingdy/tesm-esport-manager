@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import modele.Joueur;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TestJoueur {
 	private Joueur j;
 	private Equipe equipe1;
@@ -33,7 +36,12 @@ public class TestJoueur {
 		j.setId(5);
 		assertEquals((Integer) 5, j.getId());
 	}
-
+	@Test
+	public void testHashcode(){
+		Set<Joueur> joueurs=new HashSet<>();
+		joueurs.add(j);
+		joueurs.add(j);
+	}
 	@Test(expected = IdNotSet.class)
 	public void testIdnotSet() throws IdNotSet {
 		j.getId();

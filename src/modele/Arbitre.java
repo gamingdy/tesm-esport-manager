@@ -45,13 +45,10 @@ public class Arbitre implements Comparable<Arbitre> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o == null) {
-			return false;
+		if (o instanceof Arbitre) {
+			return this.toString().equals(o.toString());
 		}
-		if (!(o instanceof Arbitre)) {
-			return false;
-		}
-		return this.toString().equals(o.toString());
+		return false;
 	}
 
 	public Integer getId() throws IdNotSet {

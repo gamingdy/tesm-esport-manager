@@ -35,35 +35,5 @@ public class TestPoule {
 		assertEquals((Character) 'A', poule.getLibelle());
 	}
 
-	@Test
-	public void setLibelle() {
-	}
 
-	@Test
-	public void getPoint() {
-	}
-
-	@Test
-	public void ajouterPoint() {
-	}
-
-	@Test
-	public void enleverPoint() {
-	}
-
-	@Test
-	public void addEquipe() {
-	}
-
-	@Test
-	public void deleteEquipe() {
-	}
-
-	@Test
-	public void getEquipes() {
-	}
-
-	@Test
-	public void testToString() {
-	}
 }
