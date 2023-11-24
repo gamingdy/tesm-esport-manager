@@ -68,12 +68,12 @@ public class testArbitre {
 
 	@Test
 	public void testEquals() {
-		assertFalse(a.equals(null));
+		assertNotEquals(null, a);
 	}
 
 	@Test
 	public void testEqualsnotSameClass() {
-		assertFalse(a.equals(1));
+		assertNotEquals(1, a);
 	}
 
 	@Test(expected = RuntimeException.class)

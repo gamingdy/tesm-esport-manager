@@ -20,34 +20,11 @@ public class testCompteArbitreAdmin {
 		CustomDate d1 = new CustomDate(2022, 11, 13);
 		CustomDate d2 = new CustomDate(2022, 10, 10);
 		s = new Saison(2022);
+		compteArbitre = new CompteArbitre("arbitre1", "123");
+		tournoi = new Tournoi(s, "RLCS", d1, d2, Niveau.INTERNATIONAL, compteArbitre);
 
-		tournoi = new Tournoi(s, "RLCS", d1, d2, Niveau.INTERNATIONAL);
-		compteArbitre = new CompteArbitre("arbitre1", "123", a, tournoi);
 	}
 
-	@Test
-	public void getArbitre() {
-		assertEquals(a, compteArbitre.getArbitre());
-	}
-
-	@Test
-	public void setArbitre() {
-		Arbitre b = new Arbitre("Christian", "G");
-		compteArbitre.setArbitre(b);
-		assertEquals(b, compteArbitre.getArbitre());
-	}
-
-	@Test
-	public void getTournoi() {
-		assertEquals(tournoi, compteArbitre.getTournoi());
-	}
-
-	@Test
-	public void setTournoi() throws ErreurDate, FausseDate {
-		Tournoi t1 = new Tournoi(s, "RLCS23", new CustomDate(2022, 10, 2), new CustomDate(2022, 11, 3), Niveau.INTERNATIONAL);
-		compteArbitre.setTournoi(t1);
-		assertEquals(t1, compteArbitre.getTournoi());
-	}
 
 	@Test
 	public void testCompteAdmin() {

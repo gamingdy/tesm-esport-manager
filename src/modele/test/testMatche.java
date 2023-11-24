@@ -22,28 +22,15 @@ public class testMatche {
 	private Equipe e2 = new Equipe("KC", Country.ALGERIA);
 	private CustomDate d1;
 	private CustomDate d2;
-
-	private Saison s = new Saison(2022);
 	private Tournoi tournoi;
-
-	{
-		try {
-			d2 = new CustomDate(2022, 11, 13);
-			d1 = new CustomDate(2022, 10, 10);
-			;
-
-			tournoi = new Tournoi(s, "RLCS", d1, d2, Niveau.INTERNATIONAL);
-		} catch (FausseDate e) {
-			throw new RuntimeException(e);
-		} catch (ErreurDate e) {
-			throw new RuntimeException(e);
-		}
-	}
-
+	private Saison saison;
 
 	@Before
 	public void setUp() throws Exception {
-
+		d1= new CustomDate(2022,10,10);
+		d2=new CustomDate(2022,10,30);
+		saison= new Saison(2022);
+		tournoi= new Tournoi(saison,"RLCS",d1,d2,Niveau.INTERNATIONAL,new CompteArbitre("cricri","1234"));
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
 
@@ -115,5 +102,14 @@ public class testMatche {
 
 	@Test
 	public void setTournoi() {
+	}
+	@Test
+	public void setVainqueur(){
+		m.setVainqueur(e1);
+		assertEquals(e1,m.getVainqueur());
+	}
+	@Test
+	public void setVainqueurNull(){
+		assertNull(m.getVainqueur());
 	}
 }

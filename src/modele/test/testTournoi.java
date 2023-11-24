@@ -21,7 +21,6 @@ public class testTournoi {
 		saison = new Saison(2023);
 		debut = new CustomDate(2023, 10, 20);
 		fin = new CustomDate(2023, 10, 25);
-		tournoi = new Tournoi(saison, "RLCS", debut, fin, niveau);
 	}
 
 	@Test

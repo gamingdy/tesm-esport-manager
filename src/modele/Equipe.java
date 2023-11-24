@@ -57,7 +57,6 @@ public class Equipe {
 			throw new EquipeComplete("L'équipe est pleine");
 		}
 		this.equipe.add(joueur);
-		joueur.setEquipe(this);
 	}
 
 	public Joueur getJoueur(Joueur joueur) throws JoueurNonPresent, EquipeVide {

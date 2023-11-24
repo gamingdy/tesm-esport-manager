@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 
 import exceptions.EquipeComplete;
+import exceptions.ErreurJoueur;
 import exceptions.idNotSet;
 import modele.Country;
 import modele.Equipe;
@@ -18,7 +19,7 @@ public class testJoueur {
 	private Equipe equipe1;
 
 	@Before
-	public void setUp() throws EquipeComplete {
+	public void setUp() throws EquipeComplete, ErreurJoueur {
 		equipe1 = new Equipe("Faze", Country.ALGERIA);
 		j = new Joueur("Cricri", equipe1);
 	}
