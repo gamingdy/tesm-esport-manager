@@ -1,4 +1,4 @@
-package modele;
+package exceptions;
 
 public class GagnantNonChoisi extends Exception {
 
