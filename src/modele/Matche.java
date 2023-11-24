@@ -39,7 +39,11 @@ public class Matche {
 		this.equipe2 = equipe2;
 		this.tournoi = tournoi;
 		this.vainqueur = 0;
-		this.saison = tournoi.getSaison();
+		if (tournoi != null){
+			this.saison = tournoi.getSaison();
+		} else {
+			this.saison = null;
+		}
 	}
 
 
