@@ -1,6 +1,6 @@
 package modele;
 
-import exceptions.idNotSet;
+import exceptions.IdNotSet;
 
 public class Arbitre implements Comparable<Arbitre> {
 	private Integer id;
@@ -28,6 +28,8 @@ public class Arbitre implements Comparable<Arbitre> {
 		this.prenom = prenom;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return this.getNom() + " " + this.getPrenom();
@@ -50,15 +52,12 @@ public class Arbitre implements Comparable<Arbitre> {
 		if (!(o instanceof Arbitre)) {
 			return false;
 		}
-		if (this.hashCode() == o.hashCode()) {
-			return true;
-		}
-		return false;
+		return this.toString().equals(o.toString());
 	}
 
-	public Integer getId() throws idNotSet {
+	public Integer getId() throws IdNotSet {
 		if (this.id == null) {
-			throw new idNotSet("le id de l'objet n'est pas set");
+			throw new IdNotSet("le id de l'objet n'est pas set");
 		}
 		return id;
 	}

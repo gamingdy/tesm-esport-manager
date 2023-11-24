@@ -1,8 +1,8 @@
 package modele;
 
 import exceptions.FausseDate;
+import exceptions.IdNotSet;
 import exceptions.MemeEquipe;
-import exceptions.idNotSet;
 
 import java.util.Objects;
 
@@ -120,9 +120,9 @@ public class Matche {
 	}
 
 
-	public Integer getId() throws idNotSet {
+	public Integer getId() throws IdNotSet {
 		if (this.id == null) {
-			throw new idNotSet("le id du Matche n'est pas set");
+			throw new IdNotSet("le id du Matche n'est pas set");
 		}
 
 		return id;
