@@ -22,18 +22,19 @@ public class Matche {
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
 
+		if (dateDebutMatche == null || libelle == null || equipe1 == null || equipe2 == null || tournoi == null) {
+			throw new IllegalArgumentException("Un des paramètres est null");
+		}
+
 		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
 			throw new MemeEquipe("Les 2 équipes sont identiques");
 		}
 
-		if (tournoi != null) {
-			if (dateDebutMatche.estAvant(tournoi.getDebut())) {
-				throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
-			}
-			if (equipe1.getNom() == equipe2.getNom()) {
-				throw new MemeEquipe("Les 2 équipes sont identiques");
-			}
-			this.saison = tournoi.getSaison();
+		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
+			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
+		}
+		if (equipe1.getNom() == equipe2.getNom()) {
+			throw new MemeEquipe("Les 2 équipes sont identiques");
 		}
 
 		this.nombreMaxParties = nombreMaxParties;
@@ -43,8 +44,8 @@ public class Matche {
 		this.equipe2 = equipe2;
 		this.tournoi = tournoi;
 		this.vainqueur = 0;
+		this.saison = tournoi.getSaison();
 	}
-
 
 	public int getNombreMaxParties() {
 		return nombreMaxParties;
@@ -114,11 +115,9 @@ public class Matche {
 		this.vainqueur = vainqueur;
 	}
 
-
 	public Saison getSaison() {
 		return saison;
 	}
-
 
 	public Integer getId() throws IdNotSet {
 		if (this.id == null) {
@@ -128,23 +127,12 @@ public class Matche {
 		return id;
 	}
 
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public Tournoi getTournoi() {
 		return tournoi;
 	}
 
-
-	public void setTournoi(Tournoi tournoi) {
-		this.tournoi = tournoi;
-	}
-
-
-	public void setSaison(Saison saison) {
-		this.saison = saison;
-	}
 }

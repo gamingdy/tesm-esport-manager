@@ -1,5 +1,7 @@
 package modele;
 
+import exceptions.GagnantNonChoisi;
+
 public class Partie {
 
 	private int numeroPartie;
@@ -54,10 +56,5 @@ public class Partie {
 	public Matche getMatche() {
 		return matche;
 	}
-
-	public void setMatche(Matche matche) {
-		this.matche = matche;
-	}
-
 
 }

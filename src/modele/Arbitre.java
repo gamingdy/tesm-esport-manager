@@ -29,7 +29,6 @@ public class Arbitre implements Comparable<Arbitre> {
 	}
 
 
-
 	@Override
 	public String toString() {
 		return this.getNom() + " " + this.getPrenom();
