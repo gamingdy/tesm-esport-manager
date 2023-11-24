@@ -3,9 +3,7 @@ package modele.test;
 import static org.junit.Assert.*;
 
 
-import exceptions.EquipeComplete;
-import exceptions.ErreurJoueur;
-import exceptions.idNotSet;
+import exceptions.*;
 import modele.Country;
 import modele.Equipe;
 import org.junit.Before;
@@ -44,5 +42,25 @@ public class testJoueur {
 	@Test
 	public void testgetNomEquipe() {
 		assertEquals("Faze", j.getNomEquipe());
+	}
+	@Test(expected = ErreurJoueur.class)
+	public void testSetEquipe() throws EquipeComplete, ErreurJoueur {
+		Equipe equipe2=new Equipe("a",Country.PALAU);
+		j.setEquipe(equipe2);
+	}
+	@Test
+	public void testSetEquipeNormal() throws JoueurNonPresent, EquipeVide, EquipeComplete, ErreurJoueur {
+		Joueur j2=new Joueur("UnJoueur");
+		j2.setEquipe(equipe1);
+		assertEquals(j2,equipe1.getJoueur(j2));
+	}
+	@Test
+	public void testGetEquipe() throws JoueurNonPresent, EquipeVide, EquipeComplete, ErreurJoueur {
+		assertEquals(equipe1,j.getEquipe());
+	}
+	@Test
+	public void testHashcode() throws EquipeComplete, ErreurJoueur {
+		Joueur j2 = new Joueur("Cricri", equipe1);
+		assertNotEquals(j,j2);
 	}
 }

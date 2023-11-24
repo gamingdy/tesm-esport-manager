@@ -15,8 +15,8 @@ import java.util.TreeSet;
 
 public class testEquipe {
 	private Equipe equipe1;
-	private Joueur j;
 	private Equipe equipe2;
+	private Joueur j;
 	private Joueur j2;
 	private Joueur j3;
 	private Joueur j4;
@@ -85,17 +85,12 @@ public class testEquipe {
 	@Test
 	public void testSupprimerJoueur() throws JoueurNonPresent, EquipeVide, EquipeComplete {
 		equipe1.deleteJoueur(j2);
-		assertEquals(3, equipe1.getNombreJoueurs());
+		assertEquals(2, equipe1.getNombreJoueurs());
 	}
 
 	@Test(expected = EquipeVide.class)
 	public void testSupprimerJoueurEquipeVide() throws JoueurNonPresent, EquipeVide {
 		equipe2.deleteJoueur(j);
-	}
-
-	@Test(expected = JoueurNonPresent.class)
-	public void testSupprimerJoueurPasDanslequipe() throws JoueurNonPresent, EquipeVide, EquipeComplete {
-		equipe1.deleteJoueur(j2);
 	}
 
 	@Test
@@ -133,6 +128,11 @@ public class testEquipe {
 		set.add(j);
 		equipe2.addJoueur(j);
 		assertEquals(set, equipe2.getEquipe());
+	}
+	@Test(expected = JoueurNonPresent.class)
+	public void testDeleteJoueur() throws EquipeComplete, ErreurJoueur, JoueurNonPresent, EquipeVide {
+		j=new Joueur("fjkdfj");
+		equipe1.deleteJoueur(j);
 	}
 
 }
