@@ -87,4 +87,16 @@ public class Tournoi {
 	public void setCompteArbitre(CompteArbitre compteArbitre) {
 		this.compteArbitre = compteArbitre;
 	}
+
+	/*public Map<Character, Poule> getPoules() {
+		return poules;
+	}
+
+	public void addPoule(Poule poule) {
+		this.poules.put(poule.getNom(), poule);
+	}
+
+	public void setPoules(Map<Character, Poule> poules) {
+		this.poules = poules;
+	}*/
 }
