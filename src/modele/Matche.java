@@ -21,6 +21,11 @@ public class Matche {
 
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
+
+		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
+			throw new MemeEquipe("Les 2 équipes sont identiques");
+		}
+
 		if (tournoi != null) {
 			if (dateDebutMatche.estAvant(tournoi.getDebut())) {
 				throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
@@ -28,10 +33,9 @@ public class Matche {
 			if (equipe1.getNom() == equipe2.getNom()) {
 				throw new MemeEquipe("Les 2 équipes sont identiques");
 			}
+			this.saison = tournoi.getSaison();
 		}
-		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
-			throw new MemeEquipe("Les 2 équipes sont identiques");
-		}
+
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
 		this.libelle = libelle;
@@ -39,11 +43,6 @@ public class Matche {
 		this.equipe2 = equipe2;
 		this.tournoi = tournoi;
 		this.vainqueur = 0;
-		if (tournoi != null){
-			this.saison = tournoi.getSaison();
-		} else {
-			this.saison = null;
-		}
 	}
 
 
@@ -87,7 +86,6 @@ public class Matche {
 		this.equipe2 = equipe2;
 	}
 
-
 	public Equipe getVainqueur() {
 		Equipe equipe = null;
 		if (this.vainqueur == 1) {
@@ -99,6 +97,10 @@ public class Matche {
 		return equipe;
 	}
 
+	public int getVainqueurInt() {
+		return vainqueur;
+	}
+
 	public void setVainqueur(Equipe vainqueur) {
 		if (vainqueur.getNom() == this.equipe1.getNom()) {
 			this.vainqueur = 1;
@@ -108,13 +110,10 @@ public class Matche {
 		}
 	}
 
-	public int getVainqueurInt() {
-		return vainqueur;
-	}
-
-	public void setVainqueurInt(int vainqueur) {
+	public void setVainqueur(int vainqueur) {
 		this.vainqueur = vainqueur;
 	}
+
 
 	public Saison getSaison() {
 		return saison;
@@ -142,11 +141,6 @@ public class Matche {
 
 	public void setTournoi(Tournoi tournoi) {
 		this.tournoi = tournoi;
-	}
-
-
-	public void setVainqueur(int vainqueur) {
-		this.vainqueur = vainqueur;
 	}
 
 
