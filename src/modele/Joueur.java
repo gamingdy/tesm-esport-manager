@@ -2,6 +2,7 @@ package modele;
 
 
 import exceptions.EquipeComplete;
+import exceptions.ErreurJoueur;
 import exceptions.idNotSet;
 
 public class Joueur implements Comparable<Joueur> {
@@ -10,10 +11,15 @@ public class Joueur implements Comparable<Joueur> {
 	private String pseudo;
 	private Equipe equipe;
 
-	public Joueur(String pseudo, Equipe equipe) throws EquipeComplete{
+	public Joueur(String pseudo, Equipe equipe) throws EquipeComplete, ErreurJoueur{
 		this.pseudo = pseudo;
 		this.equipe = equipe;
 		this.equipe.addJoueur(this);
+	}
+
+	public Joueur(String pseudo) {
+		this.pseudo = pseudo;
+		this.equipe = null;
 	}
 
 	public void setId(Integer newId) {
@@ -41,6 +47,14 @@ public class Joueur implements Comparable<Joueur> {
 
 	public Equipe getEquipe() {
 		return this.equipe;
+	}
+
+	public void setEquipe(Equipe equipe) throws EquipeComplete, ErreurJoueur {
+		if (this.equipe != null) {
+			throw new ErreurJoueur("Ce joueur est déjà dans une équipe");
+		}
+		this.equipe = equipe;
+		this.equipe.addJoueur(this);
 	}
 
 	public int compareTo(Joueur j) {

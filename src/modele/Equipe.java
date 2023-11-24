@@ -5,6 +5,7 @@ import java.util.TreeSet;
 
 import exceptions.EquipeComplete;
 import exceptions.EquipeVide;
+import exceptions.ErreurJoueur;
 import exceptions.JoueurNonPresent;
 import exceptions.PointsNegatifs;
 
@@ -51,11 +52,12 @@ public class Equipe {
 		this.point = point;
 	}
 
-	public void addJoueur(Joueur joueur) throws EquipeComplete {
+	public void addJoueur(Joueur joueur) throws EquipeComplete, ErreurJoueur {
 		if (this.equipe.size() == 5) {
 			throw new EquipeComplete("L'équipe est pleine");
 		}
 		this.equipe.add(joueur);
+		joueur.setEquipe(this);
 	}
 
 	public Joueur getJoueur(Joueur joueur) throws JoueurNonPresent, EquipeVide {
