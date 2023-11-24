@@ -76,8 +76,8 @@ public class testArbitre {
 		assertNotEquals(1, a);
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void testToString() {
-		a.toString();
+		assertEquals( a.getNom() + " " + a.getPrenom(),a.toString());
 	}
 }
