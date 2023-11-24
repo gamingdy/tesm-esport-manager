@@ -32,22 +32,21 @@ public class Partie {
 		this.numeroPartie = numeroPartie;
 	}
 
-	public Equipe getVainqueur() {
-		Equipe equipe = null;
-		if (this.vainqueur == 1) {
-			equipe = this.matche.getEquipe1();
+	public Equipe getVainqueur() throws GagnantNonChoisi {
+		switch(this.vainqueur) {
+			case 1 :
+				return this.matche.getEquipe1();
+			case 2 : 
+				return this.matche.getEquipe2();
+			default:
+				throw new GagnantNonChoisi("Le gagnant n'a pas été choisi");
 		}
-		if (this.vainqueur == 2) {
-			equipe = this.matche.getEquipe2();
-		}
-		return equipe;
 	}
 
 	public void setVainqueur(Equipe vainqueur) {
-		if (vainqueur.getNom() == this.matche.getEquipe1().getNom()) {
+		if(vainqueur.getNom().equals(this.matche.getEquipe1().getNom())) {
 			this.vainqueur = 1;
-		}
-		if (vainqueur.getNom() == this.matche.getEquipe2().getNom()) {
+		} else {
 			this.vainqueur = 2;
 		}
 	}
