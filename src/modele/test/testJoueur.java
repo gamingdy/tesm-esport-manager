@@ -46,6 +46,11 @@ public class TestJoueur {
 	}
 
 	@Test
+	public void testGetNomEquipe(){
+		assertEquals(equipe1.getNom(), j.getNomEquipe());
+	}
+
+	@Test
 	public void testSameJoueur() throws EquipeComplete, ErreurJoueur {
 		Joueur j2 = new Joueur("Cricri", equipe1);
 		assertEquals(j,j2);
@@ -55,5 +60,9 @@ public class TestJoueur {
 	public void testJoueurDifferent() throws EquipeComplete, ErreurJoueur {
 		Joueur j2 = new Joueur("Cricri2", equipe1);
 		assertNotEquals(j,j2);
+	}
+	@Test
+	public void testEqualsPasMemeType(){
+		assertNotEquals(j,5);
 	}
 }
