@@ -12,11 +12,23 @@ public class Partie {
 		this.matche = matche;
 	}
 
+	public Partie(String nom, Matche matche, int numeroPartie) throws IllegalArgumentException{
+		if (numeroPartie <= 0) {
+			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
+		}
+		this.numeroPartie = numeroPartie;
+		this.vainqueur = 0;
+		this.matche = matche;
+	}
+
 	public int getNumeroPartie() {
 		return numeroPartie;
 	}
 
-	public void setNumeroPartie(int numeroPartie) {
+	public void setNumeroPartie(int numeroPartie) throws IllegalArgumentException{
+		if (numeroPartie <= 0) {
+			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
+		}
 		this.numeroPartie = numeroPartie;
 	}
 
