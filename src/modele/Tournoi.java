@@ -29,7 +29,7 @@ public class Tournoi {
 		this.fin = fin;
 		this.niveau = niveau;
 		this.estEncours = false;
-		//this.poules = new HashMap<Character,Poule>();
+		this.compteArbitre = compteArbitre;
 	}
 
 	public Saison getSaison() {
@@ -84,9 +84,7 @@ public class Tournoi {
 		return compteArbitre;
 	}
 
-	public void setCompteArbitre(CompteArbitre compteArbitre) {
-		this.compteArbitre = compteArbitre;
-	}
+
 
 	/*public Map<Character, Poule> getPoules() {
 		return poules;

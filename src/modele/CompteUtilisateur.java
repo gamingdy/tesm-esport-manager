@@ -4,7 +4,7 @@ public class CompteUtilisateur {
 
 	private String username;
 	private String mdp;
-	
+
 	public CompteUtilisateur(String username, String mdp) {
 		this.username = username;
 		this.mdp = mdp;
@@ -16,5 +16,5 @@ public class CompteUtilisateur {
 
 	public String getMdp() {
 		return mdp;
-	}	
+	}
 }
