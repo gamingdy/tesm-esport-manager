@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
@@ -35,8 +36,15 @@ public class ConteneurMain extends JPanel {
 		
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
+		
+		DefaultListModel<LigneEquipe> l = new DefaultListModel<LigneEquipe>();
+		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
+		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
+		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
+		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
+		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
 
-		this.add(new PageAccueil(new DefaultListModel<LigneEquipe>(),new DefaultListModel<LigneTournoi>(),new DefaultListModel<LigneMatche>()),"Accueil");
+		this.add(new PageAccueil(l,new DefaultListModel<LigneTournoi>(),new DefaultListModel<LigneMatche>()),"Accueil");
 		cardLayout.show(this,"Accueil");
 	}
 	
