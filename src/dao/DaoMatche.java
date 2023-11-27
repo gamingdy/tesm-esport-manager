@@ -22,13 +22,12 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		this.daoequipe = new DaoEquipe(connexion);
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Matche("
 				+"Id_Match INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
 				+"categorie VARCHAR(50),"
-				+"Nombres_Parties_Max BYTE,"
-				+"Date_Matche_Debut DATETIME,"
+				+"Nombres_Parties_Max INT,"
+				+"Date_Matche_Debut DATE,"
 				+"Nom_Equipe1 VARCHAR(50) NOT NULL,"
 				+"Nom_Equipe2 VARCHAR(50) NOT NULL,"
 				+"Annee INT NOT NULL,"
@@ -36,7 +35,7 @@ public class DaoMatche implements Dao<Matche,Integer>{
 				+"PRIMARY KEY(Id_Match),"
 				+"FOREIGN KEY(Nom_Equipe1) REFERENCES Equipe(Nom_Equipe),"
 				+"FOREIGN KEY(Nom_Equipe2) REFERENCES Equipe(Nom_Equipe),"
-				+"FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi)";
+				+"FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi))";
 
 
 		try(Statement createTable= connexion.getConnection().createStatement()){
@@ -45,9 +44,9 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable= connexion.getConnection().createStatement()){
+			System.out.println("Table 'Matche' créée avec succès");
 			return deleteTable.execute("drop table Matche");
 		}
 	}

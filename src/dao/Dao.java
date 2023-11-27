@@ -6,12 +6,6 @@ import java.util.List;
 public interface Dao<T, T1>{
 
 	
-	public void createTable() throws SQLException ; 
-
-	
-	public boolean dropTable() throws SQLException ;
-
-	
 	public List<T> getAll() throws Exception;
 
 	

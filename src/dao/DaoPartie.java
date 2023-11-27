@@ -20,15 +20,14 @@ public class DaoPartie implements Dao<Partie,Integer>{
 
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Partie("
-				+ "Id_Match INT NOT NULL"
 				+ "Id_Partie INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
-				+ "Nom_Equipe VARCHAR(50)"
-				+ "PRIMARY KEY(Numero_Partie),"
+				+ "Id_Match INT NOT NULL,"
+				+ "Nom_Equipe VARCHAR(50),"
+				+ "PRIMARY KEY(Id_Partie),"
 				+ "FOREIGN KEY(Id_Match) REFERENCES Matche(Id_Match),"
-				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe)";
+				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe))";
 
 		try(Statement createTable = connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
@@ -36,9 +35,9 @@ public class DaoPartie implements Dao<Partie,Integer>{
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			System.out.println("Table 'Partie' créée avec succès");
 			return deleteTable.execute("drop table Partie");
 		}
 	}
@@ -100,7 +99,7 @@ public class DaoPartie implements Dao<Partie,Integer>{
 	@Override
 	public boolean delete(Integer... value) throws Exception {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Partie where Numero_Partie = ?")){
+				"DELETE FROM Partie where Id_Partie = ?")){
 			delete.setInt(1,value[0]);
 			return delete.execute();
 		}

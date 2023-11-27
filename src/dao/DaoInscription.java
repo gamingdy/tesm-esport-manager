@@ -16,14 +16,13 @@ public class DaoInscription implements Dao<Inscription,Object>{
 		this.connexion = connexion;
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Inscription("
 				+ "Nom_Equipe VARCHAR(50),"
 				+ "Annee INT,"
 				+ "PRIMARY KEY(Nom_Equipe, Annee),"
 				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe),"
-				+ "FOREIGN KEY(Annee) REFERENCES Saison(Annee)";
+				+ "FOREIGN KEY(Annee) REFERENCES Saison(Annee))";
 
 
 		try(Statement createTable= connexion.getConnection().createStatement()){
@@ -33,9 +32,9 @@ public class DaoInscription implements Dao<Inscription,Object>{
 
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable= connexion.getConnection().createStatement()){
+			System.out.println("Table 'Inscription' créée avec succès");
 			return deleteTable.execute("drop table Inscription");
 		}
 	}

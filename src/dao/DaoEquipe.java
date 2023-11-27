@@ -17,12 +17,11 @@ public class DaoEquipe implements Dao<Equipe,String>{
 		this.connexion = connexion;
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Equipe (" +
-				"Nom_Equipe VARCHAR(50)" +
-				"Pays_Equipe VARCHAR(50)" +
-				"World_rank INT " +
+				"Nom_Equipe VARCHAR(50)," +
+				"Pays_Equipe VARCHAR(50)," +
+				"World_rank INT," +
 				"PRIMARY KEY (Nom_Equipe))";
 		try(Statement createTable = connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
@@ -30,9 +29,9 @@ public class DaoEquipe implements Dao<Equipe,String>{
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable= connexion.getConnection().createStatement()){
+			System.out.println("Table 'Equipe' créée avec succès");
 			return deleteTable.execute("drop table Equipe");
 		}
 	}
