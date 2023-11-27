@@ -10,10 +10,10 @@ public class LigneEquipe {
 	private int points;
 	
 	/**
-	 * @param la place de l'équipe dans la saison précédente
-	 * @param le logo de l'équipe
-	 * @param le nom de l'équipe
-	 * @param le nombre de points de l'équipe dans la saison précédente
+	 * @param place la place de l'équipe dans la saison précédente
+	 * @param logo le logo de l'équipe
+	 * @param nom le nom de l'équipe
+	 * @param points le nombre de points de l'équipe dans la saison précédente
 	 * @return le paramètre LigneEquipe nécessaire pour une ligne d'équipe de la page d'accueil
 	 */
 	public LigneEquipe(int place, ImageIcon logo, String nom, int points) {
