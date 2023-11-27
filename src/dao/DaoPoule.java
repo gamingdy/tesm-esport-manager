@@ -19,14 +19,13 @@ public class DaoPoule implements Dao<Poule,Object>{
 
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Poule ("
 				+ "Annee INT,"
 				+ "Nom_Tournoi VARCHAR(50),"
 				+ "Libelle VARCHAR(1),"
 				+ "PRIMARY KEY(Annee, Nom_Tournoi, Libelle),"
-				+ "FOREIGN KEY(Annee, Nom_Tournoi) REFERENCES Tournoi(Annee, Nom_Tournoi)";
+				+ "FOREIGN KEY(Annee, Nom_Tournoi) REFERENCES Tournoi(Annee, Nom_Tournoi))";
 
 		try(Statement createTable = connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
@@ -34,9 +33,9 @@ public class DaoPoule implements Dao<Poule,Object>{
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			System.out.println("Table 'Poule' créée avec succès");
 			return deleteTable.execute("drop table Poule");
 		}
 	}

@@ -16,13 +16,12 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 		this.connexion = connexion;
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Arbitre("
 				+"Id_Arbitre INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+"Nom VARCHAR(50),"
 				+"Prénom VARCHAR(50),"
-				+"PRIMARY KEY(Id_Arbitre)";
+				+"PRIMARY KEY(Id_Arbitre))";
 
 		try(Statement createTable= connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
@@ -30,9 +29,9 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			System.out.println("Table 'Arbitre' créée avec succès");
 			return deleteTable.execute("drop table Arbitre");
 		}
 	}

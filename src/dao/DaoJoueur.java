@@ -19,14 +19,13 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		this.daoequipe = new DaoEquipe(connexion);
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Joueur("
 				+"Id_Joueur INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
 				+"Pseudo VARCHAR(50),"
 				+"Nom_Equipe VARCHAR(50) NOT NULL,"
 				+"PRIMARY KEY(Id_Joueur),"
-				+"FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe)";
+				+"FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe))";
 
 		try(Statement createTable= connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
@@ -34,9 +33,9 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			System.out.println("Table 'Joueur' créée avec succès");
 			return deleteTable.execute("drop table Joueur");
 		}
 	}

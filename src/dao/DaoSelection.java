@@ -16,14 +16,13 @@ public class DaoSelection implements Dao<Selection,Object>{
 		this.connexion = connexion;
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Selection("
 				+ "Id_Arbitre INT,"
 				+ "Annee INT,"
 				+ "PRIMARY KEY(Id_Arbitre, Annee),"
 				+ "FOREIGN KEY(Id_Arbitre) REFERENCES Arbitre(Id_Arbitre),"
-				+ "FOREIGN KEY(Annee) REFERENCES Saison(Annee)";
+				+ "FOREIGN KEY(Annee) REFERENCES Saison(Annee))";
 
 		try(Statement createTable = connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
@@ -32,9 +31,9 @@ public class DaoSelection implements Dao<Selection,Object>{
 
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			System.out.println("Table 'Selection' créée avec succès");
 			return deleteTable.execute("drop table Selection");
 		}
 	}

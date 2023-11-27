@@ -22,28 +22,29 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 		this.daoequipe= new DaoEquipe(connexion);
 	}
 
-	@Override
-	public void createTable() throws SQLException {
-		String createTableSql = "CREATE TABLE Arbitrage("
+	
+	public static void createTable(Connexion connexion) throws SQLException {
+		String createTableSql = "CREATE TABLE Appartenance("
 				+"Annee INT,"
 				+"Nom_tournoi VARCHAR(50),"
 				+"Id_arbitre INT,"
 				+"PRIMARY KEY(Annee, Nom_tournoi, Id_arbitre),"
 				+"FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi),"
-				+"FOREIGN KEY(Id_arbitre) REFERENCES Arbitre(Id_arbitre)";
+				+"FOREIGN KEY(Id_arbitre) REFERENCES Arbitre(Id_arbitre))";
 
 
 		try(Statement createTable = connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Arbitrage' créée avec succès");
+			System.out.println("Table 'Appartenance' créée avec succès");
 		}
 
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
-			return deleteTable.execute("drop table Selection");
+			System.out.println("Table 'Appartenance' créée avec succès");
+			return deleteTable.execute("drop table Appartenance");
 		}
 	}
 

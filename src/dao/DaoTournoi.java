@@ -20,19 +20,18 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 		this.connexion = connexion;
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Tournoi("
 				+"Annee INT,"
 				+"Nom_tournoi VARCHAR(50),"
-				+"Date_Début DATETIME,"
-				+"Date_Fin DATETIME,"
+				+"Date_Début DATE,"
+				+"Date_Fin DATE,"
 				+"username VARCHAR(50),"
 				+"mdp VARCHAR(50),"
 				+"Libelle_Niveau VARCHAR(50) NOT NULL,"
 				+"PRIMARY KEY(Annee, Nom_tournoi),"
 				+"FOREIGN KEY(Annee) REFERENCES Saison(Annee),"
-				+"FOREIGN KEY(Libelle_Niveau) REFERENCES Niveau(Libelle_Niveau)";
+				+"FOREIGN KEY(Libelle_Niveau) REFERENCES Niveau(Libelle_Niveau))";
 
 		try(Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
@@ -40,9 +39,10 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement();){
+			System.out.println("Table 'Tournoi' créée avec succès");
 			return deleteTable.execute("drop table Tournoi");
 		}
 	}

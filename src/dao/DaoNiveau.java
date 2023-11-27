@@ -17,12 +17,11 @@ public class DaoNiveau implements Dao<Niveau,String>{
 		this.connexion = connexion;
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Niveau("
 				+"Libelle_Niveau VARCHAR(50),"
 				+"Coefficient DECIMAL(2,1) NOT NULL,"
-				+"PRIMARY KEY(Libelle_Niveau)";
+				+"PRIMARY KEY(Libelle_Niveau))";
 
 		try(Statement createTable = connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
@@ -30,9 +29,9 @@ public class DaoNiveau implements Dao<Niveau,String>{
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			System.out.println("Table 'Niveau' créée avec succès");
 			return deleteTable.execute("drop table Niveau");
 		}
 	}

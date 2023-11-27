@@ -16,20 +16,19 @@ public class DaoSaison implements Dao<Saison,Integer>{
 		this.connexion = connexion;
 	}
 
-	@Override
-	public void createTable() throws SQLException {
+	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Saison("
 				+"Annee INT,"
-				+"PRIMARY KEY(Annee)";
+				+"PRIMARY KEY(Annee))";
 		try(Statement createTable = connexion.getConnection().createStatement()){
 			createTable.execute(createTableSql);
 			System.out.println("Table 'Saison' créée avec succès");
 		}
 	}
 
-	@Override
-	public boolean dropTable() throws SQLException {
+	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
+			System.out.println("Table 'Saison' créée avec succès");
 			return deleteTable.execute("drop table Saison");
 		}
 	}
