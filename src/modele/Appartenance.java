@@ -14,17 +14,10 @@ public class Appartenance {
 		return equipe;
 	}
 
-	public void setEquipe(Equipe equipe) {
-		this.equipe = equipe;
-	}
-
 	public Poule getPoule() {
 		return poule;
 	}
 
-	public void setPoule(Poule poule) {
-		this.poule = poule;
-	}
 
 
 }

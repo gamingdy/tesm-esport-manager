@@ -37,7 +37,6 @@ public class TestPartie {
 	@Test(expected = IllegalArgumentException.class)
 	public void setNumeroPartieNegatif() {
 		partie.setNumeroPartie(-1);
-		assertEquals(1,partie.getNumeroPartie());
 	}
 	@Test(expected = IllegalArgumentException.class)
 	public void constructeurPointsNegatifs(){

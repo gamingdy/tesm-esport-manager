@@ -13,16 +13,8 @@ public class Arbitrage {
 	public Arbitre getArbitre() {
 		return arbitre;
 	}
-
-	public void setArbitre(Arbitre arbitre) {
-		this.arbitre = arbitre;
-	}
-
 	public Tournoi getTournoi() {
 		return tournoi;
 	}
 
-	public void setTournoi(Tournoi tournoi) {
-		this.tournoi = tournoi;
-	}
 }
