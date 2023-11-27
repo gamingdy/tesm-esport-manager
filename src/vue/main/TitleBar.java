@@ -1,5 +1,6 @@
 package vue.main;
 
+import vue.Vue;
 import vue.common.ButtonTitleBar;
 import vue.common.MaFont;
 
@@ -15,10 +16,10 @@ public class TitleBar extends JPanel {
 	final ButtonTitleBar enlarge;
 	private JLabel title;
 
-	public TitleBar(Main mainWindow) {
+	public TitleBar(Vue vue) {
 		super(new BorderLayout());
 
-		mainWindow.setUndecorated(true);
+		vue.setUndecorated(true);
 		Color titleBarColor = new Color(25, 11, 52);
 
 		minimize = new ButtonTitleBar("Minimiser", titleBarColor);
@@ -28,18 +29,18 @@ public class TitleBar extends JPanel {
 		exit.addActionListener(e -> System.exit(0));
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-		minimize.addActionListener(e -> mainWindow.setState(JFrame.ICONIFIED));
+		minimize.addActionListener(e -> vue.setState(JFrame.ICONIFIED));
 		minimize.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		enlarge.addActionListener(e -> {
-			if (mainWindow.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
-				mainWindow.setExtendedState(JFrame.NORMAL);
+			if (vue.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+				vue.setExtendedState(JFrame.NORMAL);
 				enlarge.updateIcon("Agrandir");
-				mainWindow.updateBackgroundSize();
+				vue.updateBackgroundSize();
 			} else {
-				mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				vue.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				enlarge.updateIcon("Reduire");
-				mainWindow.updateBackgroundSize();
+				vue.updateBackgroundSize();
 			}
 		});
 		enlarge.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -86,7 +87,7 @@ public class TitleBar extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				Point currCoords = e.getLocationOnScreen();
-				mainWindow.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
+				vue.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
 			}
 		});
 	}

@@ -10,69 +10,42 @@ import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
 import vue.common.WindowResizer;
 
-public class Main extends JFrame {
+public class Main extends JPanel {
 
 
 	private static final long serialVersionUID = 1L;
-	private TitleBar titleBar;
 	private MenuNavBar navbar;
-	private JPanelWithBackground panelContenu;
 	private ConteneurMain panelMain;
-
-	private final int HEIGHT = 800;
-	private final int WIDTH = 1300;
 
 
 	/**
 	 * Create the frame.
 	 */
 	public Main() {
+		setOpaque(false);
 		navbar = new MenuNavBar();
-		titleBar = new TitleBar(this);
-
-
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1300, 800);
-		getContentPane().add(titleBar, BorderLayout.NORTH);
-
-		panelContenu = null;
-
-		try {
-			panelContenu = new JPanelWithBackground("assets/background.jpg", WIDTH, HEIGHT);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		panelContenu.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-		getContentPane().add(panelContenu, BorderLayout.CENTER);
 
 		//Création du jpanel principal avec le menu
-
 		setContent();
 		setMenu();
-		setContenu("Accueil");
-		titleBar.setTitle("Accueil");
-		new WindowResizer(this, HEIGHT, WIDTH);
-		ImageIcon logo = new ImageIcon("assets/logo.png");
-		Image newimg = logo.getImage().getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
-		setIconImage(newimg);
-	}
-
-	public void updateBackgroundSize() {
-		panelContenu.updateBackgroundSize(this.getWidth(), this.getHeight());
 	}
 	
 	public void setContent() {
 		GridBagLayout gbl_PanelContenu = new GridBagLayout();
-		gbl_PanelContenu.columnWidths = new int[]{0};
+		gbl_PanelContenu.columnWidths = new int[]{0, 0};
 		gbl_PanelContenu.rowHeights = new int[]{0};
 		gbl_PanelContenu.columnWeights = new double[]{Double.MIN_VALUE};
 		gbl_PanelContenu.rowWeights = new double[]{Double.MIN_VALUE};
-		panelContenu.setLayout(gbl_PanelContenu);
+		setLayout(gbl_PanelContenu);
 
 		panelMain = new ConteneurMain();
-		panelContenu.add(panelMain, panelMain.getGridBagConstraints());
-		
-		
+		panelMain.setOpaque(false);
+		GridBagConstraints gbcPanelContenu = new GridBagConstraints();
+		gbcPanelContenu.fill = GridBagConstraints.BOTH;
+		gbcPanelContenu.weightx = 0.6;
+		gbcPanelContenu.gridx = 1;
+		gbcPanelContenu.gridy = 0;
+		add(panelMain, gbcPanelContenu);
 	}
 
 	public void setMenu() {
@@ -88,11 +61,11 @@ public class Main extends JFrame {
 		panelMenu.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
 		panelMenu.setBackground(Vue.BACKGROUND_MENU);
 		panelMenu.setBorder(BorderFactory.createMatteBorder(3, 4, 4, 4, Vue.ROSE_CONTOURS));
-		contraintesPanelMenu.fill = GridBagConstraints.HORIZONTAL;
-		contraintesPanelMenu.weightx = 0.2;
+		contraintesPanelMenu.fill = GridBagConstraints.BOTH;
+		contraintesPanelMenu.weightx = 0.4;
 		contraintesPanelMenu.gridx = 0;
 		contraintesPanelMenu.gridy = 0;
-		panelContenu.add(panelMenu, contraintesPanelMenu);
+		add(panelMenu, contraintesPanelMenu);
 
 		JLabel labelMenu = new JLabel("Menu");
 		labelMenu.setForeground(Vue.BLANC);
@@ -109,16 +82,14 @@ public class Main extends JFrame {
 
 
 		panelMenu.add(navbar, navbar.getGBC());
-
-
 	}
 
 	/**
-	 * Change la partie contenu du main
+	 * Change la page de contenue du main
 	 *
-	 * @param identifiant
+	 * @param identifiant l'identifiant
 	 */
-	public void setContenu(String identifiant) {
-		((CardLayout) panelMain.getLayout()).show(panelMain, identifiant);
+	public void setPage(String identifiant) {
+		panelMain.show(identifiant);
 	}
 }

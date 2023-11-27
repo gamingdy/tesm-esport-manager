@@ -1,5 +1,6 @@
 package vue.common;
 
+import vue.Vue;
 import vue.main.Main;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ enum SIDE {
 public class WindowResizer {
 	private int currentHeight;
 	private int currentWidth;
-	private final Main mainWindow;
+	private final Vue mainWindow;
 	private SIDE side;
 	private boolean isResizing;
 	private Point originalPosition;
@@ -23,8 +24,8 @@ public class WindowResizer {
 	private final int MINIMUMHEIGHT = 600;
 	private final int MINIMUMWIDTH = 1100;
 
-	public WindowResizer(Main mainWindow, int height, int width) {
-		this.mainWindow = mainWindow;
+	public WindowResizer(Vue vue, int height, int width) {
+		this.mainWindow = vue;
 		this.currentHeight = height;
 		this.currentWidth = width;
 		this.side = SIDE.NONE;

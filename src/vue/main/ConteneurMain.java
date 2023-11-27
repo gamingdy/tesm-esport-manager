@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 
-import vue.accueil.PageAccueil;
+import vue.accueil.VueAccueil;
 import vue.accueil.LigneEquipe;
 import vue.accueil.LigneTournoi;
 import vue.accueil.LigneMatche
@@ -19,40 +19,24 @@ import vue.accueil.LigneMatche
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
 
-	private GridBagConstraints gbc;
 	private CardLayout cardLayout;
+	private VueAccueil vueAccueil;
 	
 	public ConteneurMain() {
-		this.gbc = new GridBagConstraints();
-		gbc.gridx = 1;
-		
-		gbc = new GridBagConstraints();
-		this.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
 		this.setOpaque(false);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 0.8;
-		gbc.gridx = 1;
-		gbc.gridy = 0;
 		
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
-		
-		DefaultListModel<LigneEquipe> l = new DefaultListModel<LigneEquipe>();
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-
-		this.add(new PageAccueil(l,new DefaultListModel<LigneTournoi>(),new DefaultListModel<LigneMatche>()),"Accueil");
-		cardLayout.show(this,"Accueil");
+		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(),new DefaultListModel<LigneTournoi>(),new DefaultListModel<LigneMatche>());
+		add(vueAccueil, "Accueil");
+		show("Accueil");
 	}
 	
-	public GridBagConstraints getGridBagConstraints() {
-		return this.gbc;
-	}
-	
-	public void show(String str) {
-		cardLayout.show(this,str);
+	/**
+	 * Choisit la page à afficher
+	 * @param identifiant de la page à afficher
+	 */
+	public void show(String identifiant) {
+		cardLayout.show(this,identifiant);
 	}
 }
