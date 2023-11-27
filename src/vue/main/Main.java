@@ -42,7 +42,7 @@ public class Main extends JPanel {
 		panelMain.setOpaque(false);
 		GridBagConstraints gbcPanelContenu = new GridBagConstraints();
 		gbcPanelContenu.fill = GridBagConstraints.BOTH;
-		gbcPanelContenu.weightx = 0.6;
+		gbcPanelContenu.weightx = 0.55;
 		gbcPanelContenu.gridx = 1;
 		gbcPanelContenu.gridy = 0;
 		add(panelMain, gbcPanelContenu);
@@ -62,7 +62,7 @@ public class Main extends JPanel {
 		panelMenu.setBackground(Vue.BACKGROUND_MENU);
 		panelMenu.setBorder(BorderFactory.createMatteBorder(3, 4, 4, 4, Vue.ROSE_CONTOURS));
 		contraintesPanelMenu.fill = GridBagConstraints.BOTH;
-		contraintesPanelMenu.weightx = 0.4;
+		contraintesPanelMenu.weightx = 0.45;
 		contraintesPanelMenu.gridx = 0;
 		contraintesPanelMenu.gridy = 0;
 		add(panelMenu, contraintesPanelMenu);

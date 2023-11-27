@@ -103,7 +103,6 @@ public class VueAccueil extends JPanel {
 		scrollPaneEquipe.setOpaque(false);
 		scrollPaneEquipe.setWheelScrollingEnabled(true);
 		scrollPaneEquipe.setBorder(null);
-		System.out.println(scrollPaneEquipe.getViewport().getView());
 		GridBagConstraints gbcScrollPaneEquipe = new GridBagConstraints();
 		gbcScrollPaneEquipe.insets = new Insets(0, 0, 0, 5);
 		gbcScrollPaneEquipe.fill = GridBagConstraints.BOTH;

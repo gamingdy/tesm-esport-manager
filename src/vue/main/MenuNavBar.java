@@ -22,8 +22,6 @@ public class MenuNavBar extends JPanel {
 
 		BoutonMenuControlleur controlleurBoutons = new BoutonMenuControlleur(this);
 		this.boutons = new HashMap<String, BoutonMenu>();
-		
-		setBorder(BorderFactory.createEmptyBorder(0,25,0,25));
 
 		GridBagLayout gbl_this = new GridBagLayout();
 		this.setLayout(gbl_this);
@@ -34,7 +32,7 @@ public class MenuNavBar extends JPanel {
 
 		gbc = new GridBagConstraints();
 		this.setBackground(Vue.BACKGROUND_MENU);
-		gbc.fill = GridBagConstraints.BOTH;
+		gbc.fill = GridBagConstraints.VERTICAL;
 		gbc.weighty = 0.9;
 		gbc.weightx = 1;
 		gbc.gridx = 0;
