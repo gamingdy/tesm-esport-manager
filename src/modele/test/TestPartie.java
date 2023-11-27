@@ -21,8 +21,8 @@ public class TestPartie {
 	public void setUp() throws Exception {
 		debut=new CustomDate(2022,12,5);
 		finTournoi=new CustomDate(2022,12,20);
-		equipe1=new Equipe("Faze",Country.ALGERIA);
-		equipe2=new Equipe("KC",Country.ALGERIA);
+		equipe1=new Equipe("Faze",Country.ALGERIE);
+		equipe2=new Equipe("KC",Country.ALGERIE);
 		saison=new Saison(2022);
 		tournoi=new Tournoi(saison,"RLCS",debut,finTournoi,Niveau.INTERNATIONAL,new CompteArbitre("arbitre0","1234"));
 		matche=new Matche(2,debut,Categorie.DEMI_FINALE,equipe1,equipe2,tournoi);
