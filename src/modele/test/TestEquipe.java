@@ -53,7 +53,7 @@ public class TestEquipe {
 
 	@Test
 	public void testCountryName() {
-		assertEquals("Palau", Country.POLOGNE.getNom());
+		assertEquals("Pologne", Country.POLOGNE.getNom());
 	}
 
 	@Test

@@ -1,6 +1,8 @@
 package modele.test;
 
+import exceptions.FausseDate;
 import exceptions.IdNotSet;
+import exceptions.MemeEquipe;
 import org.junit.Before;
 import org.junit.Test;
 import modele.*;
@@ -25,7 +27,19 @@ public class TestMatche {
 		tournoi= new Tournoi(saison,"RLCS",d1,d2,Niveau.INTERNATIONAL,new CompteArbitre("cricri","1234"));
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
-
+	@Test(expected= MemeEquipe.class)
+	public void testConstructeurExceptionMemeEquipe() throws MemeEquipe, FausseDate {
+		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e1, tournoi);
+	}
+	@Test(expected = FausseDate.class)
+	public void testContructeurExceptionFausseDate() throws MemeEquipe, FausseDate {
+		d1= new CustomDate(2022,9,10);
+		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
+	}
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructeurExceptionNull() throws MemeEquipe, FausseDate {
+		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, null, tournoi);
+	}
 	@Test
 	public void getId() throws IdNotSet {
 		m.setId(1);
@@ -90,11 +104,14 @@ public class TestMatche {
 
 	@Test
 	public void getTournoi() {
+		assertEquals(tournoi,m.getTournoi());
+	}
+	@Test
+	public void getSaison() {
+		assertEquals(saison,m.getSaison());
 	}
 
-	@Test
-	public void setTournoi() {
-	}
+
 	@Test
 	public void setVainqueur(){
 		m.setVainqueur(e1);

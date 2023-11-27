@@ -33,9 +33,6 @@ public class Matche {
 		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
 			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
 		}
-		if (equipe1.getNom() == equipe2.getNom()) {
-			throw new MemeEquipe("Les 2 équipes sont identiques");
-		}
 
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
