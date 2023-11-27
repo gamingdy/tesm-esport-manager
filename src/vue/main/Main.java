@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import controller.ControleurTest;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.JPanelWithBackground;
@@ -22,9 +23,9 @@ public class Main extends JPanel {
 	/**
 	 * Create the frame.
 	 */
-	public Main() {
+	public Main(ControleurTest controleurTest) {
 		setOpaque(false);
-		navbar = new MenuNavBar();
+		navbar = new MenuNavBar(controleurTest);
 
 		//Création du jpanel principal avec le menu
 		setContent();

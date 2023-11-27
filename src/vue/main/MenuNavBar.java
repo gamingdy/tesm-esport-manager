@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controller.BoutonMenuControlleur;
+import controller.ControleurTest;
 import vue.Vue;
 import vue.common.BoutonMenu;
 import vue.common.CustomColor;
@@ -15,14 +16,14 @@ import vue.common.CustomColor;
 @SuppressWarnings("serial")
 public class MenuNavBar extends JPanel {
 
-	HashMap<String, BoutonMenu> boutons;
+	static HashMap<String, BoutonMenu> boutons;
 	GridBagConstraints gbc;
 
-	public MenuNavBar() {
+	public MenuNavBar(ControleurTest controleurTest) {
 		super();
 
-		BoutonMenuControlleur controlleurBoutons = new BoutonMenuControlleur(this);
-		this.boutons = new HashMap<String, BoutonMenu>();
+		ControleurTest controlleurBoutons = controleurTest;
+		boutons = new HashMap<String, BoutonMenu>();
 
 		GridBagLayout gbl_this = new GridBagLayout();
 		this.setLayout(gbl_this);
@@ -64,7 +65,7 @@ public class MenuNavBar extends JPanel {
 		return this.gbc;
 	}
 
-	public void selectionner(BoutonMenu bouton) {
+	public static void selectionner(BoutonMenu bouton) {
 		boutons.entrySet().stream()
 				.forEach(e -> {
 					if (e.getKey() == bouton.getText()) {

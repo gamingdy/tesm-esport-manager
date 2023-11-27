@@ -1,5 +1,6 @@
 package vue;
 
+import controller.ControleurTest;
 import vue.common.JPanelWithBackground;
 import vue.common.WindowResizer;
 import vue.main.Main;
@@ -20,7 +21,7 @@ public class Vue extends JFrame{
 
 	private final int HEIGHT = 800;
 	private final int WIDTH = 1300;
-	
+	private ControleurTest controleur;
 	
 	private TitleBar titleBar;
 	private JPanel panelContenu;
@@ -29,7 +30,7 @@ public class Vue extends JFrame{
 	public Vue() {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setBackground();
-
+		this.controleur=new ControleurTest(this);
 		titleBar = new TitleBar(this);
 		
 		setLayout(new BorderLayout());
@@ -41,7 +42,7 @@ public class Vue extends JFrame{
 		Image newimg = logo.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
 		setIconImage(newimg);
 		
-		main = new Main();
+		main = new Main(this.controleur);
 		main.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
 		main.setOpaque(false);
 		panelContenu.add(main, BorderLayout.CENTER);

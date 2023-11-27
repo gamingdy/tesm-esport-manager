@@ -1,42 +1,36 @@
 package controller;
 
+import vue.Vue;
+import vue.common.BoutonMenu;
+import vue.main.MenuNavBar;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import vue.Vue;
-import vue.common.BoutonMenu;
-import vue.main.ConteneurMain;
-import vue.main.MenuNavBar;
-enum ETAT{
-	ACCUEIL,ARBITRES
-}
-public class BoutonMenuControlleur implements ActionListener, MouseListener {
+public class ControleurTest implements ActionListener, MouseListener {
 	private Vue vue;
 	private ETAT etat;
-	MenuNavBar navbar;
-
-	public BoutonMenuControlleur(MenuNavBar navbar) {
-		this.navbar = navbar;
-		this.etat=ETAT.ACCUEIL;
+	public ControleurTest(Vue newVue){
+		this.vue=newVue;
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof BoutonMenu) {
-			navbar.selectionner((BoutonMenu) e.getSource());}
-
+			MenuNavBar.selectionner((BoutonMenu) e.getSource());}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() instanceof BoutonMenu) {
-			navbar.selectionner((BoutonMenu) e.getSource());
 			BoutonMenu boutonSelectionné=(BoutonMenu) e.getSource();
+			System.out.println("ui");
 			if(boutonSelectionné.getText()=="Arbitres"){
 				etat=ETAT.ARBITRES;
+				System.out.println("PAGE arbitre");
+				vue.setPage("Arbitres");
 			}
 		}
 	}
@@ -66,5 +60,6 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 			((BoutonMenu) e.getSource()).finSurvoller();
 		}
 	}
+
 
 }
