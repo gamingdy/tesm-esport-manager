@@ -46,13 +46,13 @@ public class Equipe {
 
 
 	public void setPoint(int point) throws PointsNegatifs {
-		if (point < 0) {
-			throw new PointsNegatifs("On ne peut pas mettre des points négatifs");
+		if(point<0){
+			throw new PointsNegatifs("On ne peut pas mettre des points negatifs");
 		}
 		this.point = point;
 	}
 
-	public void addJoueur(Joueur joueur) throws EquipeComplete, ErreurJoueur {
+	public void addJoueur(Joueur joueur) throws EquipeComplete {
 		if (this.equipe.size() == 5) {
 			throw new EquipeComplete("L'équipe est pleine");
 		}

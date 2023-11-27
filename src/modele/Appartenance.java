@@ -25,8 +25,6 @@ public class Appartenance {
 	public void setPoule(Poule poule) {
 		this.poule = poule;
 	}
-	
-	
-	
+
 
 }

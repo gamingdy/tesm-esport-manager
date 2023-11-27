@@ -1,14 +1,10 @@
 package modele.test;
 
-import exceptions.ErreurDate;
-import exceptions.FausseDate;
 import modele.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class testCompteArbitreAdmin {
+public class TestCompteArbitreAdmin {
 	private CompteArbitre compteArbitre;
 	private Arbitre a;
 	private Tournoi tournoi;

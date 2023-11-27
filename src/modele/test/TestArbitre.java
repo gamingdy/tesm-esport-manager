@@ -1,7 +1,7 @@
 package modele.test;
 
-import exceptions.idNotSet;
-import org.junit.After;
+import exceptions.IdNotSet;
+import modele.Country;
 import org.junit.Before;
 import org.junit.Test;
 import modele.Arbitre;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class testArbitre {
+public class TestArbitre {
 	private Arbitre a;
 
 	@Before
@@ -19,13 +19,13 @@ public class testArbitre {
 		a = new Arbitre("Brando", "Titouan");
 	}
 
-	@Test(expected = idNotSet.class)
-	public void getIdNotSet() throws idNotSet {
+	@Test(expected = IdNotSet.class)
+	public void getIdNotSet() throws IdNotSet {
 		a.getId();
 	}
 
 	@Test
-	public void getId() throws idNotSet {
+	public void getId() throws IdNotSet {
 		a.setId(5);
 		assertEquals((Integer) 5, a.getId());
 	}
@@ -53,7 +53,7 @@ public class testArbitre {
 	}
 
 	@Test
-	public void testtoString() throws idNotSet {
+	public void testtoString() throws IdNotSet {
 		a.setId(6);
 		assertEquals("(6)Brando Titouan", "(" + a.getId() + ")" + a.getNom() + " " + a.getPrenom());
 	}
@@ -73,11 +73,27 @@ public class testArbitre {
 
 	@Test
 	public void testEqualsnotSameClass() {
-		assertNotEquals(1, a);
+		assertNotEquals(a,1);
+
 	}
 
 	@Test
 	public void testToString() {
 		assertEquals( a.getNom() + " " + a.getPrenom(),a.toString());
+	}
+	@Test
+	public void testEqualsNormal(){
+		Arbitre a2=a;
+		assertEquals(a,a2);
+	}
+	@Test
+	public void testCompareTo(){
+		Arbitre a2=a;
+		assertEquals(0,a.compareTo(a2));
+	}
+	@Test
+	public void testCompareToPasPareil(){
+		Arbitre a2=new Arbitre("A","A");
+		assertEquals(1,a.compareTo(a2));
 	}
 }

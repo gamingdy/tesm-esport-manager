@@ -13,7 +13,7 @@ import modele.Joueur;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class testEquipe {
+public class TestEquipe {
 	private Equipe equipe1;
 	private Equipe equipe2;
 	private Joueur j;
@@ -52,8 +52,13 @@ public class testEquipe {
 	}
 
 	@Test
-	public void testCountry() {
-		assertEquals("Palau", Country.PALAU.getCountry());
+	public void testCountryName() {
+		assertEquals("Palau", Country.PALAU.getName());
+	}
+
+	@Test
+	public void testCountryCode() {
+		assertEquals("pw", Country.PALAU.getCode());
 	}
 
 
@@ -129,9 +134,10 @@ public class testEquipe {
 		equipe2.addJoueur(j);
 		assertEquals(set, equipe2.getEquipe());
 	}
+
 	@Test(expected = JoueurNonPresent.class)
 	public void testDeleteJoueur() throws EquipeComplete, ErreurJoueur, JoueurNonPresent, EquipeVide {
-		j=new Joueur("fjkdfj");
+		j = new Joueur("fjkdfj", equipe2);
 		equipe1.deleteJoueur(j);
 	}
 

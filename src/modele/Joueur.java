@@ -3,7 +3,7 @@ package modele;
 
 import exceptions.EquipeComplete;
 import exceptions.ErreurJoueur;
-import exceptions.idNotSet;
+import exceptions.IdNotSet;
 
 public class Joueur implements Comparable<Joueur> {
 	
@@ -17,18 +17,13 @@ public class Joueur implements Comparable<Joueur> {
 		this.equipe.addJoueur(this);
 	}
 
-	public Joueur(String pseudo) {
-		this.pseudo = pseudo;
-		this.equipe = null;
-	}
-
 	public void setId(Integer newId) {
 		this.id = newId;
 	}
 
-	public Integer getId() throws idNotSet {
+	public Integer getId() throws IdNotSet {
 		if (this.id == null) {
-			throw new idNotSet("le id de ce Joueur n'est pas set");
+			throw new IdNotSet("le id de ce Joueur n'est pas set");
 		}
 		return this.id;
 	}
@@ -49,13 +44,6 @@ public class Joueur implements Comparable<Joueur> {
 		return this.equipe;
 	}
 
-	public void setEquipe(Equipe equipe) throws EquipeComplete, ErreurJoueur {
-		if (this.equipe != null) {
-			throw new ErreurJoueur("Ce joueur est déjà dans une équipe");
-		}
-		this.equipe = equipe;
-		this.equipe.addJoueur(this);
-	}
 
 	public int compareTo(Joueur j) {
 		return j.getPseudo().compareTo(this.getPseudo());
@@ -64,5 +52,14 @@ public class Joueur implements Comparable<Joueur> {
 	@Override
 	public int hashCode() {
 		return this.pseudo.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Joueur) {
+			Joueur j = (Joueur) o;
+			return this.pseudo.equals(j.getPseudo());
+		}
+		return false;
 	}
 }

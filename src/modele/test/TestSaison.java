@@ -1,6 +1,5 @@
 package modele.test;
 
-import exceptions.EquipeInexistante;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,7 +7,7 @@ import static org.junit.Assert.*;
 
 import modele.*;
 
-public class testSaison {
+public class TestSaison {
 	private Saison s1;
 	private Arbitre a1;
 	private Arbitre a2;

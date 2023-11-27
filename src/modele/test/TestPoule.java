@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class testPoule {
+public class TestPoule {
 	private Poule poule;
 	private Tournoi tournoi;
 	private Character libelle;
@@ -35,35 +35,5 @@ public class testPoule {
 		assertEquals((Character) 'A', poule.getLibelle());
 	}
 
-	@Test
-	public void setLibelle() {
-	}
 
-	@Test
-	public void getPoint() {
-	}
-
-	@Test
-	public void ajouterPoint() {
-	}
-
-	@Test
-	public void enleverPoint() {
-	}
-
-	@Test
-	public void addEquipe() {
-	}
-
-	@Test
-	public void deleteEquipe() {
-	}
-
-	@Test
-	public void getEquipes() {
-	}
-
-	@Test
-	public void testToString() {
-	}
 }

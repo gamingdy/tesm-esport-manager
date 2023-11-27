@@ -1,22 +1,14 @@
 package modele.test;
 
-import exceptions.ErreurDate;
-import exceptions.FausseDate;
-import exceptions.idNotSet;
+import exceptions.IdNotSet;
 import org.junit.Before;
 import org.junit.Test;
 import modele.*;
 
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import static org.junit.Assert.*;
 
-public class testMatche {
+public class TestMatche {
 	private Matche m;
 	private Equipe e1 = new Equipe("Faze", Country.PALAU);
 	private Equipe e2 = new Equipe("KC", Country.ALGERIA);
@@ -35,13 +27,13 @@ public class testMatche {
 	}
 
 	@Test
-	public void getId() throws idNotSet {
+	public void getId() throws IdNotSet {
 		m.setId(1);
 		assertEquals((Integer) 1, m.getId());
 	}
 
-	@Test(expected = idNotSet.class)
-	public void getIdNotSet() throws idNotSet {
+	@Test(expected = IdNotSet.class)
+	public void getIdNotSet() throws IdNotSet {
 		assertEquals((Integer) 1, m.getId());
 	}
 
