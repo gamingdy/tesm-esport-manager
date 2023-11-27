@@ -1,4 +1,4 @@
-package vue.main;
+package vue.admin.main;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,7 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controller.BoutonMenuControlleur;
-import vue.Vue;
+import vue.admin.VueAdmin;
 import vue.common.BoutonMenu;
 import vue.common.CustomColor;
 

@@ -1,4 +1,4 @@
-package vue.accueil;
+package vue.admin.accueil;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -33,7 +33,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import vue.Vue;
+import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 import vue.common.CustomScrollBarUI;

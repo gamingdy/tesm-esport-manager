@@ -1,8 +1,7 @@
-package vue.main;
+package vue.common;
 
 import vue.Vue;
-import vue.common.ButtonTitleBar;
-import vue.common.MaFont;
+import vue.admin.VueAdmin;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package vue.main;
+package vue.admin.main;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -10,11 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 
-import vue.accueil.VueAccueil;
-import vue.accueil.LigneEquipe;
-import vue.accueil.LigneTournoi;
-import vue.accueil.LigneMatche
-		;
+import vue.admin.accueil.LigneEquipe;
+import vue.admin.accueil.LigneMatche;
+import vue.admin.accueil.LigneTournoi;
+import vue.admin.accueil.VueAccueil;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {

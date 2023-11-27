@@ -1,13 +1,10 @@
 package vue;
 
-import vue.common.JPanelWithBackground;
-import vue.common.WindowResizer;
-import vue.main.Main;
-import vue.main.TitleBar;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
+import java.awt.CardLayout;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -15,16 +12,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import vue.admin.main.Main;
+import vue.common.JPanelWithBackground;
+import vue.common.TitleBar;
+import vue.common.WindowResizer;
+
 @SuppressWarnings("serial")
 public class Vue extends JFrame{
 
-	private final int HEIGHT = 800;
-	private final int WIDTH = 1300;
+	private static final int HEIGHT = 800;
+	private static final int WIDTH = 1300;
 	
 	
 	private TitleBar titleBar;
 	private JPanel panelContenu;
-	private Main main;
+	private CardLayout cl;
 	
 	public Vue() {
 		setBounds(100, 100, WIDTH, HEIGHT);
@@ -34,46 +36,42 @@ public class Vue extends JFrame{
 		
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		panelContenu.add(titleBar, BorderLayout.NORTH);
+		getContentPane().add(titleBar, BorderLayout.NORTH);
 		
 		new WindowResizer(this, HEIGHT, WIDTH);
 		ImageIcon logo = new ImageIcon("assets/logo.png");
 		Image newimg = logo.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
 		setIconImage(newimg);
 		
-		main = new Main();
-		main.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
-		main.setOpaque(false);
-		panelContenu.add(main, BorderLayout.CENTER);
-		setPage("Accueil");
+		panelContenu = new JPanel();
+		cl = new CardLayout();
+		panelContenu.setLayout(cl);
+		add(panelContenu, BorderLayout.CENTER);
+		panelContenu.setOpaque(false);
 	}
 
 	private void setBackground() {
-		panelContenu = null;
+		JPanel panel = null;
 		try {
-			panelContenu = new JPanelWithBackground("assets/background.jpg", 1300, 800);
+			panel = new JPanelWithBackground("assets/background.jpg", HEIGHT, WIDTH);
 		} catch (IOException e) {
-			panelContenu = new JPanel();
-			panelContenu.setBackground(Color.red.darker());
+			panel = new JPanel();
+			panel.setBackground(Color.red.darker());
 		}
-		setContentPane(panelContenu);
+		setContentPane(panel);
 	}
 
 	public void updateBackgroundSize() {
-		if (panelContenu instanceof JPanelWithBackground) {
-			((JPanelWithBackground) panelContenu).updateBackgroundSize(this.getWidth(), this.getHeight());
+		if (getContentPane() instanceof JPanelWithBackground) {
+			((JPanelWithBackground) getContentPane()).updateBackgroundSize(this.getWidth(), this.getHeight());
 		}
 	}
-
-	/**
-	 * Change la page de contenue du main
-	 *
-	 * @param identifiant l'identifiant
-	 */
+	
 	public void setPage(String identifiant) {
-		main.setPage(identifiant);
-		titleBar.setTitle(identifiant);
+		cl.show(panelContenu, identifiant);
 	}
 	
-	
+	public void addPage(Component page, String identifiant) {
+		panelContenu.add(page, identifiant);
+	}
 }

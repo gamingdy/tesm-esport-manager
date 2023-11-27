@@ -1,11 +1,11 @@
-package vue.main;
+package vue.admin.main;
 
 import java.awt.*;
 import java.io.IOException;
 
 import javax.swing.*;
 
-import vue.Vue;
+import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
