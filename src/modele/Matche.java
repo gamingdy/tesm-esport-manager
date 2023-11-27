@@ -15,7 +15,7 @@ public class Matche {
 	private Equipe equipe1;
 	private Equipe equipe2;
 	private Tournoi tournoi;
-	private int vainqueur;
+	private Equipe vainqueur;
 	private Saison saison;
 
 
@@ -43,7 +43,7 @@ public class Matche {
 		this.equipe1 = equipe1;
 		this.equipe2 = equipe2;
 		this.tournoi = tournoi;
-		this.vainqueur = 0;
+		this.vainqueur = null;
 		this.saison = tournoi.getSaison();
 	}
 
@@ -88,30 +88,10 @@ public class Matche {
 	}
 
 	public Equipe getVainqueur() {
-		Equipe equipe = null;
-		if (this.vainqueur == 1) {
-			equipe = this.equipe1;
-		}
-		if (this.vainqueur == 2) {
-			equipe = this.equipe2;
-		}
-		return equipe;
-	}
-
-	public int getVainqueurInt() {
-		return vainqueur;
+		return this.vainqueur;
 	}
 
 	public void setVainqueur(Equipe vainqueur) {
-		if (vainqueur.getNom() == this.equipe1.getNom()) {
-			this.vainqueur = 1;
-		}
-		if (vainqueur.getNom() == this.equipe2.getNom()) {
-			this.vainqueur = 2;
-		}
-	}
-
-	public void setVainqueur(int vainqueur) {
 		this.vainqueur = vainqueur;
 	}
 
