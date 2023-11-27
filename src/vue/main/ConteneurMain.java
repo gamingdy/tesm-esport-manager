@@ -14,18 +14,18 @@ import vue.accueil.PageAccueil;
 import vue.accueil.LigneEquipe;
 import vue.accueil.LigneTournoi;
 import vue.accueil.LigneMatche
-;
+		;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
 
 	private GridBagConstraints gbc;
 	private CardLayout cardLayout;
-	
+
 	public ConteneurMain() {
 		this.gbc = new GridBagConstraints();
 		gbc.gridx = 1;
-		
+
 		gbc = new GridBagConstraints();
 		this.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
 		this.setOpaque(false);
@@ -33,26 +33,35 @@ public class ConteneurMain extends JPanel {
 		gbc.weightx = 0.8;
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		
+
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
-		
-		DefaultListModel<LigneEquipe> l = new DefaultListModel<LigneEquipe>();
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
-		l.addElement(new LigneEquipe(1,new ImageIcon("assets/logo.png"), "Equipe", 69));
 
-		this.add(new PageAccueil(l,new DefaultListModel<LigneTournoi>(),new DefaultListModel<LigneMatche>()),"Accueil");
-		cardLayout.show(this,"Accueil");
+		DefaultListModel<LigneEquipe> l = new DefaultListModel<LigneEquipe>();
+		
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "Equipe", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "patate", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "patata", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "hazorz", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "zzzzzz", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "pk tu fais ça", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "nul", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "miaow", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "miaow mais écrit autrement", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "mdr", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "arrête c'est bon", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "c'est suffisant là", 69));
+		l.addElement(new LigneEquipe(1, new ImageIcon("assets/logo.png"), "Equipe", 69));
+
+		this.add(new PageAccueil(l, new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>()), "Accueil");
+		cardLayout.show(this, "Accueil");
 	}
-	
+
 	public GridBagConstraints getGridBagConstraints() {
 		return this.gbc;
 	}
-	
+
 	public void show(String str) {
-		cardLayout.show(this,str);
+		cardLayout.show(this, str);
 	}
 }
