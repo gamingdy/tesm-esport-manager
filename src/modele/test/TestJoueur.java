@@ -21,7 +21,7 @@ public class TestJoueur {
 
 	@Before
 	public void setUp() throws EquipeComplete, ErreurJoueur {
-		equipe1 = new Equipe("Faze", Country.ALGERIA);
+		equipe1 = new Equipe("Faze", Country.ALGERIE);
 		j = new Joueur("Cricri", equipe1);
 	}
 

@@ -72,7 +72,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 				"INSERT INTO Equipe(Nom_Equipe,World_rank,Pays_Equipe) values (?,?,?)")){
 			add.setString(1, value.getNom());
 			add.setInt(2, value.getPoint());
-			add.setString(3, value.getPays().getName());
+			add.setString(3, value.getPays().getNom());
 			return add.execute();
 		}
 	}
@@ -85,7 +85,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 						+"Pays_Equipe = ?"
 						+"WHERE Nom_Equipe = ?")) {
 			update.setInt(1, value.getPoint());
-			update.setString(2, value.getPays().getName());
+			update.setString(2, value.getPays().getNom());
 			update.setString(3, value.getNom());
 			return update.execute();
 		}

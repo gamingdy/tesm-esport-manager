@@ -25,8 +25,8 @@ public class TestEquipe {
 
 	@Before
 	public void setUp() throws EquipeComplete, ErreurJoueur {
-		equipe1 = new Equipe("Faze", Country.ALGERIA);
-		equipe2 = new Equipe("Patate", Country.ALGERIA);
+		equipe1 = new Equipe("Faze", Country.ALGERIE);
+		equipe2 = new Equipe("Patate", Country.ALGERIE);
 		j2 = new Joueur("Soso1", equipe1);
 		j3 = new Joueur("SoSo2", equipe1);
 		j4 = new Joueur("Sososo3", equipe1);
@@ -42,23 +42,23 @@ public class TestEquipe {
 
 	@Test
 	public void testgetCountry() {
-		assertEquals(Country.ALGERIA, equipe1.getPays());
+		assertEquals(Country.ALGERIE, equipe1.getPays());
 	}
 
 	@Test
 	public void testsetCountry() {
-		equipe1.setPays(Country.PALAU);
-		assertEquals(Country.PALAU, equipe1.getPays());
+		equipe1.setPays(Country.POLOGNE);
+		assertEquals(Country.POLOGNE, equipe1.getPays());
 	}
 
 	@Test
 	public void testCountryName() {
-		assertEquals("Palau", Country.PALAU.getName());
+		assertEquals("Palau", Country.POLOGNE.getNom());
 	}
 
 	@Test
 	public void testCountryCode() {
-		assertEquals("pw", Country.PALAU.getCode());
+		assertEquals("pl", Country.POLOGNE.getCode());
 	}
 
 

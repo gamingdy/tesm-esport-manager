@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 
 public class TestMatche {
 	private Matche m;
-	private Equipe e1 = new Equipe("Faze", Country.PALAU);
-	private Equipe e2 = new Equipe("KC", Country.ALGERIA);
+	private Equipe e1 = new Equipe("Faze", Country.POLOGNE);
+	private Equipe e2 = new Equipe("KC", Country.ALGERIE);
 	private CustomDate d1;
 	private CustomDate d2;
 	private Tournoi tournoi;
