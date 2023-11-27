@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -29,6 +30,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import vue.Vue;
@@ -39,7 +41,7 @@ import vue.common.CustomScrollBarUI;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-public class PageAccueil extends JPanel {
+public class VueAccueil extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,8 +53,11 @@ public class PageAccueil extends JPanel {
 
 	/**
 	 * Create the panel.
+	 * @param equipes liste des équipes à afficher
+	 * @param tournois liste des tournois à afficher
+	 * @param matches liste des matchs à afficher
 	 */
-	public PageAccueil(ListModel<LigneEquipe> equipes, ListModel<LigneTournoi> tournois, ListModel<LigneMatche> matches) {
+	public VueAccueil(ListModel<LigneEquipe> equipes, ListModel<LigneTournoi> tournois, ListModel<LigneMatche> matches) {
 		setOpaque(false);
 		setBorder(new EmptyBorder(20, 20, 20, 20));
 		GridBagLayout gridBagLayout = new GridBagLayout();
