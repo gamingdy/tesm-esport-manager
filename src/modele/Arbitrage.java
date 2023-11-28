@@ -25,4 +25,9 @@ public class Arbitrage {
 	public void setTournoi(Tournoi tournoi) {
 		this.tournoi = tournoi;
 	}
+
+	@Override
+	public String toString() {
+		return "Arbitrage [arbitre=" + arbitre + ", tournoi=" + tournoi + "]";
+	}
 }

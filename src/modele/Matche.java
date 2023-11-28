@@ -112,4 +112,11 @@ public class Matche {
 		return tournoi;
 	}
 
+	@Override
+	public String toString() {
+		return "Matche [id=" + id + ", dateDebutMatche=" + dateDebutMatche + ", nombreMaxParties=" + nombreMaxParties
+				+ ", libelle=" + libelle + ", equipe1=" + equipe1 + ", equipe2=" + equipe2 + ", tournoi=" + tournoi
+				+ ", vainqueur=" + vainqueur + ", saison=" + saison + "]";
+	}
+
 }

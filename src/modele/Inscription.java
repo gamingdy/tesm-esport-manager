@@ -26,4 +26,9 @@ public class Inscription {
 		this.annee = annee;
 	}
 
+	@Override
+	public String toString() {
+		return "Inscription [nom=" + nom + ", annee=" + annee + "]";
+	}
+
 }

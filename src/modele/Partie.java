@@ -57,4 +57,9 @@ public class Partie {
 		return matche;
 	}
 
+	@Override
+	public String toString() {
+		return "Partie [numeroPartie=" + numeroPartie + ", vainqueur=" + vainqueur + ", matche=" + matche + "]";
+	}
+
 }

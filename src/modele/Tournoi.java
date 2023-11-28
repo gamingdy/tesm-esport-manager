@@ -84,6 +84,12 @@ public class Tournoi {
 		return compteArbitre;
 	}
 
+	@Override
+	public String toString() {
+		return "Tournoi [saison=" + saison + ", nom=" + nom + ", debut=" + debut + ", fin=" + fin + ", niveau=" + niveau
+				+ ", estEncours=" + estEncours + "]";
+	}
+
 
 
 	/*public Map<Character, Poule> getPoules() {
