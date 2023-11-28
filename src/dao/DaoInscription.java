@@ -60,10 +60,13 @@ public class DaoInscription implements Dao<Inscription,Object>{
 			getById.setShort(1, (Short)id[0]);
 			getById.setString(1, (String)id[1]);
 			ResultSet resultat = getById.executeQuery();
-			Inscription inscription = new Inscription(
-					resultat.getShort("Annee"),
-					resultat.getString("Nom_Equipe"));
-			return inscription;
+			if(resultat.next()) {
+				Inscription inscription = new Inscription(
+						resultat.getShort("Annee"),
+						resultat.getString("Nom_Equipe"));
+				return inscription;
+			}
+			throw new Exception("Ligne non trouvé");
 		}
 	}
 

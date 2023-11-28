@@ -39,7 +39,7 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 		}
 	}
 
-	
+
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement();){
 			System.out.println("Table 'Tournoi' créée avec succès");
@@ -58,7 +58,7 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Début")),
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
-						Niveau.valueOf(resultat.getString("Libelle_Niveau")),
+						Niveau.search(resultat.getString("Libelle_Niveau")),
 						new CompteArbitre(
 								resultat.getString("username"),
 								resultat.getString("mdp"))
@@ -73,19 +73,22 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 	public Tournoi getById(Object... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Tournoi WHERE Nom_Tournoi = ? AND Annee = ?")){
 			getById.setString(1, (String)id[0]);
-			getById.setShort(2, (Short)id[1]);
+			getById.setInt(2, (Integer)id[1]);
 			ResultSet resultat = getById.executeQuery();
-			Tournoi tournoi = new Tournoi(
-					new Saison(resultat.getInt("Annee")),
-					resultat.getString("Nom_Tournoi"),
-					new CustomDate(resultat.getTimestamp("Date_Début")),
-					new CustomDate(resultat.getTimestamp("Date_Fin")),
-					Niveau.valueOf(resultat.getString("Libelle_Niveau")),
-					new CompteArbitre(
-							resultat.getString("username"),
-							resultat.getString("mdp"))
-					);
-			return tournoi;
+			if(resultat.next()) {
+				Tournoi tournoi = new Tournoi(
+						new Saison(resultat.getInt("Annee")),
+						resultat.getString("Nom_Tournoi"),
+						new CustomDate(resultat.getTimestamp("Date_Début")),
+						new CustomDate(resultat.getTimestamp("Date_Fin")),
+						Niveau.search(resultat.getString("Libelle_Niveau")),
+						new CompteArbitre(
+								resultat.getString("username"),
+								resultat.getString("mdp"))
+						);
+				return tournoi;
+			}
+			throw new Exception("Tournoi non trouvé");
 		}
 	}
 
@@ -130,7 +133,7 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 	@Override
 	public boolean delete(Object... value) throws Exception {
 		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
-						"DELETE FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
+				"DELETE FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
 			delete.setInt(1,(Integer)value[0]);
 			delete.setString(2,(String)value[1]);
 			return delete.execute();

@@ -57,11 +57,14 @@ public class DaoEquipe implements Dao<Equipe,String>{
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Equipe WHERE Nom_Equipe = ?")){
 			getById.setString(1, nom[0]);
 			ResultSet resultat = getById.executeQuery();
-			Equipe equipe = new Equipe(
-					resultat.getString("Nom_Equipe"),
-					Country.valueOf(resultat.getString("Pays_Equipe")));
-			equipe.setPoint(resultat.getInt("World_rank"));
-			return equipe;
+			if (resultat.next()) {
+				Equipe equipe = new Equipe(
+						resultat.getString("Nom_Equipe"),
+						Country.valueOf(resultat.getString("Pays_Equipe")));
+				equipe.setPoint(resultat.getInt("World_rank"));
+				return equipe;
+			}
+			throw new Exception("Equipe non trouvée");
 		}
 	}
 
@@ -71,7 +74,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 				"INSERT INTO Equipe(Nom_Equipe,World_rank,Pays_Equipe) values (?,?,?)")){
 			add.setString(1, value.getNom());
 			add.setInt(2, value.getPoint());
-			add.setString(3, value.getPays().getNom());
+			add.setString(3, value.getPays().name());
 			return add.execute();
 		}
 	}

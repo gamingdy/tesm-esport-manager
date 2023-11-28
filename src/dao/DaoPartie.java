@@ -22,10 +22,10 @@ public class DaoPartie implements Dao<Partie,Integer>{
 
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Partie("
-				+ "Id_Partie INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+				+ "Id_Partie INT NOT NULL,"
 				+ "Id_Match INT NOT NULL,"
 				+ "Nom_Equipe VARCHAR(50),"
-				+ "PRIMARY KEY(Id_Partie),"
+				+ "PRIMARY KEY(Id_Partie,Id_Match),"
 				+ "FOREIGN KEY(Id_Match) REFERENCES Matche(Id_Match),"
 				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe))";
 
@@ -64,11 +64,14 @@ public class DaoPartie implements Dao<Partie,Integer>{
 			getById.setInt(1, id[0]);
 			getById.setInt(2, id[1]);
 			ResultSet resultat = getById.executeQuery();
-			Partie partie = new Partie(
-					resultat.getString("Nom_Equipe"),
-					daomatche.getById(resultat.getInt("Id_Match")));
-			partie.setNumeroPartie(resultat.getInt("Id_Partie"));
-			return partie;
+			if(resultat.next()) {
+				Partie partie = new Partie(
+						resultat.getString("Nom_Equipe"),
+						daomatche.getById(resultat.getInt("Id_Match")));
+				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
+				return partie;
+			}
+			throw new Exception("Partie non trouvée");
 		}
 	}
 
