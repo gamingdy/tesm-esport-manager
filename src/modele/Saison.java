@@ -2,10 +2,7 @@ package modele;
 
 import exceptions.EquipeInexistante;
 
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class Saison {
 
@@ -17,6 +14,7 @@ public class Saison {
 	public Saison(int annee) {
 		this.equipes = new HashMap<Equipe, Integer>();
 		this.arbitres = new TreeSet<Arbitre>();
+		this.tournois = new HashSet<Tournoi>();
 		this.annee = annee;
 	}
 
