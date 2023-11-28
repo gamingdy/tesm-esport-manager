@@ -23,20 +23,20 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 	}
 
 	public static void createTable(Connexion connexion) throws SQLException {
-	    String createTableSql = "CREATE TABLE Arbitrage("
-	            + "Annee INT,"
-	            + "Nom_tournoi VARCHAR(50),"
-	            + "Id_arbitre INT,"
-	            + "PRIMARY KEY(Annee, Nom_tournoi, Id_arbitre),"
-	            + "FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi),"
-	            + "FOREIGN KEY(Id_arbitre) REFERENCES Arbitre(Id_arbitre))";
+		String createTableSql = "CREATE TABLE Arbitrage("
+				+ "Annee INT,"
+				+ "Nom_tournoi VARCHAR(50),"
+				+ "Id_arbitre INT,"
+				+ "PRIMARY KEY(Annee, Nom_tournoi, Id_arbitre),"
+				+ "FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi),"
+				+ "FOREIGN KEY(Id_arbitre) REFERENCES Arbitre(Id_arbitre))";
 
-	    try (Statement createTable = connexion.getConnection().createStatement()) {
-	        createTable.execute(createTableSql);
-	        System.out.println("Table 'Arbitrage' créée avec succès");
-	    }
+		try (Statement createTable = connexion.getConnection().createStatement()) {
+			createTable.execute(createTableSql);
+			System.out.println("Table 'Arbitrage' créée avec succès");
+		}
 	}
-	
+
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
 			System.out.println("Table 'Arbitrage' créée avec succès");
@@ -53,8 +53,8 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 				Arbitrage arbitrage = new Arbitrage(
 						daoarbitre.getById(resultat.getInt("Id_Arbitre")),
 						daotournoi.getById(
-								resultat.getInt("Annee"),
-								resultat.getString("Nom_Tournoi")));
+								resultat.getString("Nom_Tournoi"),
+								resultat.getInt("Annee")));
 				sortie.add(arbitrage);
 			}
 			return sortie;
@@ -68,12 +68,15 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 			getById.setInt(2, (Integer)id[1]);
 			getById.setString(3, (String) id[2]);
 			ResultSet resultat = getById.executeQuery();
-			Arbitrage arbitrage = new Arbitrage(
-					daoarbitre.getById(resultat.getInt("Id_Arbitre")),
-					daotournoi.getById(
-							resultat.getInt("Annee"),
-							resultat.getString("Nom_Tournoi")));
-			return arbitrage;
+			if (resultat.next()) {
+				Arbitrage arbitrage = new Arbitrage(
+						daoarbitre.getById(resultat.getInt("Id_Arbitre")),
+						daotournoi.getById(
+								resultat.getInt("Annee"),
+								resultat.getString("Nom_Tournoi")));
+				return arbitrage;
+			}
+			throw new Exception("Ligne non trouvée");
 		}
 	}
 

@@ -22,15 +22,17 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 		this.daoequipe= new DaoEquipe(connexion);
 	}
 
-	
+
 	public static void createTable(Connexion connexion) throws SQLException {
-		String createTableSql = "CREATE TABLE Appartenance("
-				+"Annee INT,"
-				+"Nom_tournoi VARCHAR(50),"
-				+"Id_arbitre INT,"
-				+"PRIMARY KEY(Annee, Nom_tournoi, Id_arbitre),"
-				+"FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi),"
-				+"FOREIGN KEY(Id_arbitre) REFERENCES Arbitre(Id_arbitre))";
+		String createTableSql = 
+				"CREATE TABLE Appartenance("
+						+"Annee INT,"
+						+"Nom_Equipe VARCHAR(50),"
+						+"Nom_Tournoi VARCHAR(50),"
+						+"Libelle CHAR(1),"
+						+"PRIMARY KEY(Annee, Nom_tournoi, Nom_Equipe, Libelle),"
+						+"FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi),"
+						+"FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe))";
 
 
 		try(Statement createTable = connexion.getConnection().createStatement()){
@@ -40,7 +42,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 
 	}
 
-	
+
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
 			System.out.println("Table 'Appartenance' créée avec succès");
@@ -56,7 +58,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			while(resultat.next()) {
 				Appartenance appartenance = new Appartenance(
 						daoequipe.getById(resultat.getString("Nom_Equipe")),
-						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libellé")));
+						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")));
 				sortie.add(appartenance);
 			}
 			return sortie;
@@ -65,25 +67,28 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 
 	@Override
 	public Appartenance getById(Object... id) throws Exception {
-		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance WHERE Nom_Equipe = ? AND Annee = ? AND Nom_tournoi = ? AND Libellé = ?")){
+		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance WHERE Nom_Equipe = ? AND Annee = ? AND Nom_tournoi = ? AND Libelle = ?")){
 			getById.setString(1, (String)id[0]);
 			getById.setInt(2, (Integer)id[1]);
 			getById.setString(3, (String) id[2]);
 			getById.setString(3, (String)id[2]);
 
 			ResultSet resultat = getById.executeQuery();
-			Appartenance appartenance = new Appartenance(
-					daoequipe.getById(resultat.getString("Nom_Equipe")),
-					daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libellé")));
+			if (resultat.next()) {
+				Appartenance appartenance = new Appartenance(
+						daoequipe.getById(resultat.getString("Nom_Equipe")),
+						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libellé")));
 
-			return appartenance;
+				return appartenance;
+			}
+			throw new Exception("Ligne non trouvée");
 		}
 	}
 
 	@Override
 	public boolean add(Appartenance value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Arbitrage(Nom_Equipe,Annee,Nom_Tournoi,Libellé) values (?,?,?)")){
+				"INSERT INTO Arbitrage(Nom_Equipe,Annee,Nom_Tournoi,Libellé) values (?,?,?,?)")){
 			add.setString(1, value.getEquipe().getNom());
 			add.setInt(2, value.getPoule().getTournoi().getSaison().getAnnee());
 			add.setString(3, value.getPoule().getTournoi().getNom());
