@@ -60,12 +60,7 @@ public class Saison {
 
 	@Override
 	public String toString() {
-		String str = "";
-		for (Equipe e : this.getEquipes()) {
-			str += e.getNom() + " : " + this.equipes.get(e);
-			str += System.lineSeparator();
-		}
-		return str;
+		return "Saison [annee=" + annee	+ "]";
 	}
 
 	public void addTournoi(Tournoi tournoi) {

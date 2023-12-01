@@ -53,8 +53,11 @@ public class DaoNiveau implements Dao<Niveau,String>{
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Niveau WHERE Libelle_Niveau = ?")){
 			getById.setString(1, nom[0]);
 			ResultSet resultat = getById.executeQuery();
-			Niveau niveau = Niveau.valueOf(resultat.getString("Nom_Equipe"));
+			if(resultat.next()) {
+			Niveau niveau = Niveau.valueOf(resultat.getString("Libelle_Niveau"));
 			return niveau;
+			}
+			throw new Exception("Niveau non trouvé");
 		}
 	}
 

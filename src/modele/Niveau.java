@@ -6,7 +6,7 @@ public enum Niveau {
 	REGIONAL("Regional",1.5F),
 	NATIONAL("National",2.0F),
 	INTERNATIONAL("International",2.25F),
-	INTERNATIONAL_CLASSE("International classe",3.0F);
+	INTERNATIONAL_CLASSE("International_classe",3.0F);
 	
 	private float coefficient;
 	private String nom;
@@ -22,5 +22,15 @@ public enum Niveau {
 	
 	public String getNom() {
 		return nom;
+	}
+	
+	
+	public static Niveau search(String s) {
+		for(Niveau n : Niveau.values()) {
+			if (n.getNom()==s) {
+				return n;
+			}
+		}
+		return null;
 	}
 }

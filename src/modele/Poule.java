@@ -18,4 +18,9 @@ public class Poule {
 		return libelle;
 	}
 
+	@Override
+	public String toString() {
+		return "Poule [tournoi=" + tournoi + ", libelle=" + libelle + "]";
+	}
+
 }

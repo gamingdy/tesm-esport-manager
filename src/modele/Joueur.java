@@ -62,4 +62,9 @@ public class Joueur implements Comparable<Joueur> {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "Joueur [id=" + id + ", pseudo=" + pseudo + ", equipe=" + equipe + "]";
+	}
 }

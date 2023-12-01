@@ -94,5 +94,10 @@ public class Equipe {
 	public int getPoint() {
 		return point;
 	}
+
+	@Override
+	public String toString() {
+		return "Equipe [nom=" + nom + ", point=" + point + ", pays=" + pays + "]";
+	}
 }
 

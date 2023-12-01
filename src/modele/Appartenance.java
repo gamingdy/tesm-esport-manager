@@ -19,5 +19,10 @@ public class Appartenance {
 	}
 
 
+	@Override
+	public String toString() {
+		return "Appartenance [equipe=" + equipe + ", poule=" + poule + "]";
+	}
+
 
 }

@@ -17,4 +17,8 @@ public class Arbitrage {
 		return tournoi;
 	}
 
+	@Override
+	public String toString() {
+		return "Arbitrage [arbitre=" + arbitre + ", tournoi=" + tournoi + "]";
+	}
 }

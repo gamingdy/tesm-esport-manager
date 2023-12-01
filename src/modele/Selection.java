@@ -26,6 +26,11 @@ public class Selection {
 		this.annee = annee;
 	}
 
+	@Override
+	public String toString() {
+		return "Selection [idArbitre=" + idArbitre + ", annee=" + annee + "]";
+	}
+
 	
 
 }

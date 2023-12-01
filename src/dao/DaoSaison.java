@@ -52,9 +52,12 @@ public class DaoSaison implements Dao<Saison,Integer>{
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Saison WHERE Annee = ?")) {
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
-			Saison saison = new Saison(
-					resultat.getInt("Annee"));
-			return saison;
+			if(resultat.next()) {
+				Saison saison = new Saison(
+						resultat.getInt("Annee"));
+				return saison;
+			}
+			throw new Exception("Saison non trouvée");
 		}
 	}
 

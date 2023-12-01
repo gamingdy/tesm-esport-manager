@@ -54,14 +54,18 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 
 	@Override
 	public Arbitre getById(Integer... id) throws Exception {
-		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Saison WHERE Annee = ?")){
+		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Arbitre WHERE Id_Arbitre = ?")){
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
-			Arbitre arbitre = new Arbitre(
-					resultat.getString("Nom"),
-					resultat.getString("Prénom"));
-			arbitre.setId(resultat.getInt("Id_Arbitre"));
-			return arbitre;
+			if (resultat.next()) {
+				Arbitre arbitre = new Arbitre(
+						resultat.getString("Nom"),
+						resultat.getString("Prénom"));
+				arbitre.setId(resultat.getInt("Id_Arbitre"));
+				return arbitre;
+			}
+			throw new Exception("Arbitre non trouvé");
+			
 		}
 	}
 

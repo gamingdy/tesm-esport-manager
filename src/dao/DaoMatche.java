@@ -63,7 +63,7 @@ public class DaoMatche implements Dao<Matche,Integer>{
 						Categorie.valueOf(resultat.getString("categorie")),
 						daoequipe.getById(resultat.getString("Nom_Equipe1")),
 						daoequipe.getById(resultat.getString("Nom_Equipe2")),
-						daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")));
+						daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")));
 				matche.setId(resultat.getInt("Id_Match"));
 				sortie.add(matche);
 			}
@@ -76,15 +76,18 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Matche WHERE Id_Match = ?")){
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
-			Matche matche = new Matche(
-					resultat.getInt("Nombres_Parties_Max"),
-					new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
-					Categorie.valueOf(resultat.getString("categorie")),
-					daoequipe.getById(resultat.getString("Nom_Equipe1")),
-					daoequipe.getById(resultat.getString("Nom_Equipe2")),
-					daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")));
-			matche.setId(resultat.getInt("Id_Match"));
-			return matche;
+			if(resultat.next()) {
+				Matche matche = new Matche(
+						resultat.getInt("Nombres_Parties_Max"),
+						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
+						Categorie.valueOf(resultat.getString("categorie")),
+						daoequipe.getById(resultat.getString("Nom_Equipe1")),
+						daoequipe.getById(resultat.getString("Nom_Equipe2")),
+						daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")));
+				matche.setId(resultat.getInt("Id_Match"));
+				return matche;
+			}
+			throw new Exception("Matche non trouvé");
 		}
 	}
 

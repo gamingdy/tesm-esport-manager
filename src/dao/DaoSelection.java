@@ -59,10 +59,13 @@ public class DaoSelection implements Dao<Selection,Object>{
 			getById.setInt(1, (Integer)id[0]);
 			getById.setShort(1, (Short)id[1]);
 			ResultSet resultat = getById.executeQuery();
-			Selection selection = new Selection(
-					resultat.getInt("Id_Arbitre"),
-					resultat.getInt("Annee"));
-			return selection;
+			if(resultat.next()) {
+				Selection selection = new Selection(
+						resultat.getInt("Id_Arbitre"),
+						resultat.getInt("Annee"));
+				return selection;
+			}
+			throw new Exception("Ligne non trouvé");
 		}
 	}
 

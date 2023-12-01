@@ -61,11 +61,14 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Joueur WHERE Id_Joueur = ?")){
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
+			if(resultat.next()) {
 			Joueur joueur = new Joueur(
 					resultat.getString("Pseudo"),
 					daoequipe.getById(resultat.getString("Nom_Equipe")));
 			joueur.setId(resultat.getInt("Id_Joueur"));
 			return joueur;
+			}
+			throw new Exception("Joueur non trouvé");
 		}
 	}
 
