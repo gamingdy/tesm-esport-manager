@@ -8,9 +8,9 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
-import vue.Vue;
+import vue.admin.VueAdmin;
+import vue.admin.main.MenuNavBar;
 import vue.common.MaFont;
-import vue.main.MenuNavBar;
 
 @SuppressWarnings("serial")
 public class BoutonMenu extends JButton {

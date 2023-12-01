@@ -1,4 +1,4 @@
-package vue.accueil;
+package vue.admin.accueil;
 
 import java.awt.Color;
 import java.awt.Component;
