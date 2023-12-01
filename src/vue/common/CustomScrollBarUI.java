@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import vue.Vue;
+import vue.admin.VueAdmin;
 
 public class CustomScrollBarUI extends BasicScrollBarUI {
 	@Override

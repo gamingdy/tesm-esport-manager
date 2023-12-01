@@ -1,11 +1,11 @@
-package vue.main;
+package vue.admin.main;
 
 import java.awt.*;
 import java.io.IOException;
 
 import javax.swing.*;
 
-import vue.Vue;
+import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
@@ -23,7 +23,6 @@ public class Main extends JPanel {
 	 * Create the frame.
 	 */
 	public Main() {
-		setOpaque(false);
 		navbar = new MenuNavBar();
 
 		//Création du jpanel principal avec le menu
@@ -40,10 +39,11 @@ public class Main extends JPanel {
 		setLayout(gbl_PanelContenu);
 
 		panelMain = new ConteneurMain();
+		panelMain.setPreferredSize(new Dimension(0,0));
 		panelMain.setOpaque(false);
 		GridBagConstraints gbcPanelContenu = new GridBagConstraints();
 		gbcPanelContenu.fill = GridBagConstraints.BOTH;
-		gbcPanelContenu.weightx = 0.55;
+		gbcPanelContenu.weightx = 0.8;
 		gbcPanelContenu.gridx = 1;
 		gbcPanelContenu.gridy = 0;
 		add(panelMain, gbcPanelContenu);
@@ -52,6 +52,7 @@ public class Main extends JPanel {
 	public void setMenu() {
 		JPanel panelMenu = new JPanel();
 		GridBagLayout gbl_panelMenu = new GridBagLayout();
+		panelMenu.setPreferredSize(new Dimension(0,0));
 		panelMenu.setLayout(gbl_panelMenu);
 		gbl_panelMenu.columnWidths = new int[]{0};
 		gbl_panelMenu.rowHeights = new int[]{0};
@@ -60,7 +61,7 @@ public class Main extends JPanel {
 
 		GridBagConstraints contraintesPanelMenu = new GridBagConstraints();
 		panelMenu.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
-		contraintesPanelMenu.weightx = 0.45;
+		contraintesPanelMenu.weightx = 0.2;
 		contraintesPanelMenu.fill = GridBagConstraints.HORIZONTAL;
 		panelMenu.setBackground(CustomColor.BACKGROUND_MENU);
 		panelMenu.setBorder(BorderFactory.createMatteBorder(3, 4, 4, 4, CustomColor.ROSE_CONTOURS));

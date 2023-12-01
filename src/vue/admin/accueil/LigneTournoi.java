@@ -1,4 +1,4 @@
-package vue.accueil;
+package vue.admin.accueil;
 
 public class LigneTournoi {
 	

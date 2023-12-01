@@ -114,4 +114,22 @@ public class MaFont{
 		}
 		return laFont;
 	}
+	
+	public static Font getFontLabelConnexion() {
+		Font laFont = getFont("labelConnexion");
+		if (laFont == null) {
+			laFont = maFont.deriveFont(30F);
+			mesFonts.put("labelConnexion", laFont);
+		}
+		return laFont;
+	}
+	
+	public static Font getFontTitreConnexion() {
+		Font laFont = getFont("titreConnexion");
+		if (laFont == null) {
+			laFont = maFont.deriveFont(50F);
+			mesFonts.put("titreConnexion", laFont);
+		}
+		return laFont;
+	}
 }

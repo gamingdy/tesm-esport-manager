@@ -1,8 +1,8 @@
-package vue.accueil;
+package vue.admin.accueil;
 
 import javax.swing.JPanel;
 
-import vue.Vue;
+import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 

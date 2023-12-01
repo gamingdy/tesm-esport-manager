@@ -1,4 +1,4 @@
-package vue.accueil;
+package vue.admin.accueil;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
 
-import vue.Vue;
+import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 

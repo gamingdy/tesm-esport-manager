@@ -1,4 +1,4 @@
-package vue.accueil;
+package vue.admin.accueil;
 
 import javax.swing.JPanel;
 import java.awt.Component;

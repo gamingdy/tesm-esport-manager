@@ -1,7 +1,8 @@
 package vue.common;
 
 import vue.Vue;
-import vue.main.Main;
+import vue.admin.VueAdmin;
+import vue.admin.main.Main;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
