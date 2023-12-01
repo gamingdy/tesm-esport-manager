@@ -40,6 +40,7 @@ public class VueLogin extends JPanel {
 		creerPanelVide(3,3);
 		JPanel panel = new JPanel();
 		panel.setOpaque(false);
+		panel.setPreferredSize(new Dimension(410,0));
 		GridBagConstraints gbcPanel = new GridBagConstraints();
 		gbcPanel.fill = GridBagConstraints.BOTH;
 		gbcPanel.gridheight = 2;
