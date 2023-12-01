@@ -11,8 +11,6 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
-
-import vue.common.BordureArrondie;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
