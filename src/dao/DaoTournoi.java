@@ -58,7 +58,7 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Début")),
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
-						Niveau.search(resultat.getString("Libelle_Niveau")),
+						Niveau.valueOf(resultat.getString("Libelle_Niveau")),
 						new CompteArbitre(
 								resultat.getString("username"),
 								resultat.getString("mdp"))
