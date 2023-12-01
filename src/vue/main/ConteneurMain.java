@@ -37,9 +37,10 @@ public class ConteneurMain extends JPanel {
 
 	/**
 	 * Choisit la page à afficher
+	 *
 	 * @param identifiant de la page à afficher
 	 */
 	public void show(String identifiant) {
-		cardLayout.show(this,identifiant);
+		cardLayout.show(this, identifiant);
 	}
 }
