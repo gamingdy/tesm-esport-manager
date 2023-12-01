@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -71,7 +72,8 @@ public class Vue extends JFrame{
 		cl.show(panelContenu, identifiant);
 	}
 	
-	public void addPage(Component page, String identifiant) {
+	public void addPage(JComponent page, String identifiant) {
+		page.setOpaque(false);
 		panelContenu.add(page, identifiant);
 	}
 }

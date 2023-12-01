@@ -18,15 +18,14 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class VueAdmin extends JPanel{
 	
-	private TitleBar titleBar;
-	private JPanel panelContenu;
 	private Main main;
 	
 	public VueAdmin() {
+		setLayout(new BorderLayout());
 		main = new Main();
 		main.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
 		main.setOpaque(false);
-		panelContenu.add(main, BorderLayout.CENTER);
+		add(main, BorderLayout.CENTER);
 		setPage("Accueil");
 	}
 
@@ -38,7 +37,6 @@ public class VueAdmin extends JPanel{
 	 */
 	public void setPage(String identifiant) {
 		main.setPage(identifiant);
-		titleBar.setTitle(identifiant);
 	}
 	
 	

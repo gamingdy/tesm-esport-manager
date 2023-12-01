@@ -18,6 +18,7 @@ import java.awt.GridLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.util.Arrays;
 
 @SuppressWarnings("serial")
 public class VueLogin extends JPanel {
@@ -98,6 +99,9 @@ public class VueLogin extends JPanel {
 		gbcBoutonConnexion.gridy = 2;
 		gbcBoutonConnexion.weighty = 0;
 		panel.add(boutonConnexion, gbcBoutonConnexion);
+		Arrays.stream(boutonConnexion.getActionListeners()).forEach(l -> boutonConnexion.removeActionListener(l));
+		Arrays.stream(boutonConnexion.getMouseListeners()).forEach(l -> boutonConnexion.removeMouseListener(l));
+		boutonConnexion.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.BLANC, 2), BorderFactory.createEmptyBorder(10, 25, 10, 25)));
 		
 		creerPanelVide(0,3,panel);
 	}
