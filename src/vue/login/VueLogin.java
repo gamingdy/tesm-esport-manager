@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -29,24 +30,24 @@ public class VueLogin extends JPanel {
 		gridBagLayout_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout_1);
-		creerPanelVide(0,0);
-		creerPanelVide(1,0);
-		creerPanelVide(0,1);
-		creerPanelVide(0,2);
-		creerPanelVide(2,0);
-		creerPanelVide(3,0);
-		creerPanelVide(3,1);
-		creerPanelVide(3,2);
-		creerPanelVide(3,3);
+		creerPanelVide(0,0,this);
+		creerPanelVide(0,1,this);
+		creerPanelVide(1,1,this);
+		creerPanelVide(0,2,this);
+		creerPanelVide(3,1,this);
+		creerPanelVide(4,0,this);
+		creerPanelVide(2,0,this);
+		creerPanelVide(1,4,this);
 		JPanel panel = new JPanel();
 		panel.setOpaque(false);
-		panel.setPreferredSize(new Dimension(410,0));
 		GridBagConstraints gbcPanel = new GridBagConstraints();
 		gbcPanel.fill = GridBagConstraints.BOTH;
+		gbcPanel.insets = new Insets(100,0,0,0);
 		gbcPanel.gridheight = 2;
-		gbcPanel.gridwidth = 2;
-		gbcPanel.gridx = 1;
+		gbcPanel.gridx = 2;
 		gbcPanel.gridy = 1;
+		gbcPanel.weightx =  2;
+		gbcPanel.weighty = 0;
 		add(panel, gbcPanel);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -59,40 +60,49 @@ public class VueLogin extends JPanel {
 		labelTitre.setFont(MaFont.getFontTitreConnexion());
 		labelTitre.setForeground(CustomColor.BLANC);
 		GridBagConstraints gbcLabelTitre = new GridBagConstraints();
-		gbcLabelTitre.insets = new Insets(0, 0, 5, 0);
-		gbcLabelTitre.gridx = 0;
+		gbcLabelTitre.insets = new Insets(50,0,0,0);
+		gbcLabelTitre.gridx = 1;
 		gbcLabelTitre.gridy = 0;
-		gbcLabelTitre.weightx = 0;
-		gbcLabelTitre.weighty = 0;
-		panel.add(labelTitre, gbcLabelTitre);
+		gbcLabelTitre.gridwidth = 3;
+		add(labelTitre, gbcLabelTitre);
 		
 		JPanel champIdentifiant = new ChampConnexion("Identifiant");
+		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampIdentifiant = new GridBagConstraints();
-		gbcChampIdentifiant.insets = new Insets(0, 0, 5, 0);
+		gbcChampIdentifiant.insets = new Insets(0, 0, 50, 0);
 		gbcChampIdentifiant.fill = GridBagConstraints.HORIZONTAL;
 		gbcChampIdentifiant.gridx = 0;
-		gbcChampIdentifiant.gridy = 1;
+		gbcChampIdentifiant.gridy = 0;
+		gbcChampIdentifiant.weighty = 0;
 		panel.add(champIdentifiant, gbcChampIdentifiant);
 		
 		JPanel champMotDePasse = new ChampConnexion("Mot de passe");
+		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampMotDePasse = new GridBagConstraints();
-		gbcChampMotDePasse.insets = new Insets(0, 0, 5, 0);
+		gbcChampMotDePasse.insets = new Insets(0, 0, 50, 0);
 		gbcChampMotDePasse.fill = GridBagConstraints.HORIZONTAL;
 		gbcChampMotDePasse.gridx = 0;
-		gbcChampMotDePasse.gridy = 2;
+		gbcChampMotDePasse.gridy = 1;
+		gbcChampMotDePasse.weighty = 0;
 		panel.add(champMotDePasse, gbcChampMotDePasse);
 		
 		JButton boutonConnexion = new JButton("Connexion");
 		boutonConnexion.setFont(MaFont.getFontLabelConnexion());
 		boutonConnexion.setForeground(CustomColor.BLANC);
 		boutonConnexion.setBackground(CustomColor.TRANSPARENT);
+		boutonConnexion.setOpaque(false);
+		boutonConnexion.setFocusable(false);
 		GridBagConstraints gbcBoutonConnexion = new GridBagConstraints();
+		gbcBoutonConnexion.fill = GridBagConstraints.NONE;
 		gbcBoutonConnexion.gridx = 0;
-		gbcBoutonConnexion.gridy = 3;
+		gbcBoutonConnexion.gridy = 2;
+		gbcBoutonConnexion.weighty = 0;
 		panel.add(boutonConnexion, gbcBoutonConnexion);
+		
+		creerPanelVide(0,3,panel);
 	}
 	
-	private void creerPanelVide(int x,int y) {
+	private void creerPanelVide(int x,int y, JPanel container) {
 		JPanel panel = new JPanel();
 		panel.setOpaque(false);
 		GridBagConstraints gbcPanel = new GridBagConstraints();
@@ -101,6 +111,6 @@ public class VueLogin extends JPanel {
 		gbcPanel.gridy = y;
 		gbcPanel.weightx = 2;
 		gbcPanel.weighty = 2;
-		add(panel,gbcPanel);
+		container.add(panel,gbcPanel);
 	}
 }
