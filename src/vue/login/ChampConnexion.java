@@ -44,6 +44,7 @@ public class ChampConnexion extends JPanel {
 
 		textField.setFont(textField.getFont().deriveFont((float)MaFont.getFontLabelConnexion().getSize()));
 		textField.getDocument().addDocumentListener(controleur);
+		textField.addKeyListener(controleur);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 0;

@@ -10,6 +10,7 @@ import vue.common.MaFont;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
@@ -108,11 +109,9 @@ public class VueLogin extends JPanel {
 		gbcBoutonConnexion.gridy = 2;
 		gbcBoutonConnexion.weighty = 0;
 		panel.add(boutonConnexion, gbcBoutonConnexion);
-		Arrays.stream(boutonConnexion.getActionListeners()).forEach(l -> boutonConnexion.removeActionListener(l));
-		Arrays.stream(boutonConnexion.getMouseListeners()).forEach(l -> boutonConnexion.removeMouseListener(l));
 		boutonConnexion.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.BLANC, 2), BorderFactory.createEmptyBorder(10, 25, 10, 25)));
-
-		boutonConnexion.addMouseListener((MouseListener) controleur);
+		boutonConnexion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		boutonConnexion.setContentAreaFilled(false);
 		boutonConnexion.addActionListener((ActionListener) controleur);
 		creerPanelVide(0,3,panel);
 	}
@@ -142,5 +141,9 @@ public class VueLogin extends JPanel {
 
 	public void setBoutonActif(boolean value) {
 		boutonConnexion.setEnabled(value);
+	}
+
+	public void clicSurBoutonConnexion() {
+		boutonConnexion.doClick();
 	}
 }

@@ -3,6 +3,8 @@ package controller;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
@@ -21,7 +23,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class LoginControlleur implements ActionListener, MouseListener, DocumentListener {
+public class LoginControlleur implements ActionListener, DocumentListener, KeyListener {
 	private VueLogin vue;
 	private CompteAdmin admin = CompteAdmin.compteAdmin;
 	private CompteArbitre arbitre;
@@ -41,11 +43,6 @@ public class LoginControlleur implements ActionListener, MouseListener, Document
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
 		JButton bouton=(JButton) e.getSource();
 		if (bouton.isEnabled()) {
 			champLogin = vue.getIdentifiant();
@@ -73,26 +70,6 @@ public class LoginControlleur implements ActionListener, MouseListener, Document
 				}
 			}
 		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		((JButton) e.getSource()).setCursor(new Cursor(Cursor.HAND_CURSOR));
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
 	}
 	public CompteUtilisateur compteAdminOuUtilisateur(String login,String mdp){
 		if (login.equals(admin.getUsername())&&mdp.equals(admin.getMdp())){
@@ -130,5 +107,24 @@ public class LoginControlleur implements ActionListener, MouseListener, Document
 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if (e.getKeyChar() == '\n') {
+			vue.clicSurBoutonConnexion();
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
