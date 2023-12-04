@@ -10,7 +10,7 @@ public class VueControleur {
 
 	public VueControleur(Vue vue) {
 		this.vue = vue;
-		this.observer = new VueObserver();
+		this.observer = VueObserver.getInstance();
 		observer.setVue(this);
 		VueLogin vueLogin = new VueLogin();
 		VueAdmin vueAdmin = new VueAdmin();

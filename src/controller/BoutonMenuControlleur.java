@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import vue.common.JFramePopup;
 import vue.Vue;
 import vue.admin.VueAdmin;
 import vue.admin.main.BoutonMenu;
@@ -44,17 +45,17 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		if (e.getSource() instanceof BoutonMenu) {
 			navbar.selectionner((BoutonMenu) e.getSource());
 			BoutonMenu boutonSelectionné = (BoutonMenu) e.getSource();
-			System.out.println("patata");
 			if (boutonSelectionné.getText() == "Arbitres") {
 				System.out.println("arbitre");
 				etat = ETAT.ARBITRES;
 			}
 			if (boutonSelectionné.getText() == "Déconnexion") {
 				System.out.println("Deconnexion");
-				int a = JOptionPane.showConfirmDialog(vue, "Etes vous sure de vous deconnecter?", "Deconnexion", YES_NO_OPTION);
-				if (a == 0) {
-					obs.notifyVue("Login");
-				}
+				JFramePopup popup = new JFramePopup("Deconnexion", "Etes vous sur de vous deconnecter ?");
+				popup.setVisible(true);
+				/*if (a == 0) {
+
+				}*/
 			}
 			if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
 				System.out.println("Accueil");
