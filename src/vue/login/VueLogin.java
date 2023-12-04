@@ -29,6 +29,7 @@ public class VueLogin extends JPanel {
 	private LoginControlleur controleur;
 	private ChampConnexion champIdentifiant;
 	private ChampConnexion champMotDePasse;
+
 	public VueLogin() {
 		controleur=new LoginControlleur(this);
 		setOpaque(false);
@@ -118,6 +119,7 @@ public class VueLogin extends JPanel {
 	public String getIdentifiant() {
 		return champIdentifiant.getContenu();
 	}
+
 	public String getMotDePasse() {
 		return champMotDePasse.getContenu();
 	}
@@ -126,7 +128,12 @@ public class VueLogin extends JPanel {
 		this.controleur.attach(obs);
 	}
 
-	private void creerPanelVide(int x,int y, JPanel container) {
+	public void clearField() {
+		champIdentifiant.clear();
+		champMotDePasse.clear();
+	}
+
+	private void creerPanelVide(int x, int y, JPanel container) {
 		JPanel panel = new JPanel();
 		panel.setOpaque(false);
 		GridBagConstraints gbcPanel = new GridBagConstraints();

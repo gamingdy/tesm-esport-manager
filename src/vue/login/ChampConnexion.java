@@ -13,7 +13,8 @@ import vue.common.MaFont;
 @SuppressWarnings("serial")
 public class ChampConnexion extends JPanel {
 	private JTextField textField;
-	public ChampConnexion(String libellé,boolean isPassword) {
+
+	public ChampConnexion(String libellé, boolean isPassword) {
 		setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -21,7 +22,7 @@ public class ChampConnexion extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
+
 		JLabel labelLibellé = new JLabel(libellé);
 		labelLibellé.setVerticalAlignment(SwingConstants.BOTTOM);
 		labelLibellé.setFont(MaFont.getFontLabelConnexion());

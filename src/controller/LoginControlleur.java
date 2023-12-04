@@ -37,6 +37,7 @@ public class LoginControlleur implements ActionListener, MouseListener {
 	public void attach(VueObserver obs) {
 		this.obs = obs;
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -65,6 +66,7 @@ public class LoginControlleur implements ActionListener, MouseListener {
 					if (compteActuel==this.admin){
 						obs.notifyVue("Admin");
 					}
+					this.vue.clearField();
 				}
 			}
 			else{
