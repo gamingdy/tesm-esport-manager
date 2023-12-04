@@ -19,7 +19,7 @@ public class MenuNavBar extends JPanel {
 	public MenuNavBar() {
 		super();
 
-		BoutonMenuControlleur controlleurBoutons = new BoutonMenuControlleur(this);
+
 		this.boutons = new HashMap<String, BoutonMenu>();
 
 		GridBagLayout gbl_this = new GridBagLayout();
@@ -37,25 +37,31 @@ public class MenuNavBar extends JPanel {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 
-		boutons.put("Accueil", new BoutonMenu(this, "Accueil", 0, controlleurBoutons));
+		boutons.put("Accueil", new BoutonMenu(this, "Accueil", 0));
 		this.add(boutons.get("Accueil"), boutons.get("Accueil").getContraintes());
 		selectionner(boutons.get("Accueil"));
 
-		boutons.put("Equipes", new BoutonMenu(this, "Equipes", 1, controlleurBoutons));
+		boutons.put("Equipes", new BoutonMenu(this, "Equipes", 1));
 		this.add(boutons.get("Equipes"), boutons.get("Equipes").getContraintes());
 
-		boutons.put("Tournois", new BoutonMenu(this, "Tournois", 2, controlleurBoutons));
+		boutons.put("Tournois", new BoutonMenu(this, "Tournois", 2));
 		this.add(boutons.get("Tournois"), boutons.get("Tournois").getContraintes());
 
-		boutons.put("Arbitres", new BoutonMenu(this, "Arbitres", 3, controlleurBoutons));
+		boutons.put("Arbitres", new BoutonMenu(this, "Arbitres", 3));
 		this.add(boutons.get("Arbitres"), boutons.get("Arbitres").getContraintes());
 
-		boutons.put("Saisons précédentes", new BoutonMenu(this, "Saisons précédentes", 4, controlleurBoutons));
+		boutons.put("Saisons précédentes", new BoutonMenu(this, "Saisons précédentes", 4));
 		this.add(boutons.get("Saisons précédentes"), boutons.get("Saisons précédentes").getContraintes());
 
-		boutons.put("Déconnexion", new BoutonMenu(this, "Déconnexion", 5, controlleurBoutons));
+		boutons.put("Déconnexion", new BoutonMenu(this, "Déconnexion", 5));
 		boutons.get("Déconnexion").setBorder(BorderFactory.createEmptyBorder());
 		this.add(boutons.get("Déconnexion"), boutons.get("Déconnexion").getContraintes());
+	}
+
+	public void addButtonControlleur(Object controlleur){
+		for (BoutonMenu bouton : boutons.values()) {
+			bouton.setControlleur(controlleur);
+		}
 	}
 
 	public GridBagConstraints getGBC() {

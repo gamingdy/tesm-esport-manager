@@ -22,8 +22,8 @@ public class Main extends JPanel {
 	/**
 	 * Create the frame.
 	 */
-	public Main() {
-		navbar = new MenuNavBar();
+	public Main(MenuNavBar navbar) {
+		this.navbar = navbar;
 
 		//Création du jpanel principal avec le menu
 		setContent();

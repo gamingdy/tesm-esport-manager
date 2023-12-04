@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.ControleurVue;
 import vue.admin.main.Main;
 import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
@@ -49,6 +50,7 @@ public class Vue extends JFrame{
 		panelContenu.setLayout(cl);
 		add(panelContenu, BorderLayout.CENTER);
 		panelContenu.setOpaque(false);
+		ControleurVue mainController = new ControleurVue(this);
 	}
 
 	private void setBackground() {
@@ -70,6 +72,7 @@ public class Vue extends JFrame{
 
 	public void setPage(String identifiant) {
 		cl.show(panelContenu, identifiant);
+		titleBar.setTitle(identifiant);
 	}
 
 	public void addPage(JComponent page, String identifiant) {

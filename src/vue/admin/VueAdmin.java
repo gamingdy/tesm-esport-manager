@@ -1,6 +1,8 @@
 package vue.admin;
 
+import controller.BoutonMenuControlleur;
 import vue.admin.main.Main;
+import vue.admin.main.MenuNavBar;
 import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
 import vue.common.WindowResizer;
@@ -19,10 +21,15 @@ import javax.swing.JPanel;
 public class VueAdmin extends JPanel{
 	
 	private Main main;
+	private MenuNavBar navbar;
 	
 	public VueAdmin() {
 		setLayout(new BorderLayout());
-		main = new Main();
+
+		navbar = new MenuNavBar();
+		main = new Main(navbar);
+		BoutonMenuControlleur controlleurBoutons = new BoutonMenuControlleur(navbar,this);
+		navbar.addButtonControlleur(controlleurBoutons);
 		main.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
 		main.setOpaque(false);
 		add(main, BorderLayout.CENTER);

@@ -18,7 +18,7 @@ public class BoutonMenu extends JButton {
 
 	GridBagConstraints contraintesBouton;
 
-	public BoutonMenu(MenuNavBar menuNavBar, String name, int y, Object controlleur) {
+	public BoutonMenu(MenuNavBar menuNavBar, String name, int y) {
 		super(name);
 		this.setFont(MaFont.getFontBoutonMenu());
 		this.setForeground(CustomColor.BLANC);
@@ -32,6 +32,9 @@ public class BoutonMenu extends JButton {
 		this.contraintesBouton.weightx = 1;
 		this.contraintesBouton.gridx = 0;
 		this.contraintesBouton.gridy = y;
+	}
+
+	public void setControlleur(Object controlleur) {
 		this.addActionListener((ActionListener) controlleur);
 		this.addMouseListener((MouseListener) controlleur);
 	}
