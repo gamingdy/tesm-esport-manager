@@ -3,6 +3,7 @@ package vue.login;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
@@ -18,12 +19,17 @@ import java.awt.GridLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.Arrays;
 
 @SuppressWarnings("serial")
 public class VueLogin extends JPanel {
-	
+	private LoginControlleur controleur;
+	private ChampConnexion champIdentifiant;
+	private ChampConnexion champMotDePasse;
 	public VueLogin() {
+		controleur=new LoginControlleur(this);
 		setOpaque(false);
 		GridBagLayout gridBagLayout_1 = new GridBagLayout();
 		gridBagLayout_1.columnWidths = new int[]{0, 0, 0};
@@ -66,8 +72,8 @@ public class VueLogin extends JPanel {
 		gbcLabelTitre.gridy = 0;
 		gbcLabelTitre.gridwidth = 3;
 		add(labelTitre, gbcLabelTitre);
-		
-		JPanel champIdentifiant = new ChampConnexion("Identifiant");
+
+		champIdentifiant = new ChampConnexion("Identifiant");
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampIdentifiant = new GridBagConstraints();
 		gbcChampIdentifiant.insets = new Insets(0, 0, 50, 0);
@@ -76,8 +82,8 @@ public class VueLogin extends JPanel {
 		gbcChampIdentifiant.gridy = 0;
 		gbcChampIdentifiant.weighty = 0;
 		panel.add(champIdentifiant, gbcChampIdentifiant);
-		
-		JPanel champMotDePasse = new ChampConnexion("Mot de passe");
+
+		champMotDePasse = new ChampConnexion("Mot de passe");
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampMotDePasse = new GridBagConstraints();
 		gbcChampMotDePasse.insets = new Insets(0, 0, 50, 0);
@@ -102,10 +108,19 @@ public class VueLogin extends JPanel {
 		Arrays.stream(boutonConnexion.getActionListeners()).forEach(l -> boutonConnexion.removeActionListener(l));
 		Arrays.stream(boutonConnexion.getMouseListeners()).forEach(l -> boutonConnexion.removeMouseListener(l));
 		boutonConnexion.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.BLANC, 2), BorderFactory.createEmptyBorder(10, 25, 10, 25)));
-		
+
+		boutonConnexion.addMouseListener((MouseListener) controleur);
+		boutonConnexion.addActionListener((ActionListener) controleur);
 		creerPanelVide(0,3,panel);
 	}
-	
+
+	public String getIdentifiant() {
+		return champIdentifiant.getContenu();
+	}
+	public String getMotDePasse() {
+		return champMotDePasse.getContenu();
+	}
+
 	private void creerPanelVide(int x,int y, JPanel container) {
 		JPanel panel = new JPanel();
 		panel.setOpaque(false);

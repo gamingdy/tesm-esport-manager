@@ -1,16 +1,12 @@
 package vue.login;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.GridBagLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
 import java.awt.Insets;
-import javax.swing.SwingConstants;
+
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
@@ -36,8 +32,13 @@ public class ChampConnexion extends JPanel {
 		gbcLabelLibellé.gridx = 0;
 		gbcLabelLibellé.gridy = 0;
 		add(labelLibellé, gbcLabelLibellé);
-		
-		textField = new JTextField();
+
+		if (libellé.equals("Mot de passe")) {
+			textField = new JPasswordField();
+		} else {
+			textField = new JTextField();
+		}
+
 		textField.setFont(textField.getFont().deriveFont((float)MaFont.getFontLabelConnexion().getSize()));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
