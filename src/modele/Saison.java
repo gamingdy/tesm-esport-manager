@@ -40,12 +40,15 @@ public class Saison {
 		return arbitres;
 	}
 
+	public void addEquipe(Equipe equipe, Integer rank) {
+		if (rank.equals(null)) {
+			this.equipes.put(equipe, rank);
+		} else {
+			this.equipes.put(equipe, 1000);
+		}
+	}
+
 	public void addEquipe(Equipe equipe) {
-		//TODO Ajouter l'automatisation de la value (world rank)
-		//Si l'équipe existait à la saison d'avant Alors
-		//world rank = rank de la saison précédente
-		//Sinon
-		//world rank = 1000
 		this.equipes.put(equipe, 1000);
 	}
 
