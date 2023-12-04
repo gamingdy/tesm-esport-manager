@@ -3,7 +3,7 @@ package vue.login;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import controller.ControlleurObserver;
+import controller.VueObserver;
 import controller.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
@@ -122,7 +122,7 @@ public class VueLogin extends JPanel {
 		return champMotDePasse.getContenu();
 	}
 
-	public void attachObserver(ControlleurObserver obs){
+	public void attachObserver(VueObserver obs) {
 		this.controleur.attach(obs);
 	}
 

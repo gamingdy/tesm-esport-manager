@@ -28,13 +28,13 @@ public class LoginControlleur implements ActionListener, MouseListener {
 	private DaoTournoi dao;
 	private Tournoi tournoi;
 
-	private ControlleurObserver obs;
+	private VueObserver obs;
 
 	public LoginControlleur(VueLogin newVue){
 		this.vue=newVue;
 	}
 
-	public void attach(ControlleurObserver obs){
+	public void attach(VueObserver obs) {
 		this.obs = obs;
 	}
 	@Override
