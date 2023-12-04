@@ -29,6 +29,7 @@ public class VueLogin extends JPanel {
 	private LoginControlleur controleur;
 	private ChampConnexion champIdentifiant;
 	private ChampConnexion champMotDePasse;
+	private JButton boutonConnexion;
 	public VueLogin() {
 		controleur=new LoginControlleur(this);
 		setOpaque(false);
@@ -74,7 +75,7 @@ public class VueLogin extends JPanel {
 		gbcLabelTitre.gridwidth = 3;
 		add(labelTitre, gbcLabelTitre);
 
-		champIdentifiant = new ChampConnexion("Identifiant",false);
+		champIdentifiant = new ChampConnexion("Identifiant",false,controleur);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampIdentifiant = new GridBagConstraints();
 		gbcChampIdentifiant.insets = new Insets(0, 0, 50, 0);
@@ -84,7 +85,7 @@ public class VueLogin extends JPanel {
 		gbcChampIdentifiant.weighty = 0;
 		panel.add(champIdentifiant, gbcChampIdentifiant);
 
-		champMotDePasse = new ChampConnexion("Mot de passe",true);
+		champMotDePasse = new ChampConnexion("Mot de passe",true,controleur);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampMotDePasse = new GridBagConstraints();
 		gbcChampMotDePasse.insets = new Insets(0, 0, 50, 0);
@@ -94,12 +95,13 @@ public class VueLogin extends JPanel {
 		gbcChampMotDePasse.weighty = 0;
 		panel.add(champMotDePasse, gbcChampMotDePasse);
 		
-		JButton boutonConnexion = new JButton("Connexion");
+		boutonConnexion = new JButton("Connexion");
 		boutonConnexion.setFont(MaFont.getFontLabelConnexion());
 		boutonConnexion.setForeground(CustomColor.BLANC);
 		boutonConnexion.setBackground(CustomColor.TRANSPARENT);
 		boutonConnexion.setOpaque(false);
 		boutonConnexion.setFocusable(false);
+		boutonConnexion.setEnabled(false);
 		GridBagConstraints gbcBoutonConnexion = new GridBagConstraints();
 		gbcBoutonConnexion.fill = GridBagConstraints.NONE;
 		gbcBoutonConnexion.gridx = 0;
@@ -136,5 +138,9 @@ public class VueLogin extends JPanel {
 		gbcPanel.weightx = 2;
 		gbcPanel.weighty = 2;
 		container.add(panel,gbcPanel);
+	}
+
+	public void setBoutonActif(boolean value) {
+		boutonConnexion.setEnabled(value);
 	}
 }

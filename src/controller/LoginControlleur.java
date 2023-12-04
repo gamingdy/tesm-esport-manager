@@ -18,8 +18,10 @@ import vue.login.ChampConnexion;
 import vue.login.VueLogin;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-public class LoginControlleur implements ActionListener, MouseListener {
+public class LoginControlleur implements ActionListener, MouseListener, DocumentListener {
 	private VueLogin vue;
 	private CompteAdmin admin = CompteAdmin.compteAdmin;
 	private CompteArbitre arbitre;
@@ -45,34 +47,32 @@ public class LoginControlleur implements ActionListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		JButton bouton=(JButton) e.getSource();
-		champLogin = vue.getIdentifiant();
-		champMotDePasse=vue.getMotDePasse();
-		if (bouton.getText()=="Connexion" )  {
-			if(!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
-				CompteUtilisateur compteActuel=compteAdminOuUtilisateur(champLogin,champMotDePasse);
-				if(compteActuel==null){
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException ex) {
-						throw new RuntimeException(ex);
+		if (bouton.isEnabled()) {
+			champLogin = vue.getIdentifiant();
+			champMotDePasse=vue.getMotDePasse();
+			
+			if (bouton.getText()=="Connexion" )  {
+				if(!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
+					CompteUtilisateur compteActuel=compteAdminOuUtilisateur(champLogin,champMotDePasse);
+					if(compteActuel==null){
+						JOptionPane.showMessageDialog(vue,"Identifiant ou mot de passe incorrect");
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException ex) {
+							throw new RuntimeException(ex);
+						}
 					}
-					JOptionPane.showMessageDialog(vue,"Identifiant ou mot de passe incorrect");
-				}
-				else {
-					if(compteActuel instanceof CompteArbitre) {
-						JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
-					}
-					if (compteActuel==this.admin){
-						obs.notifyVue("Admin");
+					else {
+						if(compteActuel instanceof CompteArbitre) {
+							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
+						}
+						if (compteActuel==this.admin){
+							obs.notifyVue("Admin");
+						}
 					}
 				}
 			}
-			else{
-				JOptionPane.showMessageDialog(vue,"Un des champs est vide");
-			}
-
 		}
-
 	}
 
 	@Override
@@ -103,5 +103,32 @@ public class LoginControlleur implements ActionListener, MouseListener {
 			return this.arbitre;
 		}*/
 		return null;
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		System.out.println("test");
+		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
+			vue.setBoutonActif(false);
+		}
+		else {
+			vue.setBoutonActif(true);
+		}
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		System.out.println("test");
+		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
+			vue.setBoutonActif(false);
+		}
+		else {
+			vue.setBoutonActif(true);
+		}
+		
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
 	}
 }
