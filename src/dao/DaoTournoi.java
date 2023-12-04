@@ -139,4 +139,14 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 			return delete.execute();
 		}
 	}
+	
+	public CompteArbitre getCompteArbitreByTournoi(Object... value) throws SQLException {
+		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
+				"SELECT username,mdp FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
+			getCompteArbitreByTournoi.setInt(1, (Integer)value[0]);
+			getCompteArbitreByTournoi.setString(2, (String)value[1]);
+			ResultSet resultat = getCompteArbitreByTournoi.executeQuery();
+			return new CompteArbitre(resultat.getString("username"),resultat.getString("mdp"));
+		}
+	}
 }
