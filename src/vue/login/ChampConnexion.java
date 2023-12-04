@@ -13,7 +13,8 @@ import vue.common.MaFont;
 @SuppressWarnings("serial")
 public class ChampConnexion extends JPanel {
 	private JTextField textField;
-	public ChampConnexion(String libellé) {
+
+	public ChampConnexion(String libellé, boolean isPassword) {
 		setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -21,7 +22,7 @@ public class ChampConnexion extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
+
 		JLabel labelLibellé = new JLabel(libellé);
 		labelLibellé.setVerticalAlignment(SwingConstants.BOTTOM);
 		labelLibellé.setFont(MaFont.getFontLabelConnexion());
@@ -33,24 +34,26 @@ public class ChampConnexion extends JPanel {
 		gbcLabelLibellé.gridy = 0;
 		add(labelLibellé, gbcLabelLibellé);
 
-		if (libellé.equals("Mot de passe")) {
+		if (isPassword) {
 			textField = new JPasswordField();
 		} else {
 			textField = new JTextField();
 		}
 
-		textField.setFont(textField.getFont().deriveFont((float)MaFont.getFontLabelConnexion().getSize()));
+		textField.setFont(textField.getFont().deriveFont((float) MaFont.getFontLabelConnexion().getSize()));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 0;
 		gbc_textField.gridy = 1;
 		add(textField, gbc_textField);
 	}
-	
+
 	public String getContenu() {
 		return textField.getText();
 	}
-	
-	
 
+
+	public void clear() {
+		textField.setText("");
+	}
 }
