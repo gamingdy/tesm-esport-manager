@@ -2,25 +2,22 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Image;
 import java.awt.CardLayout;
 import java.io.IOException;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.ControleurVue;
-import vue.admin.main.Main;
+import controller.VueControleur;
 import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
 import vue.common.WindowResizer;
 
 @SuppressWarnings("serial")
-public class Vue extends JFrame{
+public class Vue extends JFrame {
 
 	private static final int HEIGHT = 800;
 	private static final int WIDTH = 1300;
@@ -50,7 +47,7 @@ public class Vue extends JFrame{
 		panelContenu.setLayout(cl);
 		add(panelContenu, BorderLayout.CENTER);
 		panelContenu.setOpaque(false);
-		ControleurVue mainController = new ControleurVue(this);
+		VueControleur mainController = new VueControleur(this);
 	}
 
 	private void setBackground() {

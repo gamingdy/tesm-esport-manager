@@ -7,16 +7,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
-import java.util.Optional;
 
 import dao.DaoTournoi;
 import modele.CompteAdmin;
 import modele.CompteArbitre;
 import modele.CompteUtilisateur;
 import modele.Tournoi;
-import vue.admin.main.BoutonMenu;
-import vue.login.ChampConnexion;
 import vue.login.VueLogin;
 
 import javax.swing.*;
@@ -32,15 +28,16 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	private DaoTournoi dao;
 	private Tournoi tournoi;
 
-	private ControlleurObserver obs;
+	private VueObserver obs;
 
-	public LoginControlleur(VueLogin newVue){
-		this.vue=newVue;
+	public LoginControlleur(VueLogin newVue) {
+		this.vue = newVue;
 	}
 
-	public void attach(ControlleurObserver obs){
+	public void attach(VueObserver obs) {
 		this.obs = obs;
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton=(JButton) e.getSource();
@@ -67,9 +64,9 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 							obs.notifyVue("Admin");
 						}
 					}
-				}
-			}
-		}
+                }
+            }
+        }
 	}
 	public CompteUtilisateur compteAdminOuUtilisateur(String login,String mdp){
 		if (login.equals(admin.getUsername())&&mdp.equals(admin.getMdp())){

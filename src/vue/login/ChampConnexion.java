@@ -24,7 +24,7 @@ public class ChampConnexion extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
+
 		JLabel labelLibellé = new JLabel(libellé);
 		labelLibellé.setVerticalAlignment(SwingConstants.BOTTOM);
 		labelLibellé.setFont(MaFont.getFontLabelConnexion());
@@ -51,11 +51,13 @@ public class ChampConnexion extends JPanel {
 		gbc_textField.gridy = 1;
 		add(textField, gbc_textField);
 	}
-	
+
 	public String getContenu() {
 		return textField.getText();
 	}
-	
-	
 
+
+	public void clear() {
+		textField.setText("");
+	}
 }

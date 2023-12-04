@@ -1,11 +1,18 @@
 package dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import exceptions.FausseDate;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
@@ -149,4 +156,25 @@ public class DaoTournoi implements Dao<Tournoi,Object>{
 			return new CompteArbitre(resultat.getString("username"),resultat.getString("mdp"));
 		}
 	}
+	
+	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDate {
+		CustomDate c = new CustomDate(Timestamp.from(Instant.now()));
+		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
+				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Début AND Date_Fin ")) {
+			getCompteArbitreByTournoi.setTimestamp(1, c.toSQL());
+			ResultSet resultat = getCompteArbitreByTournoi.executeQuery();
+			Tournoi tournoi = new Tournoi(
+					new Saison(resultat.getInt("Annee")),
+					resultat.getString("Nom_Tournoi"),
+					new CustomDate(resultat.getTimestamp("Date_Début")),
+					new CustomDate(resultat.getTimestamp("Date_Fin")),
+					Niveau.search(resultat.getString("Libelle_Niveau")),
+					new CompteArbitre(
+							resultat.getString("username"),
+							resultat.getString("mdp"))
+					);
+			return Optional.ofNullable(tournoi);
+		}
+	}
+	
 }
