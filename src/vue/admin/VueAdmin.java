@@ -47,6 +47,9 @@ public class VueAdmin extends JPanel {
 	public void setPage(String identifiant) {
 		main.setPage(identifiant);
 	}
-	
-	
+
+
+	public void attachObserver(VueObserver obs) {
+		this.controlleurBoutons.attach(obs);
+	}
 }

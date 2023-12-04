@@ -51,7 +51,9 @@ public class ChampConnexion extends JPanel {
 	public String getContenu() {
 		return textField.getText();
 	}
-	
-	
 
+
+	public void clear() {
+		textField.setText("");
+	}
 }

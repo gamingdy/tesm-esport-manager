@@ -92,4 +92,8 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 	ETAT getEtat() {
 		return this.etat;
 	}
+
+	public void attach(VueObserver obs) {
+		this.obs = obs;
+	}
 }
