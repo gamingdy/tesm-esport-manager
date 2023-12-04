@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import vue.Vue;
-import vue.common.BoutonMenu;
-import vue.main.ConteneurMain;
-import vue.main.MenuNavBar;
+import vue.admin.main.BoutonMenu;
+import vue.admin.main.MenuNavBar;
+
 enum ETAT{
 	ACCUEIL,ARBITRES
 }

@@ -1,4 +1,4 @@
-package vue.common;
+package vue.admin.main;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 import vue.admin.VueAdmin;
 import vue.admin.main.MenuNavBar;
+import vue.common.CustomColor;
 import vue.common.MaFont;
 
 @SuppressWarnings("serial")

@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import controller.ControleurTest;
 import vue.Vue;
+import vue.admin.main.MenuNavBar;
 import vue.common.CustomColor;
 import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
@@ -25,7 +26,7 @@ public class Main extends JPanel {
 	 */
 	public Main(ControleurTest controleurTest) {
 		setOpaque(false);
-		navbar = new MenuNavBar(controleurTest);
+		navbar = new MenuNavBar();
 
 		//Création du jpanel principal avec le menu
 		setContent();

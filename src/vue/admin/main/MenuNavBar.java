@@ -8,8 +8,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controller.BoutonMenuControlleur;
-import vue.admin.VueAdmin;
-import vue.common.BoutonMenu;
 import vue.common.CustomColor;
 
 @SuppressWarnings("serial")

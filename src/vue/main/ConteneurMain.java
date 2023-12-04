@@ -10,11 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 
-import vue.accueil.VueAccueil;
+import vue.admin.accueil.VueAccueil;
 import vue.arbitres.PageTestArbitre;
-import vue.accueil.LigneEquipe;
-import vue.accueil.LigneTournoi;
-import vue.accueil.LigneMatche;
+import vue.admin.accueil.LigneEquipe;
+import vue.admin.accueil.LigneTournoi;
+import vue.admin.accueil.LigneMatche;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {

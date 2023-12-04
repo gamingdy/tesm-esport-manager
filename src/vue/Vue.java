@@ -1,11 +1,5 @@
 package vue;
 
-import controller.ControleurTest;
-import vue.common.JPanelWithBackground;
-import vue.common.WindowResizer;
-import vue.main.Main;
-import vue.main.TitleBar;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -27,34 +21,34 @@ import vue.common.WindowResizer;
 @SuppressWarnings("serial")
 public class Vue extends JFrame{
 
-	private final int HEIGHT = 800;
-	private final int WIDTH = 1300;
-	private ControleurTest controleur;
-	
+	private static final int HEIGHT = 800;
+	private static final int WIDTH = 1300;
+
+
 	private TitleBar titleBar;
 	private JPanel panelContenu;
 	private CardLayout cl;
-	
+
 	public Vue() {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setBackground();
-		this.controleur=new ControleurTest(this);
+
 		titleBar = new TitleBar(this);
-		
+
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().add(titleBar, BorderLayout.NORTH);
-		
+
 		new WindowResizer(this, HEIGHT, WIDTH);
 		ImageIcon logo = new ImageIcon("assets/logo.png");
 		Image newimg = logo.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
 		setIconImage(newimg);
-		
-		main = new Main(this.controleur);
-		main.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
-		main.setOpaque(false);
-		panelContenu.add(main, BorderLayout.CENTER);
-		setPage("Accueil");
+
+		panelContenu = new JPanel();
+		cl = new CardLayout();
+		panelContenu.setLayout(cl);
+		add(panelContenu, BorderLayout.CENTER);
+		panelContenu.setOpaque(false);
 	}
 
 	private void setBackground() {
@@ -73,11 +67,11 @@ public class Vue extends JFrame{
 			((JPanelWithBackground) getContentPane()).updateBackgroundSize(this.getWidth(), this.getHeight());
 		}
 	}
-	
+
 	public void setPage(String identifiant) {
 		cl.show(panelContenu, identifiant);
 	}
-	
+
 	public void addPage(JComponent page, String identifiant) {
 		page.setOpaque(false);
 		panelContenu.add(page, identifiant);
