@@ -10,6 +10,10 @@ import vue.admin.VueAdmin;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
 
+import javax.swing.*;
+
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+
 enum ETAT{
 	ACCUEIL,ARBITRES
 }
@@ -41,6 +45,10 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 			if(boutonSelectionné.getText()=="Arbitres"){
 				System.out.println("arbitre");
 				etat=ETAT.ARBITRES;
+			}
+			if(boutonSelectionné.getText()=="Déconnexion"){
+				System.out.println("Deconnexion");
+				int a=JOptionPane.showConfirmDialog(vue,"Etes vous sure de vous deconnecter?", "Deconnexion", YES_NO_OPTION );
 			}
 			if((boutonSelectionné.getText()=="Accueil") && etat!=ETAT.ACCUEIL){
 				System.out.println("Accueil");
