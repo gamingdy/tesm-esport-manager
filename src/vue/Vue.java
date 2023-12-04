@@ -27,7 +27,7 @@ public class Vue extends JFrame {
 	private JPanel panelContenu;
 	private CardLayout cl;
 
-	public Vue() {
+	public Vue() throws Exception {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setBackground();
 

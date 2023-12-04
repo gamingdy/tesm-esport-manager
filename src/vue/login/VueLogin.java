@@ -28,7 +28,8 @@ public class VueLogin extends JPanel {
 	private ChampConnexion champIdentifiant;
 	private ChampConnexion champMotDePasse;
 	private JButton boutonConnexion;
-	public VueLogin() {
+
+	public VueLogin() throws Exception {
 		controleur = new LoginControlleur(this);
 		setOpaque(false);
 		GridBagLayout gridBagLayout_1 = new GridBagLayout();
@@ -73,7 +74,7 @@ public class VueLogin extends JPanel {
 		gbcLabelTitre.gridwidth = 3;
 		add(labelTitre, gbcLabelTitre);
 
-		champIdentifiant = new ChampConnexion("Identifiant",false,controleur);
+		champIdentifiant = new ChampConnexion("Identifiant", false, controleur);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampIdentifiant = new GridBagConstraints();
 		gbcChampIdentifiant.insets = new Insets(0, 0, 50, 0);
@@ -83,7 +84,7 @@ public class VueLogin extends JPanel {
 		gbcChampIdentifiant.weighty = 0;
 		panel.add(champIdentifiant, gbcChampIdentifiant);
 
-		champMotDePasse = new ChampConnexion("Mot de passe",true,controleur);
+		champMotDePasse = new ChampConnexion("Mot de passe", true, controleur);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampMotDePasse = new GridBagConstraints();
 		gbcChampMotDePasse.insets = new Insets(0, 0, 50, 0);
@@ -92,7 +93,7 @@ public class VueLogin extends JPanel {
 		gbcChampMotDePasse.gridy = 1;
 		gbcChampMotDePasse.weighty = 0;
 		panel.add(champMotDePasse, gbcChampMotDePasse);
-		
+
 		boutonConnexion = new JButton("Connexion");
 		boutonConnexion.setFont(MaFont.getFontLabelConnexion());
 		boutonConnexion.setForeground(CustomColor.BLANC);
