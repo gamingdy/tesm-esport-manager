@@ -1,6 +1,8 @@
 package modele;
 
 import exceptions.EquipeInexistante;
+import exceptions.FausseDate;
+import exceptions.PointsNegatifs;
 
 import java.util.*;
 
@@ -38,12 +40,15 @@ public class Saison {
 		return arbitres;
 	}
 
+	public void addEquipe(Equipe equipe, Integer rank) {
+		if (rank.equals(null)) {
+			this.equipes.put(equipe, rank);
+		} else {
+			this.equipes.put(equipe, 1000);
+		}
+	}
+
 	public void addEquipe(Equipe equipe) {
-		//TODO Ajouter l'automatisation de la value (world rank)
-		//Si l'équipe existait à la saison d'avant Alors
-		//world rank = rank de la saison précédente
-		//Sinon
-		//world rank = 1000
 		this.equipes.put(equipe, 1000);
 	}
 
@@ -83,5 +88,23 @@ public class Saison {
 			}
 		}
 		return tournoi;
+	}
+
+	public void SaisonFinie() throws FausseDate{
+		//TODO Supprimer toutes les informations à ne pas garder de la saison (this)
+	}
+
+	public Saison NouvelleSaison() throws PointsNegatifs{
+		Saison NouvelleSaison = new Saison(this.annee+1);
+		for (Equipe e : this.equipes.keySet()) {
+			Equipe equipe = new Equipe(e.getNom(), e.getPays());
+			NouvelleSaison.addEquipe(equipe, e.getPoint());
+		}
+		for (Tournoi t : this.tournois) {
+			//TODO Faire l'ajout des tournois avec seulement équipe, niveau et points pour chaque équipe
+			//Pas besoin des dates ou du reste :
+			// - Seuls le nombre de points remportés par chaque équipe par tournoi et son classement annuel sont conservés d’une année sur l’autre.
+		}
+		return NouvelleSaison;
 	}
 }

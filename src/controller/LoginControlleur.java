@@ -3,6 +3,8 @@ package controller;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -14,8 +16,10 @@ import modele.Tournoi;
 import vue.login.VueLogin;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-public class LoginControlleur implements ActionListener, MouseListener {
+public class LoginControlleur implements ActionListener, DocumentListener, KeyListener {
 	private VueLogin vue;
 	private CompteAdmin admin = CompteAdmin.compteAdmin;
 	private CompteArbitre arbitre;
@@ -36,63 +40,36 @@ public class LoginControlleur implements ActionListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		JButton bouton = (JButton) e.getSource();
-		champLogin = vue.getIdentifiant();
-		champMotDePasse = vue.getMotDePasse();
-		if (bouton.getText() == "Connexion") {
-			if (!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
-				CompteUtilisateur compteActuel = compteAdminOuUtilisateur(champLogin, champMotDePasse);
-				if (compteActuel == null) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException ex) {
-						throw new RuntimeException(ex);
+		JButton bouton=(JButton) e.getSource();
+		if (bouton.isEnabled()) {
+			champLogin = vue.getIdentifiant();
+			champMotDePasse=vue.getMotDePasse();
+			
+			if (bouton.getText()=="Connexion" )  {
+				if(!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
+					CompteUtilisateur compteActuel=compteAdminOuUtilisateur(champLogin,champMotDePasse);
+					if(compteActuel==null){
+						JOptionPane.showMessageDialog(vue,"Identifiant ou mot de passe incorrect");
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException ex) {
+							throw new RuntimeException(ex);
+						}
 					}
-					JOptionPane.showMessageDialog(vue, "Identifiant ou mot de passe incorrect");
-				} else {
-					if (compteActuel instanceof CompteArbitre) {
-						JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
+					else {
+						if(compteActuel instanceof CompteArbitre) {
+							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
+						}
+						if (compteActuel==this.admin){
+							obs.notifyVue("Admin");
+						}
 					}
-					if (compteActuel == this.admin) {
-						obs.notifyVue("Admin");
-					}
-					this.vue.clearField();
-				}
-			} else {
-				JOptionPane.showMessageDialog(vue, "Un des champs est vide");
-			}
-	
-		}
-
+                }
+            }
+        }
 	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		((JButton) e.getSource()).setCursor(new Cursor(Cursor.HAND_CURSOR));
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
-	}
-
-	public CompteUtilisateur compteAdminOuUtilisateur(String login, String mdp) {
-		if (login.equals(admin.getUsername()) && mdp.equals(admin.getMdp())) {
+	public CompteUtilisateur compteAdminOuUtilisateur(String login,String mdp){
+		if (login.equals(admin.getUsername())&&mdp.equals(admin.getMdp())){
 			return this.admin;
 		}
 		/*
@@ -100,5 +77,51 @@ public class LoginControlleur implements ActionListener, MouseListener {
 			return this.arbitre;
 		}*/
 		return null;
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		System.out.println("test");
+		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
+			vue.setBoutonActif(false);
+		}
+		else {
+			vue.setBoutonActif(true);
+		}
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		System.out.println("test");
+		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
+			vue.setBoutonActif(false);
+		}
+		else {
+			vue.setBoutonActif(true);
+		}
+		
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if (e.getKeyChar() == '\n') {
+			vue.clicSurBoutonConnexion();
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

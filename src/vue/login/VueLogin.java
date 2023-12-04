@@ -7,6 +7,11 @@ import controller.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,7 +27,7 @@ public class VueLogin extends JPanel {
 	private LoginControlleur controleur;
 	private ChampConnexion champIdentifiant;
 	private ChampConnexion champMotDePasse;
-
+	private JButton boutonConnexion;
 	public VueLogin() {
 		controleur = new LoginControlleur(this);
 		setOpaque(false);
@@ -68,7 +73,7 @@ public class VueLogin extends JPanel {
 		gbcLabelTitre.gridwidth = 3;
 		add(labelTitre, gbcLabelTitre);
 
-		champIdentifiant = new ChampConnexion("Identifiant", false);
+		champIdentifiant = new ChampConnexion("Identifiant",false,controleur);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampIdentifiant = new GridBagConstraints();
 		gbcChampIdentifiant.insets = new Insets(0, 0, 50, 0);
@@ -78,7 +83,7 @@ public class VueLogin extends JPanel {
 		gbcChampIdentifiant.weighty = 0;
 		panel.add(champIdentifiant, gbcChampIdentifiant);
 
-		champMotDePasse = new ChampConnexion("Mot de passe", true);
+		champMotDePasse = new ChampConnexion("Mot de passe",true,controleur);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampMotDePasse = new GridBagConstraints();
 		gbcChampMotDePasse.insets = new Insets(0, 0, 50, 0);
@@ -87,24 +92,23 @@ public class VueLogin extends JPanel {
 		gbcChampMotDePasse.gridy = 1;
 		gbcChampMotDePasse.weighty = 0;
 		panel.add(champMotDePasse, gbcChampMotDePasse);
-
-		JButton boutonConnexion = new JButton("Connexion");
+		
+		boutonConnexion = new JButton("Connexion");
 		boutonConnexion.setFont(MaFont.getFontLabelConnexion());
 		boutonConnexion.setForeground(CustomColor.BLANC);
 		boutonConnexion.setBackground(CustomColor.TRANSPARENT);
 		boutonConnexion.setOpaque(false);
 		boutonConnexion.setFocusable(false);
+		boutonConnexion.setEnabled(false);
 		GridBagConstraints gbcBoutonConnexion = new GridBagConstraints();
 		gbcBoutonConnexion.fill = GridBagConstraints.NONE;
 		gbcBoutonConnexion.gridx = 0;
 		gbcBoutonConnexion.gridy = 2;
 		gbcBoutonConnexion.weighty = 0;
 		panel.add(boutonConnexion, gbcBoutonConnexion);
-		Arrays.stream(boutonConnexion.getActionListeners()).forEach(l -> boutonConnexion.removeActionListener(l));
-		Arrays.stream(boutonConnexion.getMouseListeners()).forEach(l -> boutonConnexion.removeMouseListener(l));
 		boutonConnexion.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.BLANC, 2), BorderFactory.createEmptyBorder(10, 25, 10, 25)));
-
-		boutonConnexion.addMouseListener((MouseListener) controleur);
+		boutonConnexion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		boutonConnexion.setContentAreaFilled(false);
 		boutonConnexion.addActionListener((ActionListener) controleur);
 		creerPanelVide(0, 3, panel);
 	}
@@ -136,5 +140,13 @@ public class VueLogin extends JPanel {
 		gbcPanel.weightx = 2;
 		gbcPanel.weighty = 2;
 		container.add(panel, gbcPanel);
+	}
+
+	public void setBoutonActif(boolean value) {
+		boutonConnexion.setEnabled(value);
+	}
+
+	public void clicSurBoutonConnexion() {
+		boutonConnexion.doClick();
 	}
 }
