@@ -1,25 +1,18 @@
 package vue.login;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import controller.VueObserver;
 import controller.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
@@ -31,7 +24,7 @@ public class VueLogin extends JPanel {
 	private ChampConnexion champMotDePasse;
 
 	public VueLogin() {
-		controleur=new LoginControlleur(this);
+		controleur = new LoginControlleur(this);
 		setOpaque(false);
 		GridBagLayout gridBagLayout_1 = new GridBagLayout();
 		gridBagLayout_1.columnWidths = new int[]{0, 0, 0};
@@ -39,23 +32,23 @@ public class VueLogin extends JPanel {
 		gridBagLayout_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout_1);
-		creerPanelVide(0,0,this);
-		creerPanelVide(0,1,this);
-		creerPanelVide(1,1,this);
-		creerPanelVide(0,2,this);
-		creerPanelVide(3,1,this);
-		creerPanelVide(4,0,this);
-		creerPanelVide(2,0,this);
-		creerPanelVide(1,4,this);
+		creerPanelVide(0, 0, this);
+		creerPanelVide(0, 1, this);
+		creerPanelVide(1, 1, this);
+		creerPanelVide(0, 2, this);
+		creerPanelVide(3, 1, this);
+		creerPanelVide(4, 0, this);
+		creerPanelVide(2, 0, this);
+		creerPanelVide(1, 4, this);
 		JPanel panel = new JPanel();
 		panel.setOpaque(false);
 		GridBagConstraints gbcPanel = new GridBagConstraints();
 		gbcPanel.fill = GridBagConstraints.BOTH;
-		gbcPanel.insets = new Insets(100,0,0,0);
+		gbcPanel.insets = new Insets(100, 0, 0, 0);
 		gbcPanel.gridheight = 2;
 		gbcPanel.gridx = 2;
 		gbcPanel.gridy = 1;
-		gbcPanel.weightx =  2;
+		gbcPanel.weightx = 2;
 		gbcPanel.weighty = 0;
 		add(panel, gbcPanel);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -64,18 +57,18 @@ public class VueLogin extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
-		
+
 		JLabel labelTitre = new JLabel("Bienvenue sur Esporter Manager");
 		labelTitre.setFont(MaFont.getFontTitreConnexion());
 		labelTitre.setForeground(CustomColor.BLANC);
 		GridBagConstraints gbcLabelTitre = new GridBagConstraints();
-		gbcLabelTitre.insets = new Insets(50,0,0,0);
+		gbcLabelTitre.insets = new Insets(50, 0, 0, 0);
 		gbcLabelTitre.gridx = 1;
 		gbcLabelTitre.gridy = 0;
 		gbcLabelTitre.gridwidth = 3;
 		add(labelTitre, gbcLabelTitre);
 
-		champIdentifiant = new ChampConnexion("Identifiant",false);
+		champIdentifiant = new ChampConnexion("Identifiant", false);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampIdentifiant = new GridBagConstraints();
 		gbcChampIdentifiant.insets = new Insets(0, 0, 50, 0);
@@ -85,7 +78,7 @@ public class VueLogin extends JPanel {
 		gbcChampIdentifiant.weighty = 0;
 		panel.add(champIdentifiant, gbcChampIdentifiant);
 
-		champMotDePasse = new ChampConnexion("Mot de passe",true);
+		champMotDePasse = new ChampConnexion("Mot de passe", true);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampMotDePasse = new GridBagConstraints();
 		gbcChampMotDePasse.insets = new Insets(0, 0, 50, 0);
@@ -94,7 +87,7 @@ public class VueLogin extends JPanel {
 		gbcChampMotDePasse.gridy = 1;
 		gbcChampMotDePasse.weighty = 0;
 		panel.add(champMotDePasse, gbcChampMotDePasse);
-		
+
 		JButton boutonConnexion = new JButton("Connexion");
 		boutonConnexion.setFont(MaFont.getFontLabelConnexion());
 		boutonConnexion.setForeground(CustomColor.BLANC);
@@ -113,7 +106,7 @@ public class VueLogin extends JPanel {
 
 		boutonConnexion.addMouseListener((MouseListener) controleur);
 		boutonConnexion.addActionListener((ActionListener) controleur);
-		creerPanelVide(0,3,panel);
+		creerPanelVide(0, 3, panel);
 	}
 
 	public String getIdentifiant() {
@@ -142,6 +135,6 @@ public class VueLogin extends JPanel {
 		gbcPanel.gridy = y;
 		gbcPanel.weightx = 2;
 		gbcPanel.weighty = 2;
-		container.add(panel,gbcPanel);
+		container.add(panel, gbcPanel);
 	}
 }

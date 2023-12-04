@@ -14,9 +14,10 @@ import javax.swing.*;
 
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 
-enum ETAT{
-	ACCUEIL,ARBITRES
+enum ETAT {
+	ACCUEIL, ARBITRES
 }
+
 public class BoutonMenuControlleur implements ActionListener, MouseListener {
 	private VueAdmin vue;
 	private ETAT etat;
@@ -25,14 +26,15 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 
 	public BoutonMenuControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;
-		this.etat=ETAT.ACCUEIL;
-		this.vue=vue;
+		this.etat = ETAT.ACCUEIL;
+		this.vue = vue;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof BoutonMenu) {
-			navbar.selectionner((BoutonMenu) e.getSource());}
+			navbar.selectionner((BoutonMenu) e.getSource());
+		}
 
 	}
 
@@ -41,11 +43,11 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() instanceof BoutonMenu) {
 			navbar.selectionner((BoutonMenu) e.getSource());
-			BoutonMenu boutonSelectionné=(BoutonMenu) e.getSource();
+			BoutonMenu boutonSelectionné = (BoutonMenu) e.getSource();
 			System.out.println("patata");
-			if(boutonSelectionné.getText()=="Arbitres"){
+			if (boutonSelectionné.getText() == "Arbitres") {
 				System.out.println("arbitre");
-				etat=ETAT.ARBITRES;
+				etat = ETAT.ARBITRES;
 			}
 			if (boutonSelectionné.getText() == "Déconnexion") {
 				System.out.println("Deconnexion");
@@ -86,7 +88,8 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 			((BoutonMenu) e.getSource()).finSurvoller();
 		}
 	}
-	ETAT getEtat(){
+
+	ETAT getEtat() {
 		return this.etat;
 	}
 }

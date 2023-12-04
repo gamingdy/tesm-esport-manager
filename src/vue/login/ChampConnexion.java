@@ -40,14 +40,14 @@ public class ChampConnexion extends JPanel {
 			textField = new JTextField();
 		}
 
-		textField.setFont(textField.getFont().deriveFont((float)MaFont.getFontLabelConnexion().getSize()));
+		textField.setFont(textField.getFont().deriveFont((float) MaFont.getFontLabelConnexion().getSize()));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 0;
 		gbc_textField.gridy = 1;
 		add(textField, gbc_textField);
 	}
-	
+
 	public String getContenu() {
 		return textField.getText();
 	}
