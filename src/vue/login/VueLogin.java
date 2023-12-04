@@ -3,6 +3,7 @@ package vue.login;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.ControlleurObserver;
 import controller.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
@@ -73,7 +74,7 @@ public class VueLogin extends JPanel {
 		gbcLabelTitre.gridwidth = 3;
 		add(labelTitre, gbcLabelTitre);
 
-		champIdentifiant = new ChampConnexion("Identifiant");
+		champIdentifiant = new ChampConnexion("Identifiant",false);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampIdentifiant = new GridBagConstraints();
 		gbcChampIdentifiant.insets = new Insets(0, 0, 50, 0);
@@ -83,7 +84,7 @@ public class VueLogin extends JPanel {
 		gbcChampIdentifiant.weighty = 0;
 		panel.add(champIdentifiant, gbcChampIdentifiant);
 
-		champMotDePasse = new ChampConnexion("Mot de passe");
+		champMotDePasse = new ChampConnexion("Mot de passe",true);
 		champIdentifiant.setBorder(null);
 		GridBagConstraints gbcChampMotDePasse = new GridBagConstraints();
 		gbcChampMotDePasse.insets = new Insets(0, 0, 50, 0);
@@ -119,6 +120,10 @@ public class VueLogin extends JPanel {
 	}
 	public String getMotDePasse() {
 		return champMotDePasse.getContenu();
+	}
+
+	public void attachObserver(ControlleurObserver obs){
+		this.controleur.attach(obs);
 	}
 
 	private void creerPanelVide(int x,int y, JPanel container) {

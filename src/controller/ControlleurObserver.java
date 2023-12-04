@@ -1,8 +1,13 @@
 package controller;
 
-public class ControlleurObserver {
+import java.util.Set;
 
-	public void notifyVue() {
-		
+public class ControlleurObserver {
+	private ControleurVue vue;
+	public void setVue(ControleurVue vue){
+		this.vue = vue;
+	}
+	public void notifyVue(String page) {
+		vue.update(page);
 	}
 }

@@ -7,9 +7,11 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.Optional;
 
+import dao.DaoTournoi;
 import modele.CompteAdmin;
 import modele.CompteArbitre;
 import modele.CompteUtilisateur;
+import modele.Tournoi;
 import vue.admin.main.BoutonMenu;
 import vue.login.ChampConnexion;
 import vue.login.VueLogin;
@@ -22,12 +24,17 @@ public class LoginControlleur implements ActionListener, MouseListener {
 	private CompteArbitre arbitre;
 	private String champLogin;
 	private String champMotDePasse;
-	private String login="sofiya";
-	private String mdp="patata";
+	private DaoTournoi dao;
+	private Tournoi tournoi;
+
+	private ControlleurObserver obs;
 
 	public LoginControlleur(VueLogin newVue){
 		this.vue=newVue;
+	}
 
+	public void attach(ControlleurObserver obs){
+		this.obs = obs;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -43,14 +50,19 @@ public class LoginControlleur implements ActionListener, MouseListener {
 			if(!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
 				CompteUtilisateur compteActuel=compteAdminOuUtilisateur(champLogin,champMotDePasse);
 				if(compteActuel==null){
-						JOptionPane.showMessageDialog(vue,"Identifiant ou mot de passe incorrect");
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException ex) {
+						throw new RuntimeException(ex);
+					}
+					JOptionPane.showMessageDialog(vue,"Identifiant ou mot de passe incorrect");
 				}
 				else {
 					if(compteActuel instanceof CompteArbitre) {
 						JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
 					}
 					if (compteActuel==this.admin){
-						JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Admin");
+						obs.notifyVue("Admin");
 					}
 				}
 			}
@@ -85,9 +97,10 @@ public class LoginControlleur implements ActionListener, MouseListener {
 		if (login.equals(admin.getUsername())&&mdp.equals(admin.getMdp())){
 			return this.admin;
 		}
+		/*
 		if (login.equals(arbitre.getUsername())&&mdp.equals(arbitre.getMdp())){
 			return this.arbitre;
-		}
+		}*/
 		return null;
 	}
 }
