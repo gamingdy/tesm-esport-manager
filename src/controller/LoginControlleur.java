@@ -8,11 +8,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import dao.Connexion;
+import dao.DaoNiveau;
+import dao.DaoSaison;
 import dao.DaoTournoi;
-import modele.CompteAdmin;
-import modele.CompteArbitre;
-import modele.CompteUtilisateur;
-import modele.Tournoi;
+import exceptions.FausseDate;
+import modele.*;
 import vue.login.VueLogin;
 
 import javax.swing.*;
@@ -25,13 +26,28 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	private CompteArbitre arbitre;
 	private String champLogin;
 	private String champMotDePasse;
-	private DaoTournoi dao;
+	private DaoTournoi daoTournoi;
+	private DaoSaison daoSaison;
 	private Tournoi tournoi;
 
 	private VueObserver obs;
 
-	public LoginControlleur(VueLogin newVue) {
+	public LoginControlleur(VueLogin newVue) throws Exception {
 		this.vue = newVue;
+
+		Connexion c = Connexion.getConnexion();
+
+		this.daoTournoi = new DaoTournoi(c);
+
+		this.daoSaison = new DaoSaison(c);
+		DaoNiveau daoNiveau = new DaoNiveau(c);
+		//daoNiveau.add(Niveau.LOCAL);
+
+		Saison saison = new Saison(2023);
+		CustomDate debut = new CustomDate(2023, 12, 01);
+		CustomDate fin = new CustomDate(2023, 12, 30);
+		tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
+		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 	}
 
 	public void attach(VueObserver obs) {
@@ -40,52 +56,49 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton bouton=(JButton) e.getSource();
+		JButton bouton = (JButton) e.getSource();
 		if (bouton.isEnabled()) {
 			champLogin = vue.getIdentifiant();
-			champMotDePasse=vue.getMotDePasse();
-			
-			if (bouton.getText()=="Connexion" )  {
-				if(!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
-					CompteUtilisateur compteActuel=compteAdminOuUtilisateur(champLogin,champMotDePasse);
-					if(compteActuel==null){
-						JOptionPane.showMessageDialog(vue,"Identifiant ou mot de passe incorrect");
+			champMotDePasse = vue.getMotDePasse();
+
+			if (bouton.getText() == "Connexion") {
+				if (!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
+					CompteUtilisateur compteActuel = compteAdminOuUtilisateur(champLogin, champMotDePasse);
+					if (compteActuel == null) {
+						JOptionPane.showMessageDialog(vue, "Identifiant ou mot de passe incorrect");
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException ex) {
 							throw new RuntimeException(ex);
 						}
-					}
-					else {
-						if(compteActuel instanceof CompteArbitre) {
+					} else {
+						if (compteActuel instanceof CompteArbitre) {
 							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
 						}
-						if (compteActuel==this.admin){
+						if (compteActuel == this.admin) {
 							obs.notifyVue("Admin");
 						}
 					}
-                }
-            }
-        }
+				}
+			}
+		}
 	}
-	public CompteUtilisateur compteAdminOuUtilisateur(String login,String mdp){
-		if (login.equals(admin.getUsername())&&mdp.equals(admin.getMdp())){
+
+	public CompteUtilisateur compteAdminOuUtilisateur(String login, String mdp) {
+		if (login.equals(admin.getUsername()) && mdp.equals(admin.getMdp())) {
 			return this.admin;
 		}
-		/*
-		if (login.equals(arbitre.getUsername())&&mdp.equals(arbitre.getMdp())){
+		if (login.equals(arbitre.getUsername()) && mdp.equals(arbitre.getMdp())) {
 			return this.arbitre;
-		}*/
+		}
 		return null;
 	}
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		System.out.println("test");
 		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
 			vue.setBoutonActif(false);
-		}
-		else {
+		} else {
 			vue.setBoutonActif(true);
 		}
 	}
@@ -95,11 +108,10 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		System.out.println("test");
 		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
 			vue.setBoutonActif(false);
-		}
-		else {
+		} else {
 			vue.setBoutonActif(true);
 		}
-		
+
 	}
 
 	@Override
@@ -116,12 +128,12 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
