@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -18,7 +19,7 @@ public class Equipe {
 
 
 	public Equipe(String nom, Country pays) {
-		this.equipe = new TreeSet<Joueur>();
+		this.equipe = new LinkedHashSet<Joueur>();
 		this.nom = nom;
 		this.point = 0;
 		this.pays = pays;
@@ -46,7 +47,7 @@ public class Equipe {
 
 
 	public void setPoint(int point) throws ExceptionPointsNegatifs {
-		if(point<0){
+		if (point < 0) {
 			throw new ExceptionPointsNegatifs("On ne peut pas mettre des points negatifs");
 		}
 		this.point = point;
