@@ -9,12 +9,12 @@ public class Partie {
 	private Matche matche;
 
 
-	public Partie(String nom, Matche matche) {
+	public Partie(Matche matche) {
 		this.vainqueur = 0;
 		this.matche = matche;
 	}
 
-	public Partie(String nom, Matche matche, int numeroPartie) throws IllegalArgumentException{
+	public Partie(Matche matche, int numeroPartie) throws IllegalArgumentException {
 		if (numeroPartie <= 0) {
 			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
 		}
@@ -27,7 +27,7 @@ public class Partie {
 		return numeroPartie;
 	}
 
-	public void setNumeroPartie(int numeroPartie) throws IllegalArgumentException{
+	public void setNumeroPartie(int numeroPartie) throws IllegalArgumentException {
 		if (numeroPartie <= 0) {
 			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
 		}
@@ -35,10 +35,10 @@ public class Partie {
 	}
 
 	public Equipe getVainqueur() throws GagnantNonChoisiException {
-		switch(this.vainqueur) {
-			case 1 :
+		switch (this.vainqueur) {
+			case 1:
 				return this.matche.getEquipe1();
-			case 2 : 
+			case 2:
 				return this.matche.getEquipe2();
 			default:
 				throw new GagnantNonChoisiException("Le gagnant n'a pas été choisi");
@@ -46,7 +46,7 @@ public class Partie {
 	}
 
 	public void setVainqueur(Equipe vainqueur) {
-		if(vainqueur.getNom().equals(this.matche.getEquipe1().getNom())) {
+		if (vainqueur.getNom().equals(this.matche.getEquipe1().getNom())) {
 			this.vainqueur = 1;
 		} else {
 			this.vainqueur = 2;

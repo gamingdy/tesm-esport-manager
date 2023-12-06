@@ -34,6 +34,10 @@ public class Matche {
 			throw new FausseDateException("La date de début du matche est avant la date de début du tournoi");
 		}
 
+		if (nombreMaxParties < 1) {
+			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
+		}
+
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
 		this.categorie = categorie;
