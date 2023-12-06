@@ -20,6 +20,11 @@ public class DaoPartie implements Dao<Partie,Integer>{
 
 	}
 
+	/**
+	 * Crée la table partie
+	 * @param connexion
+	 * @throws SQLException
+	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Partie("
 				+ "Id_Partie INT NOT NULL,"
@@ -35,13 +40,22 @@ public class DaoPartie implements Dao<Partie,Integer>{
 		}
 	}
 
+	/**
+	 * Supprime la table poule 
+	 * @param connexion
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
-			System.out.println("Table 'Partie' créée avec succès");
+			System.out.println("Table 'Partie' supprimée avec succès");
 			return deleteTable.execute("drop table Partie");
 		}
 	}
 
+	/**
+	 * Renvoie toutes les parties existantes
+	 */
 	@Override
 	public List<Partie> getAll() throws Exception {
 		try(Statement getAll = connexion.getConnection().createStatement()){
@@ -58,6 +72,11 @@ public class DaoPartie implements Dao<Partie,Integer>{
 		}
 	}
 
+	/**
+	 * Renvoie une partie précise
+	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER), Numero_Partie (INTEGER)
+	 * 
+	 */
 	@Override
 	public Partie getById(Integer... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Partie WHERE Id_Match = ? AND Numero_Partie = ?")){
@@ -75,16 +94,25 @@ public class DaoPartie implements Dao<Partie,Integer>{
 		}
 	}
 
+	/**
+	 * Ajoute une partie à la table partie à partir d'un objet partie
+	 * 
+	 */
 	@Override
 	public boolean add(Partie value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Partie(Id_Match,Nom_Equipe) values (?)")){
+				"INSERT INTO Partie(Id_Match,Id_Partie,Nom_Equipe) values (?,?,?)")){
 			add.setInt(1, value.getMatche().getId());
+			add.setInt(2, value.getNumeroPartie());
+			add.setString(3, value.getVainqueur().getNom());
 
 			return add.execute();
 		}
 	}
 
+	/**
+	 * Met à jour une ligne de la table partie à partir d'un objet Partie
+	 */
 	@Override
 	public boolean update(Partie value) throws Exception {
 		try(PreparedStatement update = connexion.getConnection().prepareStatement(
@@ -99,11 +127,16 @@ public class DaoPartie implements Dao<Partie,Integer>{
 		}
 	}
 
+	/**
+	 * Supprime une partie de la table partie
+	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER), Numero_Partie (INTEGER)
+	 */
 	@Override
 	public boolean delete(Integer... value) throws Exception {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Partie where Id_Partie = ?")){
+				"DELETE FROM Partie where Id_Match = ? AND Id_Partie = ?")){
 			delete.setInt(1,value[0]);
+			delete.setInt(2, value[1]);
 			return delete.execute();
 		}
 	}
