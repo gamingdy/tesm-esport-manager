@@ -65,7 +65,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	}
 	
 	/**
-	 * @return une liste de tous les tournois 
+	 * @return une liste de tous les tournois existants
 	 */
 	@Override
 	public List<Tournoi> getAll() throws Exception {
@@ -91,7 +91,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 
 	/**
 	 * @return un tournoi en particulier
-	 * Les paramètres sont placés dans cet ordre : nom du tournoi (STRING), annee du tournoi (INTEGER)
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
 	 */
 	@Override
 	public Tournoi getById(Object... id) throws Exception {
@@ -141,10 +141,10 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	public boolean update(Tournoi value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Tournoi SET"
-						+ "Date_Debut = ?"
-						+ "Date_Fin = ?"
-						+ "username = ?"
-						+ "mdp = ?"
+						+ "Date_Debut = ?,"
+						+ "Date_Fin = ?,"
+						+ "username = ?,"
+						+ "mdp = ?,"
 						+ "Libelle_Niveau = ?"
 						+ "WHERE Annee = ? AND Nom_Tournoi = ?")) {
 			update.setInt(6, value.getSaison().getAnnee());
@@ -161,7 +161,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	
 	/**
 	 * Supprime un tournoi de la table tournoi à partir de sa clé primaire
-	 * Les paramètres sont placés dans cet ordre : annee du tournoi , nom du tournoi
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
 	 *
 	 */
 	@Override
@@ -179,7 +179,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	 * @param value
 	 * @return le compte abritre associé à un tournoi
 	 * @throws SQLException
-	 * Les paramètres sont placés dans cet ordre : annee du tournoi , nom du tournoi
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
 	 */
 	public CompteArbitre getCompteArbitreByTournoi(Object... value) throws SQLException {
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(

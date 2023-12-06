@@ -107,7 +107,7 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 	public boolean update(Arbitre value) throws Exception {
 		try(PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Arbitre SET "
-						+"Nom = ? "
+						+"Nom = ? , "
 						+"Prenom = ? "
 						+"WHERE Id_Arbitre = ?")){
 			update.setString(1, value.getNom());
@@ -124,7 +124,7 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 	@Override
 	public boolean delete(Integer... value) throws Exception {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Arbitre where Id_Arbitre = ?")){
+				"DELETE FROM Arbitre WHERE Id_Arbitre = ?")){
 			delete.setInt(1,value[0]);
 			return delete.execute();
 		}

@@ -110,7 +110,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 	public boolean update(Joueur value) throws Exception {
 		try(PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Joueur SET "
-						+"Pseudo = ? "
+						+"Pseudo = ?, "
 						+"Nom_Equipe = ? "
 						+"WHERE Id_Joueur = ?")) {
 			update.setString(1, value.getPseudo());

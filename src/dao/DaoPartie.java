@@ -116,7 +116,7 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	public boolean update(Partie value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Partie SET "
-						+ "Nom_Equipe = ?"
+						+ "Nom_Equipe = ?,"
 						+ "Id_Match = ?"
 						+ "WHERE Id_Partie = ?")) {
 			update.setString(1, value.getVainqueur().getNom());

@@ -121,10 +121,10 @@ public class DaoMatche implements Dao<Matche, Integer> {
 				"INSERT INTO Matche("
 						+ "categorie,"
 						+ "Nombres_Parties_Max,"
-						+ "Date_Matche_Debut"
-						+ "Nom_Equipe1"
-						+ "Nom_Equipe2"
-						+ "Annee"
+						+ "Date_Matche_Debut,"
+						+ "Nom_Equipe1,"
+						+ "Nom_Equipe2,"
+						+ "Annee,"
 						+ "Nom_Tournoi) values (?,?,?,?,?,?,?)")) {
 			add.setString(1, value.getCategorie().name());
 			add.setInt(2, value.getNombreMaxParties());
@@ -144,11 +144,11 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	public boolean update(Matche value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Matche SET "
-						+ "categorie = ?"
-						+ "Nombres_Parties_Max = ?"
-						+ "Date_Matche_Debut = ?"
-						+ "Date_Matche_Fin = ?"
-						+ "Nom_Equipe1 = ?"
+						+ "categorie = ?,"
+						+ "Nombres_Parties_Max = ?,"
+						+ "Date_Matche_Debut = ?,"
+						+ "Date_Matche_Fin = ?,"
+						+ "Nom_Equipe1 = ?,"
 						+ "Nom_Equipe2 = ?"
 						+ "WHERE Id_Match = ?")) {
 			update.setString(1, value.getCategorie().name());
