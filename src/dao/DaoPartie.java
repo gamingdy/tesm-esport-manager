@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import modele.Partie;
 
-public class DaoPartie implements Dao<Partie,Integer>{
+public class DaoPartie implements Dao<Partie, Integer> {
 
 	private Connexion connexion;
 	private DaoMatche daomatche;
@@ -22,6 +23,7 @@ public class DaoPartie implements Dao<Partie,Integer>{
 
 	/**
 	 * Crée la table partie
+	 *
 	 * @param connexion
 	 * @throws SQLException
 	 */
@@ -34,20 +36,21 @@ public class DaoPartie implements Dao<Partie,Integer>{
 				+ "FOREIGN KEY(Id_Match) REFERENCES Matche(Id_Match),"
 				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe))";
 
-		try(Statement createTable = connexion.getConnection().createStatement()){
+		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
 			System.out.println("Table 'Partie' créée avec succès");
 		}
 	}
 
 	/**
-	 * Supprime la table poule 
+	 * Supprime la table poule
+	 *
 	 * @param connexion
 	 * @return
 	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
-		try(Statement deleteTable = connexion.getConnection().createStatement()){
+		try (Statement deleteTable = connexion.getConnection().createStatement()) {
 			System.out.println("Table 'Partie' supprimée avec succès");
 			return deleteTable.execute("drop table Partie");
 		}
@@ -58,12 +61,11 @@ public class DaoPartie implements Dao<Partie,Integer>{
 	 */
 	@Override
 	public List<Partie> getAll() throws Exception {
-		try(Statement getAll = connexion.getConnection().createStatement()){
+		try (Statement getAll = connexion.getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Partie");
 			List<Partie> sortie = new ArrayList<>();
-			while(resultat.next()) {
+			while (resultat.next()) {
 				Partie partie = new Partie(
-						resultat.getString("Nom_Equipe"),
 						daomatche.getById(resultat.getInt("Id_Match")));
 				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
 				sortie.add(partie);
@@ -75,17 +77,15 @@ public class DaoPartie implements Dao<Partie,Integer>{
 	/**
 	 * Renvoie une partie précise
 	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER), Numero_Partie (INTEGER)
-	 * 
 	 */
 	@Override
 	public Partie getById(Integer... id) throws Exception {
-		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Partie WHERE Id_Match = ? AND Numero_Partie = ?")){
+		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Partie WHERE Id_Match = ? AND Numero_Partie = ?")) {
 			getById.setInt(1, id[0]);
 			getById.setInt(2, id[1]);
 			ResultSet resultat = getById.executeQuery();
-			if(resultat.next()) {
+			if (resultat.next()) {
 				Partie partie = new Partie(
-						resultat.getString("Nom_Equipe"),
 						daomatche.getById(resultat.getInt("Id_Match")));
 				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
 				return partie;
@@ -96,12 +96,11 @@ public class DaoPartie implements Dao<Partie,Integer>{
 
 	/**
 	 * Ajoute une partie à la table partie à partir d'un objet partie
-	 * 
 	 */
 	@Override
 	public boolean add(Partie value) throws Exception {
-		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Partie(Id_Match,Id_Partie,Nom_Equipe) values (?,?,?)")){
+		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+				"INSERT INTO Partie(Id_Match,Id_Partie,Nom_Equipe) values (?,?,?)")) {
 			add.setInt(1, value.getMatche().getId());
 			add.setInt(2, value.getNumeroPartie());
 			add.setString(3, value.getVainqueur().getNom());
@@ -115,11 +114,11 @@ public class DaoPartie implements Dao<Partie,Integer>{
 	 */
 	@Override
 	public boolean update(Partie value) throws Exception {
-		try(PreparedStatement update = connexion.getConnection().prepareStatement(
+		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Partie SET "
 						+ "Nom_Equipe = ?"
 						+ "Id_Match = ?"
-						+ "WHERE Id_Partie = ?")){
+						+ "WHERE Id_Partie = ?")) {
 			update.setString(1, value.getVainqueur().getNom());
 			update.setInt(2, value.getMatche().getId());
 			update.setInt(3, value.getNumeroPartie());
@@ -133,9 +132,9 @@ public class DaoPartie implements Dao<Partie,Integer>{
 	 */
 	@Override
 	public boolean delete(Integer... value) throws Exception {
-		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Partie where Id_Match = ? AND Id_Partie = ?")){
-			delete.setInt(1,value[0]);
+		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+				"DELETE FROM Partie where Id_Match = ? AND Id_Partie = ?")) {
+			delete.setInt(1, value[0]);
 			delete.setInt(2, value[1]);
 			return delete.execute();
 		}
