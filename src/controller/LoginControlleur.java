@@ -44,9 +44,11 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		//daoNiveau.add(Niveau.LOCAL);
 
 		Saison saison = new Saison(2023);
+		//daoSaison.add(saison);
 		CustomDate debut = new CustomDate(2023, 12, 01);
 		CustomDate fin = new CustomDate(2023, 12, 30);
 		tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
+		//daoTournoi.add(tournoi);
 		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 	}
 
