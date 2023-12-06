@@ -205,6 +205,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Début AND Date_Fin ")) {
 			getCompteArbitreByTournoi.setTimestamp(1, c.toSQL());
 			ResultSet resultat = getCompteArbitreByTournoi.executeQuery();
+			resultat.next();
 			Tournoi tournoi = new Tournoi(
 					new Saison(resultat.getInt("Annee")),
 					resultat.getString("Nom_Tournoi"),
