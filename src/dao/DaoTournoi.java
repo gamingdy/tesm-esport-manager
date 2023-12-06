@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exceptions.FausseDateException;
+import exceptions.FausseDate;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
@@ -27,11 +27,16 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		this.connexion = connexion;
 	}
 
+	/**
+	 * Crée la table Tournoi
+	 * @param connexion
+	 * @throws SQLException
+	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Tournoi("
 				+ "Annee INT,"
 				+ "Nom_tournoi VARCHAR(50),"
-				+ "Date_Début DATE,"
+				+ "Date_Debut DATE,"
 				+ "Date_Fin DATE,"
 				+ "username VARCHAR(50),"
 				+ "mdp VARCHAR(50),"
@@ -46,14 +51,22 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		}
 	}
 
-
+	/**
+	 * Supprime la table Tournoi
+	 * @param connexion
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement();) {
-			System.out.println("Table 'Tournoi' créée avec succès");
+			System.out.println("Table 'Tournoi' supprimée avec succès");
 			return deleteTable.execute("drop table Tournoi");
 		}
 	}
-
+	
+	/**
+	 * @return une liste de tous les tournois 
+	 */
 	@Override
 	public List<Tournoi> getAll() throws Exception {
 		try (Statement getAll = connexion.getConnection().createStatement()) {
@@ -63,7 +76,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				Tournoi tournoi = new Tournoi(
 						new Saison(resultat.getInt("Annee")),
 						resultat.getString("Nom_Tournoi"),
-						new CustomDate(resultat.getTimestamp("Date_Début")),
+						new CustomDate(resultat.getTimestamp("Date_Debut")),
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
 						Niveau.valueOf(resultat.getString("Libelle_Niveau")),
 						new CompteArbitre(
@@ -76,6 +89,10 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		}
 	}
 
+	/**
+	 * @return un tournoi en particulier
+	 * Les paramètres sont placés dans cet ordre : nom du tournoi (STRING), annee du tournoi (INTEGER)
+	 */
 	@Override
 	public Tournoi getById(Object... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Tournoi WHERE Nom_Tournoi = ? AND Annee = ?")) {
@@ -86,7 +103,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				Tournoi tournoi = new Tournoi(
 						new Saison(resultat.getInt("Annee")),
 						resultat.getString("Nom_Tournoi"),
-						new CustomDate(resultat.getTimestamp("Date_Début")),
+						new CustomDate(resultat.getTimestamp("Date_Debut")),
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
 						Niveau.search(resultat.getString("Libelle_Niveau")),
 						new CompteArbitre(
@@ -98,11 +115,14 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			throw new Exception("Tournoi non trouvé");
 		}
 	}
-
+	
+	/**
+	 * Ajoute un tournoi à la table tournoi à partir d'un objet tournoi
+	 */
 	@Override
 	public boolean add(Tournoi value) throws Exception {
 		try (PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Tournoi(Annee,Nom_Tournoi,Date_Début,Date_Fin,username,mdp,Libelle_Niveau) values (?,?,?,?,?,?,?)")) {
+				"INSERT INTO Tournoi(Annee,Nom_Tournoi,Date_Debut,Date_Fin,username,mdp,Libelle_Niveau) values (?,?,?,?,?,?,?)")) {
 			add.setInt(1, value.getSaison().getAnnee());
 			add.setString(2, value.getNom());
 			add.setTimestamp(3, value.getDebut().toSQL());
@@ -114,12 +134,14 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return add.execute();
 		}
 	}
-
+	/**
+	 * Update les valeurs d'un tournoi à partir d'un objet tournoi
+	 */
 	@Override
 	public boolean update(Tournoi value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Tournoi SET"
-						+ "Date_Début = ?"
+						+ "Date_Debut = ?"
 						+ "Date_Fin = ?"
 						+ "username = ?"
 						+ "mdp = ?"
@@ -136,7 +158,12 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return update.execute();
 		}
 	}
-
+	
+	/**
+	 * Supprime un tournoi de la table tournoi à partir de sa clé primaire
+	 * Les paramètres sont placés dans cet ordre : annee du tournoi , nom du tournoi
+	 *
+	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
 		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
@@ -147,6 +174,13 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @return le compte abritre associé à un tournoi
+	 * @throws SQLException
+	 * Les paramètres sont placés dans cet ordre : annee du tournoi , nom du tournoi
+	 */
 	public CompteArbitre getCompteArbitreByTournoi(Object... value) throws SQLException {
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
 				"SELECT username,mdp FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
@@ -157,8 +191,15 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return new CompteArbitre(resultat.getString("username"), resultat.getString("mdp"));
 		}
 	}
-
-	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDateException {
+	
+	/**
+	 * 
+	 * @return Le tournoi actuel s'il existe sinon un optional null
+	 * @throws SQLException
+	 * @throws FausseDate
+	 * Vérifie la date système, si cette date est comprise entre la date de début et de fin du dernier tournoi actuel, alors cela renvoie le dernier tournoi sinon renvoie un optional null
+	 */
+	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDate {
 		CustomDate c = new CustomDate(Timestamp.from(Instant.now()));
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
 				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Début AND Date_Fin ")) {

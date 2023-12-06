@@ -22,6 +22,11 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		this.daoequipe = new DaoEquipe(connexion);
 	}
 
+	/**
+	 * Crée la table Matche
+	 * @param connexion
+	 * @throws SQLException
+	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Matche("
 				+"Id_Match INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
@@ -44,13 +49,22 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		}
 	}
 
+	/**
+	 * Supprime la table Matche
+	 * @param connexion
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable= connexion.getConnection().createStatement()){
-			System.out.println("Table 'Matche' créée avec succès");
+			System.out.println("Table 'Matche' suprimée avec succès");
 			return deleteTable.execute("drop table Matche");
 		}
 	}
 
+	/**
+	 * Renvoie la liste de tous les matchs existants
+	 */
 	@Override
 	public List<Matche> getAll() throws Exception {
 		try(Statement getAll = connexion.getConnection().createStatement()){
@@ -71,6 +85,10 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		}
 	}
 
+	/**
+	 * renvoie un match précis
+	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER)
+	 */
 	@Override
 	public Matche getById(Integer... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Matche WHERE Id_Match = ?")){
@@ -90,7 +108,10 @@ public class DaoMatche implements Dao<Matche,Integer>{
 			throw new Exception("Matche non trouvé");
 		}
 	}
-
+	
+	/**
+	 * Ajoute un match à la table match à partir d'un objet match
+	 */
 	@Override
 	public boolean add(Matche value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
@@ -113,6 +134,9 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		}
 	}
 
+	/**
+	 * Update une ligne de la table match à partir d'un objet match
+	 */
 	@Override
 	public boolean update(Matche value) throws Exception {
 		try(PreparedStatement update = connexion.getConnection().prepareStatement(
@@ -135,6 +159,10 @@ public class DaoMatche implements Dao<Matche,Integer>{
 		}
 	}
 
+	/**
+	 * supprime un match de la table match
+	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER)
+	 */
 	@Override
 	public boolean delete(Integer... value) throws Exception {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(

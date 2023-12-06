@@ -19,6 +19,11 @@ public class DaoPoule implements Dao<Poule,Object>{
 
 	}
 
+	/**
+	 * Crée la table Poule
+	 * @param connexion
+	 * @throws SQLException
+	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Poule ("
 				+ "Annee INT,"
@@ -32,14 +37,23 @@ public class DaoPoule implements Dao<Poule,Object>{
 			System.out.println("Table 'Poule' créée avec succès");
 		}
 	}
-
+	
+	/** 
+	 * Supprime la table Poule
+	 * @param connexion
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
-			System.out.println("Table 'Poule' créée avec succès");
+			System.out.println("Table 'Poule' supprimée avec succès");
 			return deleteTable.execute("drop table Poule");
 		}
 	}
 
+	/**
+	 * Renvoie toutes les poules existantes 
+	 */
 	@Override
 	public List<Poule> getAll() throws Exception {
 		try(Statement getAll = connexion.getConnection().createStatement()){
@@ -55,6 +69,10 @@ public class DaoPoule implements Dao<Poule,Object>{
 		}
 	}
 
+	/**
+	 * Renvoie une poule précise 
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle_poule (STRING)
+	 */
 	@Override
 	public Poule getById(Object... value) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Poule WHERE Annee = ? AND Nom_Tournoi = ? AND Libelle = ?")){
@@ -72,26 +90,38 @@ public class DaoPoule implements Dao<Poule,Object>{
 		}
 	}
 
+	/**
+	 * Ajoute une poule à la table poule
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle_poule (STRING)
+	 * 
+	 */
 	@Override
 	public boolean add(Poule value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Poule(Annee,Nom_tournoi,Libellé) values (?,?,?)")){
+				"INSERT INTO Poule(Annee,Nom_tournoi,Libelle) values (?,?,?)")){
 			add.setInt(1, value.getTournoi().getSaison().getAnnee());
 			add.setString(2, value.getTournoi().getNom());
 			add.setString(3, value.getLibelle().toString());
 			return add.execute();
 		}
 	}
-
+	/**
+	 * ne pas utiliser
+	 */
 	@Override
 	public boolean update(Poule value) throws Exception {
 		return false;
 	}
 
+	/**
+	 * Supprime une poule
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle_poule (STRING)
+	 * 
+	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Poule where Annee = ? AND Nom_tournoi = ? AND Libellé = ?")){
+				"DELETE FROM Poule where Annee = ? AND Nom_tournoi = ? AND Libelle = ?")){
 			delete.setInt(1,(Integer)value[0]);
 			delete.setString(2,(String)value[1]);
 			delete.setString(3,(String)value[2]);

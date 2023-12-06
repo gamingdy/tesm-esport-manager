@@ -14,6 +14,11 @@ public class DaoSaison implements Dao<Saison, Integer> {
 		this.connexion = connexion;
 	}
 
+	/**
+	 * Crée la table Saison
+	 * @param connexion
+	 * @throws SQLException
+	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Saison("
 				+ "Annee INT,"
@@ -24,13 +29,22 @@ public class DaoSaison implements Dao<Saison, Integer> {
 		}
 	}
 
+	/**
+	 * Supprime la table saison
+	 * @param connexion
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Saison' créée avec succès");
+			System.out.println("Table 'Saison' supprimée avec succès");
 			return deleteTable.execute("drop table Saison");
 		}
 	}
 
+	/**
+	 * Renvoie la liste de toutes les saisons (années)
+	 */
 	@Override
 	public List<Saison> getAll() throws Exception {
 		try (Statement getAll = connexion.getConnection().createStatement()) {
@@ -45,6 +59,10 @@ public class DaoSaison implements Dao<Saison, Integer> {
 		}
 	}
 
+	/**
+	 * Renvoie une année pécise
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER)
+	 */
 	@Override
 	public Saison getById(Integer... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Saison WHERE Annee = ?")) {
@@ -59,28 +77,29 @@ public class DaoSaison implements Dao<Saison, Integer> {
 		}
 	}
 
+	/**
+	 * Ajoute une saison à la table saison
+	 */
 	@Override
 	public boolean add(Saison value) throws Exception {
-		try {
-			System.out.println("patate");
-			System.out.println(connexion);
-			Connection add = connexion.getConnection();
-			System.out.println("poti");
-			PreparedStatement t = add.prepareStatement("INSERT INTO Saison(Annee) values (?)");
-
-			t.setInt(1, value.getAnnee());
-			return t.execute();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+		try (PreparedStatement add  = connexion.getConnection().prepareStatement(
+				"INSERT INTO Saison(Annee) values (?)")){
+			add.setInt(1, value.getAnnee());
+			return add.execute();
+		} 
 	}
 
+	/**
+	 * ne pas utiliser
+	 */
 	@Override
 	public boolean update(Saison value) throws Exception {
 		return false;
 	}
 
+	/**
+	 * supprime une saison de la table saison
+	 */
 	@Override
 	public boolean delete(Integer... value) throws Exception {
 		try (PreparedStatement delete = connexion.getConnection().prepareStatement(

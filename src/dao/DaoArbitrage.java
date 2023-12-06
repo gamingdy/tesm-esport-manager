@@ -9,6 +9,7 @@ import java.util.List;
 
 import modele.Arbitrage;
 import modele.Arbitre;
+import modele.Tournoi;
 
 public class DaoArbitrage implements Dao<Arbitrage,Object>{
 
@@ -22,6 +23,11 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 		this.daotournoi= new DaoTournoi(connexion);
 	}
 
+	/**
+	 * Crée la table d'association arbitrage qui fait le lien entre les tournois et les arbitres
+	 * @param connexion
+	 * @throws SQLException
+	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Arbitrage("
 				+ "Annee INT,"
@@ -37,13 +43,22 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 		}
 	}
 
+	/**
+	 * Supprime la table arbitrage
+	 * @param connexion
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
-			System.out.println("Table 'Arbitrage' créée avec succès");
+			System.out.println("Table 'Arbitrage' supprimée avec succès");
 			return deleteTable.execute("drop table Arbitrage");
 		}
 	}
 
+	/**
+	 * Renvoie toutes les associations de tournois et d'abitres existantes 
+	 */
 	@Override
 	public List<Arbitrage> getAll() throws Exception {
 		try(Statement getAll = connexion.getConnection().createStatement()){
@@ -60,7 +75,11 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 			return sortie;
 		}
 	}
-
+	
+	/**
+	 * Renvoie une association précise d'un tournoi et d'un arbitre
+	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER), Annee (INTEGER), Nom_tournoi (STRING)
+	 */
 	@Override
 	public Arbitrage getById(Object... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Arbitrage WHERE Id_Arbitre = ? AND Annee = ? AND Nom_tournoi = ?")){
@@ -80,6 +99,9 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 		}
 	}
 
+	/**
+	 * Ajoute une association d'un tournoi et d'un arbitre à partir d'un objet association
+	 */
 	@Override
 	public boolean add(Arbitrage value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
@@ -91,12 +113,19 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 		}
 	}
 
+	/**
+	 * ne pas utiliser
+	 */
 	@Override
 	public boolean update(Arbitrage value) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * Supprime une association d'un tournoi et d'un arbitre
+	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER), Annee (INTEGER), Nom_tournoi (STRING)
+	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
@@ -108,15 +137,41 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 		}
 	}
 
+	/**
+	 * Renvoie la liste des arbitre pour un tournoi
+	 * Les paramètres sont placés dans cet ordre : Nom_tournoi (STRING), Annee (INTEGER) 
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Arbitre> getArbitreByTournoi(Object... value) throws Exception {
-		try(PreparedStatement getAll = connexion.getConnection().prepareStatement("SELECT * FROM Arbitrage where Nom_Tournoi = ? AND Annee = ?")){
-			getAll.setString(1, (String)value[0]);
-			getAll.setInt(2, (Integer)value[1]);
-			ResultSet resultat = getAll.executeQuery();
+		try(PreparedStatement getArbitreByTournoi = connexion.getConnection().prepareStatement("SELECT * FROM Arbitrage where Nom_Tournoi = ? AND Annee = ?")){
+			getArbitreByTournoi.setString(1, (String)value[0]);
+			getArbitreByTournoi.setInt(2, (Integer)value[1]);
+			ResultSet resultat = getArbitreByTournoi.executeQuery();
 			List<Arbitre> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				Arbitre arbitre = daoarbitre.getById(resultat.getInt("Id_Arbitre"));
-				sortie.add(arbitre);
+				sortie.add(daoarbitre.getById(resultat.getInt("Id_Arbitre")));
+				
+			}
+			return sortie;
+		}
+	}
+	
+	/**
+	 * Renvoie tous les tournois pour un arbitre
+	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER)
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Tournoi> getTournoiByArbitre(Object... value) throws Exception {
+		try(PreparedStatement getTournoiByArbitre = connexion.getConnection().prepareStatement("SELECT * FROM Arbitrage where Id_Arbitre = ?")){
+			getTournoiByArbitre.setInt(1, (Integer)value[1]);
+			ResultSet resultat = getTournoiByArbitre.executeQuery();
+			List<Tournoi> sortie = new ArrayList<>();
+			while(resultat.next()) {
+				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")));
 			}
 			return sortie;
 		}
