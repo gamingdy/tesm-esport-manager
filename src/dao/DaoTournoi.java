@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exceptions.FausseDate;
+import exceptions.FausseDateException;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
@@ -158,7 +158,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		}
 	}
 
-	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDate {
+	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDateException {
 		CustomDate c = new CustomDate(Timestamp.from(Instant.now()));
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
 				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Début AND Date_Fin ")) {

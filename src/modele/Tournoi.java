@@ -3,7 +3,7 @@ package modele;
 //import java.util.HashMap;
 //import java.util.Map;
 
-import exceptions.FausseDate;
+import exceptions.FausseDateException;
 
 public class Tournoi {
 
@@ -16,12 +16,12 @@ public class Tournoi {
 	private CompteArbitre compteArbitre;
 	//private Map<Character,Poule> poules;
 
-	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDate {
+	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDateException {
 		if (debut.getAnnee() < saison.getAnnee()) {
-			throw new FausseDate("La date de début du tournoi est avant la date de début de la saison");
+			throw new FausseDateException("La date de début du tournoi est avant la date de début de la saison");
 		}
 		if (fin.getAnnee() > saison.getAnnee()) {
-			throw new FausseDate("La date de fin du tournoi est après la date de fin de la saison");
+			throw new FausseDateException("La date de fin du tournoi est après la date de fin de la saison");
 		}
 		this.saison = saison;
 		this.nom = nom;

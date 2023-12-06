@@ -1,13 +1,13 @@
 package exceptions;
 
-public class PouleComplete extends Exception {
+public class PouleCompleteException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public PouleComplete(String message) {
+	public PouleCompleteException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}

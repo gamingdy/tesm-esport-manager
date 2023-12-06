@@ -1,6 +1,6 @@
 package modele.test;
 
-import exceptions.IdNotSet;
+import exceptions.IdNotSetException;
 import modele.Country;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,13 +19,13 @@ public class TestArbitre {
 		a = new Arbitre("Brando", "Titouan");
 	}
 
-	@Test(expected = IdNotSet.class)
-	public void getIdNotSet() throws IdNotSet {
+	@Test(expected = IdNotSetException.class)
+	public void getIdNotSet() throws IdNotSetException {
 		a.getId();
 	}
 
 	@Test
-	public void getId() throws IdNotSet {
+	public void getId() throws IdNotSetException {
 		a.setId(5);
 		assertEquals((Integer) 5, a.getId());
 	}
@@ -53,7 +53,7 @@ public class TestArbitre {
 	}
 
 	@Test
-	public void testtoString() throws IdNotSet {
+	public void testtoString() throws IdNotSetException {
 		a.setId(6);
 		assertEquals("(6)Brando Titouan", "(" + a.getId() + ")" + a.getNom() + " " + a.getPrenom());
 	}

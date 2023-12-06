@@ -1,8 +1,8 @@
 package modele.test;
 
-import exceptions.FausseDate;
-import exceptions.IdNotSet;
-import exceptions.MemeEquipe;
+import exceptions.FausseDateException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 import org.junit.Before;
 import org.junit.Test;
 import modele.*;
@@ -27,27 +27,27 @@ public class TestMatche {
 		tournoi= new Tournoi(saison,"RLCS",d1,d2,Niveau.INTERNATIONAL,new CompteArbitre("cricri","1234"));
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
-	@Test(expected= MemeEquipe.class)
-	public void testConstructeurExceptionMemeEquipe() throws MemeEquipe, FausseDate {
+	@Test(expected= MemeEquipeException.class)
+	public void testConstructeurExceptionMemeEquipe() throws MemeEquipeException, FausseDateException {
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e1, tournoi);
 	}
-	@Test(expected = FausseDate.class)
-	public void testContructeurExceptionFausseDate() throws MemeEquipe, FausseDate {
+	@Test(expected = FausseDateException.class)
+	public void testContructeurExceptionFausseDate() throws MemeEquipeException, FausseDateException {
 		d1= new CustomDate(2022,9,10);
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructeurExceptionNull() throws MemeEquipe, FausseDate {
+	public void testConstructeurExceptionNull() throws MemeEquipeException, FausseDateException {
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, null, tournoi);
 	}
 	@Test
-	public void getId() throws IdNotSet {
+	public void getId() throws IdNotSetException {
 		m.setId(1);
 		assertEquals((Integer) 1, m.getId());
 	}
 
-	@Test(expected = IdNotSet.class)
-	public void getIdNotSet() throws IdNotSet {
+	@Test(expected = IdNotSetException.class)
+	public void getIdNotSet() throws IdNotSetException {
 		assertEquals((Integer) 1, m.getId());
 	}
 

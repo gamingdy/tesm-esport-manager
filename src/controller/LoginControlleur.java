@@ -12,7 +12,7 @@ import dao.Connexion;
 import dao.DaoNiveau;
 import dao.DaoSaison;
 import dao.DaoTournoi;
-import exceptions.FausseDate;
+import exceptions.FausseDateException;
 import modele.*;
 import vue.login.VueLogin;
 

@@ -1,6 +1,6 @@
 package modele.test;
 
-import exceptions.GagnantNonChoisi;
+import exceptions.GagnantNonChoisiException;
 import modele.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,17 +47,17 @@ public class TestPartie {
 		partie=new Partie("RLCS aout",matche,5);
 	}
 	@Test
-	public void testSetVainqueur1() throws GagnantNonChoisi {
+	public void testSetVainqueur1() throws GagnantNonChoisiException {
 		partie.setVainqueur(equipe1);
 		assertEquals(equipe1,partie.getVainqueur());
 	}
 	@Test
-	public void testSetVainqueur2() throws GagnantNonChoisi{
+	public void testSetVainqueur2() throws GagnantNonChoisiException{
 		partie.setVainqueur(equipe2);
 		assertEquals(equipe2,partie.getVainqueur());
 	}
-	@Test (expected = GagnantNonChoisi.class)
-	public void testErreurSetVainqueur() throws  GagnantNonChoisi{
+	@Test (expected = GagnantNonChoisiException.class)
+	public void testErreurSetVainqueur() throws  GagnantNonChoisiException{
 		partie.getVainqueur();
 	}
 	@Test

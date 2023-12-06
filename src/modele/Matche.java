@@ -1,8 +1,8 @@
 package modele;
 
-import exceptions.FausseDate;
-import exceptions.IdNotSet;
-import exceptions.MemeEquipe;
+import exceptions.FausseDateException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 
 import java.util.Objects;
 
@@ -20,18 +20,18 @@ public class Matche {
 
 
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
-				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDate, MemeEquipe {
+				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
 
 		if (dateDebutMatche == null || libelle == null || equipe1 == null || equipe2 == null || tournoi == null) {
 			throw new IllegalArgumentException("Un des paramètres est null");
 		}
 
 		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
-			throw new MemeEquipe("Les 2 équipes sont identiques");
+			throw new MemeEquipeException("Les 2 équipes sont identiques");
 		}
 
 		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
-			throw new FausseDate("La date de début du matche est avant la date de début du tournoi");
+			throw new FausseDateException("La date de début du matche est avant la date de début du tournoi");
 		}
 
 		this.nombreMaxParties = nombreMaxParties;
@@ -96,9 +96,9 @@ public class Matche {
 		return saison;
 	}
 
-	public Integer getId() throws IdNotSet {
+	public Integer getId() throws IdNotSetException {
 		if (this.id == null) {
-			throw new IdNotSet("le id du Matche n'est pas set");
+			throw new IdNotSetException("le id du Matche n'est pas set");
 		}
 
 		return id;

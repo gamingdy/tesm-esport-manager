@@ -3,11 +3,11 @@ package modele;
 import java.util.Set;
 import java.util.TreeSet;
 
-import exceptions.EquipeComplete;
-import exceptions.EquipeVide;
-import exceptions.ErreurJoueur;
-import exceptions.JoueurNonPresent;
-import exceptions.PointsNegatifs;
+import exceptions.EquipeCompleteException;
+import exceptions.EquipeVideException;
+import exceptions.JoueurException;
+import exceptions.JoueurNonPresentException;
+import exceptions.ExceptionPointsNegatifs;
 
 public class Equipe {
 
@@ -45,35 +45,35 @@ public class Equipe {
 	}
 
 
-	public void setPoint(int point) throws PointsNegatifs {
+	public void setPoint(int point) throws ExceptionPointsNegatifs {
 		if(point<0){
-			throw new PointsNegatifs("On ne peut pas mettre des points negatifs");
+			throw new ExceptionPointsNegatifs("On ne peut pas mettre des points negatifs");
 		}
 		this.point = point;
 	}
 
-	public void addJoueur(Joueur joueur) throws EquipeComplete {
+	public void addJoueur(Joueur joueur) throws EquipeCompleteException {
 		if (this.equipe.size() == 5) {
-			throw new EquipeComplete("L'équipe est pleine");
+			throw new EquipeCompleteException("L'équipe est pleine");
 		}
 		this.equipe.add(joueur);
 	}
 
-	public Joueur getJoueur(Joueur joueur) throws JoueurNonPresent, EquipeVide {
+	public Joueur getJoueur(Joueur joueur) throws JoueurNonPresentException, EquipeVideException {
 		if (this.equipe.isEmpty()) {
-			throw new EquipeVide("L'équipe est vide");
+			throw new EquipeVideException("L'équipe est vide");
 		}
 		for (Joueur j : this.equipe) {
 			if (j.equals(joueur)) {
 				return j;
 			}
 		}
-		throw new JoueurNonPresent("Le joueur ne fait pas partie de l'équipe");
+		throw new JoueurNonPresentException("Le joueur ne fait pas partie de l'équipe");
 	}
 
-	public void deleteJoueur(Joueur joueur) throws JoueurNonPresent, EquipeVide {
+	public void deleteJoueur(Joueur joueur) throws JoueurNonPresentException, EquipeVideException {
 		if (this.equipe.isEmpty()) {
-			throw new EquipeVide("L'équipe est vide");
+			throw new EquipeVideException("L'équipe est vide");
 		}
 		Joueur joueur_res = null;
 		for (Joueur j : this.equipe) {
@@ -82,7 +82,7 @@ public class Equipe {
 			}
 		}
 		if (joueur_res == null) {
-			throw new JoueurNonPresent("Le joueur ne fait pas partie de l'équipe");
+			throw new JoueurNonPresentException("Le joueur ne fait pas partie de l'équipe");
 		}
 		this.equipe.remove(joueur);
 	}

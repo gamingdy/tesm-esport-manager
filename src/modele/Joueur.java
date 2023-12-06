@@ -1,9 +1,9 @@
 package modele;
 
 
-import exceptions.EquipeComplete;
-import exceptions.ErreurJoueur;
-import exceptions.IdNotSet;
+import exceptions.EquipeCompleteException;
+import exceptions.JoueurException;
+import exceptions.IdNotSetException;
 
 public class Joueur implements Comparable<Joueur> {
 	
@@ -11,7 +11,7 @@ public class Joueur implements Comparable<Joueur> {
 	private String pseudo;
 	private Equipe equipe;
 
-	public Joueur(String pseudo, Equipe equipe) throws EquipeComplete, ErreurJoueur{
+	public Joueur(String pseudo, Equipe equipe) throws EquipeCompleteException, JoueurException{
 		this.pseudo = pseudo;
 		this.equipe = equipe;
 		this.equipe.addJoueur(this);
@@ -21,9 +21,9 @@ public class Joueur implements Comparable<Joueur> {
 		this.id = newId;
 	}
 
-	public Integer getId() throws IdNotSet {
+	public Integer getId() throws IdNotSetException {
 		if (this.id == null) {
-			throw new IdNotSet("le id de ce Joueur n'est pas set");
+			throw new IdNotSetException("le id de ce Joueur n'est pas set");
 		}
 		return this.id;
 	}

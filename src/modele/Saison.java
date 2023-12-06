@@ -1,8 +1,8 @@
 package modele;
 
-import exceptions.EquipeInexistante;
-import exceptions.FausseDate;
-import exceptions.PointsNegatifs;
+import exceptions.EquipeInexistanteException;
+import exceptions.FausseDateException;
+import exceptions.ExceptionPointsNegatifs;
 
 import java.util.*;
 
@@ -52,9 +52,9 @@ public class Saison {
 		this.equipes.put(equipe, 1000);
 	}
 
-	public void deleteEquipe(Equipe equipe) throws EquipeInexistante {
+	public void deleteEquipe(Equipe equipe) throws EquipeInexistanteException {
 		if (!equipes.containsKey(equipe)) {
-			throw new EquipeInexistante("Cette équipe n'est pas dans la saison");
+			throw new EquipeInexistanteException("Cette équipe n'est pas dans la saison");
 		}
 		this.equipes.remove(equipe);
 	}
@@ -90,18 +90,19 @@ public class Saison {
 		return tournoi;
 	}
 
-	public void SaisonFinie() throws FausseDate{
+	public void SaisonFinie() throws FausseDateException{
 		//TODO Supprimer toutes les informations à ne pas garder de la saison (this)
 	}
 
-	public Saison NouvelleSaison() throws PointsNegatifs{
+	public Saison NouvelleSaison() throws ExceptionPointsNegatifs, FausseDateException{
 		Saison NouvelleSaison = new Saison(this.annee+1);
 		for (Equipe e : this.equipes.keySet()) {
 			Equipe equipe = new Equipe(e.getNom(), e.getPays());
 			NouvelleSaison.addEquipe(equipe, e.getPoint());
 		}
 		for (Tournoi t : this.tournois) {
-			//TODO Faire l'ajout des tournois avec seulement équipe, niveau et points pour chaque équipe
+			Tournoi tournoi = new Tournoi(this, t.getNom(), t.getDebut(), t.getFin(), t.getNiveau(), t.getCompteArbitre());
+			//TODO Faire l'ajout des tournois avec seulement équipes, niveau et points pour chaque équipe
 			//Pas besoin des dates ou du reste :
 			// - Seuls le nombre de points remportés par chaque équipe par tournoi et son classement annuel sont conservés d’une année sur l’autre.
 		}

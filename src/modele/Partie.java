@@ -1,6 +1,6 @@
 package modele;
 
-import exceptions.GagnantNonChoisi;
+import exceptions.GagnantNonChoisiException;
 
 public class Partie {
 
@@ -34,14 +34,14 @@ public class Partie {
 		this.numeroPartie = numeroPartie;
 	}
 
-	public Equipe getVainqueur() throws GagnantNonChoisi {
+	public Equipe getVainqueur() throws GagnantNonChoisiException {
 		switch(this.vainqueur) {
 			case 1 :
 				return this.matche.getEquipe1();
 			case 2 : 
 				return this.matche.getEquipe2();
 			default:
-				throw new GagnantNonChoisi("Le gagnant n'a pas été choisi");
+				throw new GagnantNonChoisiException("Le gagnant n'a pas été choisi");
 		}
 	}
 
