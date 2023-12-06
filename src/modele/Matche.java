@@ -11,7 +11,7 @@ public class Matche {
 	private Integer id;
 	private CustomDate dateDebutMatche;
 	private int nombreMaxParties;
-	private Categorie libelle;
+	private Categorie categorie;
 	private Equipe equipe1;
 	private Equipe equipe2;
 	private Tournoi tournoi;
@@ -19,10 +19,10 @@ public class Matche {
 	private Saison saison;
 
 
-	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie libelle,
+	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
 
-		if (dateDebutMatche == null || libelle == null || equipe1 == null || equipe2 == null || tournoi == null) {
+		if (dateDebutMatche == null || categorie == null || equipe1 == null || equipe2 == null || tournoi == null) {
 			throw new IllegalArgumentException("Un des paramètres est null");
 		}
 
@@ -36,7 +36,7 @@ public class Matche {
 
 		this.nombreMaxParties = nombreMaxParties;
 		this.dateDebutMatche = dateDebutMatche;
-		this.libelle = libelle;
+		this.categorie = categorie;
 		this.equipe1 = equipe1;
 		this.equipe2 = equipe2;
 		this.tournoi = tournoi;
@@ -60,12 +60,12 @@ public class Matche {
 		this.dateDebutMatche = dateDebutMatche;
 	}
 
-	public Categorie getLibelle() {
-		return libelle;
+	public Categorie getCategorie() {
+		return categorie;
 	}
 
-	public void setLibelle(Categorie libelle) {
-		this.libelle = libelle;
+	public void setCategorie(Categorie categorie) {
+		this.categorie = categorie;
 	}
 
 	public Equipe getEquipe1() {
@@ -115,7 +115,7 @@ public class Matche {
 	@Override
 	public String toString() {
 		return "Matche [id=" + id + ", dateDebutMatche=" + dateDebutMatche + ", nombreMaxParties=" + nombreMaxParties
-				+ ", libelle=" + libelle + ", equipe1=" + equipe1 + ", equipe2=" + equipe2 + ", tournoi=" + tournoi
+				+ ", libelle=" + categorie + ", equipe1=" + equipe1 + ", equipe2=" + equipe2 + ", tournoi=" + tournoi
 				+ ", vainqueur=" + vainqueur + ", saison=" + saison + "]";
 	}
 
