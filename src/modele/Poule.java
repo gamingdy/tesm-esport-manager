@@ -1,9 +1,12 @@
 package modele;
 
+import java.util.List;
+
 public class Poule {
 
 	private final Tournoi tournoi;
 	private final Character libelle;
+	private List<Equipe> equipes;
 
 	public Poule(Tournoi tournoi, Character libelle) {
 		this.tournoi = tournoi;
@@ -16,6 +19,14 @@ public class Poule {
 
 	public Character getLibelle() {
 		return libelle;
+	}
+
+	public List<Equipe> getEquipes() {
+		return equipes;
+	}
+
+	public void addEquipe(Equipe equipe) {
+		this.equipes.add(equipe);
 	}
 
 	@Override
