@@ -1,9 +1,9 @@
-package controller;
+package controlleur;
 
 import vue.Vue;
 
 public class VueObserver {
-	private VueControleur vueControleur;
+	private VueControlleur vueControleur;
 	private static VueObserver instance;
 
 	private VueObserver() {
@@ -17,7 +17,7 @@ public class VueObserver {
 		return instance;
 	}
 
-	public void setVue(VueControleur vue) {
+	public void setVue(VueControlleur vue) {
 		this.vueControleur = vue;
 	}
 

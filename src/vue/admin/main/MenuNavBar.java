@@ -7,7 +7,7 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import controller.BoutonMenuControlleur;
+import controlleur.BoutonMenuControlleur;
 import vue.common.CustomColor;
 
 @SuppressWarnings("serial")

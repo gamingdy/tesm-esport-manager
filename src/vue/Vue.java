@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.VueControleur;
+import controlleur.VueControlleur;
 import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
 import vue.common.WindowResizer;
@@ -26,7 +26,7 @@ public class Vue extends JFrame {
 	private TitleBar titleBar;
 	private JPanel panelContenu;
 	private CardLayout cl;
-
+ 
 	public Vue() throws Exception {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setBackground();
@@ -47,7 +47,7 @@ public class Vue extends JFrame {
 		panelContenu.setLayout(cl);
 		add(panelContenu, BorderLayout.CENTER);
 		panelContenu.setOpaque(false);
-		VueControleur mainController = new VueControleur(this);
+		VueControlleur mainController = new VueControlleur(this);
 	}
 
 	private void setBackground() {

@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import controller.ControleurTest;
+import controlleur.ControleurTest;
 import vue.Vue;
 import vue.admin.main.MenuNavBar;
 import vue.common.CustomColor;

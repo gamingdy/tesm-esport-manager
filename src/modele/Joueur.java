@@ -11,7 +11,7 @@ public class Joueur implements Comparable<Joueur> {
 	private String pseudo;
 	private Equipe equipe;
 
-	public Joueur(String pseudo, Equipe equipe) throws EquipeComplete, ErreurJoueur{
+	public Joueur(String pseudo, Equipe equipe) throws EquipeComplete{
 		this.pseudo = pseudo;
 		this.equipe = equipe;
 		this.equipe.addJoueur(this);

@@ -1,4 +1,4 @@
-package controller;
+package controlleur;
 
 import vue.Vue;
 import vue.admin.main.BoutonMenu;

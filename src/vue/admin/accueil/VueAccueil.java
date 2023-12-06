@@ -33,7 +33,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import controller.BoutonMenuControlleur;
+import controlleur.BoutonMenuControlleur;
 import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;

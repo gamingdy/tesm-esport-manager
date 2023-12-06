@@ -1,14 +1,14 @@
-package controller;
+package controlleur;
 
 import vue.Vue;
 import vue.admin.VueAdmin;
 import vue.login.VueLogin;
 
-public class VueControleur {
+public class VueControlleur {
 	private Vue vue;
 	private VueObserver observer;
 
-	public VueControleur(Vue vue) throws Exception {
+	public VueControlleur(Vue vue) throws Exception {
 		this.vue = vue;
 		this.observer = VueObserver.getInstance();
 		observer.setVue(this);

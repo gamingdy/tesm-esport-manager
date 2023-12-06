@@ -2,7 +2,7 @@ package vue.login;
 
 import javax.swing.*;
 
-import controller.LoginControlleur;
+import controlleur.LoginControlleur;
 
 import java.awt.GridBagLayout;
 
