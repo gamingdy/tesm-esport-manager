@@ -42,7 +42,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable= connexion.getConnection().createStatement()){
-			System.out.println("Table 'Equipe' suprimée avec succès");
+			System.out.println("Table 'Equipe' supprimée avec succès");
 			return deleteTable.execute("drop table Equipe");
 		}
 	}
@@ -107,7 +107,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	public boolean update(Equipe value) throws Exception {
 		try(PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Equipe SET "
-						+"World_rank = ? "
+						+"World_rank = ?, "
 						+"Pays_Equipe = ?"
 						+"WHERE Nom_Equipe = ?")) {
 			update.setInt(1, value.getPoint());
