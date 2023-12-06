@@ -14,8 +14,10 @@ public class TitleBar extends JPanel {
 	final ButtonTitleBar exit;
 	final ButtonTitleBar enlarge;
 	private JLabel title;
+	private static TitleBar instance;
 
-	public TitleBar(Vue vue) {
+
+	private TitleBar(Vue vue) {
 		super(new BorderLayout());
 
 		vue.setUndecorated(true);
@@ -89,6 +91,17 @@ public class TitleBar extends JPanel {
 				vue.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
 			}
 		});
+	}
+
+	public static synchronized TitleBar getInstance() {
+		return instance;
+	}
+
+	public static synchronized TitleBar getInstance(Vue vue) {
+		if (instance == null) {
+			instance = new TitleBar(vue);
+		}
+		return instance;
 	}
 
 	public void setTitle(String title) {

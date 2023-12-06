@@ -26,12 +26,12 @@ public class Vue extends JFrame {
 	private TitleBar titleBar;
 	private JPanel panelContenu;
 	private CardLayout cl;
- 
+
 	public Vue() throws Exception {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setBackground();
 
-		titleBar = new TitleBar(this);
+		titleBar = TitleBar.getInstance(this);
 
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,7 +69,6 @@ public class Vue extends JFrame {
 
 	public void setPage(String identifiant) {
 		cl.show(panelContenu, identifiant);
-		titleBar.setTitle(identifiant);
 	}
 
 	public void addPage(JComponent page, String identifiant) {
