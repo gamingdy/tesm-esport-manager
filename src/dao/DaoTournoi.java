@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exceptions.FausseDate;
+import exceptions.FausseDateException;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
@@ -29,6 +29,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 
 	/**
 	 * Crée la table Tournoi
+	 *
 	 * @param connexion
 	 * @throws SQLException
 	 */
@@ -53,6 +54,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 
 	/**
 	 * Supprime la table Tournoi
+	 *
 	 * @param connexion
 	 * @return
 	 * @throws SQLException
@@ -63,8 +65,10 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return deleteTable.execute("drop table Tournoi");
 		}
 	}
-	
+
 	/**
+	 * <<<<<<< Updated upstream
+	 *
 	 * @return une liste de tous les tournois existants
 	 */
 	@Override
@@ -115,7 +119,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			throw new Exception("Tournoi non trouvé");
 		}
 	}
-	
+
 	/**
 	 * Ajoute un tournoi à la table tournoi à partir d'un objet tournoi
 	 */
@@ -134,6 +138,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return add.execute();
 		}
 	}
+
 	/**
 	 * Update les valeurs d'un tournoi à partir d'un objet tournoi
 	 */
@@ -158,11 +163,15 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return update.execute();
 		}
 	}
-	
+
 	/**
 	 * Supprime un tournoi de la table tournoi à partir de sa clé primaire
+	 * <<<<<<< Updated upstream
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
-	 *
+	 * <p>
+	 * =======
+	 * Les paramètres sont placés dans cet ordre : annee du tournoi , nom du tournoi
+	 * >>>>>>> Stashed changes
 	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
@@ -175,11 +184,13 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	}
 
 	/**
-	 * 
 	 * @param value
 	 * @return le compte abritre associé à un tournoi
-	 * @throws SQLException
-	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
+	 * <<<<<<< Updated upstream
+	 * @throws SQLException Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
+	 *                      =======
+	 * @throws SQLException Les paramètres sont placés dans cet ordre : annee du tournoi , nom du tournoi
+	 *                      >>>>>>> Stashed changes
 	 */
 	public CompteArbitre getCompteArbitreByTournoi(Object... value) throws SQLException {
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
@@ -191,15 +202,13 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return new CompteArbitre(resultat.getString("username"), resultat.getString("mdp"));
 		}
 	}
-	
+
 	/**
-	 * 
 	 * @return Le tournoi actuel s'il existe sinon un optional null
 	 * @throws SQLException
-	 * @throws FausseDate
-	 * Vérifie la date système, si cette date est comprise entre la date de début et de fin du dernier tournoi actuel, alors cela renvoie le dernier tournoi sinon renvoie un optional null
+	 * @throws FausseDateException Vérifie la date système, si cette date est comprise entre la date de début et de fin du dernier tournoi actuel, alors cela renvoie le dernier tournoi sinon renvoie un optional null
 	 */
-	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDate {
+	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDateException {
 		CustomDate c = new CustomDate(Timestamp.from(Instant.now()));
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
 				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Début AND Date_Fin ")) {
