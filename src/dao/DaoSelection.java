@@ -51,7 +51,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
-			System.out.println("Table 'Selection' créée avec succès");
+			System.out.println("Table 'Selection' supprimée avec succès");
 			return deleteTable.execute("drop table Selection");
 		}
 	}
@@ -100,7 +100,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 	@Override
 	public boolean add(Selection value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Inscription(Id_Arbitre,Annee) values (?,?)")) {
+				"INSERT INTO Selection(Id_Arbitre,Annee) values (?,?)")) {
 			add.setInt(1, value.getIdArbitre());
 			add.setInt(2, value.getAnnee());
 			return add.execute();
@@ -131,6 +131,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 	
 	/**
 	 * Renvoie tous les arbitres d'une saison
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER)
 	 * @param value
 	 * @return
 	 * @throws Exception
@@ -150,7 +151,8 @@ public class DaoSelection implements Dao<Selection,Object>{
 	
 
 	/**
-	 * Renvoie tous les saison d'une arbitre
+	 * Renvoie tous les saison d'un arbitre
+	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER)
 	 * @param value
 	 * @return
 	 * @throws Exception

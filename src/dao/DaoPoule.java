@@ -91,8 +91,7 @@ public class DaoPoule implements Dao<Poule,Object>{
 	}
 
 	/**
-	 * Ajoute une poule à la table poule
-	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle_poule (STRING)
+	 * Ajoute une poule à la table poule à partir d'un objet poule
 	 * 
 	 */
 	@Override
@@ -115,7 +114,7 @@ public class DaoPoule implements Dao<Poule,Object>{
 
 	/**
 	 * Supprime une poule
-	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle_poule (STRING)
+	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle (STRING)
 	 * 
 	 */
 	@Override
