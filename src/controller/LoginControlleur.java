@@ -45,14 +45,14 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		try {
 			daoNiveau.add(Niveau.LOCAL);
 		} catch (SQLException e) {
-			System.out.println("Niveau deja cree");
+			System.out.println(e.toString());
 		}
 
 		Saison saison = new Saison(2023);
 		try {
 			daoSaison.add(saison);
 		} catch (SQLException e) {
-			System.out.println("Saison deja cree");
+			System.out.println(e.toString());
 		}
 		CustomDate debut = new CustomDate(2023, 12, 01);
 		CustomDate fin = new CustomDate(2023, 12, 30);
@@ -60,7 +60,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		try {
 			daoTournoi.add(tournoi);
 		} catch (SQLException e) {
-			System.out.println("Tournoi deja cree");
+			System.out.println(e.toString());
 		}
 		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 	}
