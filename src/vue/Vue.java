@@ -31,7 +31,7 @@ public class Vue extends JFrame {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setBackground();
 
-		titleBar = new TitleBar(this);
+		titleBar = TitleBar.getInstance(this);
 
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
