@@ -1,8 +1,12 @@
 package modele;
 
+<<<<<<< HEAD
 import exceptions.EquipeInexistanteException;
 import exceptions.FausseDateException;
 import exceptions.ExceptionPointsNegatifs;
+=======
+import exceptions.EquipeInexistante;
+>>>>>>> parent of 8dd3f58 (Début Nouvelle Saison)
 
 import java.util.*;
 
@@ -89,6 +93,7 @@ public class Saison {
 		}
 		return tournoi;
 	}
+<<<<<<< HEAD
 
 	public void SaisonFinie() throws FausseDateException{
 		//TODO Supprimer toutes les informations à ne pas garder de la saison (this)
@@ -108,4 +113,6 @@ public class Saison {
 		}
 		return NouvelleSaison;
 	}
+=======
+>>>>>>> parent of 8dd3f58 (Début Nouvelle Saison)
 }
