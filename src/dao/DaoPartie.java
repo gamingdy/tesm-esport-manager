@@ -13,7 +13,7 @@ public class DaoPartie implements Dao<Partie, Integer> {
 
 	private Connexion connexion;
 	private DaoMatche daomatche;
-	
+
 
 	public DaoPartie(Connexion connexion) {
 		this.connexion = connexion;
@@ -99,7 +99,6 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	 */
 	@Override
 	public boolean add(Partie value) throws Exception {
-		System.out.println("bite");
 		try (PreparedStatement add = connexion.getConnection().prepareStatement(
 				"INSERT INTO Partie(Id_Match,Id_Partie) values (?,?)")) {
 			add.setInt(1, value.getMatche().getId());
