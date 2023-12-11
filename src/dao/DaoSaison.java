@@ -78,7 +78,7 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	}
 
 	/**
-	 * Ajoute une saison à la table saison
+	 * Ajoute une saison à la table saison à partir d'un objet saison
 	 */
 	@Override
 	public boolean add(Saison value) throws Exception {

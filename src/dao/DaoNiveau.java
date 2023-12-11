@@ -64,7 +64,7 @@ public class DaoNiveau implements Dao<Niveau,String>{
 
 	/**
 	 * Renvoie un niveau précis
-	 * Les paramètres sont placés de cette manière : Libelle_Niveau (STRING)
+	 * Les paramètres sont placés dans cet ordre : Libelle_Niveau (STRING)
 	 */
 	@Override
 	public Niveau getById(String... nom) throws Exception {
@@ -99,7 +99,7 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	public boolean update(Niveau value) throws Exception {
 		try(PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Niveau SET "
-						+"Coefficient = ? "
+						+"Coefficient = ?"
 						+"WHERE Libelle_Niveau = ?")){
 			update.setFloat(1, value.getCoefficient());
 			update.setString(2, value.getNom());
@@ -109,7 +109,7 @@ public class DaoNiveau implements Dao<Niveau,String>{
 
 	/**
 	 * supprime un niveau 
-	 * Les paramètres sont placés de cette manière : Libelle_Niveau (STRING)
+	 * Les paramètres sont placés dans cet ordre : Libelle_Niveau (STRING)
 	 */
 	@Override
 	public boolean delete(String... value) throws Exception {
