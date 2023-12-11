@@ -237,10 +237,10 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	 * @throws FausseDateException
 	 */
 	
-	public List<Tournoi> getTournoiBySaison(Integer annee) throws SQLException, FausseDateException {
+	public List<Tournoi> getTournoiBySaison(Saison saison) throws SQLException, FausseDateException {
 		try(PreparedStatement getTournoiBySaison = connexion.getConnection().prepareStatement(
 				"Select * From Tournoi Where Annee = ?")) {
-			getTournoiBySaison.setInt(1, annee);
+			getTournoiBySaison.setInt(1, saison.getAnnee());
 			ResultSet resultat = getTournoiBySaison.executeQuery();
 			List<Tournoi> sortie = new ArrayList<>();
 			while (resultat.next()) {
