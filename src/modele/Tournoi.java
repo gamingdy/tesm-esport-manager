@@ -95,6 +95,19 @@ public class Tournoi {
 				+ ", estEncours=" + estEncours + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Tournoi)) {
+			return false;
+		}
+
+		Tournoi tournoiComparable = (Tournoi) obj;
+
+		return this.toString().equals(tournoiComparable.toString());
+	}
 
 
 	/*public Map<Character, Poule> getPoules() {
