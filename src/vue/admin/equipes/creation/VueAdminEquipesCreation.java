@@ -2,9 +2,11 @@ package vue.admin.equipes.creation;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 
 import vue.common.CustomColor;
 import vue.common.MaFont;
@@ -16,6 +18,8 @@ import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.DefaultListModel;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -81,26 +85,53 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelJoueurs.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelJoueurs.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		GridBagLayout gblPanelJoueurs = new GridBagLayout();
-		gblPanelJoueurs.columnWeights = new double[] {1,Double.MIN_VALUE};
-		gblPanelJoueurs.rowWeights = new double[] {1,Double.MIN_VALUE};
-		gblPanelJoueurs.columnWidths = new int[] {0};
 		panelJoueurs.setLayout(gblPanelJoueurs);
 		GridBagConstraints gbcPanelJoueurs = new GridBagConstraints();
 		gbcPanelJoueurs.fill = GridBagConstraints.BOTH;
 		gbcPanelJoueurs.gridx = 0;
 		gbcPanelJoueurs.gridy = 1;
 		panelTop.add(panelJoueurs, gbcPanelJoueurs);
+		
 		JLabel labelJoueurs = new JLabel("Joueurs");
+		labelJoueurs.setPreferredSize(new Dimension());
 		labelJoueurs.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS));
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre3());
 		GridBagConstraints gbcLabelJoueurs = new GridBagConstraints();
-		gbcPanelJoueurs.fill = GridBagConstraints.HORIZONTAL;
-		gbcPanelJoueurs.gridx=0;
-		gbcPanelJoueurs.gridy=0;
-		gbcPanelJoueurs.weightx = 1;
-		gbcPanelJoueurs.weighty = 0.125;
+		gbcLabelJoueurs.fill = GridBagConstraints.HORIZONTAL;
+		gbcLabelJoueurs.gridx=0;
+		gbcLabelJoueurs.gridy=0;
+		gbcLabelJoueurs.weightx = 1;
+		gbcLabelJoueurs.weighty = 1F/7F;
 		panelJoueurs.add(labelJoueurs,gbcLabelJoueurs);
+		
+		DefaultListModel<String> lmJoueurs = new DefaultListModel<String>();
+		JList<String> listeJoueurs = new JList<String>(lmJoueurs);
+		listeJoueurs.setCellRenderer(new ListCellRenderer<String>() {
+
+			@Override
+			public Component getListCellRendererComponent(JList list, String value, int index, boolean isSelected,
+					boolean cellHasFocus) {
+				JLabel panel = new JLabel(value);
+				panel.setOpaque(false);
+				panel.setForeground(CustomColor.BLANC);
+				panel.setFont(MaFont.getFontTitre4());
+				return panel;
+			}
+			
+		});
+		listeJoueurs.setOpaque(false);
+		lmJoueurs.addElement("Joueur1");
+		lmJoueurs.addElement("Joueur2");
+		lmJoueurs.addElement("Joueur3");
+		lmJoueurs.addElement("Joueur4");
+		lmJoueurs.addElement("Joueur5");
+		GridBagConstraints gbcListeJoueurs = new GridBagConstraints();
+		gbcListeJoueurs.fill = GridBagConstraints.BOTH;
+		gbcListeJoueurs.gridx = 0;
+		gbcListeJoueurs.gridy = 1;
+		gbcListeJoueurs.weighty = 6F/7F;
+		panelJoueurs.add(listeJoueurs,gbcListeJoueurs);
 		
 		JLabel labelLogo = new JLabel("Insérer logo");
 		GridBagConstraints gbcLabelLogo = new GridBagConstraints();
