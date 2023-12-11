@@ -211,14 +211,14 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	public Optional<Tournoi> getTournoiActuel() throws SQLException, FausseDateException {
 		CustomDate c = new CustomDate(Timestamp.from(Instant.now()));
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
-				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Début AND Date_Fin ")) {
+				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Debut AND Date_Fin ")) {
 			getCompteArbitreByTournoi.setTimestamp(1, c.toSQL());
 			ResultSet resultat = getCompteArbitreByTournoi.executeQuery();
 			resultat.next();
 			Tournoi tournoi = new Tournoi(
 					new Saison(resultat.getInt("Annee")),
 					resultat.getString("Nom_Tournoi"),
-					new CustomDate(resultat.getTimestamp("Date_Début")),
+					new CustomDate(resultat.getTimestamp("Date_Debut")),
 					new CustomDate(resultat.getTimestamp("Date_Fin")),
 					Niveau.search(resultat.getString("Libelle_Niveau")),
 					new CompteArbitre(
