@@ -100,10 +100,9 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	@Override
 	public boolean add(Partie value) throws Exception {
 		try (PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Partie(Id_Match,Id_Partie,Nom_Equipe) values (?,?,?)")) {
+				"INSERT INTO Partie(Id_Match,Id_Partie) values (?,?)")) {
 			add.setInt(1, value.getMatche().getId());
 			add.setInt(2, value.getNumeroPartie());
-			add.setString(3, value.getVainqueur().getNom());
 
 			return add.execute();
 		}

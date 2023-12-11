@@ -82,7 +82,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Debut")),
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
-						Niveau.valueOf(resultat.getString("Libelle_Niveau")),
+						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
 						new CompteArbitre(
 								resultat.getString("username"),
 								resultat.getString("mdp"))
@@ -226,6 +226,37 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 							resultat.getString("mdp"))
 			);
 			return Optional.ofNullable(tournoi);
+		}
+	}
+	
+	/**
+	 * Renvoie la liste de tournoi en fonction d'une année précise
+	 * @param annee
+	 * @return
+	 * @throws SQLException
+	 * @throws FausseDateException
+	 */
+	
+	public List<Tournoi> getTournoiBySaison(Saison saison) throws SQLException, FausseDateException {
+		try(PreparedStatement getTournoiBySaison = connexion.getConnection().prepareStatement(
+				"Select * From Tournoi Where Annee = ?")) {
+			getTournoiBySaison.setInt(1, saison.getAnnee());
+			ResultSet resultat = getTournoiBySaison.executeQuery();
+			List<Tournoi> sortie = new ArrayList<>();
+			while (resultat.next()) {
+				sortie.add(
+						new Tournoi(
+								new Saison(resultat.getInt("Annee")),
+								resultat.getString("Nom_Tournoi"),
+								new CustomDate(resultat.getTimestamp("Date_Debut")),
+								new CustomDate(resultat.getTimestamp("Date_Fin")),
+								Niveau.search(resultat.getString("Libelle_Niveau")),
+								new CompteArbitre(
+										resultat.getString("username"),
+										resultat.getString("mdp"))
+								));
+			}
+			return sortie;
 		}
 	}
 

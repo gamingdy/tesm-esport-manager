@@ -18,12 +18,13 @@ public class ESporterManagerInitBDD {
 		DaoMatche daoMatche = new DaoMatche(c);
 		DaoPartie daoPartie = new DaoPartie(c);
 		try {
+			daoNiveau.add(Niveau.LOCAL);
 			daoNiveau.add(Niveau.INTERNATIONAL);
 			daoNiveau.add(Niveau.REGIONAL);
 			daoNiveau.add(Niveau.INTERNATIONAL_CLASSE);
 			daoNiveau.add(Niveau.NATIONAL);
 		} catch (SQLException e) {
-			System.out.println("Niveaux deja crées");
+			System.out.println(e.toString());
 		}
 		Tournoi tournoi = daoTournoi.getTournoiActuel().get();
 		Poule poule = new Poule(tournoi, 'A');
@@ -48,7 +49,7 @@ public class ESporterManagerInitBDD {
 			daoEquipe.add(equipe3);
 			daoEquipe.add(equipe4);
 		} catch (SQLException e) {
-			System.out.println("Equipes deja crées");
+			System.out.println(e.toString());
 		}
 
 
@@ -60,7 +61,7 @@ public class ESporterManagerInitBDD {
 		try {
 			daoPoule.add(poule);
 		} catch (SQLException e) {
-			System.out.println("Poule deja crée");
+			System.out.println(e.toString());
 		}
 		try {
 			daoAppartenance.add(appartenance);
@@ -69,21 +70,21 @@ public class ESporterManagerInitBDD {
 			daoAppartenance.add(appartenance3);
 			daoAppartenance.add(appartenance4);
 		} catch (SQLException e) {
-			System.out.println("Appartenances deja crées");
+			System.out.println(e.toString());
 		}
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
 
-
+		
 		Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
 		Partie partie1 = new Partie(matche, 1);
 		Partie partie2 = new Partie(matche1, 1);
 		try {
 			daoMatche.add(matche);
-			daoMatche.add(matche1);
 			daoPartie.add(partie1);
+			daoMatche.add(matche1);
 			daoPartie.add(partie2);
 		} catch (SQLException e) {
-			System.out.println("Partie deja crées");
+			System.out.println(e.toString());
 		}
 	}
 
