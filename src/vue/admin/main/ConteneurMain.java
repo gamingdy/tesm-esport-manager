@@ -11,6 +11,7 @@ import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;
 import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.VueAccueil;
+import vue.admin.arbitres.VueArbitres;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
@@ -30,7 +31,10 @@ public class ConteneurMain extends JPanel {
 			e.printStackTrace();
 		}
 
+		VueArbitres vueArbitres = new VueArbitres();
+
 		add(vueAccueil, "Accueil");
+		add(vueArbitres, "Arbitres");
 		show("Accueil");
 	}
 

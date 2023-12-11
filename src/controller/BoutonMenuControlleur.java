@@ -29,6 +29,7 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
+		this.obs = VueObserver.getInstance();
 	}
 
 	@Override
@@ -46,8 +47,8 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 			navbar.selectionner((BoutonMenu) e.getSource());
 			BoutonMenu boutonSelectionné = (BoutonMenu) e.getSource();
 			if (boutonSelectionné.getText() == "Arbitres") {
-				System.out.println("arbitre");
 				etat = ETAT.ARBITRES;
+				this.vue.setPage("Arbitres");
 			}
 			if (boutonSelectionné.getText() == "Déconnexion") {
 				System.out.println("Deconnexion");
