@@ -8,18 +8,23 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import modele.Country;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
+import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -31,13 +36,14 @@ public class VueAdminEquipesCreation extends JPanel {
 	 */
 	public VueAdminEquipesCreation() {
 		
-		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		
 		setLayout(gridBagLayout);
 		setOpaque(false);
 		JPanel panelTop = new JPanel();
@@ -49,20 +55,43 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcPanelTop.gridx = 0;
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
-		GridBagLayout gbl_panelTop = new GridBagLayout();
-		gbl_panelTop.columnWidths = new int[]{0, 0, 0};
-		gbl_panelTop.rowHeights = new int[]{0, 0, 0};
-		gbl_panelTop.columnWeights = new double[]{0.5, 0.5, Double.MIN_VALUE};
-		gbl_panelTop.rowWeights = new double[]{0.5, 0.5, Double.MIN_VALUE};
-		panelTop.setLayout(gbl_panelTop);
+		GridLayout gl = new GridLayout();
+		gl.setColumns(2);
+		gl.setRows(2);
+		gl.setHgap(100);
+		gl.setVgap(100);
+		panelTop.setLayout(gl);
 		
 		JPanel panelChamps = new JPanel();
+		panelChamps.setLayout(new GridLayout(2,1,40,0));
 		panelChamps.setOpaque(false);
-		GridBagConstraints gbcPanelChamps = new GridBagConstraints();
-		gbcPanelChamps.fill = GridBagConstraints.BOTH;
-		gbcPanelChamps.gridx = 0;
-		gbcPanelChamps.gridy = 0;
-		panelTop.add(panelChamps, gbcPanelChamps);
+		
+		JPanel champNom = new JPanel();
+		champNom.setLayout(new GridLayout(2,1,10,0));
+		champNom.setOpaque(false);
+		JLabel labelNom = new JLabel("Nom de l'équipe");
+		labelNom.setForeground(CustomColor.BLANC);
+		labelNom.setFont(MaFont.getFontTitre2());
+		champNom.add(labelNom);
+		JTextField textfieldNom = new JTextField();
+		textfieldNom.setBackground(CustomColor.BACKGROUND_MENU);
+		textfieldNom.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,2));
+		textfieldNom.setForeground(CustomColor.BLANC);
+		textfieldNom.setFont(MaFont.getFontTitre3());
+		champNom.add(textfieldNom);
+		
+		JPanel champPays = new JPanel();
+		champPays.setLayout(new GridLayout(2,1,10,0));
+		champPays.setOpaque(false);
+		JLabel labelPays = new JLabel("Pays");
+		labelPays.setForeground(CustomColor.BLANC);
+		labelPays.setFont(MaFont.getFontTitre2());
+		champPays.add(labelPays);
+		DefaultComboBoxModel<Country> model = new DefaultComboBoxModel<Country>(Country.values());
+		JComboBox<Country> comboboxPays = new JComboBox<Country>(model);
+		champPays.add(comboboxPays);
+		panelChamps.add(champPays);
+		panelTop.add(panelChamps);
 		
 		//panel pour centrer le drapeau (marche pas)
 		JPanel panelDrapeau = new JPanel();
@@ -74,23 +103,15 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_TEST);
 		labelDrapeau.setIcon(new ImageIcon("assets/country-flags/fr.png"));
 		labelDrapeau.setHorizontalAlignment(JLabel.CENTER);
-		GridBagConstraints gbcLabelDrapeau = new GridBagConstraints();
-		gbcLabelDrapeau.fill = GridBagConstraints.BOTH;
-		gbcLabelDrapeau.gridx = 1;
-		gbcLabelDrapeau.gridy = 0;
-		panelTop.add(panelDrapeau, gbcLabelDrapeau);
-		panelDrapeau.add(labelDrapeau,BorderLayout.SOUTH);
+		panelDrapeau.add(labelDrapeau);
+		panelTop.add(panelDrapeau);
 		
 		JPanel panelJoueurs = new JPanel();
 		panelJoueurs.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelJoueurs.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		GridBagLayout gblPanelJoueurs = new GridBagLayout();
 		panelJoueurs.setLayout(gblPanelJoueurs);
-		GridBagConstraints gbcPanelJoueurs = new GridBagConstraints();
-		gbcPanelJoueurs.fill = GridBagConstraints.BOTH;
-		gbcPanelJoueurs.gridx = 0;
-		gbcPanelJoueurs.gridy = 1;
-		panelTop.add(panelJoueurs, gbcPanelJoueurs);
+		panelTop.add(panelJoueurs);
 		
 		JLabel labelJoueurs = new JLabel("Joueurs");
 		labelJoueurs.setPreferredSize(new Dimension());
@@ -98,7 +119,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre3());
 		GridBagConstraints gbcLabelJoueurs = new GridBagConstraints();
-		gbcLabelJoueurs.fill = GridBagConstraints.HORIZONTAL;
+		gbcLabelJoueurs.fill = GridBagConstraints.BOTH;
 		gbcLabelJoueurs.gridx=0;
 		gbcLabelJoueurs.gridy=0;
 		gbcLabelJoueurs.weightx = 1;
@@ -108,10 +129,8 @@ public class VueAdminEquipesCreation extends JPanel {
 		DefaultListModel<String> lmJoueurs = new DefaultListModel<String>();
 		JList<String> listeJoueurs = new JList<String>(lmJoueurs);
 		listeJoueurs.setCellRenderer(new ListCellRenderer<String>() {
-
 			@Override
-			public Component getListCellRendererComponent(JList list, String value, int index, boolean isSelected,
-					boolean cellHasFocus) {
+			public Component getListCellRendererComponent(JList list, String value, int index, boolean isSelected,boolean cellHasFocus) {
 				JLabel panel = new JLabel(value);
 				panel.setOpaque(false);
 				panel.setForeground(CustomColor.BLANC);
@@ -121,6 +140,7 @@ public class VueAdminEquipesCreation extends JPanel {
 			
 		});
 		listeJoueurs.setOpaque(false);
+		listeJoueurs.setPreferredSize(new Dimension());
 		lmJoueurs.addElement("Joueur1");
 		lmJoueurs.addElement("Joueur2");
 		lmJoueurs.addElement("Joueur3");
@@ -130,14 +150,18 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcListeJoueurs.fill = GridBagConstraints.BOTH;
 		gbcListeJoueurs.gridx = 0;
 		gbcListeJoueurs.gridy = 1;
+		gbcListeJoueurs.weightx = 1;
 		gbcListeJoueurs.weighty = 6F/7F;
 		panelJoueurs.add(listeJoueurs,gbcListeJoueurs);
 		
 		JLabel labelLogo = new JLabel("Insérer logo");
-		GridBagConstraints gbcLabelLogo = new GridBagConstraints();
-		gbcLabelLogo.gridx = 1;
-		gbcLabelLogo.gridy = 1;
-		panelTop.add(labelLogo, gbcLabelLogo);
+		labelLogo.setOpaque(true);
+		labelLogo.setBackground(CustomColor.BACKGROUND_MAIN);
+		labelLogo.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
+		labelLogo.setForeground(CustomColor.BLANC);
+		labelLogo.setHorizontalAlignment(JLabel.CENTER);
+		labelLogo.setVerticalAlignment(JLabel.CENTER);
+		panelTop.add(labelLogo);
 		
 		JPanel panelBot = new JPanel();
 		panelBot.setOpaque(false);
