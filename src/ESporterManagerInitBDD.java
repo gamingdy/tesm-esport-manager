@@ -18,6 +18,7 @@ public class ESporterManagerInitBDD {
 		DaoMatche daoMatche = new DaoMatche(c);
 		DaoPartie daoPartie = new DaoPartie(c);
 		try {
+			daoNiveau.add(Niveau.LOCAL);
 			daoNiveau.add(Niveau.INTERNATIONAL);
 			daoNiveau.add(Niveau.REGIONAL);
 			daoNiveau.add(Niveau.INTERNATIONAL_CLASSE);
@@ -73,14 +74,14 @@ public class ESporterManagerInitBDD {
 		}
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
 
-
+		
 		Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
 		Partie partie1 = new Partie(matche, 1);
 		Partie partie2 = new Partie(matche1, 1);
 		try {
 			daoMatche.add(matche);
-			daoMatche.add(matche1);
 			daoPartie.add(partie1);
+			daoMatche.add(matche1);
 			daoPartie.add(partie2);
 		} catch (SQLException e) {
 			System.out.println("Partie deja crées");

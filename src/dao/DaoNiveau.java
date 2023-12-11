@@ -56,7 +56,7 @@ public class DaoNiveau implements Dao<Niveau,String>{
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Niveau");
 			List<Niveau> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(Niveau.valueOf(resultat.getString("Libelle_Niveau")));
+				sortie.add(Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()));
 			}
 			return sortie;
 		}

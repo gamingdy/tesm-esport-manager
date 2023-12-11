@@ -125,7 +125,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 						+ "Nom_Equipe1,"
 						+ "Nom_Equipe2,"
 						+ "Annee,"
-						+ "Nom_Tournoi) values (?,?,?,?,?,?,?)")) {
+						+ "Nom_Tournoi) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
 			add.setString(1, value.getCategorie().name());
 			add.setInt(2, value.getNombreMaxParties());
 			add.setTimestamp(3, value.getDateDebutMatche().toSQL());
@@ -133,7 +133,12 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			add.setString(5, value.getEquipe2().getNom());
 			add.setInt(6, value.getTournoi().getSaison().getAnnee());
 			add.setString(7, value.getTournoi().getNom());
-			return add.execute();
+			boolean execute = add.executeUpdate()==1;
+			ResultSet rs = add.getGeneratedKeys();
+			if (rs.next()) {
+				value.setId(rs.getInt(1));
+			}
+			return execute;		
 		}
 	}
 
