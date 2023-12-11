@@ -28,8 +28,13 @@ public class Tournoi {
 		this.debut = debut;
 		this.fin = fin;
 		this.niveau = niveau;
-		this.estEncours = false;
+
 		this.compteArbitre = compteArbitre;
+		if (debut.estAvant(CustomDate.now()) && fin.estApres(CustomDate.now())) {
+			this.estEncours = true;
+		} else {
+			this.estEncours = false;
+		}
 	}
 
 	public Saison getSaison() {
@@ -90,6 +95,19 @@ public class Tournoi {
 				+ ", estEncours=" + estEncours + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Tournoi)) {
+			return false;
+		}
+
+		Tournoi tournoiComparable = (Tournoi) obj;
+
+		return this.toString().equals(tournoiComparable.toString());
+	}
 
 
 	/*public Map<Character, Poule> getPoules() {

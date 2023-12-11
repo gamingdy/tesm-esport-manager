@@ -51,6 +51,10 @@ public class CustomDate implements Comparable<CustomDate> {
 		this.date = LocalDateTime.of(annee, mois, jour, heure, min);
 	}
 
+	public static CustomDate now() {
+		return new CustomDate(Timestamp.valueOf(LocalDateTime.now()));
+	}
+
 	/**
 	 * Retourne l'année correspondant à la Date
 	 *
