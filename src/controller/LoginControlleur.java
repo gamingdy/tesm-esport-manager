@@ -92,6 +92,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 						}
 						if (compteActuel == this.admin) {
 							obs.notifyVue("Admin");
+							this.vue.clearField();
 						}
 					}
 				}
@@ -120,7 +121,6 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		System.out.println("test");
 		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
 			vue.setBoutonActif(false);
 		} else {

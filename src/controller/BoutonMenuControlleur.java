@@ -49,18 +49,15 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 			if (boutonSelectionné.getText() == "Arbitres") {
 				etat = ETAT.ARBITRES;
 				this.vue.setPage("Arbitres");
-			}
-			if (boutonSelectionné.getText() == "Déconnexion") {
-				System.out.println("Deconnexion");
+			} else if (boutonSelectionné.getText() == "Déconnexion") {
 				JFramePopup popup = new JFramePopup("Deconnexion", "Etes vous sur de vous deconnecter ?");
 				popup.setVisible(true);
 				/*if (a == 0) {
 
 				}*/
-			}
-			if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
-				System.out.println("Accueil");
+			} else if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
 				etat = ETAT.ACCUEIL;
+				this.vue.setPage("Accueil");
 			}
 		}
 	}
