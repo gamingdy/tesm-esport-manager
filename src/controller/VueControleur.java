@@ -1,5 +1,6 @@
 package controller;
 
+import vue.Page;
 import vue.Vue;
 import vue.admin.VueAdmin;
 import vue.admin.arbitres.VueArbitres;
@@ -19,9 +20,9 @@ public class VueControleur {
 		VueArbitres vueArbitres = new VueArbitres();
 		vueLogin.attachObserver(this.observer);
 		vueAdmin.attachObserver(this.observer);
-		this.vue.addPage(vueAdmin, "Admin");
-		this.vue.addPage(vueLogin, "Login");
-		this.vue.setPage("Login");
+		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
+		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
+		this.vue.setPage(Page.LOGIN.getNom());
 	}
 
 	public void update(String page) {

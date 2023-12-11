@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 
+import vue.Page;
 import vue.admin.accueil.VueAccueil;
 import vue.arbitres.PageTestArbitre;
 import vue.admin.accueil.LigneEquipe;
@@ -23,16 +24,20 @@ public class ConteneurMain extends JPanel {
 	private VueAccueil vueAccueil;
 	private PageTestArbitre vueArbitres;
 
-	
+
 	public ConteneurMain() {
 		this.setOpaque(false);
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
-		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(),new DefaultListModel<LigneTournoi>(),new DefaultListModel<LigneMatche>());
-		 vueArbitres = new PageTestArbitre();
-		add(vueAccueil, "Accueil");
-		add(vueArbitres,"Arbitres");
-		show("Accueil");
+		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
+		vueArbitres = new PageTestArbitre();
+		add(vueAccueil, Page.ACCUEIL.getNom());
+		add(vueArbitres, Page.ARBITRES.getNom());
+		show(Page.ACCUEIL.getNom());
+	}
+
+	public VueAccueil getVueAccueil() {
+		return vueAccueil;
 	}
 
 	/**

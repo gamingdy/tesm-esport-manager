@@ -2,6 +2,7 @@ package vue.admin;
 
 import controller.BoutonMenuControlleur;
 import controller.VueObserver;
+import vue.Page;
 import vue.admin.main.Main;
 import vue.admin.main.MenuNavBar;
 import vue.common.JPanelWithBackground;
@@ -35,7 +36,7 @@ public class VueAdmin extends JPanel {
 		main.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		main.setOpaque(false);
 		add(main, BorderLayout.CENTER);
-		setPage("Accueil");
+		setPage(Page.ACCUEIL.getNom());
 	}
 
 

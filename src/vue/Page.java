@@ -7,7 +7,7 @@ public enum Page {
 	EQUIPES("Equipes"),
 	SAISON_PRECEDENTES("Saisons precedentes"),
 	ACCUEIL("Accueil"),
-	ACCUEILL_ADMIN("Accueil admin");
+	ACCUEIL_ADMIN("Admin");
 
 	private String nom;
 

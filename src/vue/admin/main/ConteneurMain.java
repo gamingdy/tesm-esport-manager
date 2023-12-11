@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.*;
 
 import controller.AccueilControleur;
+import vue.Page;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;
 import vue.admin.accueil.LigneTournoi;
@@ -33,8 +34,8 @@ public class ConteneurMain extends JPanel {
 
 		VueArbitres vueArbitres = new VueArbitres();
 
-		add(vueAccueil, "Accueil");
-		add(vueArbitres, "Arbitres");
+		add(vueAccueil, Page.ACCUEIL.getNom());
+		add(vueArbitres, Page.ARBITRES.getNom());
 		show("Accueil");
 	}
 

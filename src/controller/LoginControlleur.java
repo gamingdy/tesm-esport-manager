@@ -15,6 +15,7 @@ import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
 import modele.*;
+import vue.Page;
 import vue.login.VueLogin;
 
 import javax.swing.*;
@@ -91,7 +92,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
 						}
 						if (compteActuel == this.admin) {
-							obs.notifyVue("Admin");
+							obs.notifyVue(Page.ACCUEIL_ADMIN.getNom());
 							this.vue.clearField();
 						}
 					}
