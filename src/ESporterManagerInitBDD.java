@@ -1,6 +1,7 @@
 import dao.*;
 import modele.*;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,12 +17,14 @@ public class ESporterManagerInitBDD {
 		DaoAppartenance daoAppartenance = new DaoAppartenance(c);
 		DaoMatche daoMatche = new DaoMatche(c);
 		DaoPartie daoPartie = new DaoPartie(c);
-		/*
-		daoNiveau.add(Niveau.INTERNATIONAL);
-		daoNiveau.add(Niveau.REGIONAL);
-		daoNiveau.add(Niveau.INTERNATIONAL_CLASSE);
-		daoNiveau.add(Niveau.NATIONAL);
-		*/
+		try {
+			daoNiveau.add(Niveau.INTERNATIONAL);
+			daoNiveau.add(Niveau.REGIONAL);
+			daoNiveau.add(Niveau.INTERNATIONAL_CLASSE);
+			daoNiveau.add(Niveau.NATIONAL);
+		} catch (SQLException e) {
+			System.out.println("Niveaux deja crées");
+		}
 		Tournoi tournoi = daoTournoi.getTournoiActuel().get();
 		Poule poule = new Poule(tournoi, 'A');
 
@@ -38,14 +41,15 @@ public class ESporterManagerInitBDD {
 		initEquipe(equipe2);
 		initEquipe(equipe3);
 		initEquipe(equipe4);
-		/*
-		daoEquipe.add(equipe);
-		daoEquipe.add(equipe1);
-		daoEquipe.add(equipe2);
-		daoEquipe.add(equipe3);
-		daoEquipe.add(equipe4);
-
-		 */
+		try {
+			daoEquipe.add(equipe);
+			daoEquipe.add(equipe1);
+			daoEquipe.add(equipe2);
+			daoEquipe.add(equipe3);
+			daoEquipe.add(equipe4);
+		} catch (SQLException e) {
+			System.out.println("Equipes deja crées");
+		}
 
 
 		Appartenance appartenance = new Appartenance(equipe, poule);
@@ -53,25 +57,34 @@ public class ESporterManagerInitBDD {
 		Appartenance appartenance2 = new Appartenance(equipe2, poule);
 		Appartenance appartenance3 = new Appartenance(equipe3, poule);
 		Appartenance appartenance4 = new Appartenance(equipe4, poule);
-		/*daoPoule.add(poule);*/
-		/*
-		daoAppartenance.add(appartenance);
-		daoAppartenance.add(appartenance1);
-		daoAppartenance.add(appartenance2);
-		daoAppartenance.add(appartenance3);
-		daoAppartenance.add(appartenance4);
-		*/
+		try {
+			daoPoule.add(poule);
+		} catch (SQLException e) {
+			System.out.println("Poule deja crée");
+		}
+		try {
+			daoAppartenance.add(appartenance);
+			daoAppartenance.add(appartenance1);
+			daoAppartenance.add(appartenance2);
+			daoAppartenance.add(appartenance3);
+			daoAppartenance.add(appartenance4);
+		} catch (SQLException e) {
+			System.out.println("Appartenances deja crées");
+		}
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
 
-		
+
 		Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
 		Partie partie1 = new Partie(matche, 1);
 		Partie partie2 = new Partie(matche1, 1);
-
-		daoMatche.add(matche);
-		daoMatche.add(matche1);
-		daoPartie.add(partie1);
-		daoPartie.add(partie2);
+		try {
+			daoMatche.add(matche);
+			daoMatche.add(matche1);
+			daoPartie.add(partie1);
+			daoPartie.add(partie2);
+		} catch (SQLException e) {
+			System.out.println("Partie deja crées");
+		}
 	}
 
 	private static String randomUsername(String name) {

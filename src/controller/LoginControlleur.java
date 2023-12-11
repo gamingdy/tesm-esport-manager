@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import dao.Connexion;
 import dao.DaoNiveau;
@@ -41,14 +42,26 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 		this.daoSaison = new DaoSaison(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
-		//daoNiveau.add(Niveau.LOCAL);
+		try {
+			daoNiveau.add(Niveau.LOCAL);
+		} catch (SQLException e) {
+			System.out.println("Niveau deja cree");
+		}
 
 		Saison saison = new Saison(2023);
-		//daoSaison.add(saison);
+		try {
+			daoSaison.add(saison);
+		} catch (SQLException e) {
+			System.out.println("Saison deja cree");
+		}
 		CustomDate debut = new CustomDate(2023, 12, 01);
 		CustomDate fin = new CustomDate(2023, 12, 30);
 		tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
-		//daoTournoi.add(tournoi);
+		try {
+			daoTournoi.add(tournoi);
+		} catch (SQLException e) {
+			System.out.println("Tournoi deja cree");
+		}
 		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 	}
 
