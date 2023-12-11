@@ -48,7 +48,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	}
 
 	/**
-	 * Renvoie toutes les équipes existantes 
+	 * Renvoie toutes les équipes existantes
 	 */
 	@Override
 	public List<Equipe> getAll() throws Exception {

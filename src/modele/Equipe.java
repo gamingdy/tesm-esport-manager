@@ -2,11 +2,9 @@ package modele;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import exceptions.EquipeCompleteException;
 import exceptions.EquipeVideException;
-import exceptions.JoueurException;
 import exceptions.JoueurNonPresentException;
 import exceptions.ExceptionPointsNegatifs;
 
