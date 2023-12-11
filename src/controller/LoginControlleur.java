@@ -92,6 +92,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 						}
 						if (compteActuel == this.admin) {
 							obs.notifyVue("Admin");
+							this.vue.clearField();
 						}
 					}
 				}
