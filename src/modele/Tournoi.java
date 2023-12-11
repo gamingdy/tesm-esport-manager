@@ -28,8 +28,13 @@ public class Tournoi {
 		this.debut = debut;
 		this.fin = fin;
 		this.niveau = niveau;
-		this.estEncours = false;
+
 		this.compteArbitre = compteArbitre;
+		if (debut.estAvant(CustomDate.now()) && fin.estApres(CustomDate.now())) {
+			this.estEncours = true;
+		} else {
+			this.estEncours = false;
+		}
 	}
 
 	public Saison getSaison() {
