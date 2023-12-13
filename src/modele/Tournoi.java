@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Objects;
+
 //import java.util.HashMap;
 //import java.util.Map;
 
@@ -96,17 +98,20 @@ public class Tournoi {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(nom, saison);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof Tournoi)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-
-		Tournoi tournoiComparable = (Tournoi) obj;
-
-		return this.toString().equals(tournoiComparable.toString());
+		Tournoi other = (Tournoi) obj;
+		return Objects.equals(nom, other.nom) && Objects.equals(saison, other.saison);
 	}
 
 

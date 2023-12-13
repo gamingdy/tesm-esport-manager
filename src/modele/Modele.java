@@ -1,6 +1,7 @@
 package modele;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 import dao.Connexion;
 import dao.DaoAppartenance;
@@ -41,23 +42,9 @@ public class Modele {
         daoInscription = new DaoInscription(c);
     }
 
-	public Saison NouvelleSaison() throws ExceptionPointsNegatifs, FausseDateException {
-        Saison nouvelleSaison = new Saison(LocalDate.now().getYear());
-
-        for (Equipe e : daoInscription.getEquipeBySaison(java.time.LocalDate.now().getYear()-1)) {
-            Equipe equipe = new Equipe(e.getNom(), e.getPays());
-            nouvelleSaison.addEquipe(equipe, e.getPoint());
-        }
-        for (Tournoi t : this.tournois) {
-            Tournoi tournoi = new Tournoi(this, t.getNom(), null, null, t.getNiveau(), null);
-            // Add teams, level, and points for each team to the new tournament
-            for (Equipe e : DaoAppartenance.getEquipeByTournoi(t)) {
-                Equipe equipe = new Equipe(e.getNom(), e.getPays());
-                tournoi.addEquipe(equipe, e.getPoint());
-            }
-            nouvelleSaison.addTournoi(tournoi);
-        }
-		return nouvelleSaison;
+	public Integer getWorldRank(Equipe equipe) throws SQLException {
+		Saison s = daoSaison.getLastSaison();
+		
 	}
     
 }

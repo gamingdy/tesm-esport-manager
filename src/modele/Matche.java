@@ -4,7 +4,11 @@ import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
 
+import java.sql.SQLException;
 import java.util.Objects;
+
+import dao.Connexion;
+import dao.DaoMatche;
 
 public class Matche {
 
@@ -19,8 +23,8 @@ public class Matche {
 	private Saison saison;
 
 
-	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
-				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
+	private Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
+				  Equipe equipe1, Equipe equipe2, Tournoi tournoi, Integer id) throws FausseDateException, MemeEquipeException {
 
 		if (dateDebutMatche == null || categorie == null || equipe1 == null || equipe2 == null || tournoi == null) {
 			throw new IllegalArgumentException("Un des paramètres est null");
@@ -46,6 +50,20 @@ public class Matche {
 		this.tournoi = tournoi;
 		this.vainqueur = null;
 		this.saison = tournoi.getSaison();
+		
+		if (id.equals(null)) {
+			this.id=0;
+		} else {
+			this.id = id+1;
+		}
+	}
+	
+	public static Matche createMatche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
+			Equipe equipe1, Equipe equipe2, Tournoi tournoi, Integer id) throws FausseDateException, MemeEquipeException, SQLException {
+		
+		DaoMatche daomatche = new DaoMatche(Connexion.getConnexion());
+		return new Matche(nombreMaxParties, dateDebutMatche, categorie,
+				equipe1, equipe2, tournoi, daomatche.getLastId());
 	}
 
 	public int getNombreMaxParties() {
