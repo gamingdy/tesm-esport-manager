@@ -15,7 +15,7 @@ public class Equipe {
 	private String nom;
 	private Set<Joueur> equipe; //à voir si on laisse ou créer une classe association
 	private int point; //calculable donc pas dans le MCDi
-	private Pays pays;
+	private Country pays;
 
 
 	public Equipe(String nom, Pays pays) {
@@ -25,11 +25,11 @@ public class Equipe {
 		this.pays = pays;
 	}
 
-	public Pays getPays() {
+	public Country getPays() {
 		return this.pays;
 	}
 
-	public void setPays(Pays pays) {
+	public void setPays(Country pays) {
 		this.pays = pays;
 	}
 

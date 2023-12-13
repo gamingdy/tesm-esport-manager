@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import modele.Equipe;
-import modele.Pays;
+import modele.Country;
 
 public class DaoEquipe implements Dao<Equipe,String>{
 
@@ -58,7 +58,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 			while(resultat.next()) {
 				Equipe equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Pays.valueOf(resultat.getString("Pays_Equipe")));
+						Country.valueOf(resultat.getString("Pays_Equipe")));
 				equipe.setPoint(resultat.getInt("World_rank"));
 				sortie.add(equipe);
 			}
@@ -78,7 +78,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 			if (resultat.next()) {
 				Equipe equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Pays.valueOf(resultat.getString("Pays_Equipe")));
+						Country.valueOf(resultat.getString("Pays_Equipe")));
 				equipe.setPoint(resultat.getInt("World_rank"));
 				return equipe;
 			}

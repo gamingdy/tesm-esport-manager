@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 
 import exceptions.*;
-import modele.Pays;
+import modele.Country;
 import modele.Equipe;
 import org.junit.Before;
 import org.junit.Test;

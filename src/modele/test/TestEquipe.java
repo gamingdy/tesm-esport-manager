@@ -3,7 +3,7 @@ package modele.test;
 import static org.junit.Assert.*;
 
 import exceptions.*;
-import modele.Pays;
+import modele.Country;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,23 +42,23 @@ public class TestEquipe {
 
 	@Test
 	public void testgetCountry() {
-		assertEquals(Pays.ALGERIE, equipe1.getPays());
+		assertEquals(Country.ALGERIE, equipe1.getPays());
 	}
 
 	@Test
 	public void testsetCountry() {
-		equipe1.setPays(Pays.POLOGNE);
-		assertEquals(Pays.POLOGNE, equipe1.getPays());
+		equipe1.setPays(Country.POLOGNE);
+		assertEquals(Country.POLOGNE, equipe1.getPays());
 	}
 
 	@Test
 	public void testCountryName() {
-		assertEquals("Pologne", Pays.POLOGNE.getNom());
+		assertEquals("Pologne", Country.POLOGNE.getNom());
 	}
 
 	@Test
 	public void testCountryCode() {
-		assertEquals("pl", Pays.POLOGNE.getCode());
+		assertEquals("pl", Country.POLOGNE.getCode());
 	}
 
 
