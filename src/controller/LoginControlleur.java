@@ -28,9 +28,6 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	private CompteArbitre arbitre;
 	private String champLogin;
 	private String champMotDePasse;
-	private DaoTournoi daoTournoi;
-	private DaoSaison daoSaison;
-	private Tournoi tournoi;
 
 	private VueObserver obs;
 
@@ -39,30 +36,9 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 		Connexion c = Connexion.getConnexion();
 
-		this.daoTournoi = new DaoTournoi(c);
+		DaoTournoi daoTournoi = new DaoTournoi(c);
+		Tournoi tournoi = daoTournoi.getTournoiActuel().get();
 
-		this.daoSaison = new DaoSaison(c);
-		DaoNiveau daoNiveau = new DaoNiveau(c);
-		try {
-			daoNiveau.add(Niveau.LOCAL);
-		} catch (SQLException e) {
-			System.out.println(e.toString());
-		}
-
-		Saison saison = new Saison(2023);
-		try {
-			daoSaison.add(saison);
-		} catch (SQLException e) {
-			System.out.println(e.toString());
-		}
-		CustomDate debut = new CustomDate(2023, 12, 01);
-		CustomDate fin = new CustomDate(2023, 12, 30);
-		tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
-		try {
-			daoTournoi.add(tournoi);
-		} catch (SQLException e) {
-			System.out.println(e.toString());
-		}
 		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 	}
 
