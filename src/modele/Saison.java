@@ -1,12 +1,9 @@
 package modele;
 
-<<<<<<< HEAD
+
 import exceptions.EquipeInexistanteException;
 import exceptions.FausseDateException;
 import exceptions.ExceptionPointsNegatifs;
-=======
-import exceptions.EquipeInexistante;
->>>>>>> parent of 8dd3f58 (Début Nouvelle Saison)
 
 import java.util.*;
 
@@ -69,7 +66,7 @@ public class Saison {
 
 	@Override
 	public String toString() {
-		return "Saison [annee=" + annee	+ "]";
+		return "Saison [annee=" + annee + "]";
 	}
 
 	public void addTournoi(Tournoi tournoi) {
