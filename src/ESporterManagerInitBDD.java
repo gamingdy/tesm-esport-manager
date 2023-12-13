@@ -49,11 +49,11 @@ public class ESporterManagerInitBDD {
 		CustomDate debut = new CustomDate(2023, 12, 5);
 		CustomDate debut1 = new CustomDate(2023, 12, 7);
 
-		Equipe equipe = new Equipe("FAZE", Country.FRANCE);
-		Equipe equipe1 = new Equipe("TSM", Country.FRANCE);
-		Equipe equipe2 = new Equipe("FOX", Country.FRANCE);
-		Equipe equipe3 = new Equipe("KC", Country.FRANCE);
-		Equipe equipe4 = new Equipe("F-Society", Country.FRANCE);
+		Equipe equipe = new Equipe("FAZE", Pays.FRANCE);
+		Equipe equipe1 = new Equipe("TSM", Pays.FRANCE);
+		Equipe equipe2 = new Equipe("FOX", Pays.FRANCE);
+		Equipe equipe3 = new Equipe("KC", Pays.FRANCE);
+		Equipe equipe4 = new Equipe("F-Society", Pays.FRANCE);
 
 		try {
 			daoEquipe.add(equipe);

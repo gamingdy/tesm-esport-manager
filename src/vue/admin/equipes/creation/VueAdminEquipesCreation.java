@@ -1,21 +1,18 @@
 package vue.admin.equipes.creation;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import modele.Country;
+import modele.Pays;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -25,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.DefaultComboBoxModel;
 
 public class VueAdminEquipesCreation extends JPanel {
@@ -89,12 +85,12 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelPays.setForeground(CustomColor.BLANC);
 		labelPays.setFont(MaFont.getFontTitre2());
 		champPays.add(labelPays);
-		DefaultComboBoxModel<Country> model = new DefaultComboBoxModel<Country>(Country.values());
-		JComboBox<Country> comboboxPays = new JComboBox<Country>(model);
+		DefaultComboBoxModel<Pays> model = new DefaultComboBoxModel<Pays>(Pays.values());
+		JComboBox<Pays> comboboxPays = new JComboBox<Pays>(model);
 		//Pour render les cells mais pas nécessaire si juste le texte
-//		comboboxPays.setRenderer(new ListCellRenderer<Country>() {
+//		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
 //		@Override
-//		public Component getListCellRendererComponent(JList<? extends Country> list, Country value, int index,
+//		public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
 //				boolean isSelected, boolean cellHasFocus) {
 //			JLabel panel = new JLabel(value.getNom());
 //			return panel;

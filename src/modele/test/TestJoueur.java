@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 
 import exceptions.*;
-import modele.Country;
+import modele.Pays;
 import modele.Equipe;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class TestJoueur {
 
 	@Before
 	public void setUp() throws EquipeCompleteException, JoueurException {
-		equipe1 = new Equipe("Faze", Country.ALGERIE);
+		equipe1 = new Equipe("Faze", Pays.ALGERIE);
 		j = new Joueur("Cricri", equipe1);
 	}
 

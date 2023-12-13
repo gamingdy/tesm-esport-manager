@@ -2,11 +2,9 @@ package modele;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import exceptions.EquipeCompleteException;
 import exceptions.EquipeVideException;
-import exceptions.JoueurException;
 import exceptions.JoueurNonPresentException;
 import exceptions.ExceptionPointsNegatifs;
 
@@ -15,21 +13,21 @@ public class Equipe {
 	private String nom;
 	private Set<Joueur> equipe; //à voir si on laisse ou créer une classe association
 	private int point; //calculable donc pas dans le MCDi
-	private Country pays;
+	private Pays pays;
 
 
-	public Equipe(String nom, Country pays) {
+	public Equipe(String nom, Pays pays) {
 		this.equipe = new LinkedHashSet<Joueur>();
 		this.nom = nom;
 		this.point = 0;
 		this.pays = pays;
 	}
 
-	public Country getPays() {
+	public Pays getPays() {
 		return this.pays;
 	}
 
-	public void setPays(Country pays) {
+	public void setPays(Pays pays) {
 		this.pays = pays;
 	}
 
