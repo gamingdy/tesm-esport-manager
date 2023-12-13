@@ -9,7 +9,7 @@ import javax.swing.DefaultListModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccueilControleur implements ControlleurObserver {
+public class AccueilControlleur implements ControlleurObserver {
 	private VueAccueil vue;
 	DefaultListModel<LigneTournoi> listeTournoi;
 	private DaoTournoi daoTournoi;
@@ -17,7 +17,7 @@ public class AccueilControleur implements ControlleurObserver {
 	private DaoMatche daoMatche;
 	private Connexion c = Connexion.getConnexion();
 
-	public AccueilControleur(VueAccueil newVue) throws Exception {
+	public AccueilControlleur(VueAccueil newVue) throws Exception {
 		vue = newVue;
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);

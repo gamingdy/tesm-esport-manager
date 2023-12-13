@@ -7,14 +7,9 @@ import java.awt.event.MouseListener;
 
 import vue.Page;
 import vue.common.JFramePopup;
-import vue.Vue;
 import vue.admin.VueAdmin;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
-
-import javax.swing.*;
-
-import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 enum ETAT {
 	ACCUEIL, ARBITRES
@@ -26,7 +21,7 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 	MenuNavBar navbar;
 	private VueObserver obs;
 
-	private AccueilControleur accueil;
+	private AccueilControlleur accueil;
 
 	public BoutonMenuControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;

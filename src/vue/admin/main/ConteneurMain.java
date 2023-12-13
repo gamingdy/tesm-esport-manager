@@ -1,15 +1,13 @@
 package vue.admin.main;
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.*;
 
-import controller.AccueilControleur;
-import controller.ArbitresControleur;
+import controller.AccueilControlleur;
+import controller.ArbitresControlleur;
 import controller.ControlleurObserver;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
@@ -35,8 +33,8 @@ public class ConteneurMain extends JPanel {
 		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
 		vueArbitres = new VueArbitres();
 		try {
-			this.lst_controlleurs.put(Page.ACCUEIL_ADMIN.getNom(), new AccueilControleur(vueAccueil));
-			this.lst_controlleurs.put(Page.ARBITRES.getNom(), new ArbitresControleur(vueArbitres));
+			this.lst_controlleurs.put(Page.ACCUEIL_ADMIN.getNom(), new AccueilControlleur(vueAccueil));
+			this.lst_controlleurs.put(Page.ARBITRES.getNom(), new ArbitresControlleur(vueArbitres));
 
 		} catch (Exception e) {
 			e.printStackTrace();

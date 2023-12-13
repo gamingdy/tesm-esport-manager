@@ -1,24 +1,16 @@
 package controller;
 
 import dao.*;
-import modele.*;
-import vue.Vue;
-import vue.admin.accueil.LigneTournoi;
-import vue.admin.accueil.VueAccueil;
 import vue.admin.arbitres.VueArbitres;
 
-import javax.swing.DefaultListModel;
-import java.util.ArrayList;
-import java.util.List;
-
-public class ArbitresControleur implements ControlleurObserver {
+public class ArbitresControlleur implements ControlleurObserver {
 	private VueArbitres vue;
 	private DaoTournoi daoTournoi;
 	private DaoSaison daoSaison;
 	private DaoMatche daoMatche;
 	private Connexion c = Connexion.getConnexion();
 
-	public ArbitresControleur(VueArbitres newVue) {
+	public ArbitresControlleur(VueArbitres newVue) {
 		this.vue = newVue;
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);

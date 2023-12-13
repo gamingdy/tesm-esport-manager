@@ -3,15 +3,13 @@ package controller;
 import vue.Page;
 import vue.Vue;
 import vue.admin.VueAdmin;
-import vue.admin.arbitres.VueArbitres;
-import vue.arbitres.PageTestArbitre;
 import vue.login.VueLogin;
 
-public class VueControleur {
+public class VueControlleur {
 	private Vue vue;
 	private VueObserver observer;
 
-	public VueControleur(Vue vue) throws Exception {
+	public VueControlleur(Vue vue) throws Exception {
 		this.vue = vue;
 		this.observer = VueObserver.getInstance();
 		observer.setVue(this);
