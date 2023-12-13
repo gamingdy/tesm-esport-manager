@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import modele.Niveau;
 
 public class DaoNiveau implements Dao<Niveau,String>{
@@ -67,15 +69,16 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	 * Les paramètres sont placés dans cet ordre : Libelle_Niveau (STRING)
 	 */
 	@Override
-	public Niveau getById(String... nom) throws Exception {
+	public Optional<Niveau> getById(String... nom) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Niveau WHERE Libelle_Niveau = ?")){
 			getById.setString(1, nom[0]);
 			ResultSet resultat = getById.executeQuery();
+			Niveau niveau = null;
 			if(resultat.next()) {
-			Niveau niveau = Niveau.valueOf(resultat.getString("Libelle_Niveau"));
-			return niveau;
+			niveau = Niveau.valueOf(resultat.getString("Libelle_Niveau"));
+			
 			}
-			throw new Exception("Niveau non trouvé");
+			return Optional.ofNullable(niveau);
 		}
 	}
 	

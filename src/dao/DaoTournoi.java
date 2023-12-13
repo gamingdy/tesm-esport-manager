@@ -98,13 +98,14 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
 	 */
 	@Override
-	public Tournoi getById(Object... id) throws Exception {
+	public Optional<Tournoi> getById(Object... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Tournoi WHERE Nom_Tournoi = ? AND Annee = ?")) {
 			getById.setString(1, (String) id[0]);
 			getById.setInt(2, (Integer) id[1]);
 			ResultSet resultat = getById.executeQuery();
+			Tournoi tournoi = null;
 			if (resultat.next()) {
-				Tournoi tournoi = new Tournoi(
+				tournoi = new Tournoi(
 						new Saison(resultat.getInt("Annee")),
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Debut")),
@@ -114,9 +115,9 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 								resultat.getString("username"),
 								resultat.getString("mdp"))
 				);
-				return tournoi;
+				
 			}
-			throw new Exception("Tournoi non trouvé");
+			return Optional.ofNullable(tournoi);
 		}
 	}
 

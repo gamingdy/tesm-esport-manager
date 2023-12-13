@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface Dao<T, T1>{
 
@@ -9,7 +10,7 @@ public interface Dao<T, T1>{
 	public List<T> getAll() throws Exception;
 
 	
-	public T getById(T1... id) throws Exception;
+	public Optional<T> getById(T1... id) throws Exception;
 
 	
 	public boolean add(T value) throws Exception;

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import modele.Categorie;
 import modele.CustomDate;
@@ -31,7 +32,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Matche("
-				+ "Id_Match INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+				+ "Id_Match INT NOT NULL,"
 				+ "categorie VARCHAR(50),"
 				+ "Nombres_Parties_Max INT,"
 				+ "Date_Matche_Debut DATE,"
@@ -74,14 +75,14 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Matche");
 			List<Matche> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				Matche matche = new Matche(
+				Matche matche = Matche.createMatche(
 						resultat.getInt("Nombres_Parties_Max"),
 						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
 						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")),
-						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")));
-				matche.setId(resultat.getInt("Id_Match"));
+						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
+						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
+						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get(),
+						resultat.getInt("Id_Match"));
 				sortie.add(matche);
 			}
 			return sortie;
@@ -93,22 +94,23 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER)
 	 */
 	@Override
-	public Matche getById(Integer... id) throws Exception {
+	public Optional<Matche> getById(Integer... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Matche WHERE Id_Match = ?")) {
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
+			Matche matche = null;
 			if (resultat.next()) {
-				Matche matche = new Matche(
+				matche = Matche.createMatche(
 						resultat.getInt("Nombres_Parties_Max"),
 						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
 						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")),
-						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")));
-				matche.setId(resultat.getInt("Id_Match"));
-				return matche;
+						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
+						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
+						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get(),
+						resultat.getInt("Id_Match"));
+				
 			}
-			throw new Exception("Matche non trouvé");
+			return Optional.ofNullable(matche);
 		}
 	}
 
@@ -187,15 +189,30 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			ResultSet resultat = getMatchByTournoi.executeQuery();
 			List<Matche> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				Matche matche = new Matche(
+				Matche matche = Matche.createMatche(
 						resultat.getInt("Nombres_Parties_Max"),
 						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
 						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")),
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")));
-				matche.setId(resultat.getInt("Id_Match"));
+						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
+						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
+						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get(),
+						resultat.getInt("Id_Match"));
 				sortie.add(matche);
+			}
+			return sortie;
+		}
+	}
+	
+	public Integer getLastId() throws SQLException {
+		try(PreparedStatement getLastId = connexion.getConnection().prepareStatement(
+				"SELECT Id_Match "
+               + "FROM Matche"
+               + "ORDER BY Id_Match DESC "
+               + "FETCH FIRST 1 ROW ONLY")) {
+			ResultSet resultat = getLastId.executeQuery();
+			Integer sortie = null;
+			if (resultat.next()) {
+				sortie = resultat.getInt("Id_Match");
 			}
 			return sortie;
 		}

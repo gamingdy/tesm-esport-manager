@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import modele.Arbitre;
+import modele.Saison;
 
 public class DaoArbitre implements Dao<Arbitre,Integer> {
 
@@ -23,7 +26,7 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Arbitre("
-				+"Id_Arbitre INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
+				+"Id_Arbitre INT NOT NULL, "
 				+"Nom VARCHAR(50),"
 				+"Prenom VARCHAR(50),"
 				+"PRIMARY KEY(Id_Arbitre))";
@@ -56,7 +59,7 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Arbitre");
 			List<Arbitre> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				Arbitre arbitre = new Arbitre(
+				Arbitre arbitre = Arbitre.createArbitre(
 						resultat.getString("Nom"),
 						resultat.getString("Prenom"));
 				arbitre.setId(resultat.getInt("Id_Arbitre"));
@@ -71,18 +74,19 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER)
 	 */
 	@Override
-	public Arbitre getById(Integer... id) throws Exception {
+	public Optional<Arbitre> getById(Integer... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Arbitre WHERE Id_Arbitre = ?")){
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
+			Arbitre arbitre = null;
 			if (resultat.next()) {
-				Arbitre arbitre = new Arbitre(
+				arbitre = Arbitre.createArbitre(
 						resultat.getString("Nom"),
 						resultat.getString("Prenom"));
 				arbitre.setId(resultat.getInt("Id_Arbitre"));
-				return arbitre;
+				
 			}
-			throw new Exception("Arbitre non trouvé");
+			return Optional.ofNullable(arbitre);
 			
 		}
 	}
@@ -93,9 +97,10 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 	@Override
 	public boolean add(Arbitre value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Arbitre(Nom,Prenom) values (?,?)")){
-			add.setString(1, value.getNom());
-			add.setString(2, value.getPrenom());
+				"INSERT INTO Arbitre(Id_Arbitre,Nom,Prenom) values (?,?,?)")){
+			add.setInt(1, value.getId());
+			add.setString(2, value.getNom());
+			add.setString(3, value.getPrenom());
 			return add.execute();
 		}
 	}
@@ -127,6 +132,26 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 				"DELETE FROM Arbitre WHERE Id_Arbitre = ?")){
 			delete.setInt(1,value[0]);
 			return delete.execute();
+		}
+	}
+	
+	/**
+	 * Renvoie le dernier id d'arbitre ajouté à la table
+	 * @return
+	 * @throws SQLException
+	 */
+	public Integer getLastId() throws SQLException {
+		try(PreparedStatement getLastId = connexion.getConnection().prepareStatement(
+				"SELECT Id_Arbitre "
+               + "FROM Arbitre "
+               + "ORDER BY Id_Arbitre DESC "
+               + "FETCH FIRST 1 ROW ONLY")) {
+			ResultSet resultat = getLastId.executeQuery();
+			Integer sortie = null;
+			if (resultat.next()) {
+				sortie = resultat.getInt("Id_Arbitre");
+			}
+			return sortie;
 		}
 	}
 

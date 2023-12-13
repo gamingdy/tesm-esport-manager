@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import modele.Arbitrage;
 import modele.Arbitre;
@@ -66,10 +67,10 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 			List<Arbitrage> sortie = new ArrayList<>();
 			while(resultat.next()) {
 				Arbitrage arbitrage = new Arbitrage(
-						daoarbitre.getById(resultat.getInt("Id_Arbitre")),
+						daoarbitre.getById(resultat.getInt("Id_Arbitre")).get(),
 						daotournoi.getById(
 								resultat.getString("Nom_Tournoi"),
-								resultat.getInt("Annee")));
+								resultat.getInt("Annee")).get());
 				sortie.add(arbitrage);
 			}
 			return sortie;
@@ -81,21 +82,22 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER), Annee (INTEGER), Nom_tournoi (STRING)
 	 */
 	@Override
-	public Arbitrage getById(Object... id) throws Exception {
+	public Optional<Arbitrage> getById(Object... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Arbitrage WHERE Id_Arbitre = ? AND Annee = ? AND Nom_tournoi = ?")){
 			getById.setInt(1, (Integer)id[0]);
 			getById.setInt(2, (Integer)id[1]);
 			getById.setString(3, (String) id[2]);
 			ResultSet resultat = getById.executeQuery();
+			Arbitrage arbitrage = null;
 			if (resultat.next()) {
-				Arbitrage arbitrage = new Arbitrage(
-						daoarbitre.getById(resultat.getInt("Id_Arbitre")),
+				arbitrage = new Arbitrage(
+						daoarbitre.getById(resultat.getInt("Id_Arbitre")).get(),
 						daotournoi.getById(
 								resultat.getInt("Annee"),
-								resultat.getString("Nom_Tournoi")));
-				return arbitrage;
+								resultat.getString("Nom_Tournoi")).get());
+				
 			}
-			throw new Exception("Ligne non trouvée");
+			return Optional.ofNullable(arbitrage);
 		}
 	}
 
@@ -151,8 +153,7 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 			ResultSet resultat = getArbitreByTournoi.executeQuery();
 			List<Arbitre> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daoarbitre.getById(resultat.getInt("Id_Arbitre")));
-				
+				sortie.add(daoarbitre.getById(resultat.getInt("Id_Arbitre")).get());
 			}
 			return sortie;
 		}
@@ -171,7 +172,7 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 			ResultSet resultat = getTournoiByArbitre.executeQuery();
 			List<Tournoi> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")));
+				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")).get());
 			}
 			return sortie;
 		}

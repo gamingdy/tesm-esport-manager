@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import modele.Appartenance;
 import modele.Equipe;
 import modele.Poule;
@@ -73,8 +75,8 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			List<Appartenance> sortie = new ArrayList<>();
 			while(resultat.next()) {
 				Appartenance appartenance = new Appartenance(
-						daoequipe.getById(resultat.getString("Nom_Equipe")),
-						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")));
+						daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
+						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")).get());
 				sortie.add(appartenance);
 			}
 			return sortie;
@@ -86,7 +88,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING) , Annee (INTEGER) , Nom_tournoi (STRING) , Libelle (STRING)
 	 */
 	@Override
-	public Appartenance getById(Object... id) throws Exception {
+	public Optional<Appartenance> getById(Object... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance WHERE Nom_Equipe = ? AND Annee = ? AND Nom_tournoi = ? AND Libelle = ?")){
 			getById.setString(1, (String)id[0]);
 			getById.setInt(2, (Integer)id[1]);
@@ -94,14 +96,13 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			getById.setString(3, (String)id[2]);
 
 			ResultSet resultat = getById.executeQuery();
+			Appartenance appartenance = null;
 			if (resultat.next()) {
-				Appartenance appartenance = new Appartenance(
-						daoequipe.getById(resultat.getString("Nom_Equipe")),
-						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")));
-
-				return appartenance;
+				appartenance = new Appartenance(
+						daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
+						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")).get());
 			}
-			throw new Exception("Ligne non trouvée");
+			return Optional.ofNullable(appartenance);
 		}
 	}
 
@@ -161,7 +162,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			ResultSet resultat = getAll.executeQuery();
 			List<Equipe> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				Equipe equipe = daoequipe.getById(resultat.getString("Nom_Equipe"));
+				Equipe equipe = daoequipe.getById(resultat.getString("Nom_Equipe")).get();
 				sortie.add(equipe);
 			}
 			return sortie;
@@ -182,7 +183,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			ResultSet resultat = getAll.executeQuery();
 			List<Equipe> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				Equipe equipe = daoequipe.getById(resultat.getString("Nom_Equipe"));
+				Equipe equipe = daoequipe.getById(resultat.getString("Nom_Equipe")).get();
 				sortie.add(equipe);
 			}
 			return sortie;
@@ -204,7 +205,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			ResultSet resultat = getEquipeByPoule.executeQuery();
 			List<Poule> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")));
+				sortie.add(daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")).get());
 			}
 			return sortie;
 		}
@@ -223,7 +224,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			ResultSet resultat = getTournoiByEquipe.executeQuery();
 			List<Tournoi> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")));
+				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")).get());
 			}
 			return sortie;
 		}

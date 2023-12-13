@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import modele.Arbitre;
 import modele.Saison;
@@ -64,11 +65,12 @@ public class DaoSelection implements Dao<Selection,Object>{
 		try(Statement getAll = connexion.getConnection().createStatement()){
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Selection");
 			List<Selection> sortie = new ArrayList<>();
+			Selection selection = null;
 			while(resultat.next()) {
-				Selection inscription = new Selection(
-						resultat.getInt("Id_Arbitre"),
-						resultat.getInt("Annee"));
-				sortie.add(inscription);
+				selection = new Selection(
+						daoarbitre.getById(resultat.getInt("Id_Arbitre")).get(),
+						daosaison.getById(resultat.getInt("Annee")).get());
+				sortie.add(selection);
 			}
 			return sortie;
 		}
@@ -79,18 +81,19 @@ public class DaoSelection implements Dao<Selection,Object>{
 	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER), Annee (INTEGER) 
 	 */
 	@Override
-	public Selection getById(Object... id) throws Exception {
+	public Optional<Selection> getById(Object... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Selection WHERE Id_Arbitre = ? AND Annee = ?")){
 			getById.setInt(1, (Integer)id[0]);
 			getById.setInt(1, (Integer)id[1]);
 			ResultSet resultat = getById.executeQuery();
+			Selection selection = null;
 			if(resultat.next()) {
-				Selection selection = new Selection(
-						resultat.getInt("Id_Arbitre"),
-						resultat.getInt("Annee"));
-				return selection;
+				selection = new Selection(
+						daoarbitre.getById(resultat.getInt("Id_Arbitre")).get(),
+						daosaison.getById(resultat.getInt("Annee")).get());
+				
 			}
-			throw new Exception("Ligne non trouvé");
+			return Optional.ofNullable(selection);
 		}
 	}
 
@@ -101,8 +104,8 @@ public class DaoSelection implements Dao<Selection,Object>{
 	public boolean add(Selection value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
 				"INSERT INTO Selection(Id_Arbitre,Annee) values (?,?)")) {
-			add.setInt(1, value.getIdArbitre());
-			add.setInt(2, value.getAnnee());
+			add.setInt(1, value.getArbitre().getId());
+			add.setInt(2, value.getSaison().getAnnee());
 			return add.execute();
 		}
 	}
@@ -143,7 +146,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 			ResultSet resultat = getArbitreBySaison.executeQuery();
 			List<Arbitre> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daoarbitre.getById(resultat.getInt("Id_Arbitre")));
+				sortie.add(daoarbitre.getById(resultat.getInt("Id_Arbitre")).get());
 			}
 			return sortie;
 		}
@@ -164,7 +167,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 			ResultSet resultat = getSaisonByArbitre.executeQuery();
 			List<Saison> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daosaison.getById(resultat.getInt("Annee")));
+				sortie.add(daosaison.getById(resultat.getInt("Annee")).get());
 			}
 			return sortie;
 		}

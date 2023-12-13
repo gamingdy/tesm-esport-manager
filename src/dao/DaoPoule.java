@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import modele.Poule;
 
@@ -64,7 +65,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 			List<Poule> sortie = new ArrayList<>();
 			while (resultat.next()) {
 				Poule poule = new Poule(
-						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")),
+						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")).get(),
 						resultat.getString("Libelle").charAt(0));
 				sortie.add(poule);
 			}
@@ -77,19 +78,20 @@ public class DaoPoule implements Dao<Poule, Object> {
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle_poule (STRING)
 	 */
 	@Override
-	public Poule getById(Object... value) throws Exception {
+	public Optional<Poule> getById(Object... value) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Poule WHERE Annee = ? AND Nom_Tournoi = ? AND Libelle = ?")) {
 			getById.setInt(1, (Integer) value[0]);
 			getById.setString(2, (String) value[1]);
 			getById.setString(3, (String) value[2]);
 			ResultSet resultat = getById.executeQuery();
+			Poule poule = null;
 			if (resultat.next()) {
-				Poule poule = new Poule(
-						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")),
+				poule = new Poule(
+						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")).get(),
 						resultat.getString("Libelle").charAt(0));
-				return poule;
+				
 			}
-			throw new Exception("Poule non trouvée");
+			return Optional.ofNullable(poule);
 		}
 	}
 

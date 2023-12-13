@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import modele.Arbitre;
 import modele.Equipe;
@@ -33,6 +34,7 @@ public class DaoInscription implements Dao<Inscription,Object>{
 		String createTableSql = "CREATE TABLE Inscription("
 				+ "Nom_Equipe VARCHAR(50),"
 				+ "Annee INT,"
+				+ "World_Rank INT,"
 				+ "PRIMARY KEY(Nom_Equipe, Annee),"
 				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe),"
 				+ "FOREIGN KEY(Annee) REFERENCES Saison(Annee))";
@@ -68,8 +70,9 @@ public class DaoInscription implements Dao<Inscription,Object>{
 			List<Inscription> sortie = new ArrayList<>();
 			while(resultat.next()) {
 				Inscription inscription = new Inscription(
-						resultat.getInt("Annee"),
-						resultat.getString("Nom_Equipe"));
+						daosaison.getById(resultat.getInt("Annee")).get(),
+						resultat.getInt("World_Rank"),
+						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
 				sortie.add(inscription);
 			}
 			return sortie;
@@ -81,18 +84,20 @@ public class DaoInscription implements Dao<Inscription,Object>{
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_Equipe (STRING)
 	 */
 	@Override
-	public Inscription getById(Object... id) throws Exception {
+	public Optional<Inscription> getById(Object... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Inscription WHERE Annee = ? AND Nom_Equipe = ?")){
 			getById.setInt(1, (Integer)id[0]);
 			getById.setString(1, (String)id[1]);
 			ResultSet resultat = getById.executeQuery();
+			Inscription inscription = null;
 			if(resultat.next()) {
-				Inscription inscription = new Inscription(
-						resultat.getShort("Annee"),
-						resultat.getString("Nom_Equipe"));
-				return inscription;
+				inscription = new Inscription(
+						daosaison.getById(resultat.getInt("Annee")).get(),
+						resultat.getInt("World_Rank"),
+						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
+				
 			}
-			throw new Exception("Ligne non trouvé");
+			return Optional.ofNullable(inscription);
 		}
 	}
 
@@ -102,20 +107,28 @@ public class DaoInscription implements Dao<Inscription,Object>{
 	@Override
 	public boolean add(Inscription value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Inscription(Annee,Nom_Equipe) values (?,?)")){
-			add.setInt(1, value.getAnnee());
-			add.setString(2, value.getNom());
+				"INSERT INTO Inscription(Annee,World_Rank,Nom_Equipe) values (?,?,?)")){
+			add.setInt(1, value.getSaison().getAnnee());
+			add.setInt(2, value.getWorldRank());
+			add.setString(3, value.getEquipe().getNom());
 			return add.execute();
 		}
 	}
 
 	/**
-	 * ne pas utiliser
+	 * update de wolrd rank d'une équipe dans une saison à partir d'un objet Inscription
 	 */
 	@Override
 	public boolean update(Inscription value) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		try(PreparedStatement update = connexion.getConnection().prepareStatement(
+				"UPDATE Inscription SET "
+						+ "World_Rank = ?,"
+						+ "WHERE Nom_Equipe = ? AND Annee = ?")) {
+			update.setInt(1, value.getWorldRank());
+			update.setString(2, value.getEquipe().getNom());
+			update.setInt(3, value.getSaison().getAnnee());
+			return update.execute();
+		}
 	}
 
 	/**
@@ -140,12 +153,12 @@ public class DaoInscription implements Dao<Inscription,Object>{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Equipe> getEquipeBySaison(Object...  value) throws Exception {
+	public List<Optional<Equipe>> getEquipeBySaison(Object...  value) throws Exception {
 		try(PreparedStatement getEquipeBySaison = connexion.getConnection().prepareStatement(
 				"SELECT * FROM Inscription WHERE Annee = ?")) {
 			getEquipeBySaison.setInt(1, (Integer)value[0]);
 			ResultSet resultat = getEquipeBySaison.executeQuery();
-			List<Equipe> sortie = new ArrayList<>();
+			List<Optional<Equipe>> sortie = new ArrayList<>();
 			while(resultat.next()) {
 				sortie.add(daoequipe.getById(resultat.getString("Nom_Equipe")));
 			}
@@ -168,7 +181,7 @@ public class DaoInscription implements Dao<Inscription,Object>{
 			ResultSet resultat = getSaisonByEquipe.executeQuery();
 			List<Saison> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daosaison.getById(resultat.getInt("Annee")));
+				sortie.add(daosaison.getById(resultat.getInt("Annee")).get());
 			}
 			return sortie;
 		}

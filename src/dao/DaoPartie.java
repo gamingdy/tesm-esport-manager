@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import modele.Partie;
 
@@ -66,7 +67,7 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			List<Partie> sortie = new ArrayList<>();
 			while (resultat.next()) {
 				Partie partie = new Partie(
-						daomatche.getById(resultat.getInt("Id_Match")));
+						daomatche.getById(resultat.getInt("Id_Match")).get());
 				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
 				sortie.add(partie);
 			}
@@ -79,18 +80,19 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER), Numero_Partie (INTEGER)
 	 */
 	@Override
-	public Partie getById(Integer... id) throws Exception {
+	public Optional<Partie> getById(Integer... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Partie WHERE Id_Match = ? AND Numero_Partie = ?")) {
 			getById.setInt(1, id[0]);
 			getById.setInt(2, id[1]);
 			ResultSet resultat = getById.executeQuery();
+			Partie partie = null;
 			if (resultat.next()) {
-				Partie partie = new Partie(
-						daomatche.getById(resultat.getInt("Id_Match")));
+				partie = new Partie(
+						daomatche.getById(resultat.getInt("Id_Match")).get());
 				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
-				return partie;
+				
 			}
-			throw new Exception("Partie non trouvée");
+			return Optional.ofNullable(partie);
 		}
 	}
 

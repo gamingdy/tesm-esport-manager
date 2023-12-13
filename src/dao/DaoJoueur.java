@@ -5,7 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
+import java.util.Optional;
 
 import modele.Joueur;
 
@@ -62,7 +63,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 			while(resultat.next()) {
 				Joueur joueur = new Joueur(
 						resultat.getString("Pseudo"),
-						daoequipe.getById(resultat.getString("Nom_Equipe")));
+						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
 				joueur.setId(resultat.getInt("Id_Joueur"));
 				sortie.add(joueur);
 			}
@@ -75,18 +76,19 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 	 * Les paramètres sont placés dans cet ordre : Id_Joueur (INTEGER)
 	 */
 	@Override
-	public Joueur getById(Integer... id) throws Exception {
+	public Optional<Joueur> getById(Integer... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Joueur WHERE Id_Joueur = ?")){
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
+			Joueur joueur = null;
 			if(resultat.next()) {
-			Joueur joueur = new Joueur(
+			joueur = new Joueur(
 					resultat.getString("Pseudo"),
-					daoequipe.getById(resultat.getString("Nom_Equipe")));
+					daoequipe.getById(resultat.getString("Nom_Equipe")).get());
 			joueur.setId(resultat.getInt("Id_Joueur"));
-			return joueur;
+			
 			}
-			throw new Exception("Joueur non trouvé");
+			return Optional.ofNullable(joueur);
 		}
 	}
 
@@ -147,7 +149,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 			while(resultat.next()) {
 				Joueur joueur = new Joueur(
 						resultat.getString("Pseudo"),
-						daoequipe.getById(resultat.getString("Nom_Equipe")));
+						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
 				joueur.setId(resultat.getInt("Id_Joueur"));
 				sortie.add(joueur);
 			}
