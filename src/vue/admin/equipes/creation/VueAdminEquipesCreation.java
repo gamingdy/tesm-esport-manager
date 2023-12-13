@@ -1,7 +1,9 @@
 package vue.admin.equipes.creation;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -32,6 +34,7 @@ public class VueAdminEquipesCreation extends JPanel {
 	private JComboBox<Pays> comboboxPays;
 	private JTextField textfieldNom;
 	private JButton boutonValider;
+	private JButton boutonAnnuler;
 
 	/**
 	 * Create the panel.
@@ -75,7 +78,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelNom.setForeground(CustomColor.BLANC);
 		labelNom.setFont(MaFont.getFontTitre2());
 		champNom.add(labelNom);
-		JTextField textfieldNom = new JTextField();
+		textfieldNom = new JTextField();
 		textfieldNom.setBackground(CustomColor.BACKGROUND_MENU);
 		textfieldNom.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		textfieldNom.setForeground(CustomColor.BLANC);
@@ -186,17 +189,28 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcPanelBot.gridx = 0;
 		gbcPanelBot.gridy = 1;
 		add(panelBot, gbcPanelBot);
-		boutonValider = new JButton("Ajout");
-		setControleur(new EquipeControlleur(this));
+		
+		
+		panelBot.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
+		((FlowLayout) panelBot.getLayout()).setHgap(150);
+		
+		boutonAnnuler = new JButton("Annuler");
+		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());
+		boutonAnnuler.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS.darker(), 3), BorderFactory.createEmptyBorder(10,40,10,40)));
+		boutonAnnuler.setForeground(CustomColor.BLANC.darker());
+		panelBot.add(boutonAnnuler);
+		
+		boutonValider = new JButton("Ajouter");
+		boutonValider.setBackground(CustomColor.BACKGROUND_MENU.brighter());
+		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10,40,10,40)));
+		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
+
+		setControleur(new EquipeControlleur(this));
 	}
 
 	// setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
 	public void setControleur(EquipeControlleur controleur) {
-		// TODO Auto-generated method stub
-		// là tu ajoute le controleur partout où il le fau
-		//c a la modif du jpanel ou du textfield pour le nom ? regarde dans login
-		// jsp ? c'est à dire??
 		this.comboboxPays.addMouseListener(controleur);
 		this.boutonValider.addMouseListener(controleur);
 	}
