@@ -96,4 +96,13 @@ public class Main extends JPanel {
 		panelMain.show(identifiant);
 
 	}
+	
+	/**
+	 * Ajoute une page dans le conteneur du contenu
+	 * @param c le composant à ajouter
+	 * @param id son identifiant
+	 */
+	public void addPage(JComponent c, String id) {
+		panelMain.add(c,id);
+	}
 }

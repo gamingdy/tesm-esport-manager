@@ -1,7 +1,9 @@
-package controller;
+package controlleur;
+
+import vue.Vue;
 
 public class VueObserver {
-	private VueControlleur vueControlleur;
+	private VueControlleur vueControleur;
 	private static VueObserver instance;
 
 	private VueObserver() {
@@ -16,10 +18,10 @@ public class VueObserver {
 	}
 
 	public void setVue(VueControlleur vue) {
-		this.vueControlleur = vue;
+		this.vueControleur = vue;
 	}
 
 	public void notifyVue(String page) {
-		vueControlleur.update(page);
+		vueControleur.update(page);
 	}
 }

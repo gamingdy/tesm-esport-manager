@@ -1,8 +1,8 @@
-package controller;
+package controlleur;
 
-import vue.Page;
 import vue.Vue;
 import vue.admin.VueAdmin;
+import vue.common.TitleBar;
 import vue.login.VueLogin;
 
 public class VueControlleur {
@@ -17,12 +17,14 @@ public class VueControlleur {
 		VueAdmin vueAdmin = new VueAdmin();
 		vueLogin.attachObserver(this.observer);
 		vueAdmin.attachObserver(this.observer);
-		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
-		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
-		this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
+		this.vue.addPage(vueAdmin, "Admin");
+		this.vue.addPage(vueLogin, "Login");
+		this.vue.setPage("Login");
+		TitleBar.getInstance().setTitle("Login");
 	}
 
 	public void update(String page) {
 		this.vue.setPage(page);
+		TitleBar.getInstance().setTitle(page);
 	}
 }

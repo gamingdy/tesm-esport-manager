@@ -69,7 +69,6 @@ public class Vue extends JFrame {
 
 	public void setPage(String identifiant) {
 		cl.show(panelContenu, identifiant);
-		titleBar.setTitle(identifiant);
 	}
 
 	public void addPage(JComponent page, String identifiant) {
