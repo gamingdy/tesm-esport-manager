@@ -6,11 +6,12 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import controlleur.AdminEquipesControlleurs;
+import controlleur.ControlleurObserver;
 
 public class VueAdminEquipes extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private AdminEquipesControlleurs controlleur;
 	private CardLayout cl;
 
@@ -25,11 +26,12 @@ public class VueAdminEquipes extends JPanel {
 	}
 
 	public void addPage(JComponent c, String id) {
-		this.add(c,id);
+		this.add(c, id);
 	}
-	
+
 	public void setPage(String id) {
-		cl.show(this,id);
+		cl.show(this, id);
 	}
+
 
 }

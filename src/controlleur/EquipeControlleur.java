@@ -7,9 +7,10 @@ import dao.DaoSaison;
 import modele.Pays;
 import modele.Equipe;
 import vue.admin.arbitres.VueArbitres;
+import vue.admin.equipes.VueAdminEquipes;
 
-public class EquipeControlleur {
-	private VueArbitres vue;
+public class EquipeControlleur implements ControlleurObserver {
+	private VueAdminEquipes vue;
 	private DaoEquipe daoEquipe;
 	private DaoSaison daoSaison;
 	private DaoJoueur daoJoueur;
@@ -17,7 +18,7 @@ public class EquipeControlleur {
 	private Pays champPaysEquipe;
 	private String codeImage;
 
-	public EquipeControlleur(VueArbitres newVue) {
+	public EquipeControlleur(VueAdminEquipes newVue) {
 		this.vue = newVue;
 		Connexion c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);
@@ -32,5 +33,11 @@ public class EquipeControlleur {
 
 		}
 		return true;
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+
 	}
 }

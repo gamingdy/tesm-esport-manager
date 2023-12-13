@@ -20,8 +20,7 @@ public class VueControlleur {
 		vueAdmin.attachObserver(this.observer);
 		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
 		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
-		this.vue.setPage(Page.LOGIN.getNom());
-		TitleBar.getInstance().setTitle(Page.LOGIN.getNom());
+		this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
 	}
 
 	public void update(String page) {
