@@ -1,6 +1,6 @@
 package modele;
 
-import exceptions.IdNotSet;
+import exceptions.IdNotSetException;
 
 public class Arbitre implements Comparable<Arbitre> {
 	private Integer id;
@@ -51,9 +51,9 @@ public class Arbitre implements Comparable<Arbitre> {
 		return false;
 	}
 
-	public Integer getId() throws IdNotSet {
+	public Integer getId() throws IdNotSetException {
 		if (this.id == null) {
-			throw new IdNotSet("le id de l'objet n'est pas set");
+			throw new IdNotSetException("le id de l'objet n'est pas set");
 		}
 		return id;
 	}

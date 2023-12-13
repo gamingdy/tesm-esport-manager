@@ -17,7 +17,7 @@ public class TestAppartenance {
 
 	@Before
 	public void setUp() throws Exception {
-		e1 = new Equipe("Faze", Country.ALGERIE);
+		e1 = new Equipe("Faze", Pays.ALGERIE);
 		debut = new CustomDate(2022, 10, 10);
 		fin = new CustomDate(2022, 10, 22);
 		tournoi = new Tournoi(new Saison(2022), "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("admin", "dsdsd00"));
