@@ -5,19 +5,20 @@ import dao.*;
 import modele.Equipe;
 import modele.Saison;
 import vue.admin.arbitres.VueArbitres;
+import vue.admin.equipes.VueAdminEquipes;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class EquipesControlleur implements ControlleurObserver {
-	private VueArbitres vue;
+	private VueAdminEquipes vue;
 	private DaoInscription daoInscription;
 	private DaoEquipe daoEquipe;
 	private DaoSaison daoSaison;
 	private List<Equipe> listeEquipes;
 	private Saison saison;
 
-	public EquipesControlleur(VueArbitres newVue) {
+	public EquipesControlleur(VueAdminEquipes newVue) {
 		this.vue = newVue;
 		Connexion c = Connexion.getConnexion();
 		daoInscription = new DaoInscription(c);

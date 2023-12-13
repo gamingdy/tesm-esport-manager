@@ -14,6 +14,7 @@ import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.VueAccueil;
 import vue.admin.arbitres.VueArbitres;
 import vue.admin.equipes.VueAdminEquipes;
+import vue.admin.equipes.creation.VueAdminEquipesCreation;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
@@ -21,6 +22,7 @@ public class ConteneurMain extends JPanel {
 	private CardLayout cardLayout;
 	private VueAccueil vueAccueil;
 	private VueArbitres vueArbitres;
+	private VueAdminEquipesCreation vueAdminEquipesCreation;
 	Map<String, ControlleurObserver> lst_controlleurs;
 
 	public ConteneurMain() {
@@ -31,11 +33,11 @@ public class ConteneurMain extends JPanel {
 		this.setLayout(cardLayout);
 		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
 		vueArbitres = new VueArbitres();
-		VueAdminEquipes vueEquipes = new VueAdminEquipes();
+		vueAdminEquipesCreation = new VueAdminEquipesCreation();
 		try {
 			this.lst_controlleurs.put(Page.ACCUEIL_ADMIN.getNom(), new AccueilControlleur(vueAccueil));
 			this.lst_controlleurs.put(Page.ARBITRES.getNom(), new ArbitresControlleur(vueArbitres));
-			this.lst_controlleurs.put(Page.EQUIPES.getNom(), new EquipeControlleur(vueEquipes));
+			this.lst_controlleurs.put(Page.EQUIPES.getNom(), new EquipeControlleur(vueAdminEquipesCreation));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,7 +46,7 @@ public class ConteneurMain extends JPanel {
 
 		add(vueAccueil, Page.ACCUEIL_ADMIN.getNom());
 		add(vueArbitres, Page.ARBITRES.getNom());
-		add(vueEquipes, Page.EQUIPES.getNom());
+		add(vueAdminEquipesCreation, Page.EQUIPES.getNom());
 		show(Page.ACCUEIL_ADMIN.getNom());
 	}
 

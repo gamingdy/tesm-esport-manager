@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import controlleur.EquipeControlleur;
 import modele.Pays;
 import vue.common.CustomColor;
 import vue.common.MaFont;
@@ -28,6 +29,9 @@ public class VueAdminEquipesCreation extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel labelDrapeau;
+	private JComboBox<Pays> comboboxPays;
+	private JTextField textfieldNom;
+	private JButton boutonValider;
 
 	/**
 	 * Create the panel.
@@ -86,7 +90,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelPays.setFont(MaFont.getFontTitre2());
 		champPays.add(labelPays);
 		DefaultComboBoxModel<Pays> model = new DefaultComboBoxModel<Pays>(Pays.values());
-		JComboBox<Pays> comboboxPays = new JComboBox<Pays>(model);
+		comboboxPays = new JComboBox<Pays>(model);
 		//Pour render les cells mais pas nécessaire si juste le texte
 //		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
 //		@Override
@@ -182,8 +186,39 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcPanelBot.gridx = 0;
 		gbcPanelBot.gridy = 1;
 		add(panelBot, gbcPanelBot);
-
-		panelBot.add(new JButton("Ajout"));
+		boutonValider = new JButton("Ajout");
+		setControleur(new EquipeControlleur(this));
+		panelBot.add(boutonValider);
 	}
 
+	// setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
+	public void setControleur(EquipeControlleur controleur) {
+		// TODO Auto-generated method stub
+		// là tu ajoute le controleur partout où il le fau
+		//c a la modif du jpanel ou du textfield pour le nom ? regarde dans login
+		// jsp ? c'est à dire??
+		this.comboboxPays.addMouseListener(controleur);
+		this.boutonValider.addMouseListener(controleur);
+	}
+
+
+	public void clearField() {
+		this.textfieldNom.setText("");
+	}
+
+	public JComboBox<Pays> getComboboxPays() {
+		return this.comboboxPays;
+	}
+
+	public String getChampPaysEquipe() {
+		return this.comboboxPays.getSelectedItem().toString();
+	}
+
+	public String getChampNomEquipe() {
+		return this.textfieldNom.getText();
+	}
+
+	public void setDrapeau(String code) {
+		labelDrapeau.setIcon(new ImageIcon("assets/country-flags/" + code + ".png"));
+	}
 }
