@@ -24,7 +24,7 @@ public class TestEquipe {
 	private Joueur j6;
 
 	@Before
-	public void setUp() throws EquipeComplete, ErreurJoueur {
+	public void setUp() throws EquipeCompleteException, JoueurException {
 		equipe1 = new Equipe("Faze", Pays.ALGERIE);
 		equipe2 = new Equipe("Patate", Pays.ALGERIE);
 		j2 = new Joueur("Soso1", equipe1);

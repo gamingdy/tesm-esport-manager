@@ -1,6 +1,6 @@
 package modele.test;
 
-import exceptions.IdNotSet;
+import exceptions.IdNotSetException;
 import modele.Pays;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,27 +73,30 @@ public class TestArbitre {
 
 	@Test
 	public void testEqualsnotSameClass() {
-		assertNotEquals(a,1);
+		assertNotEquals(a, 1);
 
 	}
 
 	@Test
 	public void testToString() {
-		assertEquals( a.getNom() + " " + a.getPrenom(),a.toString());
+		assertEquals(a.getNom() + " " + a.getPrenom(), a.toString());
 	}
+
 	@Test
-	public void testEqualsNormal(){
-		Arbitre a2=a;
-		assertEquals(a,a2);
+	public void testEqualsNormal() {
+		Arbitre a2 = a;
+		assertEquals(a, a2);
 	}
+
 	@Test
-	public void testCompareTo(){
-		Arbitre a2=a;
-		assertEquals(0,a.compareTo(a2));
+	public void testCompareTo() {
+		Arbitre a2 = a;
+		assertEquals(0, a.compareTo(a2));
 	}
+
 	@Test
-	public void testCompareToPasPareil(){
-		Arbitre a2=new Arbitre("A","A");
-		assertEquals(1,a.compareTo(a2));
+	public void testCompareToPasPareil() {
+		Arbitre a2 = new Arbitre("A", "A");
+		assertEquals(1, a.compareTo(a2));
 	}
 }

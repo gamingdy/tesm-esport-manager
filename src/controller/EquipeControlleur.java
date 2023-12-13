@@ -4,8 +4,11 @@ import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
 import dao.DaoSaison;
-import modele.Country;
+import modele.Pays;
+import modele.Equipe;
 import vue.admin.arbitres.VueArbitres;
+
+import java.sql.SQLException;
 
 public class EquipeControlleur {
 	private VueArbitres vue;
@@ -13,7 +16,7 @@ public class EquipeControlleur {
 	private DaoSaison daoSaison;
 	private DaoJoueur daoJoueur;
 	private String champNomEquipe;
-	private Country champPaysEquipe;
+	private Pays champPaysEquipe;
 	private String codeImage;
 
 	public EquipeControlleur(VueArbitres newVue) {
@@ -25,6 +28,11 @@ public class EquipeControlleur {
 	}
 
 	private boolean EquipeDejaExistante(String nomEquipe) {
-		EquipedaoEquipe.getById(nomEquipe);
+		try {
+			Equipe equipe = daoEquipe.getById(nomEquipe);
+		} catch (Exception e) {
+
+		}
+		return true;
 	}
 }
