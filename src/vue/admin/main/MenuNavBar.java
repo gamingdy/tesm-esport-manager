@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import controlleur.BoutonMenuControlleur;
+import vue.BoutonNavBar;
 import vue.common.CustomColor;
 
 @SuppressWarnings("serial")
@@ -37,28 +38,34 @@ public class MenuNavBar extends JPanel {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 
-		boutons.put("Accueil", new BoutonMenu(this, "Accueil", 0));
-		this.add(boutons.get("Accueil"), boutons.get("Accueil").getContraintes());
-		selectionner(boutons.get("Accueil"));
+		String accueil = BoutonNavBar.ACCUEIL.getNom();
+		boutons.put(accueil, new BoutonMenu(this, accueil, 0));
+		this.add(boutons.get(accueil), boutons.get(accueil).getContraintes());
+		selectionner(boutons.get(accueil));
 
-		boutons.put("Equipes", new BoutonMenu(this, "Equipes", 1));
-		this.add(boutons.get("Equipes"), boutons.get("Equipes").getContraintes());
+		String equipes = BoutonNavBar.EQUIPES.getNom();
+		boutons.put(equipes, new BoutonMenu(this, equipes, 1));
+		this.add(boutons.get(equipes), boutons.get(equipes).getContraintes());
 
-		boutons.put("Tournois", new BoutonMenu(this, "Tournois", 2));
-		this.add(boutons.get("Tournois"), boutons.get("Tournois").getContraintes());
+		String tournois = BoutonNavBar.TOURNOIS.getNom();
+		boutons.put(tournois, new BoutonMenu(this, tournois, 2));
+		this.add(boutons.get(tournois), boutons.get(tournois).getContraintes());
 
-		boutons.put("Arbitres", new BoutonMenu(this, "Arbitres", 3));
-		this.add(boutons.get("Arbitres"), boutons.get("Arbitres").getContraintes());
+		String arbitres = BoutonNavBar.ARBITRES.getNom();
+		boutons.put(arbitres, new BoutonMenu(this, arbitres, 3));
+		this.add(boutons.get(arbitres), boutons.get(arbitres).getContraintes());
 
-		boutons.put("Saisons précédentes", new BoutonMenu(this, "Saisons précédentes", 4));
-		this.add(boutons.get("Saisons précédentes"), boutons.get("Saisons précédentes").getContraintes());
+		String saisons = BoutonNavBar.SAISON_PRECEDENTES.getNom();
+		boutons.put(saisons, new BoutonMenu(this, saisons, 4));
+		this.add(boutons.get(saisons), boutons.get(saisons).getContraintes());
 
-		boutons.put("Déconnexion", new BoutonMenu(this, "Déconnexion", 5));
-		boutons.get("Déconnexion").setBorder(BorderFactory.createEmptyBorder());
-		this.add(boutons.get("Déconnexion"), boutons.get("Déconnexion").getContraintes());
+		String deconnexion = BoutonNavBar.DECONNEXION.getNom();
+		boutons.put(deconnexion, new BoutonMenu(this, deconnexion, 5));
+		boutons.get(deconnexion).setBorder(BorderFactory.createEmptyBorder());
+		this.add(boutons.get(deconnexion), boutons.get(deconnexion).getContraintes());
 	}
 
-	public void addButtonControlleur(Object controlleur){
+	public void addButtonControlleur(Object controlleur) {
 		for (BoutonMenu bouton : boutons.values()) {
 			bouton.setControlleur(controlleur);
 		}
@@ -73,7 +80,7 @@ public class MenuNavBar extends JPanel {
 				.forEach(e -> {
 					if (e.getKey() == bouton.getText()) {
 						e.getValue().selectionner();
-					} else if (e.getKey() != "Déconnexion") {
+					} else if (e.getKey() != BoutonNavBar.DECONNEXION.getNom()) {
 						e.getValue().deselectionner();
 					}
 				});

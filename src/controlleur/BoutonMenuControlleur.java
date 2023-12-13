@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import vue.BoutonNavBar;
 import vue.Page;
 import vue.common.JFramePopup;
 import vue.admin.VueAdmin;
@@ -44,15 +45,17 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		if (e.getSource() instanceof BoutonMenu) {
 			navbar.selectionner((BoutonMenu) e.getSource());
 			BoutonMenu boutonSelectionné = (BoutonMenu) e.getSource();
-			if (boutonSelectionné.getText() == "Arbitres" && etat != ETAT.ARBITRES) {
+			if (boutonSelectionné.getText() == BoutonNavBar.ARBITRES.getNom() && etat != ETAT.ARBITRES) {
 				etat = ETAT.ARBITRES;
 				this.vue.setPage(Page.ARBITRES.getNom());
-			} else if (boutonSelectionné.getText() == "Déconnexion") {
+			} else if (boutonSelectionné.getText() == BoutonNavBar.DECONNEXION.getNom()) {
 				new JFramePopup("Deconnexion", "Etes vous sur de vous deconnecter ?");
 
-			} else if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
+			} else if ((boutonSelectionné.getText() == BoutonNavBar.ACCUEIL.getNom()) && etat != ETAT.ACCUEIL) {
 				etat = ETAT.ACCUEIL;
 				this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
+			} else if (boutonSelectionné.getText() == BoutonNavBar.EQUIPES.getNom()) {
+				this.vue.setPage(Page.EQUIPES.getNom());
 			}
 		}
 	}
