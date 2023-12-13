@@ -22,6 +22,10 @@ public class Matche {
 	private Equipe vainqueur;
 	private Saison saison;
 
+	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
+			  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException, SQLException {
+		this(nombreMaxParties, dateDebutMatche, categorie, equipe1, equipe2, tournoi, new DaoMatche(Connexion.getConnexion()).getLastId());
+	}
 
 	private Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi, Integer id) throws FausseDateException, MemeEquipeException {
@@ -56,14 +60,6 @@ public class Matche {
 		} else {
 			this.id = id+1;
 		}
-	}
-	
-	public static Matche createMatche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
-			Equipe equipe1, Equipe equipe2, Tournoi tournoi, Integer id) throws FausseDateException, MemeEquipeException, SQLException {
-		
-		DaoMatche daomatche = new DaoMatche(Connexion.getConnexion());
-		return new Matche(nombreMaxParties, dateDebutMatche, categorie,
-				equipe1, equipe2, tournoi, daomatche.getLastId());
 	}
 
 	public int getNombreMaxParties() {
