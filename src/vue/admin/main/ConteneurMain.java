@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.swing.*;
 
 import controller.AccueilControleur;
+import controller.ArbitresControleur;
 import controller.ControlleurObserver;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
@@ -22,6 +23,7 @@ public class ConteneurMain extends JPanel {
 
 	private CardLayout cardLayout;
 	private VueAccueil vueAccueil;
+	private VueArbitres vueArbitres;
 	Map<String, ControlleurObserver> lst_controlleurs;
 
 	public ConteneurMain() {
@@ -31,14 +33,15 @@ public class ConteneurMain extends JPanel {
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
 		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
+		vueArbitres = new VueArbitres();
 		try {
 			this.lst_controlleurs.put(Page.ACCUEIL_ADMIN.getNom(), new AccueilControleur(vueAccueil));
+			this.lst_controlleurs.put(Page.ARBITRES.getNom(), new ArbitresControleur(vueArbitres));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		VueArbitres vueArbitres = new VueArbitres();
 
 		add(vueAccueil, Page.ACCUEIL_ADMIN.getNom());
 		add(vueArbitres, Page.ARBITRES.getNom());

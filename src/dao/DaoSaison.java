@@ -16,6 +16,7 @@ public class DaoSaison implements Dao<Saison, Integer> {
 
 	/**
 	 * Crée la table Saison
+	 *
 	 * @param connexion
 	 * @throws SQLException
 	 */
@@ -31,6 +32,7 @@ public class DaoSaison implements Dao<Saison, Integer> {
 
 	/**
 	 * Supprime la table saison
+	 *
 	 * @param connexion
 	 * @return
 	 * @throws SQLException
@@ -82,11 +84,11 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	 */
 	@Override
 	public boolean add(Saison value) throws Exception {
-		try (PreparedStatement add  = connexion.getConnection().prepareStatement(
-				"INSERT INTO Saison(Annee) values (?)")){
+		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+				"INSERT INTO Saison(Annee) values (?)")) {
 			add.setInt(1, value.getAnnee());
 			return add.execute();
-		} 
+		}
 	}
 
 	/**
@@ -108,18 +110,19 @@ public class DaoSaison implements Dao<Saison, Integer> {
 			return delete.execute();
 		}
 	}
-	
+
 	/**
 	 * Renvoie la dernière saison ajoutée de la table
+	 *
 	 * @return
 	 * @throws SQLException
 	 */
 	public Saison getLastSaison() throws SQLException {
-		try(PreparedStatement lastInsert = connexion.getConnection().prepareStatement(
-				"SELECT Annee"
-				+ "FROM Saison"
-				+ "ORDER BY Annee DESC"
-				+ "LIMIT 1;")) {
+		try (PreparedStatement lastInsert = connexion.getConnection().prepareStatement(
+				"SELECT Annee "
+						+ "FROM Saison "
+						+ "ORDER BY Annee DESC "
+						+ "FETCH FIRST 1 ROW ONLY")) {
 			ResultSet resultat = lastInsert.executeQuery();
 			Saison saison = null;
 			if (resultat.next()) {

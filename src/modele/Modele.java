@@ -1,4 +1,4 @@
-package modele;
+/*package modele;
 
 import java.sql.Date;
 
@@ -61,3 +61,4 @@ public class Modele {
 	}
     
 }
+*/
