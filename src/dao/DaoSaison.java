@@ -118,7 +118,7 @@ public class DaoSaison implements Dao<Saison, Integer> {
 		try(PreparedStatement lastInsert = connexion.getConnection().prepareStatement(
 				"SELECT Annee"
 				+ "FROM Saison"
-				+ "ORDER BY 1"
+				+ "ORDER BY Annee DESC"
 				+ "LIMIT 1;")) {
 			ResultSet resultat = lastInsert.executeQuery();
 			Saison saison = null;
