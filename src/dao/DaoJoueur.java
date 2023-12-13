@@ -19,6 +19,11 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		this.daoequipe = new DaoEquipe(connexion);
 	}
 
+	/**
+	 * Crée la table joueur
+	 * @param connexion
+	 * @throws SQLException
+	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Joueur("
 				+"Id_Joueur INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
@@ -33,13 +38,22 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		}
 	}
 
+	/**
+	 * supprime la table joueur
+	 * @param connexion
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try(Statement deleteTable = connexion.getConnection().createStatement()){
-			System.out.println("Table 'Joueur' créée avec succès");
+			System.out.println("Table 'Joueur' supprimée avec succès");
 			return deleteTable.execute("drop table Joueur");
 		}
 	}
 
+	/**
+	 * Renvoie tous les joueurs existants
+	 */
 	@Override
 	public List<Joueur> getAll() throws Exception {
 		try(Statement getAll = connexion.getConnection().createStatement()){
@@ -56,6 +70,10 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		}
 	}
 
+	/**
+	 * Renvoie un joueur précis
+	 * Les paramètres sont placés dans cet ordre : Id_Joueur (INTEGER)
+	 */
 	@Override
 	public Joueur getById(Integer... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Joueur WHERE Id_Joueur = ?")){
@@ -72,6 +90,9 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		}
 	}
 
+	/**
+	 * Ajoute un joueur à la table joueur à partir d'un objet joueur 
+	 */
 	@Override
 	public boolean add(Joueur value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
@@ -82,11 +103,14 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		}
 	}
 
+	/**
+	 * update une ligen de la table joueur à partir d'un objet joueur
+	 */
 	@Override
 	public boolean update(Joueur value) throws Exception {
 		try(PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Joueur SET "
-						+"Pseudo = ? "
+						+"Pseudo = ?, "
 						+"Nom_Equipe = ? "
 						+"WHERE Id_Joueur = ?")) {
 			update.setString(1, value.getPseudo());
@@ -96,6 +120,10 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		}		
 	}
 
+	/**
+	 * supprime un joueur 
+	 * Les paramètres sont placés dans cet ordre : Id_Joueur (INTEGER)
+	 */
 	@Override
 	public boolean delete(Integer... value) throws Exception {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
@@ -105,6 +133,12 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 		}
 	}
 
+	/**
+	 * Renvoie tous les joueurs d'une équipe en passant en paramètre le nom de l'équipe
+	 * @param nom
+	 * @return
+	 * @throws Exception
+	 */
 	public List<Joueur> getJoueurParEquipe(String nom) throws Exception {
 		try(PreparedStatement getAll = connexion.getConnection().prepareStatement("SELECT * FROM Joueur WHERE Nom_Equipe = ?")){
 			getAll.setString(0, nom);

@@ -1,9 +1,9 @@
 package exceptions;
 
-public class PointsNegatifs extends Exception {
+public class ExceptionPointsNegatifs extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public PointsNegatifs(String message) {
+	public ExceptionPointsNegatifs(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}

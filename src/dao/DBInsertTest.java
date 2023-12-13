@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import modele.Categorie;
-import modele.Country;
+import modele.Pays;
 import modele.CustomDate;
 import modele.Niveau;
 
@@ -18,13 +18,15 @@ public class DBInsertTest {
         Connexion co = Connexion.getConnexion();
         
         try {
+        	
         	Statement st = co.getConnection().createStatement();
         	PreparedStatement ps;
+        	/*
         	for (int i=1;i<=10;i++) {
         		//table équipe
         		String nomEquipe = "Equipe"+i;
         		int worldRank = i*i;
-        		String pays = Country.values()[i].name();
+        		String pays = Pays.values()[i].name();
         		st.executeUpdate("INSERT INTO Equipe (Nom_Equipe,Pays_Equipe,World_rank) values ('"+nomEquipe+"','"+pays+"',"+worldRank+")");
         	}
         	
@@ -53,7 +55,7 @@ public class DBInsertTest {
         	}
         	
         	System.out.println("Insertion table Saison terminée avec succès");
-        	
+        	*/
         	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.LOCAL.name()+"',"+Niveau.LOCAL.getCoefficient()+")");
         	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.REGIONAL.name()+"',"+Niveau.REGIONAL.getCoefficient()+")");
         	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.NATIONAL.name()+"',"+Niveau.NATIONAL.getCoefficient()+")");
@@ -61,7 +63,7 @@ public class DBInsertTest {
         	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.INTERNATIONAL_CLASSE.name()+"',"+Niveau.INTERNATIONAL_CLASSE.getCoefficient()+")");
         	
         	System.out.println("Insertion table Niveau terminée avec succès");
-        	
+        	/*
         	for (int i = 1; i<=5; i++) {
         		int annee = 2002+i;
         		String nomTournoi = "Tournoi"+i;
@@ -171,7 +173,7 @@ public class DBInsertTest {
         	System.out.println("Toutes les insertions ont été réalisées avec succès");
         	
         	
-
+			*/
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

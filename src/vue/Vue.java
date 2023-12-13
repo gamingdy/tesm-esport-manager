@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controlleur.VueControlleur;
+import controller.VueControlleur;
 import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
 import vue.common.WindowResizer;

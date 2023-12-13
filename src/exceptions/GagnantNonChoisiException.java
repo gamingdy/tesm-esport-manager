@@ -1,8 +1,8 @@
 package exceptions;
 
-public class GagnantNonChoisi extends Exception {
+public class GagnantNonChoisiException extends Exception {
 
-	public GagnantNonChoisi(String message) {
+	public GagnantNonChoisiException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
