@@ -6,11 +6,11 @@ import java.util.*;
 public class Saison {
 
 	private int annee;
-	private Set<Tournoi> tournois;
+	private Map<String,Tournoi> tournois;
 
 	public Saison(int annee) {
 		
-		this.tournois = new HashSet<Tournoi>();
+		this.tournois = new HashMap<String,Tournoi>();
 		this.annee = annee;
 	}
 
@@ -28,25 +28,19 @@ public class Saison {
 	}
 
 	public void addTournoi(Tournoi tournoi) {
-		this.tournois.add(tournoi);
+		this.tournois.put(tournoi.getNom(),tournoi);
 	}
 
 	public void deleteTournoi(Tournoi tournoi) {
-		this.tournois.remove(tournoi);
+		this.tournois.remove(tournoi.getNom());
 	}
 
 	public Set<Tournoi> getTournois() {
-		return tournois;
+		return new HashSet<Tournoi>(tournois.values());
 	}
 
 	public Tournoi getTournoi(String nom) {
-		Tournoi tournoi = null;
-		for (Tournoi t : this.tournois) {
-			if (t.getNom() == nom) {
-				tournoi = t;
-			}
-		}
-		return tournoi;
+		return tournois.get(nom);
 	}
 
 	@Override
