@@ -12,7 +12,7 @@ import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
 
 enum ETAT {
-	ACCUEIL, ARBITRES, DECONNEXION
+	ACCUEIL, ARBITRES
 }
 
 public class BoutonMenuControlleur implements ActionListener, MouseListener {
@@ -47,7 +47,7 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 			if (boutonSelectionné.getText() == "Arbitres" && etat != ETAT.ARBITRES) {
 				etat = ETAT.ARBITRES;
 				this.vue.setPage(Page.ARBITRES.getNom());
-			} else if (boutonSelectionné.getText() == "Déconnexion" && etat != ETAT.DECONNEXION) {
+			} else if (boutonSelectionné.getText() == "Déconnexion") {
 				new JFramePopup("Deconnexion", "Etes vous sur de vous deconnecter ?");
 
 			} else if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
