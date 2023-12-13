@@ -4,7 +4,7 @@ import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
 import dao.DaoSaison;
-import modele.Pays;
+import modele.Country;
 import modele.Equipe;
 import vue.admin.arbitres.VueArbitres;
 
@@ -16,7 +16,7 @@ public class EquipeControlleur {
 	private DaoSaison daoSaison;
 	private DaoJoueur daoJoueur;
 	private String champNomEquipe;
-	private Pays champPaysEquipe;
+	private Country champPaysEquipe;
 	private String codeImage;
 
 	public EquipeControlleur(VueArbitres newVue) {

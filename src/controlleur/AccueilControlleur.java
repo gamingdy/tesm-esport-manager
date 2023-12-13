@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AccueilControlleur implements ControlleurObserver {
 	private VueAccueil vue;
-
+	DefaultListModel<LigneTournoi> listeTournoi;
 	private DaoTournoi daoTournoi;
 	private DaoSaison daoSaison;
 	private DaoMatche daoMatche;
@@ -30,11 +30,7 @@ public class AccueilControlleur implements ControlleurObserver {
 
 	@Override
 	public void update() {
-		this.updateTournoi();
-	}
-
-	private void updateTournoi() {
-		DefaultListModel<LigneTournoi> listeTournoi = new DefaultListModel<LigneTournoi>();
+		listeTournoi = new DefaultListModel<LigneTournoi>();
 		try {
 			List<Tournoi> liste = new ArrayList<>(daoTournoi.getAll());
 			Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
@@ -45,7 +41,7 @@ public class AccueilControlleur implements ControlleurObserver {
 				LigneTournoi ligne1 = new LigneTournoi(tournoi.getNom(), tournoi.isEstEncours());
 				listeTournoi.addElement(ligne1);
 			}
-			this.vue.setListeTournois(listeTournoi);
+			vue.setListeTournois(listeTournoi);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

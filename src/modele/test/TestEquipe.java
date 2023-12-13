@@ -25,8 +25,8 @@ public class TestEquipe {
 
 	@Before
 	public void setUp() throws EquipeCompleteException, JoueurException {
-		equipe1 = new Equipe("Faze", Pays.ALGERIE);
-		equipe2 = new Equipe("Patate", Pays.ALGERIE);
+		equipe1 = new Equipe("Faze", Country.ALGERIE);
+		equipe2 = new Equipe("Patate", Country.ALGERIE);
 		j2 = new Joueur("Soso1", equipe1);
 		j3 = new Joueur("SoSo2", equipe1);
 		j4 = new Joueur("Sososo3", equipe1);

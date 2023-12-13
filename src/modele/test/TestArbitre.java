@@ -1,7 +1,7 @@
 package modele.test;
 
 import exceptions.IdNotSetException;
-import modele.Pays;
+import modele.Country;
 import org.junit.Before;
 import org.junit.Test;
 import modele.Arbitre;

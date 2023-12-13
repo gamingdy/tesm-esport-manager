@@ -1,5 +1,6 @@
 package controlleur;
 
+import vue.Page;
 import vue.Vue;
 import vue.admin.main.BoutonMenu;
 
@@ -11,9 +12,11 @@ import java.awt.event.MouseListener;
 public class ControleurTest implements ActionListener, MouseListener {
 	private Vue vue;
 	private ETAT etat;
-	public ControleurTest(Vue newVue){
-		this.vue=newVue;
+
+	public ControleurTest(Vue newVue) {
+		this.vue = newVue;
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof BoutonMenu) {
@@ -26,12 +29,12 @@ public class ControleurTest implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() instanceof BoutonMenu) {
-			BoutonMenu boutonSelectionné=(BoutonMenu) e.getSource();
+			BoutonMenu boutonSelectionné = (BoutonMenu) e.getSource();
 			System.out.println("ui");
-			if(boutonSelectionné.getText()=="Arbitres"){
-				etat=ETAT.ARBITRES;
+			if (boutonSelectionné.getText() == "Arbitres") {
+				etat = ETAT.ARBITRES;
 				System.out.println("PAGE arbitre");
-				vue.setPage("Arbitres");
+				vue.setPage(Page.ARBITRES.getNom());
 			}
 		}
 	}

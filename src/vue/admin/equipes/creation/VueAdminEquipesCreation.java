@@ -8,7 +8,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import modele.Pays;
+import modele.Country;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
@@ -89,8 +89,8 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelPays.setForeground(CustomColor.BLANC);
 		labelPays.setFont(MaFont.getFontTitre2());
 		champPays.add(labelPays);
-		DefaultComboBoxModel<Pays> model = new DefaultComboBoxModel<Pays>(Pays.values());
-		JComboBox<Pays> comboboxPays = new JComboBox<Pays>(model);
+		DefaultComboBoxModel<Country> model = new DefaultComboBoxModel<Country>(Country.values());
+		JComboBox<Country> comboboxPays = new JComboBox<Country>(model);
 		//Pour render les cells mais pas nécessaire si juste le texte
 //		comboboxPays.setRenderer(new ListCellRenderer<Country>() {
 //		@Override

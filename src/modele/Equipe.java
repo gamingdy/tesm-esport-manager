@@ -18,7 +18,7 @@ public class Equipe {
 	private Country pays;
 
 
-	public Equipe(String nom, Pays pays) {
+	public Equipe(String nom, Country pays) {
 		this.equipe = new LinkedHashSet<Joueur>();
 		this.nom = nom;
 		this.point = 0;
