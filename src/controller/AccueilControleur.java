@@ -9,7 +9,7 @@ import javax.swing.DefaultListModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccueilControleur {
+public class AccueilControleur implements ControlleurObserver {
 	private VueAccueil vue;
 	DefaultListModel<LigneTournoi> listeTournoi;
 	private DaoTournoi daoTournoi;
@@ -22,16 +22,29 @@ public class AccueilControleur {
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
+
+		this.update();
+
+	}
+
+	@Override
+	public void update() {
 		listeTournoi = new DefaultListModel<LigneTournoi>();
-		List<Tournoi> liste = new ArrayList<>(daoTournoi.getAll());
-		Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
-		LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
-		listeTournoi.addElement(ligne);
-		liste.remove(tournoiActuel);
-		for (Tournoi tournoi : liste) {
-			LigneTournoi ligne1 = new LigneTournoi(tournoi.getNom(), tournoi.isEstEncours());
-			listeTournoi.addElement(ligne1);
+		try {
+			List<Tournoi> liste = new ArrayList<>(daoTournoi.getAll());
+			Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
+			LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
+			listeTournoi.addElement(ligne);
+			liste.remove(tournoiActuel);
+			for (Tournoi tournoi : liste) {
+				LigneTournoi ligne1 = new LigneTournoi(tournoi.getNom(), tournoi.isEstEncours());
+				listeTournoi.addElement(ligne1);
+			}
+			vue.setListeTournois(listeTournoi);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		vue.setListeTournois(listeTournoi);
+
+
 	}
 }
