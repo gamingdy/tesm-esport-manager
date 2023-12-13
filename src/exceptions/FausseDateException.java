@@ -1,13 +1,13 @@
 package exceptions;
 
-public class FausseDate extends Exception {
+public class FausseDateException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public FausseDate(String message) {
+	public FausseDateException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}

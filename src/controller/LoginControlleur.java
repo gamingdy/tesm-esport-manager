@@ -7,13 +7,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import dao.Connexion;
 import dao.DaoNiveau;
 import dao.DaoSaison;
 import dao.DaoTournoi;
-import exceptions.FausseDate;
+import exceptions.FausseDateException;
 import modele.*;
+import vue.Page;
 import vue.login.VueLogin;
 
 import javax.swing.*;
@@ -41,14 +43,26 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 		this.daoSaison = new DaoSaison(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
-		//daoNiveau.add(Niveau.LOCAL);
+		try {
+			daoNiveau.add(Niveau.LOCAL);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 
 		Saison saison = new Saison(2023);
-		//daoSaison.add(saison);
+		try {
+			daoSaison.add(saison);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 		CustomDate debut = new CustomDate(2023, 12, 01);
 		CustomDate fin = new CustomDate(2023, 12, 30);
 		tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
-		//daoTournoi.add(tournoi);
+		try {
+			daoTournoi.add(tournoi);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 	}
 
@@ -78,7 +92,8 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
 						}
 						if (compteActuel == this.admin) {
-							obs.notifyVue("Admin");
+							obs.notifyVue(Page.ACCUEIL_ADMIN.getNom());
+							this.vue.clearField();
 						}
 					}
 				}
@@ -107,7 +122,6 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		System.out.println("test");
 		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
 			vue.setBoutonActif(false);
 		} else {

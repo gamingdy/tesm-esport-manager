@@ -1,6 +1,6 @@
 package modele.test;
 
-import exceptions.GagnantNonChoisi;
+import exceptions.GagnantNonChoisiException;
 import modele.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +17,7 @@ public class TestPartie {
 	private Equipe equipe2;
 	private Tournoi tournoi;
 	private Saison saison;
+
 	@Before
 	public void setUp() throws Exception {
 		debut=new CustomDate(2022,12,5);
@@ -32,37 +33,44 @@ public class TestPartie {
 	@Test
 	public void setNumeroPartie() {
 		partie.setNumeroPartie(1);
-		assertEquals(1,partie.getNumeroPartie());
+		assertEquals(1, partie.getNumeroPartie());
 	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void setNumeroPartieNegatif() {
 		partie.setNumeroPartie(-1);
 	}
+
 	@Test(expected = IllegalArgumentException.class)
-	public void constructeurPointsNegatifs(){
-		partie=new Partie("RLCS aout",matche,-10);
+	public void constructeurPointsNegatifs() {
+		partie = new Partie(matche, -10);
 	}
+
 	@Test
-	public void constructeurAvecNumeroPartie(){
-		partie=new Partie("RLCS aout",matche,5);
+	public void constructeurAvecNumeroPartie() {
+		partie = new Partie(matche, 5);
 	}
+
 	@Test
-	public void testSetVainqueur1() throws GagnantNonChoisi {
+	public void testSetVainqueur1() throws GagnantNonChoisiException {
 		partie.setVainqueur(equipe1);
-		assertEquals(equipe1,partie.getVainqueur());
+		assertEquals(equipe1, partie.getVainqueur());
 	}
+
 	@Test
-	public void testSetVainqueur2() throws GagnantNonChoisi{
+	public void testSetVainqueur2() throws GagnantNonChoisiException {
 		partie.setVainqueur(equipe2);
-		assertEquals(equipe2,partie.getVainqueur());
+		assertEquals(equipe2, partie.getVainqueur());
 	}
-	@Test (expected = GagnantNonChoisi.class)
-	public void testErreurSetVainqueur() throws  GagnantNonChoisi{
+
+	@Test(expected = GagnantNonChoisiException.class)
+	public void testErreurSetVainqueur() throws GagnantNonChoisiException {
 		partie.getVainqueur();
 	}
+
 	@Test
-	public void testGetMatche(){
-		assertEquals(matche,partie.getMatche());
+	public void testGetMatche() {
+		assertEquals(matche, partie.getMatche());
 	}
 
 }

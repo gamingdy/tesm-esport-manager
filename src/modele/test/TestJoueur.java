@@ -32,7 +32,7 @@ public class TestJoueur {
 	}
 
 	@Test
-	public void testSetID() throws IdNotSet {
+	public void testSetID() throws IdNotSetException {
 		j.setId(5);
 		assertEquals((Integer) 5, j.getId());
 	}
@@ -42,14 +42,14 @@ public class TestJoueur {
 		joueurs.add(j);
 		joueurs.add(j);
 	}
-	@Test(expected = IdNotSet.class)
-	public void testIdnotSet() throws IdNotSet {
+	@Test(expected = IdNotSetException.class)
+	public void testIdnotSet() throws IdNotSetException {
 		j.getId();
 	}
 
 
 	@Test
-	public void testGetEquipe() throws JoueurNonPresent, EquipeVide, EquipeComplete, ErreurJoueur {
+	public void testGetEquipe() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException, JoueurException {
 		assertEquals(equipe1,j.getEquipe());
 	}
 
@@ -59,13 +59,13 @@ public class TestJoueur {
 	}
 
 	@Test
-	public void testSameJoueur() throws EquipeComplete, ErreurJoueur {
+	public void testSameJoueur() throws EquipeCompleteException, JoueurException {
 		Joueur j2 = new Joueur("Cricri", equipe1);
 		assertEquals(j,j2);
 	}
 
 	@Test
-	public void testJoueurDifferent() throws EquipeComplete, ErreurJoueur {
+	public void testJoueurDifferent() throws EquipeCompleteException, JoueurException {
 		Joueur j2 = new Joueur("Cricri2", equipe1);
 		assertNotEquals(j,j2);
 	}
