@@ -108,5 +108,25 @@ public class DaoSaison implements Dao<Saison, Integer> {
 			return delete.execute();
 		}
 	}
+	
+	/**
+	 * Renvoie la dernière saison ajoutée de la table
+	 * @return
+	 * @throws SQLException
+	 */
+	public Saison getLastSaison() throws SQLException {
+		try(PreparedStatement lastInsert = connexion.getConnection().prepareStatement(
+				"SELECT Annee"
+				+ "FROM Saison"
+				+ "ORDER BY 1"
+				+ "LIMIT 1;")) {
+			ResultSet resultat = lastInsert.executeQuery();
+			Saison saison = null;
+			if (resultat.next()) {
+				saison = new Saison(resultat.getInt("Annee"));
+			}
+			return saison;
+		}
+	}
 
 }
