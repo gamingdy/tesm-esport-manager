@@ -1,6 +1,4 @@
-package vue.arbitres;
-
-import controller.VueObserver;
+package vue.arbitre;
 
 import javax.swing.*;
 

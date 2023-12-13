@@ -1,18 +1,13 @@
 package vue.main;
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
 
 import vue.Page;
 import vue.admin.accueil.VueAccueil;
-import vue.arbitres.PageTestArbitre;
+import vue.arbitre.PageTestArbitre;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.LigneMatche;
