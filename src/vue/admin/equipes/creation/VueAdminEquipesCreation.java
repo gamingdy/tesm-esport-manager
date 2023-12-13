@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.DefaultComboBoxModel;
 
 public class VueAdminEquipesCreation extends JPanel {
@@ -89,20 +90,32 @@ public class VueAdminEquipesCreation extends JPanel {
 		champPays.add(labelPays);
 		DefaultComboBoxModel<Country> model = new DefaultComboBoxModel<Country>(Country.values());
 		JComboBox<Country> comboboxPays = new JComboBox<Country>(model);
+		//Pour render les cells mais pas nécessaire si juste le texte
+//		comboboxPays.setRenderer(new ListCellRenderer<Country>() {
+//		@Override
+//		public Component getListCellRendererComponent(JList<? extends Country> list, Country value, int index,
+//				boolean isSelected, boolean cellHasFocus) {
+//			JLabel panel = new JLabel(value.getNom());
+//			return panel;
+//		}
+//		});
 		champPays.add(comboboxPays);
+
+		panelChamps.add(champNom);
 		panelChamps.add(champPays);
 		panelTop.add(panelChamps);
 		
-		//panel pour centrer le drapeau (marche pas)
+		//panel pour centrer le drapeau
 		JPanel panelDrapeau = new JPanel();
-		panelDrapeau.setOpaque(false);
-		panelDrapeau.setPreferredSize(new Dimension(0,0));
+		panelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,3));
+		panelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelDrapeau = new JLabel("");
 		labelDrapeau.setOpaque(true);
-		labelDrapeau.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 4),BorderFactory.createEmptyBorder(67,100,67,100)));
+		labelDrapeau.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_TEST);
 		labelDrapeau.setIcon(new ImageIcon("assets/country-flags/fr.png"));
 		labelDrapeau.setHorizontalAlignment(JLabel.CENTER);
+		labelDrapeau.setVerticalAlignment(JLabel.CENTER);
 		panelDrapeau.add(labelDrapeau);
 		panelTop.add(panelDrapeau);
 		
