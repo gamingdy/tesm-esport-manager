@@ -5,24 +5,24 @@ import java.util.Objects;
 public class CompteUtilisateur {
 
 	private String username;
-	private String mdp;
+	private String hashMdp;
 
-	public CompteUtilisateur(String username, String mdp) {
+	public CompteUtilisateur(String username, String hashMdp) {
 		this.username = username;
-		this.mdp = mdp;
+		this.hashMdp = hashMdp;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public String getMdp() {
-		return mdp;
+	public String getHashMdp() {
+		return hashMdp;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(mdp, username);
+		return Objects.hash(hashMdp, username);
 	}
 
 	@Override
@@ -34,6 +34,6 @@ public class CompteUtilisateur {
 		if (getClass() != obj.getClass())
 			return false;
 		CompteUtilisateur other = (CompteUtilisateur) obj;
-		return Objects.equals(mdp, other.mdp) && Objects.equals(username, other.username);
+		return Objects.equals(hashMdp, other.hashMdp) && Objects.equals(username, other.username);
 	}
 }
