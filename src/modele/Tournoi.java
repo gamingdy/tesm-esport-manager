@@ -3,7 +3,7 @@ package modele;
 //import java.util.HashMap;
 //import java.util.Map;
 
-import exceptions.FausseDateException;
+import exceptions.FausseDate;
 
 public class Tournoi {
 
@@ -16,25 +16,20 @@ public class Tournoi {
 	private CompteArbitre compteArbitre;
 	//private Map<Character,Poule> poules;
 
-	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDateException {
+	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDate {
 		if (debut.getAnnee() < saison.getAnnee()) {
-			throw new FausseDateException("La date de début du tournoi est avant la date de début de la saison");
+			throw new FausseDate("La date de début du tournoi est avant la date de début de la saison");
 		}
 		if (fin.getAnnee() > saison.getAnnee()) {
-			throw new FausseDateException("La date de fin du tournoi est après la date de fin de la saison");
+			throw new FausseDate("La date de fin du tournoi est après la date de fin de la saison");
 		}
 		this.saison = saison;
 		this.nom = nom;
 		this.debut = debut;
 		this.fin = fin;
 		this.niveau = niveau;
-
+		this.estEncours = false;
 		this.compteArbitre = compteArbitre;
-		if (debut.estAvant(CustomDate.now()) && fin.estApres(CustomDate.now())) {
-			this.estEncours = true;
-		} else {
-			this.estEncours = false;
-		}
 	}
 
 	public Saison getSaison() {
@@ -95,19 +90,6 @@ public class Tournoi {
 				+ ", estEncours=" + estEncours + "]";
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Tournoi)) {
-			return false;
-		}
-
-		Tournoi tournoiComparable = (Tournoi) obj;
-
-		return this.toString().equals(tournoiComparable.toString());
-	}
 
 
 	/*public Map<Character, Poule> getPoules() {

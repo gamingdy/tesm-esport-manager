@@ -1,7 +1,7 @@
 package modele.test;
 
-import exceptions.ExceptionDate;
-import exceptions.FausseDateException;
+import exceptions.ErreurDate;
+import exceptions.FausseDate;
 import modele.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class TestPoule {
 	private CustomDate fin;
 
 	@Before
-	public void setUp() throws ExceptionDate, FausseDateException {
+	public void setUp() throws ErreurDate, FausseDate {
 		debut = new CustomDate(2022, 10, 10);
 		fin = new CustomDate(2022, 10, 22);
 

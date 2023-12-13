@@ -1,8 +1,8 @@
 package exceptions;
 
-public class EquipeVideException extends Exception {
+public class EquipeVide extends Exception {
 
-	public EquipeVideException(String message) {
+	public EquipeVide(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}

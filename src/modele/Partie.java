@@ -1,6 +1,6 @@
 package modele;
 
-import exceptions.GagnantNonChoisiException;
+import exceptions.GagnantNonChoisi;
 
 public class Partie {
 
@@ -9,12 +9,12 @@ public class Partie {
 	private Matche matche;
 
 
-	public Partie(Matche matche) {
+	public Partie(String nom, Matche matche) {
 		this.vainqueur = 0;
 		this.matche = matche;
 	}
 
-	public Partie(Matche matche, int numeroPartie) throws IllegalArgumentException {
+	public Partie(String nom, Matche matche, int numeroPartie) throws IllegalArgumentException{
 		if (numeroPartie <= 0) {
 			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
 		}
@@ -27,26 +27,26 @@ public class Partie {
 		return numeroPartie;
 	}
 
-	public void setNumeroPartie(int numeroPartie) throws IllegalArgumentException {
+	public void setNumeroPartie(int numeroPartie) throws IllegalArgumentException{
 		if (numeroPartie <= 0) {
 			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
 		}
 		this.numeroPartie = numeroPartie;
 	}
 
-	public Equipe getVainqueur() throws GagnantNonChoisiException {
-		switch (this.vainqueur) {
-			case 1:
+	public Equipe getVainqueur() throws GagnantNonChoisi {
+		switch(this.vainqueur) {
+			case 1 :
 				return this.matche.getEquipe1();
-			case 2:
+			case 2 : 
 				return this.matche.getEquipe2();
 			default:
-				throw new GagnantNonChoisiException("Le gagnant n'a pas été choisi");
+				throw new GagnantNonChoisi("Le gagnant n'a pas été choisi");
 		}
 	}
 
 	public void setVainqueur(Equipe vainqueur) {
-		if (vainqueur.getNom().equals(this.matche.getEquipe1().getNom())) {
+		if(vainqueur.getNom().equals(this.matche.getEquipe1().getNom())) {
 			this.vainqueur = 1;
 		} else {
 			this.vainqueur = 2;

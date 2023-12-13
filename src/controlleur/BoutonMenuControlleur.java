@@ -5,11 +5,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import vue.Page;
 import vue.common.JFramePopup;
+import vue.Vue;
 import vue.admin.VueAdmin;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
+
+import javax.swing.*;
+
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 enum ETAT {
 	ACCUEIL, ARBITRES
@@ -21,13 +25,10 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 	MenuNavBar navbar;
 	private VueObserver obs;
 
-	private AccueilControlleur accueil;
-
 	public BoutonMenuControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
-		this.obs = VueObserver.getInstance();
 	}
 
 	@Override
@@ -44,15 +45,21 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		if (e.getSource() instanceof BoutonMenu) {
 			navbar.selectionner((BoutonMenu) e.getSource());
 			BoutonMenu boutonSelectionné = (BoutonMenu) e.getSource();
-			if (boutonSelectionné.getText() == "Arbitres" && etat != ETAT.ARBITRES) {
+			if (boutonSelectionné.getText() == "Arbitres") {
+				System.out.println("arbitre");
 				etat = ETAT.ARBITRES;
-				this.vue.setPage(Page.ARBITRES.getNom());
-			} else if (boutonSelectionné.getText() == "Déconnexion") {
-				new JFramePopup("Deconnexion", "Etes vous sur de vous deconnecter ?");
+			}
+			if (boutonSelectionné.getText() == "Déconnexion") {
+				System.out.println("Deconnexion");
+				JFramePopup popup = new JFramePopup("Deconnexion", "Etes vous sur de vous deconnecter ?");
+				popup.setVisible(true);
+				/*if (a == 0) {
 
-			} else if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
+				}*/
+			}
+			if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
+				System.out.println("Accueil");
 				etat = ETAT.ACCUEIL;
-				this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
 			}
 		}
 	}

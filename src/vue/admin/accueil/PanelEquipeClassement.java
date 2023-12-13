@@ -19,7 +19,7 @@ public class PanelEquipeClassement extends JPanel {
 
 		setLayout(new GridLayout(1, 0, 0, 0));
 		setBackground(CustomColor.BACKGROUND_MAIN);
-		
+		setOpaque(true);
 		JLabel labelPlace = new JLabel("" + place);
 		labelPlace.setForeground(CustomColor.BLANC);
 		labelPlace.setFont(MaFont.getFontTitre3());
