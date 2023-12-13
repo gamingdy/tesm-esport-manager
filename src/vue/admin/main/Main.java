@@ -29,7 +29,7 @@ public class Main extends JPanel {
 		setContent();
 		setMenu();
 	}
-	
+
 	public void setContent() {
 		GridBagLayout gbl_PanelContenu = new GridBagLayout();
 		gbl_PanelContenu.columnWidths = new int[]{0, 0};
@@ -39,7 +39,7 @@ public class Main extends JPanel {
 		setLayout(gbl_PanelContenu);
 
 		panelMain = new ConteneurMain();
-		panelMain.setPreferredSize(new Dimension(0,0));
+		panelMain.setPreferredSize(new Dimension(0, 0));
 		panelMain.setOpaque(false);
 		GridBagConstraints gbcPanelContenu = new GridBagConstraints();
 		gbcPanelContenu.fill = GridBagConstraints.BOTH;
@@ -52,7 +52,7 @@ public class Main extends JPanel {
 	public void setMenu() {
 		JPanel panelMenu = new JPanel();
 		GridBagLayout gbl_panelMenu = new GridBagLayout();
-		panelMenu.setPreferredSize(new Dimension(0,0));
+		panelMenu.setPreferredSize(new Dimension(0, 0));
 		panelMenu.setLayout(gbl_panelMenu);
 		gbl_panelMenu.columnWidths = new int[]{0};
 		gbl_panelMenu.rowHeights = new int[]{0};
@@ -92,6 +92,8 @@ public class Main extends JPanel {
 	 * @param identifiant l'identifiant
 	 */
 	public void setPage(String identifiant) {
+		panelMain.refreshVue(identifiant);
 		panelMain.show(identifiant);
+
 	}
 }

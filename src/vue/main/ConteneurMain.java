@@ -31,9 +31,9 @@ public class ConteneurMain extends JPanel {
 		this.setLayout(cardLayout);
 		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
 		vueArbitres = new PageTestArbitre();
-		add(vueAccueil, Page.ACCUEIL.getNom());
+		add(vueAccueil, Page.ACCUEIL_ADMIN.getNom());
 		add(vueArbitres, Page.ARBITRES.getNom());
-		show(Page.ACCUEIL.getNom());
+		show(Page.ACCUEIL_ADMIN.getNom());
 	}
 
 	public VueAccueil getVueAccueil() {
