@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import modele.Categorie;
-import modele.Country;
+import modele.Pays;
 import modele.CustomDate;
 import modele.Niveau;
 
@@ -24,7 +24,7 @@ public class DBInsertTest {
         		//table équipe
         		String nomEquipe = "Equipe"+i;
         		int worldRank = i*i;
-        		String pays = Country.values()[i].name();
+        		String pays = Pays.values()[i].name();
         		st.executeUpdate("INSERT INTO Equipe (Nom_Equipe,Pays_Equipe,World_rank) values ('"+nomEquipe+"','"+pays+"',"+worldRank+")");
         	}
         	

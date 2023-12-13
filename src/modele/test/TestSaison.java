@@ -32,7 +32,7 @@ public class TestSaison {
 		fin = new CustomDate(2022, 10, 25);
 		compteArbitre = new CompteArbitre("adminRLCS", "dsqd");
 		tournoi = new Tournoi(s1, "RLCS", debut, fin, Niveau.INTERNATIONAL, compteArbitre);
-		equipe=new Equipe("FAZE",Country.POLOGNE);
+		equipe=new Equipe("FAZE",Pays.POLOGNE);
 	}
 
 	@Test
