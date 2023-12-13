@@ -26,6 +26,8 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 	MenuNavBar navbar;
 	private VueObserver obs;
 
+	private AccueilControleur accueil;
+
 	public BoutonMenuControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
@@ -58,7 +60,7 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 				}*/
 			} else if ((boutonSelectionné.getText() == "Accueil") && etat != ETAT.ACCUEIL) {
 				etat = ETAT.ACCUEIL;
-				this.vue.setPage(Page.ACCUEIL.getNom());
+				this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
 			}
 		}
 	}

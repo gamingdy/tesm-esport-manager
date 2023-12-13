@@ -36,7 +36,7 @@ public class VueAdmin extends JPanel {
 		main.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		main.setOpaque(false);
 		add(main, BorderLayout.CENTER);
-		setPage(Page.ACCUEIL.getNom());
+		setPage(Page.ACCUEIL_ADMIN.getNom());
 	}
 
 
@@ -47,6 +47,7 @@ public class VueAdmin extends JPanel {
 	 */
 	public void setPage(String identifiant) {
 		main.setPage(identifiant);
+		TitleBar.getInstance().setTitle(identifiant);
 	}
 
 

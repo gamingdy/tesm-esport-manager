@@ -17,12 +17,11 @@ public class VueControleur {
 		observer.setVue(this);
 		VueLogin vueLogin = new VueLogin();
 		VueAdmin vueAdmin = new VueAdmin();
-		VueArbitres vueArbitres = new VueArbitres();
 		vueLogin.attachObserver(this.observer);
 		vueAdmin.attachObserver(this.observer);
 		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
 		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
-		this.vue.setPage(Page.LOGIN.getNom());
+		this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
 	}
 
 	public void update(String page) {
