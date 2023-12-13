@@ -23,8 +23,6 @@ public class Inscription {
 		this.saison = saison;
 	}
 	
-	
-
 	public Equipe getEquipe() {
 		return equipe;
 	}
