@@ -8,6 +8,7 @@ public class Arbitrage {
 
 	private Arbitre arbitre;
 	private Tournoi tournoi;
+	//TODO à retirer
 	private Set<Arbitrage> arbitrage;
 	
 	public Arbitrage(Arbitre arbitre, Tournoi tournoi) {

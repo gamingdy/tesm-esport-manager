@@ -16,6 +16,7 @@ public class Tournoi {
 	private Niveau niveau;
 	private boolean estEncours;
 	private CompteArbitre compteArbitre;
+	//TODO à supprimer ?
 	//private Map<Character,Poule> poules;
 
 	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDateException {
@@ -118,7 +119,8 @@ public class Tournoi {
 	}
 
 
-	/*public Map<Character, Poule> getPoules() {
+	/* TODO à supprimer ?
+	public Map<Character, Poule> getPoules() {
 		return poules;
 	}
 

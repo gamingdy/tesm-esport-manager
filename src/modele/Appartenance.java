@@ -7,6 +7,7 @@ public class Appartenance {
 	
 	private Equipe equipe;
 	private Poule poule;
+	// TODO beh à retirer tu coco
 	private Set<Appartenance> appartenances;
 	
 	public Appartenance(Equipe equipe, Poule poule) {

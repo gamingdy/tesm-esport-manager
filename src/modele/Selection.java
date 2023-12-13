@@ -8,6 +8,7 @@ public class Selection {
 	
 	private Arbitre arbitre;
 	private Saison saison;
+	//TODO à retirer
 	private Set<Selection> selections;
 	
 	public Selection(Arbitre arbitre, Saison saison) {
