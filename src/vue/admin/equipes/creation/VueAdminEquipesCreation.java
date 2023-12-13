@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
@@ -185,6 +186,8 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcPanelBot.gridx = 0;
 		gbcPanelBot.gridy = 1;
 		add(panelBot, gbcPanelBot);
+		
+		panelBot.add(new JButton("Ajout"));
 	}
 
 }
