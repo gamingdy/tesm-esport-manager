@@ -17,6 +17,7 @@ public class ESporterManagerInitBDD {
 		DaoAppartenance daoAppartenance = new DaoAppartenance(c);
 		DaoMatche daoMatche = new DaoMatche(c);
 		DaoPartie daoPartie = new DaoPartie(c);
+		DaoSaison daoSaison = new DaoSaison(c);
 		try {
 			daoNiveau.add(Niveau.LOCAL);
 			daoNiveau.add(Niveau.INTERNATIONAL);
@@ -26,7 +27,22 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		Tournoi tournoi = daoTournoi.getTournoiActuel().get();
+		Saison saison = new Saison(2023);
+		try {
+			daoSaison.add(saison);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+		CustomDate debutTournoi = new CustomDate(2023, 12, 01);
+		CustomDate fin = new CustomDate(2023, 12, 30);
+		Tournoi tournoi = new Tournoi(saison, "RLCS", debutTournoi, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
+		try {
+			daoTournoi.add(tournoi);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+
+		tournoi = daoTournoi.getTournoiActuel().get();
 		Poule poule = new Poule(tournoi, 'A');
 
 		CustomDate debut = new CustomDate(2023, 12, 5);
@@ -37,11 +53,7 @@ public class ESporterManagerInitBDD {
 		Equipe equipe2 = new Equipe("FOX", Country.FRANCE);
 		Equipe equipe3 = new Equipe("KC", Country.FRANCE);
 		Equipe equipe4 = new Equipe("F-Society", Country.FRANCE);
-		initEquipe(equipe);
-		initEquipe(equipe1);
-		initEquipe(equipe2);
-		initEquipe(equipe3);
-		initEquipe(equipe4);
+
 		try {
 			daoEquipe.add(equipe);
 			daoEquipe.add(equipe1);
@@ -51,6 +63,12 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+
+		initEquipe(equipe);
+		initEquipe(equipe1);
+		initEquipe(equipe2);
+		initEquipe(equipe3);
+		initEquipe(equipe4);
 
 
 		Appartenance appartenance = new Appartenance(equipe, poule);
@@ -100,11 +118,14 @@ public class ESporterManagerInitBDD {
 	}
 
 	private static void initEquipe(Equipe equipe) {
+		Connexion c = Connexion.getConnexion();
+		DaoJoueur daoJoueur = new DaoJoueur(c);
 		String default_username = "patata";
 		for (int i = 0; i < 5; i++) {
 			default_username = randomUsername(default_username);
 			try {
-				new Joueur(default_username, equipe);
+				Joueur j = new Joueur(default_username, equipe);
+				daoJoueur.add(j);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
