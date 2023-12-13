@@ -1,4 +1,4 @@
-package controller;
+package controlleur;
 
 import dao.Connexion;
 import dao.DaoEquipe;

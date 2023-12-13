@@ -7,13 +7,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import dao.Connexion;
 import dao.DaoNiveau;
 import dao.DaoSaison;
 import dao.DaoTournoi;
-import exceptions.FausseDate;
+import exceptions.FausseDateException;
 import modele.*;
+import vue.Page;
 import vue.login.VueLogin;
 
 import javax.swing.*;
@@ -26,9 +28,6 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	private CompteArbitre arbitre;
 	private String champLogin;
 	private String champMotDePasse;
-	private DaoTournoi daoTournoi;
-	private DaoSaison daoSaison;
-	private Tournoi tournoi;
 
 	private VueObserver obs;
 
@@ -37,15 +36,9 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 		Connexion c = Connexion.getConnexion();
 
-		this.daoTournoi = new DaoTournoi(c);
+		DaoTournoi daoTournoi = new DaoTournoi(c);
+		Tournoi tournoi = daoTournoi.getTournoiActuel().get();
 
-		this.daoSaison = new DaoSaison(c);
-		DaoNiveau daoNiveau = new DaoNiveau(c);
-
-		Saison saison = new Saison(2023);
-		CustomDate debut = new CustomDate(2023, 12, 01);
-		CustomDate fin = new CustomDate(2023, 12, 30);
-		tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
 		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 	}
 
@@ -75,7 +68,8 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
 						}
 						if (compteActuel == this.admin) {
-							obs.notifyVue("Admin");
+							obs.notifyVue(Page.ACCUEIL_ADMIN.getNom());
+							this.vue.clearField();
 						}
 					}
 				}

@@ -1,5 +1,6 @@
-package controller;
+package controlleur;
 
+import controlleur.ControlleurObserver;
 import dao.*;
 import vue.admin.arbitres.VueArbitres;
 

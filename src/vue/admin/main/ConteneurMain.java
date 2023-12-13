@@ -6,9 +6,9 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import controller.AccueilControlleur;
-import controller.ArbitresControlleur;
-import controller.ControlleurObserver;
+import controlleur.AccueilControlleur;
+import controlleur.ArbitresControlleur;
+import controlleur.ControlleurObserver;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;

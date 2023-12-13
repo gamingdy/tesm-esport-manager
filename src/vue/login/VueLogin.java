@@ -7,10 +7,7 @@ import controlleur.VueObserver;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
@@ -19,8 +16,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.util.Arrays;
 
 @SuppressWarnings("serial")
 public class VueLogin extends JPanel {
