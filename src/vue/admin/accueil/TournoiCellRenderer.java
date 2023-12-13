@@ -45,11 +45,9 @@ public class TournoiCellRenderer implements ListCellRenderer<LigneTournoi> {
 
 		PanelNomTournoi panelNomTournoi = new PanelNomTournoi(value.getNom());
 		panelTournoi.add(panelNomTournoi, BorderLayout.CENTER);
-
+		panelNomTournoi.setOpaque(false);
 		panelNomTournoi.setForeground(CustomColor.BLANC);
-		panelNomTournoi.setBackground(CustomColor.BACKGROUND_MAIN);
-		panelTournoi.setBackground(CustomColor.BACKGROUND_MAIN);
-
+		panelTournoi.setOpaque(false);
 		panelNomTournoi.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 55, 0, 75), panelNomTournoi.getBorder()));
 		return panelTournoi;
 	}

@@ -77,4 +77,10 @@ public class JFramePopup extends JFrame {
 
 		return panel;
 	}
+
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(() -> {
+			new JFramePopup("Titre de la fenêtre", "Message à afficher");
+		});
+	}
 }

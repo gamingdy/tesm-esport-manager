@@ -1,8 +1,8 @@
 package modele.test;
 
-import exceptions.ExceptionDate;
-import exceptions.FausseDateException;
-import exceptions.MemeEquipeException;
+import exceptions.ErreurDate;
+import exceptions.FausseDate;
+import exceptions.MemeEquipe;
 import modele.*;
 import org.junit.Test;
 import org.junit.Before;
@@ -17,7 +17,7 @@ public class TestTournoi {
 	private CompteArbitre compteArbitre;
 
 	@Before
-	public void setUp() throws ExceptionDate, FausseDateException, MemeEquipeException {
+	public void setUp() throws ErreurDate, FausseDate, MemeEquipe {
 		saison = new Saison(2023);
 		debut = new CustomDate(2023, 10, 20);
 		fin = new CustomDate(2023, 10, 25);
@@ -38,13 +38,13 @@ public class TestTournoi {
 	}
 
 	@Test
-	public void setDebut() throws ExceptionDate {
+	public void setDebut() throws ErreurDate {
 		tournoi.setDebut(new CustomDate(2022, 10, 13));
 		assertEquals(new CustomDate(2022, 10, 13), tournoi.getDebut());
 	}
 
 	@Test
-	public void setFin() throws ExceptionDate {
+	public void setFin() throws ErreurDate {
 		tournoi.setFin(new CustomDate(2022, 10, 25));
 		assertEquals(new CustomDate(2022, 10, 25), tournoi.getFin());
 	}
@@ -55,16 +55,16 @@ public class TestTournoi {
 		assertEquals(Niveau.INTERNATIONAL, tournoi.getNiveau());
 	}
 
-	@Test(expected = FausseDateException.class)
-	public void testTournoiAvantSaison() throws FausseDateException {
+	@Test(expected = FausseDate.class)
+	public void testTournoiAvantSaison() throws FausseDate {
 		CustomDate debut = new CustomDate(2022, 10, 20);
 		CustomDate fin = new CustomDate(2022, 10, 25);
 		Saison saison = new Saison(2023);
 		Tournoi tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("adminRLCS", "dsqd"));
 	}
 
-	@Test(expected = FausseDateException.class)
-	public void testTournoiApresSaison() throws FausseDateException {
+	@Test(expected = FausseDate.class)
+	public void testTournoiApresSaison() throws FausseDate {
 		CustomDate debut = new CustomDate(2022, 10, 20);
 		CustomDate fin = new CustomDate(2022, 10, 25);
 		Saison saison = new Saison(2021);

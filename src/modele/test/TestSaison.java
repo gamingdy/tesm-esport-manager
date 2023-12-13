@@ -1,6 +1,6 @@
 package modele.test;
 
-import exceptions.EquipeInexistanteException;
+import exceptions.EquipeInexistante;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,7 +98,7 @@ public class TestSaison {
 	}
 
 	@Test
-	public void testDeleteEquipe() throws EquipeInexistanteException {
+	public void testDeleteEquipe() throws EquipeInexistante {
 		s1.addEquipe(equipe);
 		s1.deleteEquipe(equipe);
 	}

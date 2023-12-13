@@ -52,13 +52,11 @@ public class VueAccueil extends JPanel {
 
 	private JList<LigneEquipe> listeEquipes;
 	private BoutonMenuControlleur controlleur;
-
 	/**
 	 * Create the panel.
-	 *
-	 * @param equipes  liste des équipes à afficher
+	 * @param equipes liste des équipes à afficher
 	 * @param tournois liste des tournois à afficher
-	 * @param matches  liste des matchs à afficher
+	 * @param matches liste des matchs à afficher
 	 */
 	public VueAccueil(ListModel<LigneEquipe> equipes, ListModel<LigneTournoi> tournois, ListModel<LigneMatche> matches) {
 		setOpaque(false);
@@ -69,8 +67,9 @@ public class VueAccueil extends JPanel {
 		gridBagLayout.columnWeights = new double[]{1.0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0};
 		setLayout(gridBagLayout);
+
 		JPanel panelClassement = new JPanel();
-		panelClassement.setPreferredSize(new Dimension(0, 0));
+		panelClassement.setPreferredSize(new Dimension(0,0));
 		panelClassement.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		panelClassement.setBackground(CustomColor.BACKGROUND_MAIN);
 		GridBagConstraints gbc_panelClassement = new GridBagConstraints();
@@ -105,7 +104,7 @@ public class VueAccueil extends JPanel {
 
 		JScrollPane scrollPaneEquipe = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneEquipe.setWheelScrollingEnabled(true);
-		scrollPaneEquipe.setBorder(BorderFactory.createMatteBorder(0, 20, 10, 20, CustomColor.BACKGROUND_MAIN));
+		scrollPaneEquipe.setBorder(BorderFactory.createMatteBorder(0,20,10,20,CustomColor.BACKGROUND_MAIN));
 		GridBagConstraints gbcScrollPaneEquipe = new GridBagConstraints();
 		gbcScrollPaneEquipe.insets = new Insets(0, 0, 0, 5);
 		gbcScrollPaneEquipe.fill = GridBagConstraints.BOTH;
@@ -135,7 +134,7 @@ public class VueAccueil extends JPanel {
 
 		JPanel panelTournois = new JPanel();
 		panelTournois.setBackground(CustomColor.BACKGROUND_MAIN);
-		panelTournois.setPreferredSize(new Dimension(0, 0));
+		panelTournois.setPreferredSize(new Dimension(0,0));
 		GridBagConstraints gbc_panelTournois = new GridBagConstraints();
 		gbc_panelTournois.insets = new Insets(0, 0, 0, 10);
 		gbc_panelTournois.weightx = 0.5;
@@ -181,7 +180,7 @@ public class VueAccueil extends JPanel {
 
 		JPanel panelMatchs = new JPanel();
 		panelMatchs.setBackground(CustomColor.BACKGROUND_MAIN);
-		panelMatchs.setPreferredSize(new Dimension(0, 0));
+		panelMatchs.setPreferredSize(new Dimension(0,0));
 		GridBagConstraints gbc_panelMatchs = new GridBagConstraints();
 		gbc_panelMatchs.insets = new Insets(0, 10, 0, 0);
 		gbc_panelMatchs.weightx = 0.5;

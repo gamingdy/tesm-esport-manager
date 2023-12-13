@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modele.Equipe;
-import modele.Pays;
+import modele.Country;
 
 public class DaoEquipe implements Dao<Equipe, String> {
 
@@ -61,7 +61,7 @@ public class DaoEquipe implements Dao<Equipe, String> {
 			while (resultat.next()) {
 				Equipe equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Pays.valueOf(resultat.getString("Pays_Equipe")));
+						Country.valueOf(resultat.getString("Pays_Equipe")));
 				equipe.setPoint(resultat.getInt("World_rank"));
 				sortie.add(equipe);
 			}
@@ -69,10 +69,6 @@ public class DaoEquipe implements Dao<Equipe, String> {
 		}
 	}
 
-	/**
-	 * Renvoie une équipe précise
-	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING)
-	 */
 	@Override
 	public Equipe getById(String... nom) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Equipe WHERE Nom_Equipe = ?")) {
@@ -81,7 +77,7 @@ public class DaoEquipe implements Dao<Equipe, String> {
 			if (resultat.next()) {
 				Equipe equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Pays.valueOf(resultat.getString("Pays_Equipe")));
+						Country.valueOf(resultat.getString("Pays_Equipe")));
 				equipe.setPoint(resultat.getInt("World_rank"));
 				return equipe;
 			}
@@ -89,9 +85,6 @@ public class DaoEquipe implements Dao<Equipe, String> {
 		}
 	}
 
-	/**
-	 * Ajoute une équipe à la table équipe à partir d'un objet équipe
-	 */
 	@Override
 	public boolean add(Equipe value) throws Exception {
 		try (PreparedStatement add = connexion.getConnection().prepareStatement(
@@ -103,9 +96,6 @@ public class DaoEquipe implements Dao<Equipe, String> {
 		}
 	}
 
-	/**
-	 * update une équipe à partir d'un objet équipe
-	 */
 	@Override
 	public boolean update(Equipe value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
@@ -120,10 +110,6 @@ public class DaoEquipe implements Dao<Equipe, String> {
 		}
 	}
 
-	/**
-	 * Supprime une équipe de la table equipe
-	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING)
-	 */
 	@Override
 	public boolean delete(String... value) throws Exception {
 		try (PreparedStatement delete = connexion.getConnection().prepareStatement(

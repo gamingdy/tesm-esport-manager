@@ -20,7 +20,7 @@ public class DBInsertTest {
         		//table équipe
         		String nomEquipe = "Equipe"+i;
         		int worldRank = i*i;
-        		String pays = Pays.values()[i].name();
+        		String pays = Country.values()[i].name();
         		st.executeUpdate("INSERT INTO Equipe (Nom_Equipe,Pays_Equipe,World_rank) values ('"+nomEquipe+"','"+pays+"',"+worldRank+")");
         	}
         	
