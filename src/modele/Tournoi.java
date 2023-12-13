@@ -25,6 +25,9 @@ public class Tournoi {
 		if (fin.getAnnee() > saison.getAnnee()) {
 			throw new FausseDateException("La date de fin du tournoi est après la date de fin de la saison");
 		}
+		if (debut.estApres(fin)) {
+			throw new FausseDateException("La date de fin du tournoi est avant la date de début du tournoi");
+		}
 		this.saison = saison;
 		this.nom = nom;
 		this.debut = debut;
