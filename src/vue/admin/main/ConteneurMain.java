@@ -3,10 +3,13 @@ package vue.admin.main;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.*;
 
 import controller.AccueilControleur;
+import controller.ControlleurObserver;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;
@@ -19,24 +22,27 @@ public class ConteneurMain extends JPanel {
 
 	private CardLayout cardLayout;
 	private VueAccueil vueAccueil;
+	Map<String, ControlleurObserver> lst_controlleurs;
 
 	public ConteneurMain() {
 		this.setOpaque(false);
+		this.lst_controlleurs = new HashMap<>();
 
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
 		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
 		try {
-			new AccueilControleur(vueAccueil);
+			this.lst_controlleurs.put(Page.ACCUEIL_ADMIN.getNom(), new AccueilControleur(vueAccueil));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		VueArbitres vueArbitres = new VueArbitres();
 
-		add(vueAccueil, Page.ACCUEIL.getNom());
+		add(vueAccueil, Page.ACCUEIL_ADMIN.getNom());
 		add(vueArbitres, Page.ARBITRES.getNom());
-		show("Accueil");
+		show(Page.ACCUEIL_ADMIN.getNom());
 	}
 
 	/**
@@ -46,5 +52,9 @@ public class ConteneurMain extends JPanel {
 	 */
 	public void show(String identifiant) {
 		cardLayout.show(this, identifiant);
+	}
+
+	public void refreshVue(String identifiant) {
+		this.lst_controlleurs.get(identifiant).update();
 	}
 }
