@@ -1,13 +1,11 @@
 package modele;
 
 import java.util.Set;
-import java.util.TreeSet;
 
-import exceptions.EquipeComplete;
-import exceptions.EquipeVide;
-import exceptions.ErreurJoueur;
-import exceptions.JoueurNonPresent;
-import exceptions.PointsNegatifs;
+import exceptions.EquipeCompleteException;
+import exceptions.EquipeVideException;
+import exceptions.JoueurNonPresentException;
+import exceptions.ExceptionPointsNegatifs;
 
 public class Equipe {
 

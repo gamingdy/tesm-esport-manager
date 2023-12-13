@@ -1,25 +1,21 @@
 package dao;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
-import modele.Categorie;
-import modele.Country;
-import modele.CustomDate;
 import modele.Niveau;
 
 public class DBInsertTest {
 
-    public static void main(String[] args) {
-        Connexion co = Connexion.getConnexion();
-        
-        try {
-        	Statement st = co.getConnection().createStatement();
-        	PreparedStatement ps;
+	public static void main(String[] args) {
+		Connexion co = Connexion.getConnexion();
+
+		try {
+
+			Statement st = co.getConnection().createStatement();
+			PreparedStatement ps;
+        	/*
         	for (int i=1;i<=10;i++) {
         		//table équipe
         		String nomEquipe = "Equipe"+i;
@@ -53,15 +49,15 @@ public class DBInsertTest {
         	}
         	
         	System.out.println("Insertion table Saison terminée avec succès");
-        	
-        	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.LOCAL.name()+"',"+Niveau.LOCAL.getCoefficient()+")");
-        	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.REGIONAL.name()+"',"+Niveau.REGIONAL.getCoefficient()+")");
-        	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.NATIONAL.name()+"',"+Niveau.NATIONAL.getCoefficient()+")");
-        	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.INTERNATIONAL.name()+"',"+Niveau.INTERNATIONAL.getCoefficient()+")");
-        	st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('"+Niveau.INTERNATIONAL_CLASSE.name()+"',"+Niveau.INTERNATIONAL_CLASSE.getCoefficient()+")");
-        	
-        	System.out.println("Insertion table Niveau terminée avec succès");
-        	
+        	*/
+			st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('" + Niveau.LOCAL.name() + "'," + Niveau.LOCAL.getCoefficient() + ")");
+			st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('" + Niveau.REGIONAL.name() + "'," + Niveau.REGIONAL.getCoefficient() + ")");
+			st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('" + Niveau.NATIONAL.name() + "'," + Niveau.NATIONAL.getCoefficient() + ")");
+			st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('" + Niveau.INTERNATIONAL.name() + "'," + Niveau.INTERNATIONAL.getCoefficient() + ")");
+			st.executeUpdate("INSERT INTO Niveau (Libelle_Niveau,Coefficient) values ('" + Niveau.INTERNATIONAL_CLASSE.name() + "'," + Niveau.INTERNATIONAL_CLASSE.getCoefficient() + ")");
+
+			System.out.println("Insertion table Niveau terminée avec succès");
+        	/*
         	for (int i = 1; i<=5; i++) {
         		int annee = 2002+i;
         		String nomTournoi = "Tournoi"+i;
@@ -171,11 +167,11 @@ public class DBInsertTest {
         	System.out.println("Toutes les insertions ont été réalisées avec succès");
         	
         	
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            co.stop();
-        }
-    }
+			*/
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			co.stop();
+		}
+	}
 }

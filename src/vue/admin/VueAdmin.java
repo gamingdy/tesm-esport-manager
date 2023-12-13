@@ -1,5 +1,8 @@
 package vue.admin;
 
+import controlleur.BoutonMenuControlleur;
+import controlleur.VueObserver;
+import vue.Page;
 import vue.admin.main.Main;
 import vue.admin.main.MenuNavBar;
 import vue.common.JPanelWithBackground;
@@ -31,7 +34,7 @@ public class VueAdmin extends JPanel {
 
 	public VueAdmin() {
 		setLayout(new BorderLayout());
-		
+
 		controlleur = new AdminControlleur(this);
 		navbar = new MenuNavBar();
 		main = new Main(navbar);
@@ -53,15 +56,15 @@ public class VueAdmin extends JPanel {
 	public void setPage(String identifiant) {
 		main.setPage(identifiant);
 	}
-	
+
 	public void addPage(JComponent c, String id) {
-		main.addPage(c,id);
+		main.addPage(c, id);
 	}
 
 
 	public void attachObserver(VueObserver obs) {
 		this.controlleurBoutons.attach(obs);
 	}
-	
-	
+
+
 }

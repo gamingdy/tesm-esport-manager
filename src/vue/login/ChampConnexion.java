@@ -2,21 +2,20 @@ package vue.login;
 
 import javax.swing.*;
 
-import controlleur.LoginControlleur;
-
 import java.awt.GridBagLayout;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import controlleur.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
 @SuppressWarnings("serial")
 public class ChampConnexion extends JPanel {
 	private JTextField textField;
-	public ChampConnexion(String libellé,boolean isPassword, LoginControlleur controleur) {
+
+	public ChampConnexion(String libellé, boolean isPassword, LoginControlleur controleur) {
 		setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
@@ -42,7 +41,7 @@ public class ChampConnexion extends JPanel {
 			textField = new JTextField();
 		}
 
-		textField.setFont(textField.getFont().deriveFont((float)MaFont.getFontLabelConnexion().getSize()));
+		textField.setFont(textField.getFont().deriveFont((float) MaFont.getFontLabelConnexion().getSize()));
 		textField.getDocument().addDocumentListener(controleur);
 		textField.addKeyListener(controleur);
 		GridBagConstraints gbc_textField = new GridBagConstraints();

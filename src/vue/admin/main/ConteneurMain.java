@@ -10,6 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 
+import controlleur.AccueilControlleur;
+import controlleur.ArbitresControlleur;
+import controlleur.ControlleurObserver;
+import vue.Page;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;
 import vue.admin.accueil.LigneTournoi;

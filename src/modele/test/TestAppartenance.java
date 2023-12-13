@@ -14,23 +14,24 @@ public class TestAppartenance {
 	private Equipe e1;
 	private CustomDate debut;
 	private CustomDate fin;
+
 	@Before
 	public void setUp() throws Exception {
 		e1 = new Equipe("Faze", Country.ALGERIE);
 		debut = new CustomDate(2022, 10, 10);
 		fin = new CustomDate(2022, 10, 22);
-		tournoi=new Tournoi(new Saison(2022),"RLCS",debut,fin,Niveau.INTERNATIONAL,new CompteArbitre("admin","dsdsd00"));
+		tournoi = new Tournoi(new Saison(2022), "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("admin", "dsdsd00"));
 		poule = new Poule(tournoi, 'A');
-		appartenance=new Appartenance(e1,poule);
+		appartenance = new Appartenance(e1, poule);
 	}
 
 	@Test
 	public void setGetEquipe() {
-		assertEquals(e1,appartenance.getEquipe());
+		assertEquals(e1, appartenance.getEquipe());
 	}
 
 	@Test
 	public void setGetPoule() {
-		assertEquals(poule,appartenance.getPoule());
+		assertEquals(poule, appartenance.getPoule());
 	}
 }
