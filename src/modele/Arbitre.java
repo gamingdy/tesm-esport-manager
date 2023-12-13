@@ -13,6 +13,9 @@ public class Arbitre implements Comparable<Arbitre> {
 	private String nom;
 	private String prenom;
 	
+	public Arbitre (String nom,String prenom) throws SQLException {
+		this(nom,prenom,new DaoArbitre(Connexion.getConnexion()).getLastId());
+	}
 
 	private Arbitre(String nom, String prenom, Integer id) {
 		this.nom = nom;
@@ -22,11 +25,6 @@ public class Arbitre implements Comparable<Arbitre> {
 		} else {
 			this.id = id+1;
 		}
-	}
-	
-	public static Arbitre createArbitre(String nom, String prenom) throws SQLException {
-		DaoArbitre daoarbitre = new DaoArbitre(Connexion.getConnexion());
-		return new Arbitre(nom,prenom,daoarbitre.getLastId());
 	}
 
 	public String getNom() {
