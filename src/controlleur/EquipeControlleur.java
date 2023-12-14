@@ -8,6 +8,7 @@ import modele.Pays;
 import modele.Equipe;
 
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
+import vue.common.JFramePopup;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -34,19 +35,30 @@ public class EquipeControlleur implements ActionListener, ControlleurObserver, I
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
-			System.out.println("Bouton Valider cliqué");
 			champNomEquipe = vue.getChampNomEquipe();
 			champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
 			if (Objects.equals(champNomEquipe, "")) {
-				JOptionPane.showMessageDialog(vue, "Un des champs est vide");
+				new JFramePopup("Erreur", "Un des champs est vide", () -> {
+					VueObserver.getInstance().notifyVue("Equipe");
+				});
 			} else if (EquipeDejaExistante(champNomEquipe)) {
-				JOptionPane.showMessageDialog(vue, "L'equipe existe deja");
+				new JFramePopup("Erreur", "L'equipe existe deja", () -> {
+					VueObserver.getInstance().notifyVue("Equipe");
+				});
 				this.vue.clearField();
 			} else {
 				Equipe equipeInserer = new Equipe(champNomEquipe, champPaysEquipe);
 				try {
 					daoEquipe.add(equipeInserer);
+					new JFramePopup("Succès", "L'équipe est insérée", () -> {
+						VueObserver.getInstance().notifyVue("Equipe");
+					});
+					this.vue.clearField();
+
 				} catch (Exception ex) {
+					new JFramePopup("Erreur", "Erreur d'insertion", () -> {
+						VueObserver.getInstance().notifyVue("Equipe");
+					});
 					throw new RuntimeException(ex);
 				}
 			}
