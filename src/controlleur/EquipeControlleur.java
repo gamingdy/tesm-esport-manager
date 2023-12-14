@@ -73,8 +73,8 @@ public class EquipeControlleur implements ActionListener, ControlleurObserver, I
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-			String item = e.getItem().toString();
-			vue.setDrapeau(Objects.requireNonNull(Pays.trouverPaysParNom(item)).getCode());
+			Pays item = (Pays) e.getItem();
+			vue.setDrapeau(item.getCode());
 		}
 	}
 }
