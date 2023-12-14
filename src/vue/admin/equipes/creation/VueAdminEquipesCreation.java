@@ -213,6 +213,7 @@ public class VueAdminEquipesCreation extends JPanel {
 	public void setControleur(EquipeControlleur controleur) {
 		this.comboboxPays.addItemListener(controleur);
 		this.boutonValider.addActionListener(controleur);
+		this.boutonAnnuler.addActionListener(controleur);
 	}
 
 

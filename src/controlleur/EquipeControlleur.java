@@ -33,11 +33,11 @@ public class EquipeControlleur implements ActionListener, ControlleurObserver, I
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
-		if (Objects.equals(bouton.getText(), "Ajout")) {
+		if (Objects.equals(bouton.getText(), "Ajouter")) {
 			System.out.println("Bouton Valider cliqué");
 			champNomEquipe = vue.getChampNomEquipe();
-			champPaysEquipe = Pays.valueOf(vue.getChampPaysEquipe());
-			if (champNomEquipe == "" || champPaysEquipe.getNom() == "") {
+			champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
+			if (Objects.equals(champNomEquipe, "")) {
 				JOptionPane.showMessageDialog(vue, "Un des champs est vide");
 			} else if (EquipeDejaExistante(champNomEquipe)) {
 				JOptionPane.showMessageDialog(vue, "L'equipe existe deja");
@@ -56,10 +56,13 @@ public class EquipeControlleur implements ActionListener, ControlleurObserver, I
 	private boolean EquipeDejaExistante(String nomEquipe) {
 		try {
 			Equipe equipe = daoEquipe.getById(nomEquipe);
-		} catch (Exception e) {
+			if (equipe != null) {
+				return true;
+			}
+		} catch (Exception ignored) {
 
 		}
-		return true;
+		return false;
 	}
 
 	@Override
