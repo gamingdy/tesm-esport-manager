@@ -13,7 +13,7 @@ import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
 
 enum ETAT {
-	ACCUEIL, ARBITRES
+	ACCUEIL, ARBITRES, EQUIPES
 }
 
 public class BoutonMenuControlleur implements ActionListener, MouseListener {
@@ -59,6 +59,7 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 				this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
 			} else if (boutonSelectionné.getText() == BoutonNavBar.EQUIPES.getNom()) {
 				this.vue.setPage(Page.EQUIPES.getNom());
+				this.etat = ETAT.EQUIPES;
 			}
 		}
 	}

@@ -5,14 +5,10 @@ import java.awt.CardLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import controlleur.AdminEquipesControlleurs;
-import controlleur.ControlleurObserver;
-
 public class VueAdminEquipes extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private AdminEquipesControlleurs controlleur;
 	private CardLayout cl;
 
 	/**
@@ -22,7 +18,6 @@ public class VueAdminEquipes extends JPanel {
 		cl = new CardLayout();
 		setLayout(cl);
 		setOpaque(false);
-		controlleur = new AdminEquipesControlleurs(this);
 	}
 
 	public void addPage(JComponent c, String id) {

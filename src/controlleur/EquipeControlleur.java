@@ -21,7 +21,6 @@ public class EquipeControlleur implements ActionListener, ControlleurObserver, I
 	private DaoJoueur daoJoueur;
 	private String champNomEquipe;
 	private Pays champPaysEquipe;
-	private String codeImage;
 
 	public EquipeControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
