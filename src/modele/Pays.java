@@ -216,4 +216,13 @@ public enum Pays {
 	public String getCode() {
 		return code;
 	}
+
+	public static Pays trouverPaysParNom(String nom) {
+		for (Pays pays : values()) {
+			if (pays.getNom().equalsIgnoreCase(nom)) {
+				return pays;
+			}
+		}
+		return null; // Si aucun pays n'est trouvé
+	}
 }
