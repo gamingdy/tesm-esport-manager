@@ -3,7 +3,7 @@ package controlleur;
 import vue.Vue;
 
 public class VueObserver {
-	private VueControlleur vueControleur;
+	private VueControlleur vueControlleur;
 	private static VueObserver instance;
 
 	private VueObserver() {
@@ -18,10 +18,10 @@ public class VueObserver {
 	}
 
 	public void setVue(VueControlleur vue) {
-		this.vueControleur = vue;
+		this.vueControlleur = vue;
 	}
 
 	public void notifyVue(String page) {
-		vueControleur.update(page);
+		vueControlleur.update(page);
 	}
 }

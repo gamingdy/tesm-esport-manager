@@ -15,49 +15,37 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class EquipeControlleur implements ActionListener, ControlleurObserver, ItemListener {
-	private VueAdminEquipesCreation vue;
-	private DaoEquipe daoEquipe;
-	private DaoSaison daoSaison;
-	private DaoJoueur daoJoueur;
-	private String champNomEquipe;
-	private Pays champPaysEquipe;
+	private final VueAdminEquipesCreation vue;
+	private final DaoEquipe daoEquipe;
 
 	public EquipeControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
 		Connexion c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);
-		daoSaison = new DaoSaison(c);
-		daoJoueur = new DaoJoueur(c);
+		DaoSaison daoSaison = new DaoSaison(c);
+		DaoJoueur daoJoueur = new DaoJoueur(c);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
-			champNomEquipe = vue.getChampNomEquipe();
-			champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
+			String champNomEquipe = vue.getChampNomEquipe();
+			Pays champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
 			if (Objects.equals(champNomEquipe, "")) {
-				new JFramePopup("Erreur", "Un des champs est vide", () -> {
-					VueObserver.getInstance().notifyVue("Equipe");
-				});
+				new JFramePopup("Erreur", "Un des champs est vide", () -> VueObserver.getInstance().notifyVue("Equipe"));
 			} else if (EquipeDejaExistante(champNomEquipe)) {
-				new JFramePopup("Erreur", "L'equipe existe deja", () -> {
-					VueObserver.getInstance().notifyVue("Equipe");
-				});
+				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
 				this.vue.clearField();
 			} else {
 				Equipe equipeInserer = new Equipe(champNomEquipe, champPaysEquipe);
 				try {
 					daoEquipe.add(equipeInserer);
-					new JFramePopup("Succès", "L'équipe est insérée", () -> {
-						VueObserver.getInstance().notifyVue("Equipe");
-					});
+					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue("Equipe"));
 					this.vue.clearField();
 
 				} catch (Exception ex) {
-					new JFramePopup("Erreur", "Erreur d'insertion", () -> {
-						VueObserver.getInstance().notifyVue("Equipe");
-					});
+					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue("Equipe"));
 					throw new RuntimeException(ex);
 				}
 			}

@@ -12,12 +12,10 @@ import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.LigneMatche;
 
-@SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
 
-	private CardLayout cardLayout;
-	private VueAccueil vueAccueil;
-	private PageTestArbitre vueArbitres;
+	private final CardLayout cardLayout;
+	private final VueAccueil vueAccueil;
 
 
 	public ConteneurMain() {
@@ -25,7 +23,7 @@ public class ConteneurMain extends JPanel {
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
 		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
-		vueArbitres = new PageTestArbitre();
+		PageTestArbitre vueArbitres = new PageTestArbitre();
 		add(vueAccueil, Page.ACCUEIL_ADMIN.getNom());
 		add(vueArbitres, Page.ARBITRES.getNom());
 		show(Page.ACCUEIL_ADMIN.getNom());

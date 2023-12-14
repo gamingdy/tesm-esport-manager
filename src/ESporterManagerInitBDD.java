@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 public class ESporterManagerInitBDD {
 	public static void main(String[] args) throws Exception {
@@ -34,7 +35,7 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		CustomDate debutTournoi = new CustomDate(2023, 12, 01);
+		CustomDate debutTournoi = new CustomDate(2023, 12, 1);
 		CustomDate fin = new CustomDate(2023, 12, 30);
 		Tournoi tournoi = new Tournoi(saison, "RLCS", debutTournoi, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
 		try {
@@ -42,8 +43,12 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+		Optional<Tournoi> tournoiOptional = daoTournoi.getTournoiActuel();
 
-		tournoi = daoTournoi.getTournoiActuel().get();
+		if (tournoiOptional.isPresent()) {
+			tournoi = tournoiOptional.get();
+		}
+
 		Poule poule = new Poule(tournoi, 'A');
 
 		CustomDate debut = new CustomDate(2023, 12, 5);
@@ -108,14 +113,13 @@ public class ESporterManagerInitBDD {
 	}
 
 	private static String randomUsername(String name) {
-		String str = name;
-		List<String> characters = Arrays.asList(str.split(""));
+		List<String> characters = Arrays.asList(name.split(""));
 		Collections.shuffle(characters);
-		String afterShuffle = "";
+		StringBuilder afterShuffle = new StringBuilder();
 		for (String character : characters) {
-			afterShuffle += character;
+			afterShuffle.append(character);
 		}
-		return afterShuffle;
+		return afterShuffle.toString();
 	}
 
 	private static void initEquipe(Equipe equipe) {

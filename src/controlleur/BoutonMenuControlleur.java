@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Objects;
 
 import vue.BoutonNavBar;
 import vue.Page;
@@ -17,12 +18,10 @@ enum ETAT {
 }
 
 public class BoutonMenuControlleur implements ActionListener, MouseListener {
-	private VueAdmin vue;
+	private final VueAdmin vue;
 	private ETAT etat;
 	MenuNavBar navbar;
 	private VueObserver obs;
-
-	private AccueilControlleur accueil;
 
 	public BoutonMenuControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;
@@ -44,20 +43,17 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() instanceof BoutonMenu) {
 			navbar.selectionner((BoutonMenu) e.getSource());
-			BoutonMenu boutonSelectionné = (BoutonMenu) e.getSource();
-			if (boutonSelectionné.getText() == BoutonNavBar.ARBITRES.getNom() && etat != ETAT.ARBITRES) {
+			BoutonMenu boutonSelection = (BoutonMenu) e.getSource();
+			if (Objects.equals(boutonSelection.getText(), BoutonNavBar.ARBITRES.getNom()) && etat != ETAT.ARBITRES) {
 				etat = ETAT.ARBITRES;
 				this.vue.setPage(Page.ARBITRES.getNom());
-			} else if (boutonSelectionné.getText() == BoutonNavBar.DECONNEXION.getNom()) {
-				new JFramePopup("Deconnexion", "Etes vous sur de vous deconnecter ?", () -> {
-					VueObserver.getInstance().notifyVue("Login");
-				});
-				;
+			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.DECONNEXION.getNom())) {
+				new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> VueObserver.getInstance().notifyVue("Login"));
 
-			} else if ((boutonSelectionné.getText() == BoutonNavBar.ACCUEIL.getNom()) && etat != ETAT.ACCUEIL) {
+			} else if ((Objects.equals(boutonSelection.getText(), BoutonNavBar.ACCUEIL.getNom())) && etat != ETAT.ACCUEIL) {
 				etat = ETAT.ACCUEIL;
 				this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
-			} else if (boutonSelectionné.getText() == BoutonNavBar.EQUIPES.getNom()) {
+			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.EQUIPES.getNom())) {
 				this.vue.setPage(Page.EQUIPES.getNom());
 				this.etat = ETAT.EQUIPES;
 			}
@@ -90,9 +86,6 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		}
 	}
 
-	ETAT getEtat() {
-		return this.etat;
-	}
 
 	public void attach(VueObserver obs) {
 		this.obs = obs;
