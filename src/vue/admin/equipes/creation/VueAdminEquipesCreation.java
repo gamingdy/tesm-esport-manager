@@ -189,20 +189,20 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcPanelBot.gridx = 0;
 		gbcPanelBot.gridy = 1;
 		add(panelBot, gbcPanelBot);
-		
-		
+
+
 		panelBot.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 		((FlowLayout) panelBot.getLayout()).setHgap(150);
-		
+
 		boutonAnnuler = new JButton("Annuler");
 		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());
-		boutonAnnuler.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS.darker(), 3), BorderFactory.createEmptyBorder(10,40,10,40)));
+		boutonAnnuler.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS.darker(), 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonAnnuler.setForeground(CustomColor.BLANC.darker());
 		panelBot.add(boutonAnnuler);
-		
+
 		boutonValider = new JButton("Ajouter");
 		boutonValider.setBackground(CustomColor.BACKGROUND_MENU.brighter());
-		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10,40,10,40)));
+		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
 
@@ -211,8 +211,8 @@ public class VueAdminEquipesCreation extends JPanel {
 
 	// setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
 	public void setControleur(EquipeControlleur controleur) {
-		this.comboboxPays.addMouseListener(controleur);
-		this.boutonValider.addMouseListener(controleur);
+		this.comboboxPays.addItemListener(controleur);
+		this.boutonValider.addActionListener(controleur);
 	}
 
 

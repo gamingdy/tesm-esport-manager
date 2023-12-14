@@ -10,13 +10,10 @@ import modele.Equipe;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Objects;
 
-public class EquipeControlleur implements MouseListener, ControlleurObserver {
+public class EquipeControlleur implements ActionListener, ControlleurObserver, ItemListener {
 	private VueAdminEquipesCreation vue;
 	private DaoEquipe daoEquipe;
 	private DaoSaison daoSaison;
@@ -34,33 +31,26 @@ public class EquipeControlleur implements MouseListener, ControlleurObserver {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		System.out.println("ja cliqué");
-		if (e.getSource() == vue.getComboboxPays()) {
-			System.out.println("Pays changé");
-			vue.setDrapeau(Pays.valueOf(vue.getChampPaysEquipe().toUpperCase()).getCode());
-		} else {
-			JButton bouton = (JButton) e.getSource();
-			if (Objects.equals(bouton.getText(), "Ajout")) {
-				System.out.println("Bouton Valider cliqué");
-				champNomEquipe = vue.getChampNomEquipe();
-				champPaysEquipe = Pays.valueOf(vue.getChampPaysEquipe());
-				if (champNomEquipe == "" || champPaysEquipe.getNom() == "") {
-					JOptionPane.showMessageDialog(vue, "Un des champs est vide");
-				} else if (EquipeDejaExistante(champNomEquipe)) {
-					JOptionPane.showMessageDialog(vue, "L'equipe existe deja");
-					this.vue.clearField();
-				} else {
-					Equipe equipeInserer = new Equipe(champNomEquipe, champPaysEquipe);
-					try {
-						daoEquipe.add(equipeInserer);
-					} catch (Exception ex) {
-						throw new RuntimeException(ex);
-					}
+	public void actionPerformed(ActionEvent e) {
+		JButton bouton = (JButton) e.getSource();
+		if (Objects.equals(bouton.getText(), "Ajout")) {
+			System.out.println("Bouton Valider cliqué");
+			champNomEquipe = vue.getChampNomEquipe();
+			champPaysEquipe = Pays.valueOf(vue.getChampPaysEquipe());
+			if (champNomEquipe == "" || champPaysEquipe.getNom() == "") {
+				JOptionPane.showMessageDialog(vue, "Un des champs est vide");
+			} else if (EquipeDejaExistante(champNomEquipe)) {
+				JOptionPane.showMessageDialog(vue, "L'equipe existe deja");
+				this.vue.clearField();
+			} else {
+				Equipe equipeInserer = new Equipe(champNomEquipe, champPaysEquipe);
+				try {
+					daoEquipe.add(equipeInserer);
+				} catch (Exception ex) {
+					throw new RuntimeException(ex);
 				}
 			}
 		}
-
 	}
 
 	private boolean EquipeDejaExistante(String nomEquipe) {
@@ -79,22 +69,10 @@ public class EquipeControlleur implements MouseListener, ControlleurObserver {
 
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			String item = e.getItem().toString();
+			vue.setDrapeau(Objects.requireNonNull(Pays.trouverPaysParNom(item)).getCode());
+		}
 	}
 }
