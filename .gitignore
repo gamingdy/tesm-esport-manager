@@ -6,7 +6,7 @@ TESM/
 derby.log
 .classpath
 .project
-
+assets/logo-equipes/
 *.iml
 *.jar
 *.json
