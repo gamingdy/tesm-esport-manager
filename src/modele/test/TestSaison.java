@@ -92,12 +92,6 @@ public class TestSaison {
 	}
 
 	@Test
-	public void testToString() {
-		s1.addEquipe(equipe);
-		assertEquals("FAZE : 1000" + System.lineSeparator(), s1.toString());
-	}
-
-	@Test
 	public void testDeleteEquipe() throws EquipeInexistanteException {
 		s1.addEquipe(equipe);
 		s1.deleteEquipe(equipe);

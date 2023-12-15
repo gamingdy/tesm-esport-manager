@@ -10,6 +10,7 @@ import vue.BoutonNavBar;
 import vue.Page;
 import vue.admin.VueAdmin;
 import vue.admin.accueil.VueAccueil;
+import vue.admin.arbitres.VueArbitres;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
@@ -30,7 +31,8 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		this.vue = vue;
 		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
 		vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
-		vue.setPage(Page.EQUIPES);
+		vue.addPage(new VueArbitres(),Page.ARBITRES);
+		vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
 	@Override
