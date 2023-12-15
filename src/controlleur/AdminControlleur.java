@@ -27,7 +27,8 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
-		vue.addPage(new VueAdminEquipes(), Page.EQUIPES.getNom());
+		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
+		vue.setPage(Page.EQUIPES);
 	}
 
 	@Override
@@ -44,17 +45,17 @@ public class AdminControlleur implements ActionListener, MouseListener {
 			navbar.selectionner((BoutonMenu) e.getSource());
 			BoutonMenu boutonSelection = (BoutonMenu) e.getSource();
 			if (Objects.equals(boutonSelection.getText(), BoutonNavBar.ARBITRES.getNom()) && etat != ETAT.ARBITRES) {
-				etat = ETAT.ARBITRES;
-				this.vue.setPage(Page.ARBITRES.getNom());
+				this.etat = ETAT.ARBITRES;
+				this.vue.setPage(Page.ARBITRES);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.DECONNEXION.getNom())) {
 				new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> VueObserver.getInstance().notifyVue("Login"));
 
 			} else if ((Objects.equals(boutonSelection.getText(), BoutonNavBar.ACCUEIL.getNom())) && etat != ETAT.ACCUEIL) {
-				etat = ETAT.ACCUEIL;
-				this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
+				this.etat = ETAT.ACCUEIL;
+				this.vue.setPage(Page.ACCUEIL_ADMIN);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.EQUIPES.getNom())) {
-				this.vue.setPage(Page.EQUIPES.getNom());
 				this.etat = ETAT.EQUIPES;
+				this.vue.setPage(Page.EQUIPES);
 			}
 		}
 	}

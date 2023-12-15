@@ -1,7 +1,11 @@
 package vue.admin.main;
 
 import java.awt.CardLayout;
+import java.awt.Component;
+
 import javax.swing.*;
+
+import vue.Page;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
@@ -18,9 +22,13 @@ public class ConteneurMain extends JPanel {
 	/**
 	 * Choisit la page à afficher
 	 *
-	 * @param identifiant de la page à afficher
+	 * @param equipes de la page à afficher
 	 */
-	public void show(String identifiant) {
-		cardLayout.show(this, identifiant);
+	public void show(Page equipes) {
+		cardLayout.show(this, equipes.name());
+	}
+	
+	public void addPage(Component page, Page id) {
+		add(page,id.name());
 	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import vue.Page;
 import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.JPanelWithBackground;
@@ -89,10 +90,10 @@ public class Main extends JPanel {
 	/**
 	 * Change la page de contenue du main
 	 *
-	 * @param identifiant l'identifiant
+	 * @param equipes l'identifiant
 	 */
-	public void setPage(String identifiant) {
-		panelMain.show(identifiant);
+	public void setPage(Page equipes) {
+		panelMain.show(equipes);
 	}
 	
 	/**
@@ -100,7 +101,7 @@ public class Main extends JPanel {
 	 * @param c le composant à ajouter
 	 * @param id son identifiant
 	 */
-	public void addPage(JComponent c, String id) {
-		panelMain.add(c,id);
+	public void addPage(JComponent c, Page id) {
+		panelMain.add(c,id.name());
 	}
 }

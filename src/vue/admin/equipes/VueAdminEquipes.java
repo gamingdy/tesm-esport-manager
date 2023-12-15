@@ -5,6 +5,8 @@ import java.awt.CardLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import vue.Page;
+
 public class VueAdminEquipes extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -20,12 +22,12 @@ public class VueAdminEquipes extends JPanel {
 		setOpaque(false);
 	}
 
-	public void addPage(JComponent c, String id) {
-		this.add(c, id);
+	public void addPage(JComponent c, Page id) {
+		this.add(c, id.name());
 	}
 
-	public void setPage(String id) {
-		cl.show(this, id);
+	public void setPage(Page equipesListe) {
+		cl.show(this, equipesListe.name());
 	}
 
 

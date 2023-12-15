@@ -29,28 +29,28 @@ public class VueAdmin extends JPanel {
 		main.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		main.setOpaque(false);
 		add(main, BorderLayout.CENTER);
-		setPage(Page.ACCUEIL_ADMIN.getNom());
+		setPage(Page.ACCUEIL_ADMIN);
 	}
 
 
 	/**
 	 * Change la page de contenue du main
 	 *
-	 * @param identifiant l'identifiant
+	 * @param equipes l'identifiant
 	 */
-	public void setPage(String identifiant) {
-		main.setPage(identifiant);
-		TitleBar.getInstance().setTitle(identifiant);
+	public void setPage(Page equipes) {
+		main.setPage(equipes);
+		TitleBar.getInstance().setTitle(equipes.getNom());
 	}
 	
 	
 	/**
 	 * Ajoute une page pour l'admin (par exemple VueAdminEquipes MAIS PAS VueAdminEquipesCreation qui sera ajoutée dans VueAdminEquipes)
 	 * @param c la page à ajouter (VueAdmin...)
-	 * @param id le nom de la page
+	 * @param equipes le nom de la page
 	 */
-	public void addPage(JComponent c, String id) {
-		main.addPage(c, id);
+	public void addPage(JComponent c, Page equipes) {
+		main.addPage(c, equipes);
 	}
 
 
