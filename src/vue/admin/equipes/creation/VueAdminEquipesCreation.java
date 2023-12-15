@@ -97,18 +97,17 @@ public class VueAdminEquipesCreation extends JPanel {
 		Arrays.stream(Pays.values()).forEach(p -> model.addElement(p));
 		comboboxPays = new JComboBox<Pays>(model);
 		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
-		@Override
-		public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
-				boolean isSelected, boolean cellHasFocus) {
-			JLabel panel = new JLabel();
-			if (value != null) {
-				panel.setText(value.getNom());
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
+														  boolean isSelected, boolean cellHasFocus) {
+				JLabel panel = new JLabel();
+				if (value != null) {
+					panel.setText(value.getNom());
+				} else {
+					panel.setText("Choissez le pays de l'équipe");
+				}
+				return panel;
 			}
-			else {
-				panel.setText("Choissez le pays de l'équipe");
-			}
-			return panel;
-		}
 		});
 		champPays.add(comboboxPays);
 
@@ -242,7 +241,7 @@ public class VueAdminEquipesCreation extends JPanel {
 	}
 
 	public void setDrapeau(String code) {
-		ImageIcon img = new ImageIcon("assets/country-flags/" + code + ".png");
+		ImageIcon img = new ImageIcon("assets/country-flags/png1000px/" + code + ".png");
 		Image newimg = img.getImage().getScaledInstance(350, 200, java.awt.Image.SCALE_SMOOTH);
 		labelDrapeau.setIcon(new ImageIcon(newimg));
 	}
