@@ -9,6 +9,7 @@ import java.util.Objects;
 import vue.BoutonNavBar;
 import vue.Page;
 import vue.admin.VueAdmin;
+import vue.admin.accueil.VueAccueil;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
@@ -28,6 +29,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
 		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
+		vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
 		vue.setPage(Page.EQUIPES);
 	}
 

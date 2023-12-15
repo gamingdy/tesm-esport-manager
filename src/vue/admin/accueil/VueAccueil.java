@@ -202,6 +202,10 @@ public class VueAccueil extends JPanel {
 		panelMatchs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 	}
 
+	public VueAccueil() {
+		this( new DefaultListModel<LigneEquipe>() , new DefaultListModel<LigneTournoi>() , new DefaultListModel<LigneMatche>());
+	}
+
 	public void setListeEquipes(DefaultListModel<LigneEquipe> equipes) {
 		this.listeEquipes.setModel(equipes);
 	}

@@ -1,9 +1,12 @@
 package vue.admin.equipes;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import controlleur.EquipesControlleur;
 
 import vue.Page;
 
@@ -20,14 +23,15 @@ public class VueAdminEquipes extends JPanel {
 		cl = new CardLayout();
 		setLayout(cl);
 		setOpaque(false);
+		EquipesControlleur controlleur = new EquipesControlleur(this);
 	}
 
-	public void addPage(JComponent c, Page id) {
+	public void addPage(Component c, Page id) {
 		this.add(c, id.name());
 	}
 
-	public void setPage(Page equipesListe) {
-		cl.show(this, equipesListe.name());
+	public void setPage(Page id) {
+		cl.show(this, id.name());
 	}
 
 

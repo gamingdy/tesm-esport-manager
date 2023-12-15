@@ -35,7 +35,7 @@ public class EquipesControlleur implements ControlleurObserver {
 		
 		vue.addPage(new VueAdminEquipesCreation(), Page.EQUIPES_CREATION);
 		vue.addPage(new VueAdminEquipesListe(), Page.EQUIPES_LISTE);
-		vue.setPage(Page.EQUIPES_LISTE);
+		vue.setPage(Page.EQUIPES_CREATION);
 	}
 
 	@Override
