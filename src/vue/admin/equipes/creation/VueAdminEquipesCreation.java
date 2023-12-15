@@ -109,7 +109,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelChamps.add(champPays);
 		panelTop.add(panelChamps);
 
-		JLabel labelDrapeau = new JLabel(new ImageIcon("assets/country-flags/fr.png"));
+		labelDrapeau = new JLabel(new ImageIcon("assets/country-flags/fr.png"));
 		labelDrapeau.setOpaque(true);
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
