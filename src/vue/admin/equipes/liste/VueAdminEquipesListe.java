@@ -22,6 +22,7 @@ public class VueAdminEquipesListe extends JPanel {
 
 	public VueAdminEquipesListe() {
 
+		setOpaque(false);
 		setLayout(new GridBagLayout());
 		
 		DefaultListModel<CaseEquipe> model = new DefaultListModel<CaseEquipe>();
