@@ -110,19 +110,14 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelChamps.add(champPays);
 		panelTop.add(panelChamps);
 
-		//panel pour centrer le drapeau
-		JPanel panelDrapeau = new JPanel();
-		panelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
-		panelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
-		labelDrapeau = new JLabel("");
+		labelDrapeau = new JLabel(new ImageIcon("assets/country-flags/fr.png"));
 		labelDrapeau.setOpaque(true);
-		labelDrapeau.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		labelDrapeau.setBackground(CustomColor.BACKGROUND_TEST);
-		labelDrapeau.setIcon(new ImageIcon("assets/country-flags/fr.png"));
+		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
+		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
+		labelDrapeau.setForeground(CustomColor.BLANC);
 		labelDrapeau.setHorizontalAlignment(JLabel.CENTER);
 		labelDrapeau.setVerticalAlignment(JLabel.CENTER);
-		panelDrapeau.add(labelDrapeau);
-		panelTop.add(panelDrapeau);
+		panelTop.add(labelDrapeau);
 
 		JPanel panelJoueurs = new JPanel();
 		panelJoueurs.setBackground(CustomColor.BACKGROUND_MAIN);
