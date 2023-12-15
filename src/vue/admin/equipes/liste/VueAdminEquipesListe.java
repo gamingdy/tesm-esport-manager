@@ -45,9 +45,11 @@ public class VueAdminEquipesListe extends JPanel {
 		
 		JScrollPane sp = new JScrollPane(list);
 		GridBagConstraints gbcSp = new GridBagConstraints();
+		gbcSp.fill = GridBagConstraints.BOTH;
 		gbcSp.gridx = 0;
 		gbcSp.gridy = 0;
-		
+		gbcSp.weightx = 1;
+		gbcSp.weighty = 0.8F;
 		add(sp,gbcSp);
 		
 		JButton boutonValider = new JButton("Ajouter");
@@ -58,8 +60,9 @@ public class VueAdminEquipesListe extends JPanel {
 		gbcBtnAjt.fill= GridBagConstraints.NONE;
 		gbcBtnAjt.gridx = 0;
 		gbcBtnAjt.gridy = 1;
-		gbcBtnAjt.weighty = 0.2;
-		add(boutonValider);
+		gbcBtnAjt.weightx = 1;
+		gbcBtnAjt.weighty = 0.2F;
+		add(boutonValider,gbcBtnAjt);
 
 	}
 
