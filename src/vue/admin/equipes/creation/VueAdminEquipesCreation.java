@@ -15,6 +15,7 @@ import vue.common.MaFont;
 
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.Arrays;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -94,17 +95,24 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelPays.setForeground(CustomColor.BLANC);
 		labelPays.setFont(MaFont.getFontTitre2());
 		champPays.add(labelPays);
-		DefaultComboBoxModel<Pays> model = new DefaultComboBoxModel<Pays>(Pays.values());
+		DefaultComboBoxModel<Pays> model = new DefaultComboBoxModel<Pays>();
+		model.addElement(null);
+		Arrays.stream(Pays.values()).forEach(p -> model.addElement(p));
 		comboboxPays = new JComboBox<Pays>(model);
-		//Pour render les cells mais pas nécessaire si juste le texte
-//		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
-//		@Override
-//		public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
-//				boolean isSelected, boolean cellHasFocus) {
-//			JLabel panel = new JLabel(value.getNom());
-//			return panel;
-//		}
-//		});
+		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
+		@Override
+		public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			JLabel panel = new JLabel();
+			if (value != null) {
+				panel.setText(value.getNom());
+			}
+			else {
+				panel.setText("Choissez le pays de l'équipe");
+			}
+			return panel;
+		}
+		});
 		champPays.add(comboboxPays);
 
 		panelChamps.add(champNom);
