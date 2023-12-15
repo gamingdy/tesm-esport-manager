@@ -55,7 +55,7 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 					new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue("Equipe"));
 				}
 
-			} else if (EquipeDejaExistante(nomEquipe)) {
+			} else if (equipeDejaExistante(nomEquipe)) {
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
 				this.vue.clearField();
 			} else {
@@ -75,16 +75,14 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		}
 	}
 
-	private boolean EquipeDejaExistante(String nomEquipe) {
+	private boolean equipeDejaExistante(String nomEquipe) {
 		try {
 			Equipe equipe = daoEquipe.getById(nomEquipe);
-			if (equipe != null) {
-				return true;
-			}
+			return equipe != null;
 		} catch (Exception ignored) {
-
+			return false;
 		}
-		return false;
+
 	}
 
 	@Override
