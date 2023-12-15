@@ -14,6 +14,7 @@ import vue.common.CustomColor;
 import vue.common.MaFont;
 
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
@@ -110,7 +111,9 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelChamps.add(champPays);
 		panelTop.add(panelChamps);
 
-		labelDrapeau = new JLabel(new ImageIcon("assets/country-flags/fr.png"));
+		labelDrapeau = new JLabel();
+		ImageIcon drapeau = new ImageIcon("assets/country-flags/earth.png");
+		labelDrapeau.setIcon(new ImageIcon(drapeau.getImage().getScaledInstance(15*200/10,200, Image.SCALE_SMOOTH)));
 		labelDrapeau.setOpaque(true);
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
