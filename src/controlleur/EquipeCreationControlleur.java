@@ -14,11 +14,11 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-public class CreationEquipeControlleur implements ActionListener, ControlleurObserver, ItemListener {
+public class EquipeCreationControlleur implements ActionListener, ControlleurObserver, ItemListener {
 	private final VueAdminEquipesCreation vue;
 	private final DaoEquipe daoEquipe;
 
-	public CreationEquipeControlleur(VueAdminEquipesCreation newVue) {
+	public EquipeCreationControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
 		Connexion c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);
@@ -30,15 +30,15 @@ public class CreationEquipeControlleur implements ActionListener, ControlleurObs
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
-			String champNomEquipe = vue.getChampNomEquipe();
+			String nomEquipe = vue.getNomEquipe();
 			Pays champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
-			if (Objects.equals(champNomEquipe, "")) {
+			if (nomEquipe == "") {
 				new JFramePopup("Erreur", "Un des champs est vide", () -> VueObserver.getInstance().notifyVue("Equipe"));
-			} else if (EquipeDejaExistante(champNomEquipe)) {
+			} else if (EquipeDejaExistante(nomEquipe)) {
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
 				this.vue.clearField();
 			} else {
-				Equipe equipeInserer = new Equipe(champNomEquipe, champPaysEquipe);
+				Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
 				try {
 					daoEquipe.add(equipeInserer);
 					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue("Equipe"));

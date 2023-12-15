@@ -1,6 +1,5 @@
 package vue.admin.arbitres;
 
-import controlleur.BoutonMenuControlleur;
 import controlleur.VueObserver;
 import vue.common.CustomColor;
 import vue.common.MaFont;

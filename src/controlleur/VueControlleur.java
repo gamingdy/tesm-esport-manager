@@ -17,7 +17,6 @@ public class VueControlleur {
 		VueLogin vueLogin = new VueLogin();
 		VueAdmin vueAdmin = new VueAdmin();
 		vueLogin.attachObserver(this.observer);
-		vueAdmin.attachObserver(this.observer);
 		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
 		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
 		this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());

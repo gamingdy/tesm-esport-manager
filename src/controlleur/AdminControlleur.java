@@ -8,26 +8,26 @@ import java.util.Objects;
 
 import vue.BoutonNavBar;
 import vue.Page;
-import vue.common.JFramePopup;
 import vue.admin.VueAdmin;
+import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
+import vue.common.JFramePopup;
 
 enum ETAT {
 	ACCUEIL, ARBITRES, EQUIPES
 }
 
-public class BoutonMenuControlleur implements ActionListener, MouseListener {
+public class AdminControlleur implements ActionListener, MouseListener {
 	private final VueAdmin vue;
 	private ETAT etat;
 	MenuNavBar navbar;
-	private VueObserver obs;
 
-	public BoutonMenuControlleur(MenuNavBar navbar, VueAdmin vue) {
+	public AdminControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
-		this.obs = VueObserver.getInstance();
+		vue.addPage(new VueAdminEquipes(), Page.EQUIPES.getNom());
 	}
 
 	@Override
@@ -40,7 +40,6 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() instanceof BoutonMenu) {
 			navbar.selectionner((BoutonMenu) e.getSource());
 			BoutonMenu boutonSelection = (BoutonMenu) e.getSource();
@@ -84,10 +83,5 @@ public class BoutonMenuControlleur implements ActionListener, MouseListener {
 		if (e.getSource() instanceof BoutonMenu) {
 			((BoutonMenu) e.getSource()).finSurvoller();
 		}
-	}
-
-
-	public void attach(VueObserver obs) {
-		this.obs = obs;
 	}
 }

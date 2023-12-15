@@ -92,9 +92,7 @@ public class Main extends JPanel {
 	 * @param identifiant l'identifiant
 	 */
 	public void setPage(String identifiant) {
-		panelMain.refreshVue(identifiant);
 		panelMain.show(identifiant);
-
 	}
 	
 	/**

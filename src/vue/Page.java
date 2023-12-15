@@ -5,6 +5,7 @@ public enum Page {
 	ARBITRES("Arbitres"),
 	TOURNOIS("Tournois"),
 	EQUIPES("Equipes"),
+	EQUIPES_CREATION("Equipes Creation"),
 	SAISON_PRECEDENTES("Saisons precedentes"),
 	ACCUEIL_ADMIN("Admin-Accueil");
 

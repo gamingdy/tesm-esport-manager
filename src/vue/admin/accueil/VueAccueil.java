@@ -4,37 +4,16 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Rectangle;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JSlider;
 import javax.swing.ListModel;
-
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import javax.swing.SpringLayout;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import controlleur.BoutonMenuControlleur;
-import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 import vue.common.CustomScrollBarUI;
@@ -51,7 +30,6 @@ public class VueAccueil extends JPanel {
 	private JList<LigneTournoi> listeTournois;
 
 	private JList<LigneEquipe> listeEquipes;
-	private BoutonMenuControlleur controlleur;
 
 	/**
 	 * Create the panel.
@@ -62,7 +40,7 @@ public class VueAccueil extends JPanel {
 	 */
 	public VueAccueil(ListModel<LigneEquipe> equipes, ListModel<LigneTournoi> tournois, ListModel<LigneMatche> matches) {
 		setOpaque(false);
-		setBorder(new EmptyBorder(20, 20, 20, 20));
+		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0};
 		gridBagLayout.rowHeights = new int[]{0, 0};

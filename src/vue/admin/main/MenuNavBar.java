@@ -7,7 +7,7 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import controlleur.BoutonMenuControlleur;
+import controlleur.AdminControlleur;
 import vue.BoutonNavBar;
 import vue.common.CustomColor;
 
@@ -65,7 +65,7 @@ public class MenuNavBar extends JPanel {
 		this.add(boutons.get(deconnexion), boutons.get(deconnexion).getContraintes());
 	}
 
-	public void addButtonControlleur(Object controlleur) {
+	public void addButtonControlleur(AdminControlleur controlleur) {
 		for (BoutonMenu bouton : boutons.values()) {
 			bouton.setControlleur(controlleur);
 		}
