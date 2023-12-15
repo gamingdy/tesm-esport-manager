@@ -100,18 +100,17 @@ public class VueAdminEquipesCreation extends JPanel {
 		Arrays.stream(Pays.values()).forEach(p -> model.addElement(p));
 		comboboxPays = new JComboBox<Pays>(model);
 		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
-		@Override
-		public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
-				boolean isSelected, boolean cellHasFocus) {
-			JLabel panel = new JLabel();
-			if (value != null) {
-				panel.setText(value.getNom());
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
+														  boolean isSelected, boolean cellHasFocus) {
+				JLabel panel = new JLabel();
+				if (value != null) {
+					panel.setText(value.getNom());
+				} else {
+					panel.setText("Choissez le pays de l'équipe");
+				}
+				return panel;
 			}
-			else {
-				panel.setText("Choissez le pays de l'équipe");
-			}
-			return panel;
-		}
 		});
 		champPays.add(comboboxPays);
 
@@ -121,7 +120,7 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		labelDrapeau = new JLabel();
 		ImageIcon drapeau = new ImageIcon("assets/country-flags/earth.png");
-		labelDrapeau.setIcon(new ImageIcon(drapeau.getImage().getScaledInstance(15*200/10,200, Image.SCALE_SMOOTH)));
+		labelDrapeau.setIcon(new ImageIcon(drapeau.getImage().getScaledInstance(15 * 200 / 10, 200, Image.SCALE_SMOOTH)));
 		labelDrapeau.setOpaque(true);
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
@@ -227,6 +226,11 @@ public class VueAdminEquipesCreation extends JPanel {
 
 	public void clearField() {
 		this.textfieldNom.setText("");
+		this.labelLogo.setText("Insérer logo");
+		this.labelLogo.setIcon(null);
+		this.setDrapeau("earth");
+		this.comboboxPays.setSelectedItem(null);
+
 	}
 
 	public JComboBox<Pays> getComboboxPays() {
@@ -234,7 +238,10 @@ public class VueAdminEquipesCreation extends JPanel {
 	}
 
 	public String getChampPaysEquipe() {
-		return this.comboboxPays.getSelectedItem().toString();
+		if (this.comboboxPays.getSelectedItem() != null) {
+			return this.comboboxPays.getSelectedItem().toString();
+		}
+		return null;
 	}
 
 	public String getNomEquipe() {
@@ -243,6 +250,10 @@ public class VueAdminEquipesCreation extends JPanel {
 
 	public JLabel getLabelLogo() {
 		return this.labelLogo;
+	}
+
+	public JLabel getLabelDrapeau() {
+		return this.labelDrapeau;
 	}
 
 	public void setDrapeau(String code) {

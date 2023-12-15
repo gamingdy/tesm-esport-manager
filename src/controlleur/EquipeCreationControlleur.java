@@ -24,6 +24,7 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 	private final VueAdminEquipesCreation vue;
 	private final DaoEquipe daoEquipe;
 	private BufferedImage logo;
+	private ImageIcon drapeauDeBase = new ImageIcon("assets/country-flags/earth.png");
 
 	public EquipeCreationControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
@@ -38,10 +39,22 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 
 		JButton bouton = (JButton) e.getSource();
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
-			String nomEquipe = vue.getNomEquipe();
-			Pays champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
-			if ((nomEquipe == "") || (logo == null)) {
-				new JFramePopup("Erreur", "Un des champs est vide", () -> VueObserver.getInstance().notifyVue("Equipe"));
+			String nomEquipe = vue.getNomEquipe().trim();
+			Pays champPaysEquipe;
+			if (vue.getChampPaysEquipe() == null) {
+				champPaysEquipe = null;
+			} else {
+				champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
+			}
+			if ((nomEquipe.isEmpty()) || (logo == null) || (champPaysEquipe == null)) {
+				if (nomEquipe.isEmpty()) {
+					new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue("Equipe"));
+				} else if (logo == null) {
+					new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue("Equipe"));
+				} else {
+					new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue("Equipe"));
+				}
+
 			} else if (EquipeDejaExistante(nomEquipe)) {
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
 				this.vue.clearField();
@@ -104,13 +117,13 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 					BufferedImage image = ImageIO.read(fichier);
 					BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
 					//transformer en icone pour pouvoir l'afficher
-					this.logo = image;
-					ImageIcon imageIcon = new ImageIcon(image_resized);
 
+					ImageIcon imageIcon = new ImageIcon(image_resized);
+					//passer l'image au controleur pour pouvoir la stoquer plus tard
+					this.logo = image;
 					//affichage
 					this.vue.getLabelLogo().setIcon(imageIcon);
 					this.vue.getLabelLogo().setText("");
-					//sauvegarde du logo dans le projet
 				} catch (IOException ex) {
 					throw new RuntimeException(ex);
 				}
