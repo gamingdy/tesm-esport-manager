@@ -14,11 +14,11 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.Objects;
 
-public class EquipeControlleur implements ActionListener, ControlleurObserver, ItemListener {
+public class CreationEquipeControlleur implements ActionListener, ControlleurObserver, ItemListener {
 	private final VueAdminEquipesCreation vue;
 	private final DaoEquipe daoEquipe;
 
-	public EquipeControlleur(VueAdminEquipesCreation newVue) {
+	public CreationEquipeControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
 		Connexion c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);

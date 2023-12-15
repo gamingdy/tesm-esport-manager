@@ -39,7 +39,7 @@ public class ConteneurMain extends JPanel {
 		try {
 			this.lst_controlleurs.put(Page.ACCUEIL_ADMIN.getNom(), new AccueilControlleur(vueAccueil));
 			this.lst_controlleurs.put(Page.ARBITRES.getNom(), new ArbitresControlleur(vueArbitres));
-			this.lst_controlleurs.put(Page.EQUIPES.getNom(), new EquipeControlleur(vueAdminEquipesCreation));
+			this.lst_controlleurs.put(Page.EQUIPES.getNom(), new CreationEquipeControlleur(vueAdminEquipesCreation));
 			//this.lst_controlleurs.put(Page.EQUIPES.getNom(),new EquipesControlleur(vueAdminEquipes));
 		} catch (Exception e) {
 			e.printStackTrace();

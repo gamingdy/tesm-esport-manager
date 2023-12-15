@@ -8,7 +8,7 @@ import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import controlleur.EquipeControlleur;
+import controlleur.CreationEquipeControlleur;
 import modele.Pays;
 import vue.common.CustomColor;
 import vue.common.MaFont;
@@ -206,11 +206,11 @@ public class VueAdminEquipesCreation extends JPanel {
 		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
 
-		setControleur(new EquipeControlleur(this));
+		setControleur(new CreationEquipeControlleur(this));
 	}
 
 	// setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
-	public void setControleur(EquipeControlleur controleur) {
+	public void setControleur(CreationEquipeControlleur controleur) {
 		this.comboboxPays.addItemListener(controleur);
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
