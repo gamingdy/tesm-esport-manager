@@ -43,7 +43,13 @@ public class VueAdmin extends JPanel {
 		main.setPage(identifiant);
 		TitleBar.getInstance().setTitle(identifiant);
 	}
-
+	
+	
+	/**
+	 * Ajoute une page pour l'admin (par exemple VueAdminEquipes MAIS PAS VueAdminEquipesCreation qui sera ajoutée dans VueAdminEquipes)
+	 * @param c la page à ajouter (VueAdmin...)
+	 * @param id le nom de la page
+	 */
 	public void addPage(JComponent c, String id) {
 		main.addPage(c, id);
 	}
