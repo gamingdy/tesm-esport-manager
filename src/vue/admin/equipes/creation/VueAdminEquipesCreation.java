@@ -1,9 +1,6 @@
 package vue.admin.equipes.creation;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -120,8 +117,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelTop.add(panelChamps);
 
 		labelDrapeau = new JLabel();
-		ImageIcon drapeau = new ImageIcon("assets/country-flags/earth.png");
-		labelDrapeau.setIcon(new ImageIcon(drapeau.getImage().getScaledInstance(15*200/10,200, Image.SCALE_SMOOTH)));
+		this.setDrapeau("earth");
 		labelDrapeau.setOpaque(true);
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
@@ -246,6 +242,8 @@ public class VueAdminEquipesCreation extends JPanel {
 	}
 
 	public void setDrapeau(String code) {
-		labelDrapeau.setIcon(new ImageIcon("assets/country-flags/" + code + ".png"));
+		ImageIcon img = new ImageIcon("assets/country-flags/" + code + ".png");
+		Image newimg = img.getImage().getScaledInstance(350, 200, java.awt.Image.SCALE_SMOOTH);
+		labelDrapeau.setIcon(new ImageIcon(newimg));
 	}
 }

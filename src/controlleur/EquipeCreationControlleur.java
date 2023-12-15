@@ -40,9 +40,9 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
 			String nomEquipe = vue.getNomEquipe();
 			Pays champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
-			if ((nomEquipe == "") || (logo == null)) {
+			if ((nomEquipe.isEmpty()) || (logo == null)) {
 				new JFramePopup("Erreur", "Un des champs est vide", () -> VueObserver.getInstance().notifyVue("Equipe"));
-			} else if (EquipeDejaExistante(nomEquipe)) {
+			} else if (equipeDejaExistante(nomEquipe)) {
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
 				this.vue.clearField();
 			} else {
@@ -62,16 +62,14 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		}
 	}
 
-	private boolean EquipeDejaExistante(String nomEquipe) {
+	private boolean equipeDejaExistante(String nomEquipe) {
 		try {
 			Equipe equipe = daoEquipe.getById(nomEquipe);
-			if (equipe != null) {
-				return true;
-			}
+			return equipe != null;
 		} catch (Exception ignored) {
-
+			return false;
 		}
-		return false;
+
 	}
 
 	@Override
