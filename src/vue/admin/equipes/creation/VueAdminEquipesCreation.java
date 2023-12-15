@@ -253,8 +253,8 @@ public class VueAdminEquipesCreation extends JPanel {
 	}
 
 	public void setDrapeau(String code) {
-		ImageIcon img = new ImageIcon("assets/country-flags/png1000px/" + code + ".png");
-		Image newimg = img.getImage().getScaledInstance(350, 200, java.awt.Image.SCALE_SMOOTH);
-		labelDrapeau.setIcon(new ImageIcon(newimg));
+		ImageIcon img = new ImageIcon("assets/country-flags/png200px/" + code + ".png");
+
+		labelDrapeau.setIcon(img);
 	}
 }
