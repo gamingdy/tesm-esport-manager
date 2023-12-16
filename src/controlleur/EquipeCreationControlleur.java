@@ -110,20 +110,28 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				//recuperer le fichier choisi
 				File fichier = chooser.getSelectedFile();
-				try {
-					//le transformer en image et la resize
-					BufferedImage image = ImageIO.read(fichier);
-					BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
-					//transformer en icone pour pouvoir l'afficher
+				// Vérifier si le fichier est une image
+				if (isImageFile(fichier)) {
+					try {
+						// Charger et redimensionner l'image
+						BufferedImage image = ImageIO.read(fichier);
+						BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
 
-					ImageIcon imageIcon = new ImageIcon(image_resized);
-					//passer l'image au controleur pour pouvoir la stoquer plus tard
-					this.logo = image;
-					//affichage
-					this.vue.getLabelLogo().setIcon(imageIcon);
-					this.vue.getLabelLogo().setText("");
-				} catch (IOException ex) {
-					throw new RuntimeException(ex);
+						// Transformer en icône pour pouvoir l'afficher
+						ImageIcon imageIcon = new ImageIcon(image_resized);
+
+						// Passer l'image au contrôleur pour pouvoir la stocker plus tard
+						this.logo = image;
+
+						// Affichage
+						this.vue.getLabelLogo().setIcon(imageIcon);
+						this.vue.getLabelLogo().setText("");
+					} catch (IOException ex) {
+						throw new RuntimeException(ex);
+					}
+				} else {
+					// Si le fichier n'est pas une image, afficher un message d'erreur
+					new JFramePopup("Erreur", "Veuillez sélectionner un fichier image valide", () -> VueObserver.getInstance().notifyVue("Equipe"));
 				}
 			}
 		}
@@ -154,5 +162,9 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 		return outputImage;
+	}
+	private boolean isImageFile(File file) {
+		String fileName = file.getName();
+		return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".gif") || fileName.endsWith(".png");
 	}
 }
