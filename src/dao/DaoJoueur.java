@@ -141,9 +141,12 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 	 */
 	public List<Joueur> getJoueurParEquipe(String nom) throws Exception {
 		try(PreparedStatement getAll = connexion.getConnection().prepareStatement("SELECT * FROM Joueur WHERE Nom_Equipe = ?")){
-			getAll.setString(0, nom);
+
+			getAll.setString(1, nom);
 			ResultSet resultat = getAll.executeQuery();
+
 			List<Joueur> sortie = new ArrayList<>();
+
 			while(resultat.next()) {
 				Joueur joueur = new Joueur(
 						resultat.getString("Pseudo"),
@@ -151,6 +154,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 				joueur.setId(resultat.getInt("Id_Joueur"));
 				sortie.add(joueur);
 			}
+
 			return sortie;
 		}
 	}
