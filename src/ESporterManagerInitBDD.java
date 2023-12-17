@@ -53,7 +53,7 @@ public class ESporterManagerInitBDD {
 
 		CustomDate debut = new CustomDate(2023, 12, 5);
 		CustomDate debut1 = new CustomDate(2023, 12, 7);
-
+		/*
 		Equipe equipe = new Equipe("FAZE", Pays.FRANCE);
 		Equipe equipe1 = new Equipe("TSM", Pays.FRANCE);
 		Equipe equipe2 = new Equipe("FOX", Pays.FRANCE);
@@ -110,6 +110,7 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+		*/
 	}
 
 	private static String randomUsername(String name) {
