@@ -163,6 +163,7 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 		return outputImage;
 	}
+
 	private boolean isImageFile(File file) {
 		String fileName = file.getName();
 		return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".gif") || fileName.endsWith(".png");
