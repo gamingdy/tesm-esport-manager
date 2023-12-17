@@ -172,6 +172,7 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 		return outputImage;
 	}
+
 	private static String randomUsername(String name) {
 		List<String> characters = Arrays.asList(name.split(""));
 		Collections.shuffle(characters);
