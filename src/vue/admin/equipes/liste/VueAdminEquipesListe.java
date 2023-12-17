@@ -1,9 +1,14 @@
 package vue.admin.equipes.liste;
 
+
+import java.util.List;
+import java.util.LinkedList;
+
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 
 import javax.swing.BorderFactory;
@@ -17,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 
+import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
@@ -24,25 +30,35 @@ import vue.common.MaFont;
 public class VueAdminEquipesListe extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JList<CaseEquipe> list;
+	private JPanel list;
 
 	public VueAdminEquipesListe() {
 
 		setOpaque(false);
 		setLayout(new GridBagLayout());
 		
-		setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+		setBorder(BorderFactory.createEmptyBorder(0, 50, 50, 50));
 		
-		DefaultListModel<CaseEquipe> model = new DefaultListModel<CaseEquipe>();
-		list = new JList<CaseEquipe>(model);
+		List<CaseEquipe> model = new LinkedList<CaseEquipe>();
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		model.add(new CaseEquipe("Equipe1", new String[] {"Player1","Joueur2","Jugador3","truc","bidule"}, new ImageIcon("assets/logo.png"), new ImageIcon("assets/country-flags/png100px/fr.png")));
+		
+		list = new JPanel(new GridLayout(0,3,15,15));
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
-		list.setLayout(new GridLayout(0,3));
-		list.setCellRenderer(new CaseEquipeCellRenderer());		
-		list.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,3));
-
+		list.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
+	
+		setListEquipes(model);
 
 		JScrollPane sp = new JScrollPane(list);		
-		sp.setBorder(null);
+		sp.setBackground(CustomColor.BACKGROUND_MAIN);
+		sp.getVerticalScrollBar().setUnitIncrement(15);
+		sp.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,3));
 
 		GridBagConstraints gbcSp = new GridBagConstraints();
 		gbcSp.fill = GridBagConstraints.BOTH;
@@ -54,19 +70,28 @@ public class VueAdminEquipesListe extends JPanel {
 
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		
+		JPanel panelRecherche = new JPanel();
+		((FlowLayout) panelRecherche.getLayout()).setHgap(10);
+		((FlowLayout) panelRecherche.getLayout()).setAlignment(FlowLayout.LEFT);
+		panelRecherche.add(new JLabel(Vue.resize(new ImageIcon("assets/recherche.png"), 45, 45)));
 		JTextField recherche = new JTextField();
+		panelRecherche.setBackground(CustomColor.BACKGROUND_MAIN);
+		panelRecherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
+		recherche.setColumns(25);
 		recherche.setBackground(CustomColor.BACKGROUND_MENU.brighter());
-		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
+		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));
 		recherche.setForeground(CustomColor.BLANC);
 		recherche.setFont(MaFont.getFontTitre4());
 		recherche.setCaretColor(CustomColor.BLANC);
-		GridBagConstraints cbgRecherche = new GridBagConstraints();
-		cbgRecherche.fill= GridBagConstraints.HORIZONTAL;
-		cbgRecherche.gridx = 0;
-		cbgRecherche.gridy = 0;
-		cbgRecherche.weightx = 0.6F;
-		cbgRecherche.weighty = 0.2F;
-		add(recherche,cbgRecherche);
+		GridBagConstraints gbcRecherche = new GridBagConstraints();
+		gbcRecherche.fill= GridBagConstraints.HORIZONTAL;
+		gbcRecherche.gridx = 0;
+		gbcRecherche.gridy = 0;
+		gbcRecherche.weightx = 0.6F;
+		gbcRecherche.weighty = 0.2F;
+		panelRecherche.add(recherche);
+		
+		add(panelRecherche,gbcRecherche);
 		
 		JButton boutonAjouter = new JButton("Ajouter");
 		ImageIcon ajt = new ImageIcon("assets/BoutonAjouter.png");
@@ -84,7 +109,13 @@ public class VueAdminEquipesListe extends JPanel {
 		gbcBtnAjt.weightx = 0.4F;
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter,gbcBtnAjt);
-
+	}
+	
+	public void setListEquipes(List<CaseEquipe> l) {
+		list.removeAll();
+		for (CaseEquipe c : l) {
+			list.add(c.getPanel());
+		}
 	}
 
 }

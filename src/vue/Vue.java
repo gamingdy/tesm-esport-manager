@@ -75,4 +75,8 @@ public class Vue extends JFrame {
 		page.setOpaque(false);
 		panelContenu.add(page, identifiant);
 	}
+	
+	public static ImageIcon resize(ImageIcon i, int width, int height) {
+		return new ImageIcon(i.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+	}
 }
