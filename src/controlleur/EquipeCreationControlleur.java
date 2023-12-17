@@ -4,9 +4,11 @@ import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
 import dao.DaoSaison;
+import modele.Joueur;
 import modele.Pays;
 import modele.Equipe;
 
+import vue.Page;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.common.JFramePopup;
 
@@ -18,6 +20,9 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class EquipeCreationControlleur implements ActionListener, ControlleurObserver, ItemListener, MouseListener {
@@ -25,10 +30,11 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 	private final DaoEquipe daoEquipe;
 	private BufferedImage logo;
 	private ImageIcon drapeauDeBase = new ImageIcon("assets/country-flags/earth.png");
+	private static Connexion c;
 
 	public EquipeCreationControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
-		Connexion c = Connexion.getConnexion();
+		c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);
 		DaoSaison daoSaison = new DaoSaison(c);
 		DaoJoueur daoJoueur = new DaoJoueur(c);
@@ -60,8 +66,10 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 				this.vue.clearField();
 			} else {
 				Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
+				
 				try {
 					daoEquipe.add(equipeInserer);
+					initEquipe(equipeInserer);
 					File outputfile = new File("assets/logo-equipes/" + nomEquipe + ".jpg");
 					ImageIO.write(logo, "jpg", outputfile);
 					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue("Equipe"));
@@ -72,6 +80,10 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 					throw new RuntimeException(ex);
 				}
 			}
+
+		}else if((Objects.equals(bouton.getText(), "Annuler"))){
+			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
+			this.vue.clearField();
 		}
 	}
 
@@ -102,39 +114,36 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == vue.getLabelLogo()) {
-			JFileChooser chooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter(
-					"JPG & GIF Images", "jpg", "gif");
-			chooser.setFileFilter(filter);
-			int returnVal = chooser.showOpenDialog(this.vue);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				//recuperer le fichier choisi
-				File fichier = chooser.getSelectedFile();
-				// Vérifier si le fichier est une image
-				if (isImageFile(fichier)) {
-					try {
-						// Charger et redimensionner l'image
-						BufferedImage image = ImageIO.read(fichier);
-						BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));
+            int returnVal = 0;
+            try {
+                // ...
+                returnVal = chooser.showOpenDialog(this.vue);
+                // ...
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                //recuperer le fichier choisi
+                File fichier = chooser.getSelectedFile();
+                try {
+                    //le transformer en image et la resize
+                    BufferedImage image = ImageIO.read(fichier);
+                    BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
+                    //transformer en icone pour pouvoir l'afficher
 
-						// Transformer en icône pour pouvoir l'afficher
-						ImageIcon imageIcon = new ImageIcon(image_resized);
-
-						// Passer l'image au contrôleur pour pouvoir la stocker plus tard
-						this.logo = image;
-
-						// Affichage
-						this.vue.getLabelLogo().setIcon(imageIcon);
-						this.vue.getLabelLogo().setText("");
-					} catch (IOException ex) {
-						throw new RuntimeException(ex);
-					}
-				} else {
-					// Si le fichier n'est pas une image, afficher un message d'erreur
-					new JFramePopup("Erreur", "Veuillez sélectionner un fichier image valide", () -> VueObserver.getInstance().notifyVue("Equipe"));
-				}
-			}
-		}
+                    ImageIcon imageIcon = new ImageIcon(image_resized);
+                    //passer l'image au controleur pour pouvoir la stoquer plus tard
+                    this.logo = image;
+                    //affichage
+                    this.vue.getLabelLogo().setIcon(imageIcon);
+                    this.vue.getLabelLogo().setText("");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
 	}
 
 	@Override
@@ -163,8 +172,27 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 		return outputImage;
 	}
-	private boolean isImageFile(File file) {
-		String fileName = file.getName();
-		return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".gif") || fileName.endsWith(".png");
+	private static String randomUsername(String name) {
+		List<String> characters = Arrays.asList(name.split(""));
+		Collections.shuffle(characters);
+		StringBuilder afterShuffle = new StringBuilder();
+		for (String character : characters) {
+			afterShuffle.append(character);
+		}
+		return afterShuffle.toString();
+	}
+
+	private static void initEquipe(Equipe equipe) {
+		DaoJoueur daoJoueur = new DaoJoueur(c);
+		String default_username = "patata";
+		for (int i = 0; i < 5; i++) {
+			default_username = randomUsername(default_username);
+			try {
+				Joueur j = new Joueur(default_username, equipe);
+				daoJoueur.add(j);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -25,7 +25,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 	private ETAT etat;
 	MenuNavBar navbar;
 
-	public AdminControlleur(MenuNavBar navbar, VueAdmin vue) {
+	public AdminControlleur(MenuNavBar navbar, VueAdmin vue)  {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
