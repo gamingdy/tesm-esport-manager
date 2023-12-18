@@ -113,12 +113,12 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Debut")),
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
-						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
+						Niveau.valueOf(resultat.getString("Libelle_Niveau")),
 						new CompteArbitre(
 								resultat.getString("username"),
 								resultat.getString("mdp"))
 				);
-				
+
 			}
 			return Optional.ofNullable(tournoi);
 		}
@@ -137,7 +137,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			add.setTimestamp(4, value.getFin().toSQL());
 			add.setString(5, value.getCompteArbitre().getUsername());
 			add.setString(6, value.getCompteArbitre().getHashMdp());
-			add.setString(7, value.getNiveau().getNom());
+			add.setString(7, value.getNiveau().name());
 
 			return add.execute();
 		}
@@ -264,18 +264,18 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return sortie;
 		}
 	}
-	
+
 	public Optional<Tournoi> getTournoiBetweenDate(CustomDate dateAvant, CustomDate dateApres) throws Exception {
-		try(PreparedStatement getTournoiBetweenDate = connexion.getConnection().prepareStatement(
+		try (PreparedStatement getTournoiBetweenDate = connexion.getConnection().prepareStatement(
 				"SELECT *"
-				+ "FROM Tournoi"
-				+ "WHERE Date_Debut >= ?"
-				+ "AND Date_Fin <= ?")) {
+						+ "FROM Tournoi"
+						+ "WHERE Date_Debut >= ?"
+						+ "AND Date_Fin <= ?")) {
 			getTournoiBetweenDate.setTimestamp(1, dateAvant.toSQL());
 			getTournoiBetweenDate.setTimestamp(2, dateApres.toSQL());
 			ResultSet resultat = getTournoiBetweenDate.executeQuery();
 			Tournoi sortie = null;
-			if(resultat.next()) {
+			if (resultat.next()) {
 				sortie = new Tournoi(
 						new Saison(resultat.getInt("Annee")),
 						resultat.getString("Nom_Tournoi"),
@@ -290,10 +290,11 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return Optional.ofNullable(sortie);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Récoupère tous les matchs d'une poule à partir d'un objet poule
+	 *
 	 * @param poule
 	 * @return
 	 * @throws Exception
@@ -302,62 +303,63 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		//Création des DAO utilisées
 		DaoAppartenance daoappartenance = new DaoAppartenance(connexion);
 		DaoMatche daomatche = new DaoMatche(connexion);
-		
+
 		//Récupérations des équipes de la poule
-		List<Equipe> equipes = daoappartenance.getEquipeByPoule(poule.getTournoi().getNom(),poule.getTournoi().getSaison().getAnnee(),poule.getLibelle());
-		
+		List<Equipe> equipes = daoappartenance.getEquipeByPoule(poule.getTournoi().getNom(), poule.getTournoi().getSaison().getAnnee(), poule.getLibelle());
+
 		//Récupération des matchs du tournoi duquel appartient la poule si ce sont des matchs de catégorie "poule"
 		List<Matche> matches = daomatche.getMatchesByTournoiFromCategorie(poule.getTournoi(), Categorie.POULE);
-		
+
 		//Création de la liste de sortie
 		List<Matche> sortie = new ArrayList<>();
-		
+
 		//Boucle qui vérifie que si l'équipe que l'on observe est référencée comme Equipe 1 ou Equipe 2 du match que l'on observe, alors ce match fait partie de la poule
-		for(Equipe e : equipes) {
-			for(Matche m : matches) {
+		for (Equipe e : equipes) {
+			for (Matche m : matches) {
 				if (m.getEquipe1().equals(e) || m.getEquipe2().equals(e)) {
 					sortie.add(m);
 				}
 			}
 		}
-		
+
 		//On renvoie la liste des matchs de la poule passée en paramètre
 		return sortie;
 	}
-	
+
 	/**
 	 * Récoupère tous les matchs d'une poule à partir d'un objet poule
+	 *
 	 * @param poule
 	 * @return
 	 * @throws Exception
 	 */
 	public List<Matche> getMatchesByEquipe(Appartenance a) throws Exception {
-		
+
 		//Récupération des matchs du tournoi duquel appartient la poule si ce sont des matchs de catégorie "poule"
 		List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchesByTournoiFromCategorie(a.getPoule().getTournoi(), Categorie.POULE);
-		
+
 		//Création de la liste de sortie
 		List<Matche> sortie = new ArrayList<>();
-		
+
 		//Boucle qui vérifie que si l'équipe que l'on observe est référencée comme Equipe 1 ou Equipe 2 du match que l'on observe, alors ce match fait partie de la poule
-		for(Matche m : matches) {
+		for (Matche m : matches) {
 			if (m.getEquipe1().equals(a.getEquipe()) || m.getEquipe2().equals(a.getEquipe())) {
 				sortie.add(m);
 			}
 		}
-		
+
 		//On renvoie la liste des matchs de la poule passée en paramètre
 		return sortie;
 	}
-	
+
 	@Override
 	public String visualizeTable() throws Exception {
 		String s = "_______________Tournoi_______________________" + "\n";
 		List<Tournoi> l = this.getAll();
-		for(Tournoi a : l) {
-			s+=a.toString()+"\n";
+		for (Tournoi a : l) {
+			s += a.toString() + "\n";
 		}
-		s+="\n\n\n";
+		s += "\n\n\n";
 		return s;
 	}
 

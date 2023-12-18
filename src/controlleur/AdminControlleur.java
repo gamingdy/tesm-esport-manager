@@ -58,6 +58,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 				this.etat = ETAT.ACCUEIL;
 				vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
 				this.vue.setPage(Page.ACCUEIL_ADMIN);
+				VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.EQUIPES.getNom())) {
 				this.etat = ETAT.EQUIPES;
 				vue.addPage(new VueAdminEquipes(), Page.EQUIPES);

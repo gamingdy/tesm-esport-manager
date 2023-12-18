@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import modele.Niveau;
 
-public class DaoNiveau implements Dao<Niveau,String>{
+public class DaoNiveau implements Dao<Niveau, String> {
 
 	private Connexion connexion;
 
@@ -21,16 +21,17 @@ public class DaoNiveau implements Dao<Niveau,String>{
 
 	/**
 	 * Crée la table niveau
+	 *
 	 * @param connexion
 	 * @throws SQLException
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Niveau("
-				+"Libelle_Niveau VARCHAR(50),"
-				+"Coefficient DECIMAL(2,1) NOT NULL,"
-				+"PRIMARY KEY(Libelle_Niveau))";
+				+ "Libelle_Niveau VARCHAR(50),"
+				+ "Coefficient DECIMAL(2,1) NOT NULL,"
+				+ "PRIMARY KEY(Libelle_Niveau))";
 
-		try(Statement createTable = connexion.getConnection().createStatement()){
+		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
 			System.out.println("Table 'Niveau' créée avec succès");
 		}
@@ -38,12 +39,13 @@ public class DaoNiveau implements Dao<Niveau,String>{
 
 	/**
 	 * Supprime la table niveau
+	 *
 	 * @param connexion
 	 * @return
 	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
-		try(Statement deleteTable = connexion.getConnection().createStatement()){
+		try (Statement deleteTable = connexion.getConnection().createStatement()) {
 			System.out.println("Table 'Niveau' supprimée avec succès");
 			return deleteTable.execute("drop table Niveau");
 		}
@@ -54,10 +56,10 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	 */
 	@Override
 	public List<Niveau> getAll() throws Exception {
-		try(Statement getAll = connexion.getConnection().createStatement()){
+		try (Statement getAll = connexion.getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Niveau");
 			List<Niveau> sortie = new ArrayList<>();
-			while(resultat.next()) {
+			while (resultat.next()) {
 				sortie.add(Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()));
 			}
 			return sortie;
@@ -70,26 +72,26 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	 */
 	@Override
 	public Optional<Niveau> getById(String... nom) throws Exception {
-		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Niveau WHERE Libelle_Niveau = ?")){
+		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Niveau WHERE Libelle_Niveau = ?")) {
 			getById.setString(1, nom[0]);
 			ResultSet resultat = getById.executeQuery();
 			Niveau niveau = null;
-			if(resultat.next()) {
+			if (resultat.next()) {
 				niveau = Niveau.valueOf(resultat.getString("Libelle_Niveau"));
-			
+
 			}
 			return Optional.ofNullable(niveau);
 		}
 	}
-	
+
 	/**
 	 * Ajoute un niveau à la table Niveau à partir d'un objet Niveau
 	 */
 	@Override
 	public boolean add(Niveau value) throws Exception {
-		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Niveau(Libelle_Niveau,Coefficient) values (?,?)")){
-			add.setString(1, value.getNom());
+		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+				"INSERT INTO Niveau(Libelle_Niveau,Coefficient) values (?,?)")) {
+			add.setString(1, value.name());
 			add.setFloat(2, value.getCoefficient());
 			return add.execute();
 		}
@@ -100,10 +102,10 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	 */
 	@Override
 	public boolean update(Niveau value) throws Exception {
-		try(PreparedStatement update = connexion.getConnection().prepareStatement(
+		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Niveau SET "
-						+"Coefficient = ?"
-						+"WHERE Libelle_Niveau = ?")){
+						+ "Coefficient = ?"
+						+ "WHERE Libelle_Niveau = ?")) {
 			update.setFloat(1, value.getCoefficient());
 			update.setString(2, value.getNom());
 			return update.execute();
@@ -111,26 +113,26 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	}
 
 	/**
-	 * supprime un niveau 
+	 * supprime un niveau
 	 * Les paramètres sont placés dans cet ordre : Libelle_Niveau (STRING)
 	 */
 	@Override
 	public boolean delete(String... value) throws Exception {
-		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Niveau where Libelle_Niveau = ?")){
-			delete.setString(1,value[0]);
+		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+				"DELETE FROM Niveau where Libelle_Niveau = ?")) {
+			delete.setString(1, value[0]);
 			return delete.execute();
 		}
 	}
-	
+
 	@Override
 	public String visualizeTable() throws Exception {
 		String s = "_______________Niveau_______________________" + "\n";
 		List<Niveau> l = this.getAll();
-		for(Niveau a : l) {
-			s+=a.toString()+"\n";
+		for (Niveau a : l) {
+			s += a.toString() + "\n";
 		}
-		s+="\n\n\n";
+		s += "\n\n\n";
 		return s;
 	}
 }
