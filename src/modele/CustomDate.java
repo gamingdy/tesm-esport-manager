@@ -3,6 +3,7 @@ package modele;
 import java.sql.Timestamp;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class CustomDate implements Comparable<CustomDate> {
 	private LocalDateTime date;
@@ -53,6 +54,12 @@ public class CustomDate implements Comparable<CustomDate> {
 
 	public static CustomDate now() {
 		return new CustomDate(Timestamp.valueOf(LocalDateTime.now()));
+	}
+
+	public static CustomDate fromString(String date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+		return new CustomDate(Timestamp.valueOf(dateTime));
 	}
 
 	/**
