@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
-import controlleur.EquipesListeControlleur;
+import controlleur.admin.equipes.EquipesListeControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;

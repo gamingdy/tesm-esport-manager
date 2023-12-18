@@ -1,5 +1,6 @@
-package controlleur;
+package controlleur.admin.equipes;
 
+import controlleur.ControlleurObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
@@ -16,10 +17,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class EquipesListeControlleur implements ActionListener, ControlleurObserver {
 	private VueAdminEquipesListe vue;

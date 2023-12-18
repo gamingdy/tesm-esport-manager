@@ -1,4 +1,4 @@
-package controlleur;
+package controlleur.login;
 
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 
+import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoNiveau;
 import dao.DaoSaison;

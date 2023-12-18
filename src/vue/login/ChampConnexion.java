@@ -7,7 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import controlleur.LoginControlleur;
+import controlleur.login.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 

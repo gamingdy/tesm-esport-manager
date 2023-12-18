@@ -5,8 +5,7 @@ import java.awt.Component;
 
 import javax.swing.JPanel;
 
-import controlleur.EquipesControlleur;
-import controlleur.TournoisControlleur;
+import controlleur.admin.tournois.TournoisControlleur;
 import vue.Page;
 
 public class VueAdminTournois extends JPanel {

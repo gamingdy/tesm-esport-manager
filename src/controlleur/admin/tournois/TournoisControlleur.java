@@ -1,4 +1,4 @@
-package controlleur;
+package controlleur.admin.tournois;
 
 import vue.admin.tournois.VueAdminTournois;
 

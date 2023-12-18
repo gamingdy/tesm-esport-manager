@@ -1,14 +1,9 @@
-package controlleur;
+package controlleur.admin.equipes;
 
-import dao.*;
-import modele.Equipe;
-import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
-
-import java.util.List;
 
 public class EquipesControlleur {
 	private VueAdminEquipes vue;

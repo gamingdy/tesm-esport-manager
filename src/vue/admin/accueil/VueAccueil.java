@@ -15,7 +15,7 @@ import java.awt.Dimension;
 
 import javax.swing.ListModel;
 
-import controlleur.AccueilControlleur;
+import controlleur.admin.accueil.AccueilControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 import vue.common.CustomScrollBarUI;

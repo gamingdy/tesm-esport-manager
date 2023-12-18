@@ -5,13 +5,12 @@ import java.awt.*;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import controlleur.EquipeCreationControlleur;
+import controlleur.admin.equipes.EquipeCreationControlleur;
 import modele.Pays;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.util.Arrays;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -262,7 +261,7 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		labelDrapeau.setIcon(img);
 	}
-	
+
 }
 
 

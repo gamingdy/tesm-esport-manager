@@ -1,5 +1,6 @@
-package controlleur;
+package controlleur.admin.equipes;
 
+import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;

@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
-import controlleur.TournoisListeControlleur;
+import controlleur.admin.tournois.TournoisListeControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;

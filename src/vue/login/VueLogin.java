@@ -2,7 +2,7 @@ package vue.login;
 
 import javax.swing.JPanel;
 
-import controlleur.LoginControlleur;
+import controlleur.login.LoginControlleur;
 import controlleur.VueObserver;
 import vue.common.CustomColor;
 import vue.common.MaFont;

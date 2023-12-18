@@ -1,4 +1,4 @@
-package controlleur;
+package controlleur.admin.arbitres;
 
 import controlleur.ControlleurObserver;
 import dao.*;
