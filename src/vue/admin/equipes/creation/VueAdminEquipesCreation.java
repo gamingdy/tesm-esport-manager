@@ -137,9 +137,11 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		JLabel labelJoueurs = new JLabel("Joueurs");
 		labelJoueurs.setPreferredSize(new Dimension());
-		labelJoueurs.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS));
+		labelJoueurs.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS),
+				BorderFactory.createEmptyBorder(10, 10, 10, 0)));
 		labelJoueurs.setForeground(CustomColor.BLANC);
-		labelJoueurs.setFont(MaFont.getFontTitre3());
+		labelJoueurs.setFont(MaFont.getFontTitre2());
 		GridBagConstraints gbcLabelJoueurs = new GridBagConstraints();
 		gbcLabelJoueurs.fill = GridBagConstraints.BOTH;
 		gbcLabelJoueurs.gridx = 0;
@@ -157,6 +159,7 @@ public class VueAdminEquipesCreation extends JPanel {
 				panel.setOpaque(false);
 				panel.setForeground(CustomColor.BLANC);
 				panel.setFont(MaFont.getFontTitre4());
+				panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 0));
 				return panel;
 			}
 
@@ -260,4 +263,7 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		labelDrapeau.setIcon(img);
 	}
+	
 }
+
+
