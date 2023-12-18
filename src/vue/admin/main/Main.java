@@ -1,16 +1,11 @@
 package vue.admin.main;
 
-import java.awt.*;
-import java.io.IOException;
+import vue.Page;
+import vue.common.CustomColor;
+import vue.common.MaFont;
 
 import javax.swing.*;
-
-import vue.Page;
-import vue.admin.VueAdmin;
-import vue.common.CustomColor;
-import vue.common.JPanelWithBackground;
-import vue.common.MaFont;
-import vue.common.WindowResizer;
+import java.awt.*;
 
 public class Main extends JPanel {
 
@@ -95,13 +90,14 @@ public class Main extends JPanel {
 	public void setPage(Page equipes) {
 		panelMain.show(equipes);
 	}
-	
+
 	/**
 	 * Ajoute une page dans le conteneur du contenu
-	 * @param c le composant à ajouter
+	 *
+	 * @param c  le composant à ajouter
 	 * @param id son identifiant
 	 */
 	public void addPage(JComponent c, Page id) {
-		panelMain.add(c,id.name());
+		panelMain.add(c, id.name());
 	}
 }

@@ -1,28 +1,16 @@
 package vue.admin.tournois.liste;
 
 
-import java.util.List;
-import java.util.LinkedList;
-
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
-
 import controlleur.admin.tournois.TournoisListeControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class VueAdminTournoisListe extends JPanel {
 
@@ -102,7 +90,7 @@ public class VueAdminTournoisListe extends JPanel {
 		setControleur(new TournoisListeControlleur(this));
 	}
 
-	public void setListEquipes(List<CaseTournoi> l) {
+	public void setListeTournois(List<CaseTournoi> l) {
 		list.removeAll();
 		for (CaseTournoi c : l) {
 			list.add(c.getPanel());

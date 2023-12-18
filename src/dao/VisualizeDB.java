@@ -1,24 +1,11 @@
 package dao;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import modele.*;
 
-import modele.Appartenance;
-import modele.Arbitrage;
-import modele.Arbitre;
-import modele.Equipe;
-import modele.Inscription;
-import modele.Joueur;
-import modele.Matche;
-import modele.Niveau;
-import modele.Partie;
-import modele.Poule;
-import modele.Saison;
-import modele.Selection;
-import modele.Tournoi;
+import java.util.List;
 
 public class VisualizeDB {
-	
+
 	public static void main(String[] args) throws Exception {
 		Connexion c = Connexion.getConnexion();
 		DaoAppartenance daoappartenance = new DaoAppartenance(c);
@@ -34,7 +21,7 @@ public class VisualizeDB {
 		DaoSaison daosaison = new DaoSaison(c);
 		DaoSelection daoselection = new DaoSelection(c);
 		DaoTournoi daotournoi = new DaoTournoi(c);
-		
+
 		System.out.println("_______________Appartenance_______________________");
 		System.out.println("\n");
 		List<Appartenance> l = daoappartenance.getAll();
@@ -99,7 +86,7 @@ public class VisualizeDB {
 		System.out.println("\n");
 		List<Tournoi> l12 = daotournoi.getAll();
 		l12.stream().forEach(x -> System.out.println(x.toString()));
-		
+
 	}
 
 }

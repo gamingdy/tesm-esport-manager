@@ -1,14 +1,14 @@
 package dao;
 
+import modele.Equipe;
+import modele.Pays;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import modele.Equipe;
-import modele.Pays;
 
 public class DaoEquipe implements Dao<Equipe, String> {
 

@@ -1,15 +1,11 @@
 package vue.login;
 
-import javax.swing.*;
-
-import java.awt.GridBagLayout;
-
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
 import controlleur.login.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
+
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class ChampConnexion extends JPanel {

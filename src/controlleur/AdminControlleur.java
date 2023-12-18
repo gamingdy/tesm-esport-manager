@@ -1,11 +1,5 @@
 package controlleur;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Objects;
-
 import vue.BoutonNavBar;
 import vue.Page;
 import vue.admin.VueAdmin;
@@ -14,7 +8,14 @@ import vue.admin.arbitres.VueArbitres;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
+import vue.admin.tournois.VueAdminTournois;
 import vue.common.JFramePopup;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Objects;
 
 enum ETAT {
 	ACCUEIL, ARBITRES, EQUIPES, TOURNOIS
@@ -32,6 +33,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
 		vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
 		vue.addPage(new VueArbitres(), Page.ARBITRES);
+		vue.addPage(new VueAdminTournois(), Page.TOURNOIS);
 		vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 

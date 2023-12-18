@@ -1,13 +1,13 @@
 package dao;
 
+import modele.Partie;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import modele.Partie;
 
 public class DaoPartie implements Dao<Partie, Integer> {
 

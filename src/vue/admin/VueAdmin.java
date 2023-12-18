@@ -6,11 +6,8 @@ import vue.admin.main.Main;
 import vue.admin.main.MenuNavBar;
 import vue.common.TitleBar;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class VueAdmin extends JPanel {
@@ -42,11 +39,12 @@ public class VueAdmin extends JPanel {
 		main.setPage(equipes);
 		TitleBar.getInstance().setTitle(equipes.getNom());
 	}
-	
-	
+
+
 	/**
 	 * Ajoute une page pour l'admin (par exemple VueAdminEquipes MAIS PAS VueAdminEquipesCreation qui sera ajoutée dans VueAdminEquipes)
-	 * @param c la page à ajouter (VueAdmin...)
+	 *
+	 * @param c       la page à ajouter (VueAdmin...)
 	 * @param equipes le nom de la page
 	 */
 	public void addPage(JComponent c, Page equipes) {
