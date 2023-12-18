@@ -63,26 +63,31 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 
 			} else if (equipeDejaExistante(nomEquipe)) {
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
+				this.logo = null;
 				this.vue.clearField();
 			} else {
 				Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
-				
+
 				try {
 					daoEquipe.add(equipeInserer);
 					initEquipe(equipeInserer);
 					File outputfile = new File("assets/logo-equipes/" + nomEquipe + ".jpg");
 					ImageIO.write(logo, "jpg", outputfile);
 					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					this.logo = null;
 					this.vue.clearField();
 
+
 				} catch (Exception ex) {
+					this.logo = null;
 					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue("Equipe"));
 					throw new RuntimeException(ex);
 				}
 			}
 
-		}else if((Objects.equals(bouton.getText(), "Annuler"))){
+		} else if ((Objects.equals(bouton.getText(), "Annuler"))) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
+			this.logo = null;
 			this.vue.clearField();
 		}
 	}
@@ -114,36 +119,36 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == vue.getLabelLogo()) {
-            JFileChooser chooser = new JFileChooser();
-            chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));
-            int returnVal = 0;
-            try {
-                // ...
-                returnVal = chooser.showOpenDialog(this.vue);
-                // ...
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                //recuperer le fichier choisi
-                File fichier = chooser.getSelectedFile();
-                try {
-                    //le transformer en image et la resize
-                    BufferedImage image = ImageIO.read(fichier);
-                    BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
-                    //transformer en icone pour pouvoir l'afficher
+			JFileChooser chooser = new JFileChooser();
+			chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));
+			int returnVal = 0;
+			try {
+				// ...
+				returnVal = chooser.showOpenDialog(this.vue);
+				// ...
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				//recuperer le fichier choisi
+				File fichier = chooser.getSelectedFile();
+				try {
+					//le transformer en image et la resize
+					BufferedImage image = ImageIO.read(fichier);
+					BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
+					//transformer en icone pour pouvoir l'afficher
 
-                    ImageIcon imageIcon = new ImageIcon(image_resized);
-                    //passer l'image au controleur pour pouvoir la stoquer plus tard
-                    this.logo = image;
-                    //affichage
-                    this.vue.getLabelLogo().setIcon(imageIcon);
-                    this.vue.getLabelLogo().setText("");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
+					ImageIcon imageIcon = new ImageIcon(image_resized);
+					//passer l'image au controleur pour pouvoir la stoquer plus tard
+					this.logo = image;
+					//affichage
+					this.vue.getLabelLogo().setIcon(imageIcon);
+					this.vue.getLabelLogo().setText("");
+				} catch (IOException ex) {
+					throw new RuntimeException(ex);
+				}
+			}
+		}
 	}
 
 	@Override
