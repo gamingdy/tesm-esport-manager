@@ -1,15 +1,13 @@
 package dao;
 
+import modele.Poule;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import modele.Poule;
-import modele.Tournoi;
 
 public class DaoPoule implements Dao<Poule, Object> {
 
@@ -66,7 +64,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 			List<Poule> sortie = new ArrayList<>();
 			while (resultat.next()) {
 				Poule poule = new Poule(
-						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")).get(),
+						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")),
 						resultat.getString("Libelle").charAt(0));
 				sortie.add(poule);
 			}
@@ -79,26 +77,24 @@ public class DaoPoule implements Dao<Poule, Object> {
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle_poule (STRING)
 	 */
 	@Override
-	public Optional<Poule> getById(Object... value) throws Exception {
+	public Poule getById(Object... value) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Poule WHERE Annee = ? AND Nom_Tournoi = ? AND Libelle = ?")) {
 			getById.setInt(1, (Integer) value[0]);
 			getById.setString(2, (String) value[1]);
 			getById.setString(3, (String) value[2]);
 			ResultSet resultat = getById.executeQuery();
-			Poule poule = null;
 			if (resultat.next()) {
-				poule = new Poule(
-						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")).get(),
+				Poule poule = new Poule(
+						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")),
 						resultat.getString("Libelle").charAt(0));
-				
+				return poule;
 			}
-			return Optional.ofNullable(poule);
+			throw new Exception("Poule non trouvée");
 		}
 	}
 
 	/**
 	 * Ajoute une poule à la table poule à partir d'un objet poule
-	 * 
 	 */
 	@Override
 	public boolean add(Poule value) throws Exception {
@@ -123,7 +119,6 @@ public class DaoPoule implements Dao<Poule, Object> {
 	/**
 	 * Supprime une poule
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle (STRING)
-	 * 
 	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
@@ -133,26 +128,6 @@ public class DaoPoule implements Dao<Poule, Object> {
 			delete.setString(2, (String) value[1]);
 			delete.setString(3, (String) value[2]);
 			return delete.execute();
-		}
-	}
-	
-	public List<Poule> getPouleByTournoi(Tournoi tournoi) throws Exception {
-		try(PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
-				+ "SELECT *"
-				+ "FROM Poule"
-				+ "WHERE Annee = ?"
-				+ "AND Nom_tournoi = ?")) {
-			getPouleByTournoi.setInt(1, tournoi.getSaison().getAnnee());
-			getPouleByTournoi.setString(2, tournoi.getNom());
-			ResultSet resultat = getPouleByTournoi.executeQuery();
-			List<Poule> sortie = new ArrayList<>();
-			while(resultat.next()) {
-				Poule poule = new Poule(
-						daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")).get(),
-						resultat.getString("Libelle").charAt(0));
-				sortie.add(poule);
-			}
-			return sortie;
 		}
 	}
 }

@@ -1,11 +1,13 @@
 package dao;
 
-import java.sql.*;
+import modele.Saison;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import modele.Saison;
 
 public class DaoSaison implements Dao<Saison, Integer> {
 
@@ -17,6 +19,7 @@ public class DaoSaison implements Dao<Saison, Integer> {
 
 	/**
 	 * Crée la table Saison
+	 *
 	 * @param connexion
 	 * @throws SQLException
 	 */
@@ -32,6 +35,7 @@ public class DaoSaison implements Dao<Saison, Integer> {
 
 	/**
 	 * Supprime la table saison
+	 *
 	 * @param connexion
 	 * @return
 	 * @throws SQLException
@@ -65,17 +69,16 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER)
 	 */
 	@Override
-	public Optional<Saison> getById(Integer... id) throws Exception {
+	public Saison getById(Integer... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Saison WHERE Annee = ?")) {
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
-			Saison saison = null;
 			if (resultat.next()) {
-				saison = new Saison(
+				Saison saison = new Saison(
 						resultat.getInt("Annee"));
-				
+				return saison;
 			}
-			return Optional.ofNullable(saison);
+			throw new Exception("Saison non trouvée");
 		}
 	}
 
@@ -84,11 +87,11 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	 */
 	@Override
 	public boolean add(Saison value) throws Exception {
-		try (PreparedStatement add  = connexion.getConnection().prepareStatement(
-				"INSERT INTO Saison(Annee) values (?)")){
+		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+				"INSERT INTO Saison(Annee) values (?)")) {
 			add.setInt(1, value.getAnnee());
 			return add.execute();
-		} 
+		}
 	}
 
 	/**
@@ -110,18 +113,19 @@ public class DaoSaison implements Dao<Saison, Integer> {
 			return delete.execute();
 		}
 	}
-	
+
 	/**
 	 * Renvoie la dernière saison ajoutée de la table
+	 *
 	 * @return
 	 * @throws SQLException
 	 */
 	public Saison getLastSaison() throws SQLException {
-		try(PreparedStatement lastInsert = connexion.getConnection().prepareStatement(
+		try (PreparedStatement lastInsert = connexion.getConnection().prepareStatement(
 				"SELECT Annee "
-               + "FROM Saison "
-               + "ORDER BY Annee DESC "
-               + "FETCH FIRST 1 ROW ONLY")) {
+						+ "FROM Saison "
+						+ "ORDER BY Annee DESC "
+						+ "FETCH FIRST 1 ROW ONLY")) {
 			ResultSet resultat = lastInsert.executeQuery();
 			Saison saison = null;
 			if (resultat.next()) {

@@ -1,17 +1,16 @@
 package dao;
 
+import modele.Equipe;
+import modele.Pays;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import modele.Equipe;
-import modele.Country;
-
-public class DaoEquipe implements Dao<Equipe,String>{
+public class DaoEquipe implements Dao<Equipe, String> {
 
 	private Connexion connexion;
 
@@ -21,6 +20,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 
 	/**
 	 * Crée la table equipe
+	 *
 	 * @param connexion
 	 * @throws SQLException
 	 */
@@ -28,8 +28,9 @@ public class DaoEquipe implements Dao<Equipe,String>{
 		String createTableSql = "CREATE TABLE Equipe (" +
 				"Nom_Equipe VARCHAR(50)," +
 				"Pays_Equipe VARCHAR(50)," +
+				"World_rank INT," +
 				"PRIMARY KEY (Nom_Equipe))";
-		try(Statement createTable = connexion.getConnection().createStatement()){
+		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
 			System.out.println("Table 'Equipe' créée avec succès");
 		}
@@ -37,29 +38,31 @@ public class DaoEquipe implements Dao<Equipe,String>{
 
 	/**
 	 * Supprime la table Equipe
+	 *
 	 * @param connexion
 	 * @return
 	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
-		try(Statement deleteTable= connexion.getConnection().createStatement()){
+		try (Statement deleteTable = connexion.getConnection().createStatement()) {
 			System.out.println("Table 'Equipe' supprimée avec succès");
 			return deleteTable.execute("drop table Equipe");
 		}
 	}
 
 	/**
-	 * Renvoie toutes les équipes existantes 
+	 * Renvoie toutes les équipes existantes
 	 */
 	@Override
 	public List<Equipe> getAll() throws Exception {
-		try(Statement getAll = connexion.getConnection().createStatement()){
+		try (Statement getAll = connexion.getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Equipe");
 			List<Equipe> sortie = new ArrayList<>();
-			while(resultat.next()) {
+			while (resultat.next()) {
 				Equipe equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Country.valueOf(resultat.getString("Pays_Equipe")));
+						Pays.valueOf(resultat.getString("Pays_Equipe")));
+				equipe.setPoint(resultat.getInt("World_rank"));
 				sortie.add(equipe);
 			}
 			return sortie;
@@ -71,18 +74,18 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING)
 	 */
 	@Override
-	public Optional<Equipe> getById(String... nom) throws Exception {
-		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Equipe WHERE Nom_Equipe = ?")){
+	public Equipe getById(String... nom) throws Exception {
+		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Equipe WHERE Nom_Equipe = ?")) {
 			getById.setString(1, nom[0]);
 			ResultSet resultat = getById.executeQuery();
-			Equipe equipe = null;
 			if (resultat.next()) {
-				equipe = new Equipe(
+				Equipe equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Country.valueOf(resultat.getString("Pays_Equipe")));
-				
+						Pays.valueOf(resultat.getString("Pays_Equipe")));
+				equipe.setPoint(resultat.getInt("World_rank"));
+				return equipe;
 			}
-			return Optional.ofNullable(equipe);
+			throw new Exception("Equipe non trouvée");
 		}
 	}
 
@@ -91,9 +94,10 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	 */
 	@Override
 	public boolean add(Equipe value) throws Exception {
-		try(PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Equipe(Nom_Equipe,Pays_Equipe) values (?,?)")){
+		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+				"INSERT INTO Equipe(Nom_Equipe,World_rank,Pays_Equipe) values (?,?,?)")) {
 			add.setString(1, value.getNom());
+			add.setInt(2, value.getPoint());
 			add.setString(3, value.getPays().name());
 			return add.execute();
 		}
@@ -104,10 +108,12 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	 */
 	@Override
 	public boolean update(Equipe value) throws Exception {
-		try(PreparedStatement update = connexion.getConnection().prepareStatement(
+		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Equipe SET "
-						+"Pays_Equipe = ?"
-						+"WHERE Nom_Equipe = ?")) {
+						+ "World_rank = ?, "
+						+ "Pays_Equipe = ?"
+						+ "WHERE Nom_Equipe = ?")) {
+			update.setInt(1, value.getPoint());
 			update.setString(2, value.getPays().getNom());
 			update.setString(3, value.getNom());
 			return update.execute();
@@ -120,9 +126,9 @@ public class DaoEquipe implements Dao<Equipe,String>{
 	 */
 	@Override
 	public boolean delete(String... value) throws Exception {
-		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Equipe where Nom_Equipe = ?")){
-			delete.setString(1,value[0]);
+		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+				"DELETE FROM Equipe where Nom_Equipe = ?")) {
+			delete.setString(1, value[0]);
 			return delete.execute();
 		}
 	}

@@ -1,28 +1,13 @@
 package dao;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import exceptions.FausseDateException;
+import modele.*;
+
+import java.sql.*;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import exceptions.FausseDateException;
-import modele.Appartenance;
-import modele.Categorie;
-import modele.CompteArbitre;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Matche;
-import modele.Niveau;
-import modele.Poule;
-import modele.Saison;
-import modele.Tournoi;
 
 public class DaoTournoi implements Dao<Tournoi, Object> {
 
@@ -103,14 +88,13 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER) , Nom_Tournoi (STRING)
 	 */
 	@Override
-	public Optional<Tournoi> getById(Object... id) throws Exception {
+	public Tournoi getById(Object... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Tournoi WHERE Nom_Tournoi = ? AND Annee = ?")) {
 			getById.setString(1, (String) id[0]);
 			getById.setInt(2, (Integer) id[1]);
 			ResultSet resultat = getById.executeQuery();
-			Tournoi tournoi = null;
 			if (resultat.next()) {
-				tournoi = new Tournoi(
+				Tournoi tournoi = new Tournoi(
 						new Saison(resultat.getInt("Annee")),
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Debut")),
@@ -120,9 +104,9 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 								resultat.getString("username"),
 								resultat.getString("mdp"))
 				);
-				
+				return tournoi;
 			}
-			return Optional.ofNullable(tournoi);
+			throw new Exception("Tournoi non trouvé");
 		}
 	}
 
@@ -138,7 +122,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			add.setTimestamp(3, value.getDebut().toSQL());
 			add.setTimestamp(4, value.getFin().toSQL());
 			add.setString(5, value.getCompteArbitre().getUsername());
-			add.setString(6, value.getCompteArbitre().getHashMdp());
+			add.setString(6, value.getCompteArbitre().getMdp());
 			add.setString(7, value.getNiveau().getNom());
 
 			return add.execute();
@@ -163,7 +147,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			update.setTimestamp(1, value.getDebut().toSQL());
 			update.setTimestamp(2, value.getFin().toSQL());
 			update.setString(3, value.getCompteArbitre().getUsername());
-			update.setString(4, value.getCompteArbitre().getHashMdp());
+			update.setString(4, value.getCompteArbitre().getMdp());
 			update.setString(5, value.getNiveau().getNom());
 
 			return update.execute();
@@ -265,65 +249,6 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			}
 			return sortie;
 		}
-	}
-	
-	
-	/**
-	 * Récoupère tous les matchs d'une poule à partir d'un objet poule
-	 * @param poule
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Matche> getMatchesByPoule(Poule poule) throws Exception {
-		//Création des DAO utilisées
-		DaoAppartenance daoappartenance = new DaoAppartenance(connexion);
-		DaoMatche daomatche = new DaoMatche(connexion);
-		
-		//Récupérations des équipes de la poule
-		List<Equipe> equipes = daoappartenance.getEquipeByPoule(poule.getTournoi().getNom(),poule.getTournoi().getSaison().getAnnee(),poule.getLibelle());
-		
-		//Récupération des matchs du tournoi duquel appartient la poule si ce sont des matchs de catégorie "poule"
-		List<Matche> matches = daomatche.getMatchesByTournoiFromCategorie(poule.getTournoi(), Categorie.POULE);
-		
-		//Création de la liste de sortie
-		List<Matche> sortie = new ArrayList<>();
-		
-		//Boucle qui vérifie que si l'équipe que l'on observe est référencée comme Equipe 1 ou Equipe 2 du match que l'on observe, alors ce match fait partie de la poule
-		for(Equipe e : equipes) {
-			for(Matche m : matches) {
-				if (m.getEquipe1().equals(e) || m.getEquipe2().equals(e)) {
-					sortie.add(m);
-				}
-			}
-		}
-		
-		//On renvoie la liste des matchs de la poule passée en paramètre
-		return sortie;
-	}
-	
-	/**
-	 * Récoupère tous les matchs d'une poule à partir d'un objet poule
-	 * @param poule
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Matche> getMatchesByEquipe(Appartenance a) throws Exception {
-		
-		//Récupération des matchs du tournoi duquel appartient la poule si ce sont des matchs de catégorie "poule"
-		List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchesByTournoiFromCategorie(a.getPoule().getTournoi(), Categorie.POULE);
-		
-		//Création de la liste de sortie
-		List<Matche> sortie = new ArrayList<>();
-		
-		//Boucle qui vérifie que si l'équipe que l'on observe est référencée comme Equipe 1 ou Equipe 2 du match que l'on observe, alors ce match fait partie de la poule
-		for(Matche m : matches) {
-			if (m.getEquipe1().equals(a.getEquipe()) || m.getEquipe2().equals(a.getEquipe())) {
-				sortie.add(m);
-			}
-		}
-		
-		//On renvoie la liste des matchs de la poule passée en paramètre
-		return sortie;
 	}
 
 }
