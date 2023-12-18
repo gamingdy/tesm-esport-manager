@@ -57,6 +57,7 @@ public class PopupPseudo extends JFrame {
 		JButton closeButton = new JButton("Annuler");
 		closeButton.setFont(MaFont.getFontTitre4());
 		closeButton.setForeground(CustomColor.BLANC);
+		closeButton.setBackground(CustomColor.TRANSPARENT);
 		closeButton.setOpaque(false);
 		closeButton.setFocusable(false);
 		closeButton.addActionListener(e -> dispose());
@@ -65,6 +66,7 @@ public class PopupPseudo extends JFrame {
 		JButton okButton = new JButton("Valider");
 		okButton.setFont(MaFont.getFontTitre4());
 		okButton.setForeground(CustomColor.BLANC);
+		okButton.setBackground(CustomColor.TRANSPARENT);
 		okButton.setOpaque(false);
 		okButton.setFocusable(false);
 		okButton.addActionListener(e -> {
