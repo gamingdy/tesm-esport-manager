@@ -229,7 +229,9 @@ public class VueAdminTournoisCreation extends JPanel {
 		model.addElement(new JLabel());
 		model.addElement(new JLabel());
 		model.addElement(new JLabel());
+		model.addElement(new JLabel());
 		JList<JLabel> l = new JList<JLabel>(model);
+		l.setPreferredSize(new Dimension());
 		l.setLayout(new GridLayout(0, 1));
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
@@ -312,12 +314,17 @@ public class VueAdminTournoisCreation extends JPanel {
 	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setEquipe(String nom, ImageIcon logo, int i) {
-		JLabel equipe = new JLabel(nom);
-		equipe.setIcon(Vue.resize(logo, 30, 30));
+		JLabel equipe = new JLabel();
+		if (nom != null && logo != null) {
+			equipe.setText(nom);
+			equipe.setIcon(Vue.resize(logo, 30, 30));
+		}
 		equipe.setForeground(CustomColor.BLANC);
 		equipe.setFont(MaFont.getFontTitre3());
-		equipe.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS));
-		this.model.add(i, equipe);
+		equipe.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS),
+				BorderFactory.createEmptyBorder(10,0,10,0)));
+		this.model.set(i, equipe);
 	}
 
 	public JButton getBoutonValider() {
