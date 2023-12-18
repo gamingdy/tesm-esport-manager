@@ -24,7 +24,6 @@ import vue.common.CustomColor;
 import vue.common.MaFont;
 
 
-
 public class PopupEquipe extends JFrame {
 
 	private JComboBox<Equipe> c;
@@ -33,7 +32,7 @@ public class PopupEquipe extends JFrame {
 		void handleAction();
 	}
 
-	public PopupEquipe(String title,List<Equipe> equipes, ActionHandler actionHandler) {
+	public PopupEquipe(String title, List<Equipe> equipes, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -42,7 +41,7 @@ public class PopupEquipe extends JFrame {
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
 		setIconImage(icon.getImage());
 
-		JPanel panel = createPanel(actionHandler,equipes);
+		JPanel panel = createPanel(actionHandler, equipes);
 		add(panel);
 
 		pack();
@@ -61,12 +60,12 @@ public class PopupEquipe extends JFrame {
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 		panel.add(label, BorderLayout.NORTH);
 
-		
+
 		DefaultComboBoxModel<Equipe> model = new DefaultComboBoxModel<Equipe>();
-		model.addAll(equipes);
-		
+		equipes.forEach(model::addElement);
+
 		c = new JComboBox<Equipe>(model);
-		
+
 		panel.add(c, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();

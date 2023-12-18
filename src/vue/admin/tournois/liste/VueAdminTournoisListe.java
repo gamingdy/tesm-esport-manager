@@ -87,7 +87,6 @@ public class VueAdminTournoisListe extends JPanel {
 		gbcBtnAjt.weightx = 0.4F;
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
-		setControleur(new TournoisListeControlleur(this));
 	}
 
 	public void setListeTournois(List<CaseTournoi> l) {
