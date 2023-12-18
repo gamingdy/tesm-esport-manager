@@ -55,7 +55,7 @@ public class PopupEquipe extends JFrame {
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
 
-		JLabel label = new JLabel("Saisir le pseudo :");
+		JLabel label = new JLabel("Saisir l'équipe :");
 		label.setForeground(Color.white);
 		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
