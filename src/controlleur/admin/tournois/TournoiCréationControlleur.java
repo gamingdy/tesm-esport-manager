@@ -95,6 +95,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 					//CREATION TOURNOI
 
 					daoTournoi.add(tournoiInserer);
+					new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+					resetChamps();
 				} catch (DateTimeException dateTimeException) {
 					new JFramePopup("Erreur", "Le bon format est dd/mm/yyyy", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 				} catch (FausseDateException ex) {
@@ -107,6 +109,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 
 		} else if (e.getSource() == this.vue.getBoutonAnnuler()) {
 			TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE);
+			resetChamps();
 		}
 	}
 
@@ -124,6 +127,11 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public void initEquipes(Tournoi tournoi) {
 		Poule poule = new Poule(tournoi, 'A');
 
+	}
+
+	public void resetChamps() {
+		this.vue.clearField();
+		this.nbEquipes = 0;
 	}
 
 	public void addEquipe() {

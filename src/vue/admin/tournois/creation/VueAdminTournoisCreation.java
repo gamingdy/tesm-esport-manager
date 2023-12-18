@@ -292,8 +292,9 @@ public class VueAdminTournoisCreation extends JPanel {
 
 	public void clearField() {
 		this.textfieldNom.setText("");
-		this.labelLogo.setText("Insérer logo");
-		this.labelLogo.setIcon(null);
+		this.comboboxNiveaux.setSelectedItem(null);
+		this.textfieldDateDebut.setText("");
+		this.textfieldDateFin.setText("");
 
 	}
 
