@@ -214,7 +214,6 @@ public class VueAdminEquipesCreation extends JPanel {
 		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
 
-		setControleur(new EquipeCreationControlleur(this));
 	}
 
 	// setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
