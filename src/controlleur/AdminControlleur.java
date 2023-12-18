@@ -17,7 +17,7 @@ import vue.admin.main.MenuNavBar;
 import vue.common.JFramePopup;
 
 enum ETAT {
-	ACCUEIL, ARBITRES, EQUIPES
+	ACCUEIL, ARBITRES, EQUIPES, TOURNOIS
 }
 
 public class AdminControlleur implements ActionListener, MouseListener {
@@ -25,13 +25,13 @@ public class AdminControlleur implements ActionListener, MouseListener {
 	private ETAT etat;
 	MenuNavBar navbar;
 
-	public AdminControlleur(MenuNavBar navbar, VueAdmin vue)  {
+	public AdminControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
 		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
 		vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
-		vue.addPage(new VueArbitres(),Page.ARBITRES);
+		vue.addPage(new VueArbitres(), Page.ARBITRES);
 		vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
@@ -60,6 +60,9 @@ public class AdminControlleur implements ActionListener, MouseListener {
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.EQUIPES.getNom())) {
 				this.etat = ETAT.EQUIPES;
 				this.vue.setPage(Page.EQUIPES);
+			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.TOURNOIS.getNom())) {
+				this.etat = ETAT.TOURNOIS;
+				this.vue.setPage(Page.TOURNOIS);
 			}
 		}
 	}
