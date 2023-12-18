@@ -66,7 +66,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			} else if (Objects.equals(niveau, null)) {
 				new JFramePopup("Erreur", "Veuillez choisir un niveau de tournoi", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 			} else if (nbEquipes < 4) {
-				new JFramePopup("Erreur", "Il faut au moins deux equipes", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+				new JFramePopup("Erreur", "Il faut au moins 4 equipes", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 			} else if (dateDebutString.isEmpty()) {
 				new JFramePopup("Erreur", "Le tournoi doit avoir une date de debut", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 			} else if (dateFinString.isEmpty()) {
