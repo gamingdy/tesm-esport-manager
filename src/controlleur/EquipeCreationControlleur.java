@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class EquipeCreationControlleur implements ActionListener, ControlleurObserver, ItemListener, MouseListener {
+public class EquipeCreationControlleur implements ActionListener, ItemListener, MouseListener {
 	private final VueAdminEquipesCreation vue;
 	private final DaoEquipe daoEquipe;
 	private BufferedImage logo;
@@ -89,7 +89,6 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 			this.logo = null;
 			this.vue.clearField();
-			this.update();
 		}
 	}
 
@@ -100,11 +99,6 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 		} catch (Exception ignored) {
 			return false;
 		}
-
-	}
-
-	@Override
-	public void update() {
 
 	}
 
