@@ -3,7 +3,6 @@ package modele.test;
 import exceptions.ExceptionDate;
 import exceptions.FausseDateException;
 import modele.CustomDate;
-import modele.Equipe;
 import modele.Poule;
 import modele.Tournoi;
 import org.junit.Before;

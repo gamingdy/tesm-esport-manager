@@ -9,9 +9,10 @@ import modele.Tournoi;
 import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.VueAccueil;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.DefaultListModel;
 
 public class AccueilControlleur implements ControlleurObserver {
 	private VueAccueil vue;
