@@ -294,9 +294,9 @@ public class VueAdminTournoisCreation extends JPanel {
 	 * @param nom nom du joueur
 	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
-	public void setEquipe(String nom, Icon logo, int i) {
+	public void setEquipe(String nom, ImageIcon logo, int i) {
 		JLabel equipe = new JLabel(nom);
-		equipe.setIcon(logo);
+		equipe.setIcon(Vue.resize(logo, 30, 30));
 		equipe.setForeground(CustomColor.BLANC);
 		equipe.setFont(MaFont.getFontTitre3());
 		equipe.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS));

@@ -1,8 +1,15 @@
 package modele.test;
 
-import modele.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import modele.Arbitre;
+import modele.CompteAdmin;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Niveau;
+import modele.Saison;
+import modele.Tournoi;
 
 public class TestCompteArbitreAdmin {
 	private CompteArbitre compteArbitre;

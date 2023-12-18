@@ -1,9 +1,13 @@
 package modele;
 
 
-import exceptions.EquipeInexistanteException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import java.util.*;
+import exceptions.EquipeInexistanteException;
 
 public class Saison {
 

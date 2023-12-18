@@ -10,7 +10,8 @@ import modele.Tournoi;
 import vue.Page;
 import vue.login.VueLogin;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;

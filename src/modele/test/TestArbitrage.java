@@ -1,8 +1,15 @@
 package modele.test;
 
-import modele.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import modele.Arbitrage;
+import modele.Arbitre;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Niveau;
+import modele.Saison;
+import modele.Tournoi;
 
 import static org.junit.Assert.assertEquals;
 
