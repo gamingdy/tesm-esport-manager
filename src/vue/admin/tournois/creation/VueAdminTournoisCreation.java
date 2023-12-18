@@ -1,4 +1,4 @@
- 	package vue.admin.tournois.creation;
+package vue.admin.tournois.creation;
 
 import controlleur.admin.equipes.EquipeCreationControlleur;
 import modele.Pays;
@@ -40,7 +40,6 @@ public class VueAdminTournoisCreation extends JPanel {
 		setOpaque(false);
 
 
-
 		JPanel champNom = new JPanel();
 		champNom.setLayout(new GridLayout(2, 1, 10, 0));
 		champNom.setOpaque(false);
@@ -60,9 +59,9 @@ public class VueAdminTournoisCreation extends JPanel {
 		GridBagConstraints gbcNom = new GridBagConstraints();
 		gbcNom.gridx = 0;
 		gbcNom.gridy = 0;
-		gbcNom.weightx = 1F/5F;
-		
-		add(champNom,gbcNom);
+		gbcNom.weightx = 1F / 5F;
+
+		add(champNom, gbcNom);
 
 
 		JPanel champDateDébut = new JPanel();
@@ -84,9 +83,9 @@ public class VueAdminTournoisCreation extends JPanel {
 		GridBagConstraints gbcDateDébut = new GridBagConstraints();
 		gbcDateDébut.gridx = 0;
 		gbcDateDébut.gridy = 1;
-		gbcDateDébut.weightx = 1F/5F;
-		
-		add(champDateDébut,gbcDateDébut);
+		gbcDateDébut.weightx = 1F / 5F;
+
+		add(champDateDébut, gbcDateDébut);
 
 		JPanel panelBot = new JPanel();
 		panelBot.setOpaque(false);
@@ -116,6 +115,7 @@ public class VueAdminTournoisCreation extends JPanel {
 
 	/**
 	 * setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
+	 *
 	 * @param controleur
 	 */
 	public void setControleur(EquipeCreationControlleur controleur) {
@@ -139,11 +139,12 @@ public class VueAdminTournoisCreation extends JPanel {
 	public JLabel getLabelLogo() {
 		return this.labelLogo;
 	}
-	
+
 	/**
 	 * Set le nom d'un joueur
+	 *
 	 * @param nom nom du joueur
-	 * @param i indice du joueur dans le tableau ==> <strong>0 à 4</strong>
+	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setEquipe(String nom, Icon logo, int i) {
 		this.panelEquipes[i] = new JLabel(nom);
@@ -154,37 +155,53 @@ public class VueAdminTournoisCreation extends JPanel {
 		GridBagConstraints gbcJ = new GridBagConstraints();
 		gbcJ.fill = GridBagConstraints.HORIZONTAL;
 		gbcJ.gridx = 0;
-		gbcJ.gridy = i+1;
-		gbcJ.weighty = 1F/9F;
-		this.panelJoueurs.add(this.panelEquipes[i],gbcJ);
+		gbcJ.gridy = i + 1;
+		gbcJ.weighty = 1F / 9F;
+		this.panelJoueurs.add(this.panelEquipes[i], gbcJ);
 	}
-	
+
 	public void activerBoutonAjoutEquipes(boolean b) {
 		if (b) {
 			GridBagConstraints gbcJ = new GridBagConstraints();
 			gbcJ.fill = GridBagConstraints.HORIZONTAL;
 			gbcJ.gridx = 0;
 			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F/7F;
-			panelJoueurs.add(btnAjoutEquipes,gbcJ);
-		}
-		else {
+			gbcJ.weighty = 1F / 7F;
+			panelJoueurs.add(btnAjoutEquipes, gbcJ);
+		} else {
 			GridBagConstraints gbcJ = new GridBagConstraints();
 			gbcJ.fill = GridBagConstraints.HORIZONTAL;
 			gbcJ.gridx = 0;
 			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F/7F;
-			panelJoueurs.add(this.panelEquipes[4],gbcJ);
+			gbcJ.weighty = 1F / 7F;
+			panelJoueurs.add(this.panelEquipes[4], gbcJ);
 		}
 	}
-	
+
 	public String[] getEquipes() {
 		String[] retour = new String[5];
-		for (int i = 0; i<5; i++) {
+		for (int i = 0; i < 5; i++) {
 			retour[i] = panelEquipes[i].getText();
 		}
 		return retour;
 	}
+
+	public JButton getBoutonValider() {
+		return this.boutonValider;
+	}
+
+	public String getTextfieldNom() {
+		return this.textfieldNom.getText();
+	}
+
+	public String getTextfieldDateDebut() {
+		return this.textfieldDateDebut.getText();
+	}
+
+	public String getTextfieldDateFin() {
+		return this.textfieldDateFin.getText();
+	}
+
 }
 
 

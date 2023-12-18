@@ -120,7 +120,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			if (s.IS_OK) {
 				System.out.println("ui");
 			} else {
-				System.out.println("patata");
+				System.out.println("non");
 			}
 
 			//this.vue.setJoueur(resultat, 1);
