@@ -1,11 +1,27 @@
-import dao.*;
-import modele.*;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
+
+import dao.Connexion;
+import dao.DaoAppartenance;
+import dao.DaoEquipe;
+import dao.DaoJoueur;
+import dao.DaoMatche;
+import dao.DaoNiveau;
+import dao.DaoPartie;
+import dao.DaoPoule;
+import dao.DaoSaison;
+import dao.DaoTournoi;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Joueur;
+import modele.Niveau;
+import modele.Poule;
+import modele.Saison;
+import modele.Tournoi;
 
 public class ESporterManagerInitBDD {
 	public static void main(String[] args) throws Exception {

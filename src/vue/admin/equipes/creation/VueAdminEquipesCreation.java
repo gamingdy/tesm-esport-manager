@@ -6,9 +6,25 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.util.Arrays;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -82,7 +98,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		modelPays.addElement(null);
 		Arrays.stream(Pays.values()).forEach(p -> modelPays.addElement(p));
 		comboboxPays = new JComboBox<Pays>(modelPays);
-		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
+		comboboxPays.setRenderer(new javax.swing.ListCellRenderer<Pays>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
 														  boolean isSelected, boolean cellHasFocus) {
@@ -182,14 +198,15 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelBot.setPreferredSize(new Dimension(0, 0));
 		GridBagConstraints gbcPanelBot = new GridBagConstraints();
 		gbcPanelBot.fill = GridBagConstraints.BOTH;
+		// ...
+
 		gbcPanelBot.weighty = 0.2;
 		gbcPanelBot.gridx = 0;
 		gbcPanelBot.gridy = 1;
 		add(panelBot, gbcPanelBot);
 
-
 		panelBot.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-		((FlowLayout) panelBot.getLayout()).setHgap(150);
+		panelBot.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 0));
 
 		boutonAnnuler = new JButton("Annuler");
 		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());

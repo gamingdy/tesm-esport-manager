@@ -1,6 +1,7 @@
 package vue.arbitre;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class PageTestArbitre extends JPanel {
 	public PageTestArbitre() {

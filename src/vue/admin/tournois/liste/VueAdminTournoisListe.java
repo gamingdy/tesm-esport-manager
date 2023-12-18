@@ -7,10 +7,21 @@ import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 public class VueAdminTournoisListe extends JPanel {
 

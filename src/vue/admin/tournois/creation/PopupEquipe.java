@@ -6,13 +6,11 @@ import java.util.List;
 import java.awt.Color;
 import java.awt.BorderLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 

@@ -6,11 +6,29 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.List;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.FlowLayout;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 
 public class VueAdminTournoisCreation extends JPanel {
 
@@ -174,7 +192,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		panelEquipes.setLayout(gblPanelEquipes);
 		GridBagConstraints gbcPanelEquipes = new GridBagConstraints();
 		gbcPanelEquipes.fill = GridBagConstraints.BOTH;
-		gbcPanelEquipes.insets = new Insets(0, 50, 0, 0);
+		gbcPanelEquipes.insets = new java.awt.Insets(0, 50, 0, 0);
 		gbcPanelEquipes.gridx = 1;
 		gbcPanelEquipes.gridy = 0;
 		gbcPanelEquipes.gridheight = 4;

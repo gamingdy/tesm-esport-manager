@@ -1,11 +1,16 @@
 package vue.admin.tournois.liste;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class CaseTournoi {
 

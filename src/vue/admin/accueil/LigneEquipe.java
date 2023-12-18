@@ -1,6 +1,6 @@
 package vue.admin.accueil;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
 public class LigneEquipe {
 

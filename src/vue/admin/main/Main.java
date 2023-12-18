@@ -1,11 +1,17 @@
 package vue.admin.main;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import vue.Page;
 import vue.common.CustomColor;
 import vue.common.MaFont;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Main extends JPanel {
 

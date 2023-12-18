@@ -1,10 +1,13 @@
 package vue.admin.accueil;
 
+import java.awt.GridLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import vue.common.CustomColor;
 import vue.common.MaFont;
-
-import javax.swing.*;
-import java.awt.*;
 
 @SuppressWarnings("serial")
 public class PanelEquipeClassement extends JPanel {

@@ -1,6 +1,6 @@
 package vue.common;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class CustomColor {
 	public static final Color BACKGROUND_MAIN = new Color(15, 3, 25);

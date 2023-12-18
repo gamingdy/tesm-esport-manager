@@ -1,9 +1,12 @@
 package vue.admin.main;
 
+import java.awt.CardLayout;
+import java.awt.Component;
+
+import javax.swing.JPanel;
+
 import vue.Page;
 
-import javax.swing.*;
-import java.awt.*;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {

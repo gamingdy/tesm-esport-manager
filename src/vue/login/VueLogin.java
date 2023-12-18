@@ -5,9 +5,16 @@ import controlleur.login.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class VueLogin extends JPanel {

@@ -1,10 +1,11 @@
 package vue.admin.arbitres;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import controlleur.VueObserver;
 import vue.common.CustomColor;
 import vue.common.MaFont;
-
-import javax.swing.*;
 
 public class VueArbitres extends JPanel {
 	public VueArbitres() {
