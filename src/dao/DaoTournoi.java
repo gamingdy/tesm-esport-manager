@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import exceptions.FausseDateException;
 import modele.Appartenance;
-import modele.Arbitrage;
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;

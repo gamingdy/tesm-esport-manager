@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import modele.Arbitrage;
 import modele.Niveau;
 
 public class DaoNiveau implements Dao<Niveau,String>{
