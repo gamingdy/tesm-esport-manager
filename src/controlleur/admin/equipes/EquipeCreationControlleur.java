@@ -1,10 +1,7 @@
 package controlleur.admin.equipes;
 
 import controlleur.VueObserver;
-import dao.Connexion;
-import dao.DaoEquipe;
-import dao.DaoJoueur;
-import dao.DaoSaison;
+import dao.*;
 import modele.Equipe;
 import modele.Joueur;
 import modele.Pays;
@@ -29,6 +26,7 @@ import java.util.Objects;
 public class EquipeCreationControlleur implements ActionListener, ItemListener, MouseListener {
 	private final VueAdminEquipesCreation vue;
 	private final DaoEquipe daoEquipe;
+	private DaoJoueur daoJoueur;
 	private BufferedImage logo;
 	private ImageIcon drapeauDeBase = new ImageIcon("assets/country-flags/earth.png");
 	private static Connexion c;
@@ -40,7 +38,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);
 		DaoSaison daoSaison = new DaoSaison(c);
-		DaoJoueur daoJoueur = new DaoJoueur(c);
+		daoJoueur = new DaoJoueur(c);
 	}
 
 	@Override
@@ -50,6 +48,9 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
 			String nomEquipe = vue.getNomEquipe().trim();
 			Pays champPaysEquipe;
+			if (this.nbJoueurs < 5) {
+				new JFramePopup("Erreur", "Pas assez de joueurs dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+			}
 			if (vue.getChampPaysEquipe() == null) {
 				champPaysEquipe = null;
 			} else {
@@ -162,6 +163,31 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		this.nbJoueurs++;
 	}
 
+
+	BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+		Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
+		BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+		return outputImage;
+	}
+
+	public void initEquipe(Equipe equipe) {
+		daoJoueur = new DaoJoueur(c);
+		if (this.nbJoueurs == 5) {
+			Object[] liste = this.vue.getJoueurs();
+			try {
+				for (Object pseudo : liste) {
+					daoJoueur.add(new Joueur(pseudo.toString(), equipe));
+				}
+			} catch (Exception e) {
+
+			}
+		} else {
+			new JFramePopup("Erreur", "Il n'y a pas assez de joueurs dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+		}
+	}
+
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 
@@ -180,36 +206,5 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	@Override
 	public void mouseExited(MouseEvent e) {
 
-	}
-
-	BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-		Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
-		BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
-		return outputImage;
-	}
-
-	private static String randomUsername(String name) {
-		List<String> characters = Arrays.asList(name.split(""));
-		Collections.shuffle(characters);
-		StringBuilder afterShuffle = new StringBuilder();
-		for (String character : characters) {
-			afterShuffle.append(character);
-		}
-		return afterShuffle.toString();
-	}
-
-	private static void initEquipe(Equipe equipe) {
-		DaoJoueur daoJoueur = new DaoJoueur(c);
-		String default_username = "patata";
-		for (int i = 0; i < 5; i++) {
-			default_username = randomUsername(default_username);
-			try {
-				Joueur j = new Joueur(default_username, equipe);
-				daoJoueur.add(j);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 }
