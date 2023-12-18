@@ -7,23 +7,13 @@ public class Appartenance {
 	
 	private Equipe equipe;
 	private Poule poule;
-	// TODO beh à retirer tu coco
-	private Set<Appartenance> appartenances;
 	
 	public Appartenance(Equipe equipe, Poule poule) {
 		this.equipe = equipe;
 		this.poule = poule;
-		this.appartenances = new HashSet<>();
+		
 	}
 	
-	public void addAppartenance(Appartenance appartenance) {
-		this.appartenances.add(appartenance);
-	}
-	
-	public void deleteAppartenance(Appartenance appartenance) {
-		this.appartenances.remove(appartenance);
-	}
-
 	public Equipe getEquipe() {
 		return equipe;
 	}

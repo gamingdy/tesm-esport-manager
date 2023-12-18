@@ -31,7 +31,7 @@ public class Selection {
 
 	public Saison getSaison() {
 		return saison;
-	}
+	} 
 
 	public Set<Selection> getSelections() {
 		return selections;
