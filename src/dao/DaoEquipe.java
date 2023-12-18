@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 import modele.Equipe;
-import modele.Country;
+import modele.Pays;
+import modele.Arbitrage;
 
 public class DaoEquipe implements Dao<Equipe,String>{
 
@@ -59,7 +60,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 			while(resultat.next()) {
 				Equipe equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Country.valueOf(resultat.getString("Pays_Equipe")));
+						Pays.valueOf(resultat.getString("Pays_Equipe")));
 				sortie.add(equipe);
 			}
 			return sortie;
@@ -79,7 +80,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 			if (resultat.next()) {
 				equipe = new Equipe(
 						resultat.getString("Nom_Equipe"),
-						Country.valueOf(resultat.getString("Pays_Equipe")));
+						Pays.valueOf(resultat.getString("Pays_Equipe")));
 				
 			}
 			return Optional.ofNullable(equipe);
@@ -125,5 +126,16 @@ public class DaoEquipe implements Dao<Equipe,String>{
 			delete.setString(1,value[0]);
 			return delete.execute();
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Equipe_______________________" + "\n";
+		List<Equipe> l = this.getAll();
+		for(Equipe a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 }

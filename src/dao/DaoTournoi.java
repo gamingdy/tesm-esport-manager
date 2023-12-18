@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import exceptions.FausseDateException;
 import modele.Appartenance;
+import modele.Arbitrage;
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -267,6 +268,32 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		}
 	}
 	
+	public Optional<Tournoi> getTournoiBetweenDate(CustomDate dateAvant, CustomDate dateApres) throws Exception {
+		try(PreparedStatement getTournoiBetweenDate = connexion.getConnection().prepareStatement(
+				"SELECT *"
+				+ "FROM Tournoi"
+				+ "WHERE Date_Debut >= ?"
+				+ "AND Date_Fin <= ?")) {
+			getTournoiBetweenDate.setTimestamp(1, dateAvant.toSQL());
+			getTournoiBetweenDate.setTimestamp(2, dateApres.toSQL());
+			ResultSet resultat = getTournoiBetweenDate.executeQuery();
+			Tournoi sortie = null;
+			if(resultat.next()) {
+				sortie = new Tournoi(
+						new Saison(resultat.getInt("Annee")),
+						resultat.getString("Nom_Tournoi"),
+						new CustomDate(resultat.getTimestamp("Date_Debut")),
+						new CustomDate(resultat.getTimestamp("Date_Fin")),
+						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
+						new CompteArbitre(
+								resultat.getString("username"),
+								resultat.getString("mdp"))
+				);
+			}
+			return Optional.ofNullable(sortie);
+		}
+	}
+	
 	
 	/**
 	 * Récoupère tous les matchs d'une poule à partir d'un objet poule
@@ -324,6 +351,17 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		
 		//On renvoie la liste des matchs de la poule passée en paramètre
 		return sortie;
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Tournoi_______________________" + "\n";
+		List<Tournoi> l = this.getAll();
+		for(Tournoi a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 
 }

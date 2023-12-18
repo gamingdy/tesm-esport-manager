@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import exceptions.FausseDateException;
 import exceptions.MemeEquipeException;
+import modele.Arbitrage;
 import modele.Categorie;
 import modele.CustomDate;
 import modele.Equipe;
@@ -268,6 +269,17 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			}
 			return sortie;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Matche_______________________" + "\n";
+		List<Matche> l = this.getAll();
+		for(Matche a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 }
 

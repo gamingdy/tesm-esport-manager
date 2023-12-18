@@ -3,10 +3,10 @@ package modele;
 public enum Niveau {
 
 	LOCAL("Local", 1.0F),
-	REGIONAL("Regional", 1.5F),
+	REGIONAL("Régional", 1.5F),
 	NATIONAL("National", 2.0F),
 	INTERNATIONAL("International", 2.25F),
-	INTERNATIONAL_CLASSE("International_classe", 3.0F);
+	INTERNATIONAL_CLASSE("International classé", 3.0F);
 
 	private float coefficient;
 	private String nom;

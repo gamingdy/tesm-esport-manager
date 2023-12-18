@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Partie;
 
 public class DaoPartie implements Dao<Partie, Integer> {
@@ -139,6 +140,17 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			delete.setInt(2, value[1]);
 			return delete.execute();
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Partie_______________________" + "\n";
+		List<Partie> l = this.getAll();
+		for(Partie a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 }
 
