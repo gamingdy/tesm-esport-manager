@@ -79,4 +79,12 @@ public class Arbitre implements Comparable<Arbitre> {
 		Arbitre other = (Arbitre) obj;
 		return Objects.equals(id, other.id) && Objects.equals(nom, other.nom) && Objects.equals(prenom, other.prenom);
 	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
 }
