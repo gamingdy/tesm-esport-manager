@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import modele.Poule;
+import modele.Tournoi;
 
 public class DaoPoule implements Dao<Poule, Object> {
 
@@ -132,6 +133,26 @@ public class DaoPoule implements Dao<Poule, Object> {
 			delete.setString(2, (String) value[1]);
 			delete.setString(3, (String) value[2]);
 			return delete.execute();
+		}
+	}
+	
+	public List<Poule> getPouleByTournoi(Tournoi tournoi) throws Exception {
+		try(PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
+				+ "SELECT *"
+				+ "FROM Poule"
+				+ "WHERE Annee = ?"
+				+ "AND Nom_tournoi = ?")) {
+			getPouleByTournoi.setInt(1, tournoi.getSaison().getAnnee());
+			getPouleByTournoi.setString(2, tournoi.getNom());
+			ResultSet resultat = getPouleByTournoi.executeQuery();
+			List<Poule> sortie = new ArrayList<>();
+			while(resultat.next()) {
+				Poule poule = new Poule(
+						daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")).get(),
+						resultat.getString("Libelle").charAt(0));
+				sortie.add(poule);
+			}
+			return sortie;
 		}
 	}
 }

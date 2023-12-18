@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import modele.Appartenance;
 import modele.Equipe;
+import modele.Inscription;
 import modele.Poule;
 import modele.Tournoi;
 
@@ -229,5 +230,26 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			return sortie;
 		}
 	}
-
+	
+	/**
+	 * A partir d'un objet inscription (association d'une équipe et d'une saison, ici la saison précédente)
+	 * renvoie la liste de tous les tournois où l'équipe était présente
+	 * @param inscription
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Tournoi> getTournoiByEquipeForSaison(Inscription inscription) throws Exception {
+		try(PreparedStatement getTournoiByEquipeForSaison = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ? AND Annee = ?")){
+			getTournoiByEquipeForSaison.setString(1, inscription.getEquipe().getNom());
+			getTournoiByEquipeForSaison.setInt(2, inscription.getSaison().getAnnee());
+			ResultSet resultat = getTournoiByEquipeForSaison.executeQuery();
+			List<Tournoi> sortie = new ArrayList<>();
+			while(resultat.next()) {
+				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")).get());
+			}
+			return sortie;
+		}
+	}
+	
+	
 }

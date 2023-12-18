@@ -67,8 +67,8 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			List<Partie> sortie = new ArrayList<>();
 			while (resultat.next()) {
 				Partie partie = new Partie(
-						daomatche.getById(resultat.getInt("Id_Match")).get());
-				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
+						daomatche.getById(resultat.getInt("Id_Match")).get(),
+						resultat.getInt("Id_Partie"));
 				sortie.add(partie);
 			}
 			return sortie;
@@ -88,8 +88,8 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			Partie partie = null;
 			if (resultat.next()) {
 				partie = new Partie(
-						daomatche.getById(resultat.getInt("Id_Match")).get());
-				partie.setNumeroPartie(resultat.getInt("Id_Partie"));
+						daomatche.getById(resultat.getInt("Id_Match")).get(),
+						resultat.getInt("Id_Partie"));
 				
 			}
 			return Optional.ofNullable(partie);

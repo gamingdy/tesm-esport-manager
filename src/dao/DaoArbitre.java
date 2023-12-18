@@ -59,7 +59,7 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Arbitre");
 			List<Arbitre> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				Arbitre arbitre = Arbitre.createArbitre(
+				Arbitre arbitre = new Arbitre(
 						resultat.getString("Nom"),
 						resultat.getString("Prenom"));
 				arbitre.setId(resultat.getInt("Id_Arbitre"));
@@ -80,7 +80,7 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 			ResultSet resultat = getById.executeQuery();
 			Arbitre arbitre = null;
 			if (resultat.next()) {
-				arbitre = Arbitre.createArbitre(
+				arbitre = new Arbitre(
 						resultat.getString("Nom"),
 						resultat.getString("Prenom"));
 				arbitre.setId(resultat.getInt("Id_Arbitre"));

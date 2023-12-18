@@ -12,6 +12,7 @@ import modele.Arbitre;
 import modele.Equipe;
 import modele.Inscription;
 import modele.Saison;
+import modele.Tournoi;
 
 public class DaoInscription implements Dao<Inscription,Object>{
 
@@ -153,14 +154,14 @@ public class DaoInscription implements Dao<Inscription,Object>{
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Optional<Equipe>> getEquipeBySaison(Object...  value) throws Exception {
+	public List<Equipe> getEquipeBySaison(Object...  value) throws Exception {
 		try(PreparedStatement getEquipeBySaison = connexion.getConnection().prepareStatement(
 				"SELECT * FROM Inscription WHERE Annee = ?")) {
 			getEquipeBySaison.setInt(1, (Integer)value[0]);
 			ResultSet resultat = getEquipeBySaison.executeQuery();
-			List<Optional<Equipe>> sortie = new ArrayList<>();
+			List<Equipe> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daoequipe.getById(resultat.getString("Nom_Equipe")));
+				sortie.add(daoequipe.getById(resultat.getString("Nom_Equipe")).get());
 			}
 			return sortie;
 		}
@@ -186,5 +187,4 @@ public class DaoInscription implements Dao<Inscription,Object>{
 			return sortie;
 		}
 	}
-
 }

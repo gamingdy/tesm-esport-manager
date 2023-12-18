@@ -75,7 +75,7 @@ public class DaoNiveau implements Dao<Niveau,String>{
 			ResultSet resultat = getById.executeQuery();
 			Niveau niveau = null;
 			if(resultat.next()) {
-			niveau = Niveau.valueOf(resultat.getString("Libelle_Niveau"));
+				niveau = Niveau.valueOf(resultat.getString("Libelle_Niveau"));
 			
 			}
 			return Optional.ofNullable(niveau);

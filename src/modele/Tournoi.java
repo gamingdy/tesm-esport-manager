@@ -1,6 +1,8 @@
 package modele;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 //import java.util.HashMap;
 //import java.util.Map;
@@ -16,8 +18,9 @@ public class Tournoi {
 	private Niveau niveau;
 	private boolean estEncours;
 	private CompteArbitre compteArbitre;
-	//TODO à supprimer ?
-	//private Map<Character,Poule> poules;
+	
+	private Set<Poule> poules;
+	private Set<Matche> matches;
 
 	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDateException {
 		if (debut.getAnnee() < saison.getAnnee()) {
@@ -25,9 +28,6 @@ public class Tournoi {
 		}
 		if (fin.getAnnee() > saison.getAnnee()) {
 			throw new FausseDateException("La date de fin du tournoi est après la date de fin de la saison");
-		}
-		if (debut.estApres(fin)) {
-			throw new FausseDateException("La date de fin du tournoi est avant la date de début du tournoi");
 		}
 		this.saison = saison;
 		this.nom = nom;
@@ -41,6 +41,9 @@ public class Tournoi {
 		} else {
 			this.estEncours = false;
 		}
+		
+		this.matches = new HashSet<>();
+		this.poules = new HashSet<>();
 	}
 
 	public Saison getSaison() {
@@ -118,17 +121,19 @@ public class Tournoi {
 		return Objects.equals(nom, other.nom) && Objects.equals(saison, other.saison);
 	}
 
-
-	/* TODO à supprimer ?
-	public Map<Character, Poule> getPoules() {
-		return poules;
+	public void addPoules(Poule poule) {
+		this.poules.add(poule);
 	}
-
-	public void addPoule(Poule poule) {
-		this.poules.put(poule.getNom(), poule);
+	
+	public void deletePoules(Poule poule) {
+		this.poules.remove(poule);
 	}
-
-	public void setPoules(Map<Character, Poule> poules) {
-		this.poules = poules;
-	}*/
+	
+	public void addMatche(Matche matche) {
+		this.matches.add(matche);
+	}
+	
+	public void deleteMatche(Matche matche) {
+		this.matches.remove(matche);
+	}
 }
