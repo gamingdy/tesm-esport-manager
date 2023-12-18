@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Niveau;
 
 public class DaoNiveau implements Dao<Niveau,String>{
@@ -121,6 +122,17 @@ public class DaoNiveau implements Dao<Niveau,String>{
 			delete.setString(1,value[0]);
 			return delete.execute();
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Niveau_______________________" + "\n";
+		List<Niveau> l = this.getAll();
+		for(Niveau a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 }
 

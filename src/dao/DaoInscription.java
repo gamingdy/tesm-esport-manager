@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
+import modele.Arbitre;
 import modele.Equipe;
 import modele.Inscription;
 import modele.Saison;
@@ -184,5 +186,16 @@ public class DaoInscription implements Dao<Inscription,Object>{
 			}
 			return sortie;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Inscription_______________________" + "\n";
+		List<Inscription> l = this.getAll();
+		for(Inscription a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 }

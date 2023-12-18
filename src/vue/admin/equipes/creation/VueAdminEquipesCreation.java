@@ -138,7 +138,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelJoueurs.add(labelJoueurs, gbcLabelJoueurs);
 
 		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
-		btnAjoutJoueurs.setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
+		btnAjoutJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 20));
 		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
@@ -273,8 +273,8 @@ public class VueAdminEquipesCreation extends JPanel {
 		model.addElement(nom);
 	}
 
-	public List<String> getJoueurs() {
-		return Arrays.asList((String[]) model.toArray());
+	public Object[] getJoueurs() {
+		return model.toArray();
 	}
 
 	public JLabel getbtnAjoutJoueurs() {
