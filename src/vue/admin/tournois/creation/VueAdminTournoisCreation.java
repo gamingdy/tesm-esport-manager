@@ -44,7 +44,6 @@ public class VueAdminTournoisCreation extends JPanel {
 	private JPanel panelEquipes;
 	private DefaultListModel<JLabel> model;
 	private JComboBox<Niveau> comboboxNiveaux;
-	private TournoiCréationControlleur controleur;
 
 	/**
 	 * Create the panel.
@@ -277,8 +276,6 @@ public class VueAdminTournoisCreation extends JPanel {
 		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
-		controleur = new TournoiCréationControlleur(this);
-		setControleur(controleur);
 
 	}
 
@@ -315,9 +312,9 @@ public class VueAdminTournoisCreation extends JPanel {
 	 * @param nom nom du joueur
 	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
-	public void setEquipe(String nom, Icon logo, int i) {
+	public void setEquipe(String nom, ImageIcon logo, int i) {
 		JLabel equipe = new JLabel(nom);
-		equipe.setIcon(logo);
+		equipe.setIcon(Vue.resize(logo, 30, 30));
 		equipe.setForeground(CustomColor.BLANC);
 		equipe.setFont(MaFont.getFontTitre3());
 		equipe.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS));
@@ -353,6 +350,10 @@ public class VueAdminTournoisCreation extends JPanel {
 
 	public JLabel getBtnAjoutEquipes() {
 		return this.btnAjoutEquipes;
+	}
+
+	public JButton getBoutonAnnuler() {
+		return this.boutonAnnuler;
 	}
 }
 

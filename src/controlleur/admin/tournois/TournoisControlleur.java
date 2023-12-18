@@ -10,13 +10,22 @@ public class TournoisControlleur {
 
 	public TournoisControlleur(VueAdminTournois newVue) {
 		this.vueAdminTournois = newVue;
-		vueAdminTournois.addPage(new VueAdminTournoisCreation(), Page.TOURNOIS_CREATION);
-		vueAdminTournois.addPage(new VueAdminTournoisListe(), Page.TOURNOIS_LISTE);
+		VueAdminTournoisCreation vueAdminTournoisCreation = new VueAdminTournoisCreation();
+		TournoiCréationControlleur tournoiCréationControlleur = new TournoiCréationControlleur(vueAdminTournoisCreation);
+		vueAdminTournoisCreation.setControleur(tournoiCréationControlleur);
+
+		VueAdminTournoisListe vueAdminTournoisListe = new VueAdminTournoisListe();
+		TournoisListeControlleur tournoisListeControlleur = new TournoisListeControlleur(vueAdminTournoisListe);
+		vueAdminTournoisListe.setControleur(tournoisListeControlleur);
+
+		vueAdminTournois.addPage(vueAdminTournoisCreation, Page.TOURNOIS_CREATION);
+		vueAdminTournois.addPage(vueAdminTournoisListe, Page.TOURNOIS_LISTE);
 		vueAdminTournois.setPage(Page.TOURNOIS_LISTE);
 		TournoisObserver.getInstance().setVue(this);
 	}
 
 	public void update(Page id) {
+
 		this.vueAdminTournois.setPage(id);
 	}
 }
