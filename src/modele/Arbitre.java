@@ -20,7 +20,7 @@ public class Arbitre implements Comparable<Arbitre> {
 	private Arbitre(String nom, String prenom, Integer id) {
 		this.nom = nom;
 		this.prenom = prenom;
-		if (id.equals(null)) {
+		if (id==null) {
 			this.id=0;
 		} else {
 			this.id = id+1;
