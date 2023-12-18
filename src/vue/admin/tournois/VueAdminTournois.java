@@ -6,6 +6,7 @@ import java.awt.Component;
 import javax.swing.JPanel;
 
 import controlleur.EquipesControlleur;
+import controlleur.TournoisControlleur;
 import vue.Page;
 
 public class VueAdminTournois extends JPanel {
@@ -19,7 +20,7 @@ public class VueAdminTournois extends JPanel {
 		cl = new CardLayout();
 		setLayout(cl);
 		setOpaque(false);
-		EquipesControlleur controlleur = new TournoisControlleur(this);
+		TournoisControlleur controlleur = new TournoisControlleur(this);
 	}
 
 	public void addPage(Component c, Page id) {
