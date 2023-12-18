@@ -60,7 +60,7 @@ public class CaseTournoi {
 		gbcDate.gridy = 1;
 		gbcDate.weighty = 0.5F;
 		gbcDate.gridwidth = GridBagConstraints.REMAINDER;
-		panelItem.add(nom, gbcDate);
+		panelItem.add(labelDate, gbcDate);
 
 		JLabel labelModif = new JLabel(Vue.resize(new ImageIcon("assets/modif.png"), 30, 30));
 		labelModif.setHorizontalAlignment(JLabel.RIGHT);
