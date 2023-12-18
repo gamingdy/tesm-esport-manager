@@ -1,5 +1,7 @@
 package controlleur;
 
+import vue.Page;
+
 public class VueObserver {
 	private VueControlleur vueControlleur;
 	private static VueObserver instance;
@@ -19,7 +21,7 @@ public class VueObserver {
 		this.vueControlleur = vue;
 	}
 
-	public void notifyVue(String page) {
+	public void notifyVue(Page page) {
 		vueControlleur.update(page);
 	}
 }

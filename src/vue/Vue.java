@@ -60,8 +60,8 @@ public class Vue extends JFrame {
 		}
 	}
 
-	public void setPage(String identifiant) {
-		cl.show(panelContenu, identifiant);
+	public void setPage(Page identifiant) {
+		cl.show(panelContenu, identifiant.getNom());
 	}
 
 	public void addPage(JComponent page, String identifiant) {

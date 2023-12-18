@@ -64,7 +64,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
 						}
 						if (compteActuel == this.admin) {
-							obs.notifyVue(Page.ACCUEIL_ADMIN.getNom());
+							obs.notifyVue(Page.ACCUEIL_ADMIN);
 							this.vue.clearField();
 						}
 					}

@@ -54,15 +54,15 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			}
 			if ((nomEquipe.isEmpty()) || (logo == null) || (champPaysEquipe == null)) {
 				if (nomEquipe.isEmpty()) {
-					new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				} else if (logo == null) {
-					new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				} else {
-					new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				}
 
 			} else if (equipeDejaExistante(nomEquipe)) {
-				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
+				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				this.logo = null;
 				this.vue.clearField();
 			} else {
@@ -73,14 +73,14 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 					initEquipe(equipeInserer);
 					File outputfile = new File("assets/logo-equipes/" + nomEquipe + ".jpg");
 					ImageIO.write(logo, "jpg", outputfile);
-					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 					this.logo = null;
 					this.vue.clearField();
 
 
 				} catch (Exception ex) {
 					this.logo = null;
-					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 					throw new RuntimeException(ex);
 				}
 			}
