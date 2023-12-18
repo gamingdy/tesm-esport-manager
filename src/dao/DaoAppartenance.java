@@ -250,6 +250,17 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			return sortie;
 		}
 	}
+
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Appartenance_______________________" + "\n";
+		List<Appartenance> l = this.getAll();
+		for(Appartenance a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
+	}
 	
 	
 }

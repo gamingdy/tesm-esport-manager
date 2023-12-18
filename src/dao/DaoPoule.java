@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Poule;
 import modele.Tournoi;
 
@@ -154,6 +155,17 @@ public class DaoPoule implements Dao<Poule, Object> {
 			}
 			return sortie;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Poule_______________________" + "\n";
+		List<Poule> l = this.getAll();
+		for(Poule a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 }
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Saison;
 
 public class DaoSaison implements Dao<Saison, Integer> {
@@ -129,6 +130,17 @@ public class DaoSaison implements Dao<Saison, Integer> {
 			}
 			return saison;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Saison_______________________" + "\n";
+		List<Saison> l = this.getAll();
+		for(Saison a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 
 }

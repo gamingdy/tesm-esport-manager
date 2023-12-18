@@ -21,5 +21,7 @@ public interface Dao<T, T1>{
 	
 	public boolean delete(T1... value) throws Exception;
 	
+	
+	public String visualizeTable() throws Exception ;
 
 }

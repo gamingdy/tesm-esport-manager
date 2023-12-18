@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Arbitre;
 import modele.Saison;
 import modele.Selection;
@@ -171,6 +172,17 @@ public class DaoSelection implements Dao<Selection,Object>{
 			}
 			return sortie;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Selection_______________________" + "\n";
+		List<Selection> l = this.getAll();
+		for(Selection a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 
 }

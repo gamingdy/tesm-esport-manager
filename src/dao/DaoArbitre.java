@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Arbitre;
 import modele.Saison;
 
@@ -153,6 +154,17 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 			}
 			return sortie;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Arbitre_______________________" + "\n";
+		List<Arbitre> l = this.getAll();
+		for(Arbitre a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 
 }

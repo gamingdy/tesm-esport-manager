@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Joueur;
 
 public class DaoJoueur implements Dao<Joueur,Integer>{
@@ -155,5 +156,16 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 			}
 			return sortie;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Joueur_______________________" + "\n";
+		List<Joueur> l = this.getAll();
+		for(Joueur a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Appartenance;
 import modele.Arbitrage;
 import modele.Arbitre;
 import modele.Tournoi;
@@ -176,6 +177,17 @@ public class DaoArbitrage implements Dao<Arbitrage,Object>{
 			}
 			return sortie;
 		}
+	}
+	
+	@Override
+	public String visualizeTable() throws Exception {
+		String s = "_______________Arbitrage_______________________" + "\n";
+		List<Arbitrage> l = this.getAll();
+		for(Arbitrage a : l) {
+			s+=a.toString()+"\n";
+		}
+		s+="\n\n\n";
+		return s;
 	}
 
 }
