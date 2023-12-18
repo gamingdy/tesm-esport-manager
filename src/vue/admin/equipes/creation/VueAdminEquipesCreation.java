@@ -9,7 +9,6 @@ import vue.common.MaFont;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.List;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -231,6 +230,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		this.labelLogo.setIcon(null);
 		this.setDrapeau("earth");
 		this.comboboxPays.setSelectedItem(null);
+		this.model.clear();
 
 	}
 
