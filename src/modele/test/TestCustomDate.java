@@ -193,5 +193,21 @@ public class TestCustomDate {
 		assertEquals(1, date.getJour());
 	}
 
+	@Test
+	public void testfromString() {
+		CustomDate date = CustomDate.fromString("11/10/2022");
+		assertEquals(2022, date.getAnnee());
+		assertEquals(10, date.getMois());
+		assertEquals(11, date.getJour());
+		assertEquals(0, date.getHeure());
+		assertEquals(0, date.getMinute());
+	}
+
+	@Test(expected = DateTimeException.class)
+	public void testfromStringFauxFormat() {
+		CustomDate date = CustomDate.fromString("11-10-2022");
+
+	}
+
 
 }

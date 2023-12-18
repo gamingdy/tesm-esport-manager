@@ -2,6 +2,7 @@ package modele;
 
 import java.sql.Timestamp;
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -58,8 +59,13 @@ public class CustomDate implements Comparable<CustomDate> {
 
 	public static CustomDate fromString(String date) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
-		return new CustomDate(Timestamp.valueOf(dateTime));
+		try {
+			LocalDate dateTime = LocalDate.parse(date, formatter);
+			return new CustomDate(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(), 0, 0);
+		} catch (DateTimeException e) {
+			throw new DateTimeException("La date n'est pas valide");
+		}
+
 	}
 
 	/**
