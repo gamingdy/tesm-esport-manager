@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 
 public class TestPartie {
 	private Partie partie;
-	private int numeroPartie;
 	private Matche matche;
 	private CustomDate debut;
 	private CustomDate finTournoi;

@@ -3,10 +3,8 @@ package controlleur.admin.tournois;
 import controlleur.ControlleurObserver;
 import dao.Connexion;
 import dao.DaoTournoi;
-import modele.Equipe;
 import modele.Tournoi;
 import vue.Page;
-import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
 

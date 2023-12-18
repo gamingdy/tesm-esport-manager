@@ -1,6 +1,5 @@
 package controlleur.admin.tournois;
 
-import controlleur.admin.tournois.TournoisControlleur;
 import vue.Page;
 
 public class TournoisObserver {

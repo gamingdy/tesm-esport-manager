@@ -6,7 +6,6 @@ import modele.Pays;
 import org.junit.Before;
 import org.junit.Test;
 
-import exceptions.EquipeInexistanteException;
 import modele.Equipe;
 import modele.Inscription;
 import modele.Saison;

@@ -7,7 +7,6 @@ import dao.DaoJoueur;
 import modele.Equipe;
 import modele.Joueur;
 import vue.Page;
-import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
 
@@ -23,7 +22,6 @@ import java.util.List;
 
 public class EquipesListeControlleur implements ActionListener, ControlleurObserver {
 	private VueAdminEquipesListe vue;
-	private VueAdminEquipes vuePrincipale;
 	private DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
 

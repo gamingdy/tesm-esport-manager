@@ -86,6 +86,4 @@ public class TestTournoi {
 	public void testCompteArbitre() {
 		assertEquals(compteArbitre, tournoi.getCompteArbitre());
 	}
-
-
 }

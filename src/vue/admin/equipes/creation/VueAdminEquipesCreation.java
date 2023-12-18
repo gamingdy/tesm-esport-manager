@@ -17,7 +17,6 @@ public class VueAdminEquipesCreation extends JPanel {
 	private JLabel labelDrapeau;
 	private JComboBox<Pays> comboboxPays;
 	private JTextField textfieldNom;
-	private JLabel labelJoueurs[];
 	private JButton boutonValider;
 	private JButton boutonAnnuler;
 	private JLabel labelLogo;
