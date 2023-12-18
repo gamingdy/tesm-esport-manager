@@ -19,11 +19,11 @@ public class VueControlleur {
 		vueLogin.attachObserver(this.observer);
 		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
 		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
-		this.vue.setPage(Page.ACCUEIL_ADMIN.getNom());
+		this.vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
-	public void update(String page) {
+	public void update(Page page) {
 		this.vue.setPage(page);
-		TitleBar.getInstance().setTitle(page);
+		TitleBar.getInstance().setTitle(page.getNom());
 	}
 }

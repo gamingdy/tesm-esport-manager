@@ -1,6 +1,7 @@
 package controlleur.admin.equipes;
 
 import controlleur.VueObserver;
+import controlleur.admin.tournois.TournoisObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
@@ -9,6 +10,7 @@ import modele.Equipe;
 import modele.Joueur;
 import modele.Pays;
 import vue.Page;
+import vue.admin.equipes.creation.PopupPseudo;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.common.JFramePopup;
 
@@ -54,15 +56,15 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			}
 			if ((nomEquipe.isEmpty()) || (logo == null) || (champPaysEquipe == null)) {
 				if (nomEquipe.isEmpty()) {
-					new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				} else if (logo == null) {
-					new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				} else {
-					new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				}
 
 			} else if (equipeDejaExistante(nomEquipe)) {
-				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue("Equipe"));
+				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				this.logo = null;
 				this.vue.clearField();
 			} else {
@@ -73,14 +75,14 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 					initEquipe(equipeInserer);
 					File outputfile = new File("assets/logo-equipes/" + nomEquipe + ".jpg");
 					ImageIO.write(logo, "jpg", outputfile);
-					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 					this.logo = null;
 					this.vue.clearField();
 
 
 				} catch (Exception ex) {
 					this.logo = null;
-					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue("Equipe"));
+					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 					throw new RuntimeException(ex);
 				}
 			}
@@ -113,6 +115,16 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getSource() == vue.getbtnAjoutJoueurs()) {
+			PopupPseudo s = new PopupPseudo("Veuillez entrer le pseudo du Joueur", "Pseudo du joueur", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			if (s.IS_OK) {
+				System.out.println("ui");
+			} else {
+				System.out.println("patata");
+			}
+
+			//this.vue.setJoueur(resultat, 1);
+		}
 		if (e.getSource() == vue.getLabelLogo()) {
 			JFileChooser chooser = new JFileChooser();
 			chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));

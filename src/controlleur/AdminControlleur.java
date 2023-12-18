@@ -54,7 +54,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 				this.etat = ETAT.ARBITRES;
 				this.vue.setPage(Page.ARBITRES);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.DECONNEXION.getNom())) {
-				new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> VueObserver.getInstance().notifyVue("Login"));
+				new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> VueObserver.getInstance().notifyVue(Page.LOGIN));
 
 			} else if ((Objects.equals(boutonSelection.getText(), BoutonNavBar.ACCUEIL.getNom())) && etat != ETAT.ACCUEIL) {
 				this.etat = ETAT.ACCUEIL;

@@ -10,6 +10,7 @@ import java.awt.*;
 @SuppressWarnings("serial")
 public class PopupPseudo extends JFrame {
 
+	public static boolean IS_OK = false;
 	private JTextField tf;
 
 	public interface ActionHandler {
@@ -43,11 +44,11 @@ public class PopupPseudo extends JFrame {
 		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 		panel.add(label, BorderLayout.NORTH);
-		
+
 		tf = new JTextField(25);
 		tf.setForeground(CustomColor.BLANC);
 		tf.setBackground(CustomColor.BACKGROUND_MENU);
-		tf.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,2));
+		tf.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		tf.setFont(MaFont.getFontTitre4());
 		panel.add(tf, BorderLayout.CENTER);
 
@@ -57,6 +58,7 @@ public class PopupPseudo extends JFrame {
 		JButton closeButton = new JButton("Annuler");
 		closeButton.setFont(MaFont.getFontTitre4());
 		closeButton.setForeground(CustomColor.BLANC);
+		closeButton.setBackground(CustomColor.TRANSPARENT);
 		closeButton.setOpaque(false);
 		closeButton.setFocusable(false);
 		closeButton.addActionListener(e -> dispose());
@@ -65,11 +67,13 @@ public class PopupPseudo extends JFrame {
 		JButton okButton = new JButton("Valider");
 		okButton.setFont(MaFont.getFontTitre4());
 		okButton.setForeground(CustomColor.BLANC);
+		okButton.setBackground(CustomColor.TRANSPARENT);
 		okButton.setOpaque(false);
 		okButton.setFocusable(false);
 		okButton.addActionListener(e -> {
 			if (actionHandler != null) {
 				actionHandler.handleAction();
+				IS_OK = true;
 			}
 			dispose();
 		});
@@ -79,7 +83,7 @@ public class PopupPseudo extends JFrame {
 
 		return panel;
 	}
-	
+
 	public String getSaisie() {
 		return tf.getText();
 	}
