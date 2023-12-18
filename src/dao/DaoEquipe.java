@@ -10,7 +10,6 @@ import java.util.Optional;
 
 import modele.Equipe;
 import modele.Pays;
-import modele.Arbitrage;
 
 public class DaoEquipe implements Dao<Equipe,String>{
 
@@ -95,7 +94,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
 				"INSERT INTO Equipe(Nom_Equipe,Pays_Equipe) values (?,?)")){
 			add.setString(1, value.getNom());
-			add.setString(3, value.getPays().name());
+			add.setString(2, value.getPays().name());
 			return add.execute();
 		}
 	}
@@ -109,8 +108,8 @@ public class DaoEquipe implements Dao<Equipe,String>{
 				"UPDATE Equipe SET "
 						+"Pays_Equipe = ?"
 						+"WHERE Nom_Equipe = ?")) {
-			update.setString(2, value.getPays().getNom());
-			update.setString(3, value.getNom());
+			update.setString(1, value.getPays().getNom());
+			update.setString(2, value.getNom());
 			return update.execute();
 		}
 	}
