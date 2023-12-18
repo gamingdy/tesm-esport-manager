@@ -14,6 +14,7 @@ import vue.admin.arbitres.VueArbitres;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
+import vue.admin.tournois.VueAdminTournois;
 import vue.common.JFramePopup;
 
 enum ETAT {
@@ -32,6 +33,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
 		vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
 		vue.addPage(new VueArbitres(), Page.ARBITRES);
+		vue.addPage(new VueAdminTournois(), Page.TOURNOIS);
 		vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
