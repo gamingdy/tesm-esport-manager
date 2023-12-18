@@ -1,23 +1,13 @@
 package dao;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import exceptions.FausseDateException;
+import modele.*;
+
+import java.sql.*;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import exceptions.FausseDateException;
-import modele.CompteArbitre;
-import modele.CustomDate;
-import modele.Niveau;
-import modele.Saison;
-import modele.Tournoi;
 
 public class DaoTournoi implements Dao<Tournoi, Object> {
 

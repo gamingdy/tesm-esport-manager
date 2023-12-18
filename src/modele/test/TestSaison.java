@@ -1,15 +1,14 @@
 package modele.test;
 
 import exceptions.EquipeInexistanteException;
+import modele.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import modele.*;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestSaison {
 	private Tournoi tournoi;

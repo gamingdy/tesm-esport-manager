@@ -1,11 +1,7 @@
 package vue.common;
 
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.Color;
-import javax.swing.ButtonModel;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
 public class ButtonTitleBar extends JButton {
 

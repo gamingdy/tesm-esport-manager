@@ -1,7 +1,10 @@
-package controlleur;
+package controlleur.admin.arbitres;
 
 import controlleur.ControlleurObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoMatche;
+import dao.DaoSaison;
+import dao.DaoTournoi;
 import vue.admin.arbitres.VueArbitres;
 
 public class ArbitresControlleur implements ControlleurObserver {

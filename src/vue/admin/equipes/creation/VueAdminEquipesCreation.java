@@ -1,31 +1,14 @@
 package vue.admin.equipes.creation;
 
-import java.awt.*;
-
-import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
-
-import controlleur.EquipeCreationControlleur;
+import controlleur.admin.equipes.EquipeCreationControlleur;
 import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import java.awt.GridLayout;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.DefaultListModel;
-import javax.swing.DefaultComboBoxModel;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -213,7 +196,6 @@ public class VueAdminEquipesCreation extends JPanel {
 		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
 
-		setControleur(new EquipeCreationControlleur(this));
 	}
 
 	/**

@@ -1,15 +1,15 @@
 package dao;
 
+import modele.Arbitrage;
+import modele.Arbitre;
+import modele.Tournoi;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import modele.Arbitrage;
-import modele.Arbitre;
-import modele.Tournoi;
 
 public class DaoArbitrage implements Dao<Arbitrage, Object> {
 

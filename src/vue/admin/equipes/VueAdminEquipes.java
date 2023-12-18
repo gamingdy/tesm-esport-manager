@@ -1,14 +1,10 @@
 package vue.admin.equipes;
 
-import java.awt.CardLayout;
-import java.awt.Component;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
-import controlleur.EquipesControlleur;
-
+import controlleur.admin.equipes.EquipesControlleur;
 import vue.Page;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class VueAdminEquipes extends JPanel {
 

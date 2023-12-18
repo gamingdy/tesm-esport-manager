@@ -1,26 +1,22 @@
-package controlleur;
+package controlleur.login;
 
-import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.sql.SQLException;
-
+import controlleur.VueObserver;
 import dao.Connexion;
-import dao.DaoNiveau;
-import dao.DaoSaison;
 import dao.DaoTournoi;
-import exceptions.FausseDateException;
-import modele.*;
+import modele.CompteAdmin;
+import modele.CompteArbitre;
+import modele.CompteUtilisateur;
+import modele.Tournoi;
 import vue.Page;
 import vue.login.VueLogin;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class LoginControlleur implements ActionListener, DocumentListener, KeyListener {
 	private VueLogin vue;

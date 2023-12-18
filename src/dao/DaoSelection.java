@@ -1,15 +1,15 @@
 package dao;
 
+import modele.Arbitre;
+import modele.Saison;
+import modele.Selection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import modele.Arbitre;
-import modele.Saison;
-import modele.Selection;
 
 public class DaoSelection implements Dao<Selection, Object> {
 

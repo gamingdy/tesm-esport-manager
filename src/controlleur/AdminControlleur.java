@@ -1,11 +1,5 @@
 package controlleur;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Objects;
-
 import vue.BoutonNavBar;
 import vue.Page;
 import vue.admin.VueAdmin;
@@ -14,10 +8,17 @@ import vue.admin.arbitres.VueArbitres;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
+import vue.admin.tournois.VueAdminTournois;
 import vue.common.JFramePopup;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Objects;
+
 enum ETAT {
-	ACCUEIL, ARBITRES, EQUIPES
+	ACCUEIL, ARBITRES, EQUIPES, TOURNOIS
 }
 
 public class AdminControlleur implements ActionListener, MouseListener {
@@ -25,13 +26,14 @@ public class AdminControlleur implements ActionListener, MouseListener {
 	private ETAT etat;
 	MenuNavBar navbar;
 
-	public AdminControlleur(MenuNavBar navbar, VueAdmin vue)  {
+	public AdminControlleur(MenuNavBar navbar, VueAdmin vue) {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
 		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
 		vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
-		vue.addPage(new VueArbitres(),Page.ARBITRES);
+		vue.addPage(new VueArbitres(), Page.ARBITRES);
+		vue.addPage(new VueAdminTournois(), Page.TOURNOIS);
 		vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
@@ -60,6 +62,9 @@ public class AdminControlleur implements ActionListener, MouseListener {
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.EQUIPES.getNom())) {
 				this.etat = ETAT.EQUIPES;
 				this.vue.setPage(Page.EQUIPES);
+			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.TOURNOIS.getNom())) {
+				this.etat = ETAT.TOURNOIS;
+				this.vue.setPage(Page.TOURNOIS);
 			}
 		}
 	}

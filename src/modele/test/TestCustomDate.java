@@ -2,12 +2,11 @@ package modele.test;
 
 import modele.CustomDate;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -180,16 +179,18 @@ public class TestCustomDate {
 		d1.setMois(2);
 		d1.setJour(29);
 	}
+
 	@Test
 	public void testToString() {
-		assertEquals("00h00 11/10/2022",d1.toString());
+		assertEquals("00h00 11/10/2022", d1.toString());
 	}
+
 	@Test
-	public void testConstructeurAnnee(){
-		CustomDate date=new CustomDate(2022);
-		assertEquals(2022,date.getAnnee());
-		assertEquals(1,date.getMois());
-		assertEquals(1,date.getJour());
+	public void testConstructeurAnnee() {
+		CustomDate date = new CustomDate(2022);
+		assertEquals(2022, date.getAnnee());
+		assertEquals(1, date.getMois());
+		assertEquals(1, date.getJour());
 	}
 
 

@@ -1,4 +1,4 @@
-package controlleur;
+package controlleur.admin.tournois;
 
 import vue.admin.tournois.liste.VueAdminTournoisListe;
 
@@ -14,6 +14,6 @@ public class TournoisListeControlleur implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 	}
 }

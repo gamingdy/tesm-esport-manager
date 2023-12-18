@@ -1,14 +1,15 @@
 package modele.test;
 
 import exceptions.IdNotSetException;
+import modele.Arbitre;
 import org.junit.Before;
 import org.junit.Test;
-import modele.Arbitre;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TestArbitre {
 	private Arbitre a;

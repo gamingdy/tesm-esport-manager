@@ -1,7 +1,5 @@
 package controlleur;
 
-import vue.Vue;
-
 public class VueObserver {
 	private VueControlleur vueControlleur;
 	private static VueObserver instance;

@@ -1,12 +1,12 @@
 package modele;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import exceptions.EquipeCompleteException;
 import exceptions.EquipeVideException;
-import exceptions.JoueurNonPresentException;
 import exceptions.ExceptionPointsNegatifs;
+import exceptions.JoueurNonPresentException;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Equipe {
 
