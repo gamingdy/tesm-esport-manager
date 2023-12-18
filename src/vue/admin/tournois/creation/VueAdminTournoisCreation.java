@@ -1,4 +1,4 @@
- 	package vue.admin.tournois.creation;
+package vue.admin.tournois.creation;
 
 import controlleur.admin.equipes.EquipeCreationControlleur;
 import modele.Niveau;
@@ -265,6 +265,7 @@ public class VueAdminTournoisCreation extends JPanel {
 
 	/**
 	 * setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
+	 *
 	 * @param controleur
 	 */
 	public void setControleur(EquipeCreationControlleur controleur) {
@@ -288,11 +289,12 @@ public class VueAdminTournoisCreation extends JPanel {
 	public JLabel getLabelLogo() {
 		return this.labelLogo;
 	}
-	
+
 	/**
 	 * Set le nom d'un joueur
+	 *
 	 * @param nom nom du joueur
-	 * @param i indice du joueur dans le tableau ==> <strong>0 à 4</strong>
+	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setEquipe(String nom, Icon logo, int i) {
 		JLabel equipe = new JLabel(nom);
@@ -310,6 +312,23 @@ public class VueAdminTournoisCreation extends JPanel {
 		}
 		return retour;
 	}
+
+	public JButton getBoutonValider() {
+		return this.boutonValider;
+	}
+
+	public String getTextfieldNom() {
+		return this.textfieldNom.getText();
+	}
+
+	public String getTextfieldDateDebut() {
+		return this.textfieldDateDebut.getText();
+	}
+
+	public String getTextfieldDateFin() {
+		return this.textfieldDateFin.getText();
+	}
+
 }
 
 
