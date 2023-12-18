@@ -89,6 +89,7 @@ public class EquipeCreationControlleur implements ActionListener, ControlleurObs
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 			this.logo = null;
 			this.vue.clearField();
+			this.update();
 		}
 	}
 

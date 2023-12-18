@@ -23,9 +23,7 @@ public class AccueilControlleur implements ControlleurObserver {
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
-
 		this.update();
-
 	}
 
 	@Override
