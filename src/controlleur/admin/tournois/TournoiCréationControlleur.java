@@ -132,6 +132,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public void resetChamps() {
 		this.vue.clearField();
 		this.nbEquipes = 0;
+		
 	}
 
 	public void addEquipe() {
