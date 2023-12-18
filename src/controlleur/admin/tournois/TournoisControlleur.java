@@ -7,6 +7,7 @@ import vue.admin.tournois.liste.VueAdminTournoisListe;
 
 public class TournoisControlleur {
 	private VueAdminTournois vueAdminTournois;
+	private TournoisListeControlleur tournoisListeControlleur;
 
 	public TournoisControlleur(VueAdminTournois newVue) {
 		this.vueAdminTournois = newVue;
@@ -15,7 +16,7 @@ public class TournoisControlleur {
 		vueAdminTournoisCreation.setControleur(tournoiCréationControlleur);
 
 		VueAdminTournoisListe vueAdminTournoisListe = new VueAdminTournoisListe();
-		TournoisListeControlleur tournoisListeControlleur = new TournoisListeControlleur(vueAdminTournoisListe);
+		tournoisListeControlleur = new TournoisListeControlleur(vueAdminTournoisListe);
 		vueAdminTournoisListe.setControleur(tournoisListeControlleur);
 
 		vueAdminTournois.addPage(vueAdminTournoisCreation, Page.TOURNOIS_CREATION);
@@ -25,6 +26,9 @@ public class TournoisControlleur {
 	}
 
 	public void update(Page id) {
+		if (Page.TOURNOIS_LISTE.equals(id)) {
+			this.tournoisListeControlleur.update();
+		}
 
 		this.vueAdminTournois.setPage(id);
 	}

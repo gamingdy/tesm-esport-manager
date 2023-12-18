@@ -6,11 +6,7 @@ import dao.DaoEquipe;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import modele.CompteArbitre;
-import modele.CustomDate;
-import modele.Niveau;
-import modele.Saison;
-import modele.Tournoi;
+import modele.*;
 import vue.Page;
 import vue.admin.equipes.creation.PopupPseudo;
 import vue.admin.tournois.creation.PopupEquipe;
@@ -27,8 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import modele.Equipe;
-
 public class TournoiCréationControlleur implements ActionListener, MouseListener {
 	private VueAdminTournoisCreation vue;
 	private DaoTournoi daoTournoi;
@@ -38,6 +32,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private Connexion c;
 	private int nbEquipes = 0;
 	private List<Equipe> listeEquipe;
+
 	private PopupEquipe popupAjoutEquipe;
 
 	public TournoiCréationControlleur(VueAdminTournoisCreation newVue) {
@@ -101,7 +96,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 
 					daoTournoi.add(tournoiInserer);
 				} catch (DateTimeException dateTimeException) {
-					new JFramePopup("Erreur", "Veuillez entrer le bon format", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+					new JFramePopup("Erreur", "Le bon format est dd/mm/yyyy", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 				} catch (FausseDateException ex) {
 					throw new RuntimeException(ex);
 				} catch (Exception ex) {
@@ -127,6 +122,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 
 
 	public void initEquipes(Tournoi tournoi) {
+		Poule poule = new Poule(tournoi, 'A');
 
 	}
 
@@ -134,8 +130,11 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		if (this.nbEquipes < 8) {
 			String nomEquipe = this.popupAjoutEquipe.getSaisie().getNom();
 			ImageIcon icon = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
-			this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
-			this.nbEquipes++;
+			List<String> lst_equipes = this.vue.getEquipes();
+			if (!lst_equipes.contains(nomEquipe)) {
+				this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
+				this.nbEquipes++;
+			}
 		}
 
 	}
