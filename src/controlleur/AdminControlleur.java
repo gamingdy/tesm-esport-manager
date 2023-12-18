@@ -4,7 +4,7 @@ import vue.BoutonNavBar;
 import vue.Page;
 import vue.admin.VueAdmin;
 import vue.admin.accueil.VueAccueil;
-import vue.admin.arbitres.VueArbitres;
+import vue.admin.arbitres.VueAdminArbitres;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
@@ -30,10 +30,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
-		vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
 		vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
-		vue.addPage(new VueArbitres(), Page.ARBITRES);
-		vue.addPage(new VueAdminTournois(), Page.TOURNOIS);
 		vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
@@ -52,18 +49,22 @@ public class AdminControlleur implements ActionListener, MouseListener {
 			BoutonMenu boutonSelection = (BoutonMenu) e.getSource();
 			if (Objects.equals(boutonSelection.getText(), BoutonNavBar.ARBITRES.getNom()) && etat != ETAT.ARBITRES) {
 				this.etat = ETAT.ARBITRES;
+				vue.addPage(new VueAdminArbitres(), Page.ARBITRES);
 				this.vue.setPage(Page.ARBITRES);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.DECONNEXION.getNom())) {
 				new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> VueObserver.getInstance().notifyVue(Page.LOGIN));
 
 			} else if ((Objects.equals(boutonSelection.getText(), BoutonNavBar.ACCUEIL.getNom())) && etat != ETAT.ACCUEIL) {
 				this.etat = ETAT.ACCUEIL;
+				vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
 				this.vue.setPage(Page.ACCUEIL_ADMIN);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.EQUIPES.getNom())) {
 				this.etat = ETAT.EQUIPES;
+				vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
 				this.vue.setPage(Page.EQUIPES);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.TOURNOIS.getNom())) {
 				this.etat = ETAT.TOURNOIS;
+				vue.addPage(new VueAdminTournois(), Page.TOURNOIS);
 				this.vue.setPage(Page.TOURNOIS);
 			}
 		}
