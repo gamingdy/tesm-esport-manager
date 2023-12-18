@@ -6,11 +6,10 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-
 import javax.swing.*;
-import javax.swing.plaf.basic.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -150,28 +149,22 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);
 
 		model = new DefaultListModel<String>();
-		model.addElement(" ");
-		model.addElement(" ");
-		model.addElement(" ");
-		model.addElement(" ");
-		model.addElement(" ");
-		
 
 		JList<String> l = new JList<String>(model);
-		l.setLayout(new GridLayout(0,1));
+		l.setLayout(new GridLayout(0, 1));
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
 		l.setCellRenderer(new ListCellRenderer<String>() {
 
 			@Override
 			public Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
-					boolean isSelected, boolean cellHasFocus) {
+														  boolean isSelected, boolean cellHasFocus) {
 				JLabel l = new JLabel(value);
 				l.setForeground(CustomColor.BLANC);
 				l.setFont(MaFont.getFontTitre3());
 				return l;
 			}
-			
+
 		});
 
 		GridBagConstraints gbcJ = new GridBagConstraints();
@@ -278,7 +271,11 @@ public class VueAdminEquipesCreation extends JPanel {
 	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setJoueur(String nom, int i) {
-		model.set(i, nom);
+		model.addElement(nom);
+	}
+
+	public List<String> getJoueurs() {
+		return Arrays.asList((String[]) model.toArray());
 	}
 
 	public JLabel getbtnAjoutJoueurs() {
