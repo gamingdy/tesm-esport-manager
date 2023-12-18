@@ -6,9 +6,11 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
+
 import javax.swing.*;
+import javax.swing.plaf.basic.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.util.*;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -22,6 +24,7 @@ public class VueAdminEquipesCreation extends JPanel {
 	private JLabel labelLogo;
 	private JLabel btnAjoutJoueurs;
 	private JPanel panelJoueurs;
+	private DefaultListModel<String> model;
 
 	/**
 	 * Create the panel.
@@ -82,10 +85,10 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelPays.setForeground(CustomColor.BLANC);
 		labelPays.setFont(MaFont.getFontTitre2());
 		champPays.add(labelPays);
-		DefaultComboBoxModel<Pays> model = new DefaultComboBoxModel<Pays>();
-		model.addElement(null);
-		Arrays.stream(Pays.values()).forEach(p -> model.addElement(p));
-		comboboxPays = new JComboBox<Pays>(model);
+		DefaultComboBoxModel<Pays> modelPays = new DefaultComboBoxModel<Pays>();
+		modelPays.addElement(null);
+		Arrays.stream(Pays.values()).forEach(p -> modelPays.addElement(p));
+		comboboxPays = new JComboBox<Pays>(modelPays);
 		comboboxPays.setRenderer(new ListCellRenderer<Pays>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
@@ -124,11 +127,10 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		JLabel labelJoueurs = new JLabel("Joueurs");
 		labelJoueurs.setPreferredSize(new Dimension());
-		labelJoueurs.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS),
-				BorderFactory.createEmptyBorder(10, 10, 10, 0)));
+		labelJoueurs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre2());
+		labelJoueurs.setVerticalTextPosition(JLabel.CENTER);
 		GridBagConstraints gbcLabelJoueurs = new GridBagConstraints();
 		gbcLabelJoueurs.fill = GridBagConstraints.BOTH;
 		gbcLabelJoueurs.gridx = 0;
@@ -140,26 +142,45 @@ public class VueAdminEquipesCreation extends JPanel {
 		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
 		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
 
+		GridBagConstraints gbcAjout = new GridBagConstraints();
+		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
+		gbcAjout.gridx = 1;
+		gbcAjout.gridy = 0;
+		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);
 
-		this.labelJoueurs = new JLabel[5];
-		for (int i = 0; i < 4; i++) {
-			this.labelJoueurs[i] = new JLabel(" ");
-			this.labelJoueurs[i].setForeground(CustomColor.BLANC);
-			this.labelJoueurs[i].setFont(MaFont.getFontTitre3());
-			GridBagConstraints gbcJ = new GridBagConstraints();
-			gbcJ.fill = GridBagConstraints.HORIZONTAL;
-			gbcJ.gridx = 0;
-			gbcJ.gridy = i + 1;
-			gbcJ.weighty = 1F / 7F;
-			panelJoueurs.add(this.labelJoueurs[i], gbcJ);
-		}
+
+		model = new DefaultListModel<String>();
+		model.addElement(" ");
+		model.addElement(" ");
+		model.addElement(" ");
+		model.addElement(" ");
+		model.addElement(" ");
+		
+
+		JList<String> l = new JList<String>(model);
+		l.setLayout(new GridLayout(0,1));
+		l.setBackground(CustomColor.BACKGROUND_MAIN);
+		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
+		l.setCellRenderer(new ListCellRenderer<String>() {
+
+			@Override
+			public Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				JLabel l = new JLabel("value");
+				l.setForeground(CustomColor.BLANC);
+				l.setFont(MaFont.getFontTitre3());
+				return l;
+			}
+			
+		});
 
 		GridBagConstraints gbcJ = new GridBagConstraints();
 		gbcJ.fill = GridBagConstraints.HORIZONTAL;
 		gbcJ.gridx = 0;
-		gbcJ.gridy = 7;
-		gbcJ.weighty = 1F / 7F;
-		panelJoueurs.add(btnAjoutJoueurs, gbcJ);
+		gbcJ.gridwidth = 2;
+		gbcJ.gridy = 1;
+		gbcJ.weighty = 5F / 7F;
+		panelJoueurs.add(l, gbcJ);
 
 		labelLogo = new JLabel("Insérer logo");
 		labelLogo.setOpaque(true);
@@ -257,15 +278,7 @@ public class VueAdminEquipesCreation extends JPanel {
 	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setJoueur(String nom, int i) {
-		this.labelJoueurs[i] = new JLabel(nom);
-		this.labelJoueurs[i].setForeground(CustomColor.BLANC);
-		this.labelJoueurs[i].setFont(MaFont.getFontTitre3());
-		GridBagConstraints gbcJ = new GridBagConstraints();
-		gbcJ.fill = GridBagConstraints.HORIZONTAL;
-		gbcJ.gridx = 0;
-		gbcJ.gridy = i + 1;
-		gbcJ.weighty = 1F / 7F;
-		this.panelJoueurs.add(this.labelJoueurs[i], gbcJ);
+		model.set(i, nom);
 	}
 	
 	public JLabel getbtnAjoutJoueurs() {
@@ -273,29 +286,7 @@ public class VueAdminEquipesCreation extends JPanel {
 	}
 
 	public void activerBoutonAjoutJoueur(boolean b) {
-		if (b) {
-			GridBagConstraints gbcJ = new GridBagConstraints();
-			gbcJ.fill = GridBagConstraints.HORIZONTAL;
-			gbcJ.gridx = 0;
-			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F / 7F;
-			panelJoueurs.add(btnAjoutJoueurs, gbcJ);
-		} else {
-			GridBagConstraints gbcJ = new GridBagConstraints();
-			gbcJ.fill = GridBagConstraints.HORIZONTAL;
-			gbcJ.gridx = 0;
-			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F / 7F;
-			panelJoueurs.add(this.labelJoueurs[4], gbcJ);
-		}
-	}
-
-	public String[] getJoueurs() {
-		String[] retour = new String[5];
-		for (int i = 0; i < 5; i++) {
-			retour[i] = labelJoueurs[i].getText();
-		}
-		return retour;
+		btnAjoutJoueurs.setEnabled(b);
 	}
 }
 
