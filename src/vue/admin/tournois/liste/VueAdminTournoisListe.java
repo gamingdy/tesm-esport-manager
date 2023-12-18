@@ -90,7 +90,7 @@ public class VueAdminTournoisListe extends JPanel {
 		setControleur(new TournoisListeControlleur(this));
 	}
 
-	public void setListEquipes(List<CaseTournoi> l) {
+	public void setListeTournois(List<CaseTournoi> l) {
 		list.removeAll();
 		for (CaseTournoi c : l) {
 			list.add(c.getPanel());
