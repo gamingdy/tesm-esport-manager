@@ -197,6 +197,7 @@ public class VueAdminTournoisCreation extends JPanel {
 
 		btnAjoutEquipes = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
 		btnAjoutEquipes.setHorizontalTextPosition(JLabel.TRAILING);
+		btnAjoutEquipes.setBorder(BorderFactory.createEmptyBorder(10,0,0,10));
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
