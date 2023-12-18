@@ -47,11 +47,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcPanelTop.gridx = 0;
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
-		GridLayout gl = new GridLayout();
-		gl.setColumns(2);
-		gl.setRows(2);
-		gl.setHgap(100);
-		gl.setVgap(100);
+		GridLayout gl = new GridLayout(2,2,100,100);
 		panelTop.setLayout(gl);
 
 		JPanel panelChamps = new JPanel();
@@ -107,10 +103,9 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		labelDrapeau = new JLabel();
 		this.setDrapeau("earth");
-		labelDrapeau.setOpaque(true);
+		labelDrapeau.setMaximumSize(new Dimension(labelDrapeau.getIcon().getIconHeight(),labelDrapeau.getIcon().getIconWidth()));
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
-		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
-		labelDrapeau.setForeground(CustomColor.BLANC);
+//		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		labelDrapeau.setHorizontalAlignment(JLabel.CENTER);
 		labelDrapeau.setVerticalAlignment(JLabel.CENTER);
 		panelTop.add(labelDrapeau);
