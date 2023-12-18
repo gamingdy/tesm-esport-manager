@@ -74,7 +74,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		textfieldNom.setCaretColor(CustomColor.BLANC);
 		textfieldNom.setFont(MaFont.getFontTitre3());
 		champNom.add(textfieldNom);
-		
+
 		JPanel champPays = new JPanel();
 		champPays.setLayout(new GridLayout(2, 1, 10, 0));
 		champPays.setOpaque(false);
@@ -134,32 +134,32 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcLabelJoueurs.gridx = 0;
 		gbcLabelJoueurs.gridy = 0;
 		gbcLabelJoueurs.weightx = 1;
-		gbcLabelJoueurs.weighty = 2F/7F;
+		gbcLabelJoueurs.weighty = 2F / 7F;
 		panelJoueurs.add(labelJoueurs, gbcLabelJoueurs);
-		
-		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"),20,20));
+
+		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
 		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
 
 
 		this.labelJoueurs = new JLabel[5];
-		for (int i = 0; i<4;i++) {
+		for (int i = 0; i < 4; i++) {
 			this.labelJoueurs[i] = new JLabel(" ");
 			this.labelJoueurs[i].setForeground(CustomColor.BLANC);
 			this.labelJoueurs[i].setFont(MaFont.getFontTitre3());
 			GridBagConstraints gbcJ = new GridBagConstraints();
 			gbcJ.fill = GridBagConstraints.HORIZONTAL;
 			gbcJ.gridx = 0;
-			gbcJ.gridy = i+1;
-			gbcJ.weighty = 1F/7F;
-			panelJoueurs.add(this.labelJoueurs[i],gbcJ);
+			gbcJ.gridy = i + 1;
+			gbcJ.weighty = 1F / 7F;
+			panelJoueurs.add(this.labelJoueurs[i], gbcJ);
 		}
-		
+
 		GridBagConstraints gbcJ = new GridBagConstraints();
 		gbcJ.fill = GridBagConstraints.HORIZONTAL;
 		gbcJ.gridx = 0;
 		gbcJ.gridy = 7;
-		gbcJ.weighty = 1F/7F;
-		panelJoueurs.add(btnAjoutJoueurs,gbcJ);
+		gbcJ.weighty = 1F / 7F;
+		panelJoueurs.add(btnAjoutJoueurs, gbcJ);
 
 		labelLogo = new JLabel("Insérer logo");
 		labelLogo.setOpaque(true);
@@ -200,6 +200,7 @@ public class VueAdminEquipesCreation extends JPanel {
 
 	/**
 	 * setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
+	 *
 	 * @param controleur
 	 */
 	public void setControleur(EquipeCreationControlleur controleur) {
@@ -207,6 +208,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.labelLogo.addMouseListener(controleur);
+		this.btnAjoutJoueurs.addMouseListener(controleur);
 	}
 
 
@@ -247,11 +249,12 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		labelDrapeau.setIcon(img);
 	}
-	
+
 	/**
 	 * Set le nom d'un joueur
+	 *
 	 * @param nom nom du joueur
-	 * @param i indice du joueur dans le tableau ==> <strong>0 à 4</strong>
+	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setJoueur(String nom, int i) {
 		this.labelJoueurs[i] = new JLabel(nom);
@@ -260,33 +263,32 @@ public class VueAdminEquipesCreation extends JPanel {
 		GridBagConstraints gbcJ = new GridBagConstraints();
 		gbcJ.fill = GridBagConstraints.HORIZONTAL;
 		gbcJ.gridx = 0;
-		gbcJ.gridy = i+1;
-		gbcJ.weighty = 1F/7F;
-		this.panelJoueurs.add(this.labelJoueurs[i],gbcJ);
+		gbcJ.gridy = i + 1;
+		gbcJ.weighty = 1F / 7F;
+		this.panelJoueurs.add(this.labelJoueurs[i], gbcJ);
 	}
-	
+
 	public void activerBoutonAjoutJoueur(boolean b) {
 		if (b) {
 			GridBagConstraints gbcJ = new GridBagConstraints();
 			gbcJ.fill = GridBagConstraints.HORIZONTAL;
 			gbcJ.gridx = 0;
 			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F/7F;
-			panelJoueurs.add(btnAjoutJoueurs,gbcJ);
-		}
-		else {
+			gbcJ.weighty = 1F / 7F;
+			panelJoueurs.add(btnAjoutJoueurs, gbcJ);
+		} else {
 			GridBagConstraints gbcJ = new GridBagConstraints();
 			gbcJ.fill = GridBagConstraints.HORIZONTAL;
 			gbcJ.gridx = 0;
 			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F/7F;
-			panelJoueurs.add(this.labelJoueurs[4],gbcJ);
+			gbcJ.weighty = 1F / 7F;
+			panelJoueurs.add(this.labelJoueurs[4], gbcJ);
 		}
 	}
-	
+
 	public String[] getJoueurs() {
 		String[] retour = new String[5];
-		for (int i = 0; i<5; i++) {
+		for (int i = 0; i < 5; i++) {
 			retour[i] = labelJoueurs[i].getText();
 		}
 		return retour;
