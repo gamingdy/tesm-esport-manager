@@ -126,7 +126,7 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		JLabel labelJoueurs = new JLabel("Joueurs");
 		labelJoueurs.setPreferredSize(new Dimension());
-		labelJoueurs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+		labelJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre2());
 		labelJoueurs.setVerticalTextPosition(JLabel.CENTER);
@@ -139,10 +139,11 @@ public class VueAdminEquipesCreation extends JPanel {
 		panelJoueurs.add(labelJoueurs, gbcLabelJoueurs);
 
 		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
+		btnAjoutJoueurs.setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
 		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
-		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
+		gbcAjout.fill = GridBagConstraints.BOTH;
 		gbcAjout.gridx = 1;
 		gbcAjout.gridy = 0;
 		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);

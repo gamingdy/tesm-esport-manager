@@ -45,8 +45,12 @@ public class PopupPseudo extends JFrame {
 		tf = new JTextField(25);
 		tf.setForeground(CustomColor.BLANC);
 		tf.setBackground(CustomColor.BACKGROUND_MENU);
-		tf.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
+		tf.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(0,10,0,0)));
 		tf.setFont(MaFont.getFontTitre4());
+		tf.setCaretColor(CustomColor.BLANC);
+		
 		panel.add(tf, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();
