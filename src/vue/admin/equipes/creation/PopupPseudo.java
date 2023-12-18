@@ -1,23 +1,20 @@
 package vue.admin.equipes.creation;
 
-import javax.swing.*;
-
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
+import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("serial")
 public class PopupPseudo extends JFrame {
 
-	public static boolean IS_OK = false;
 	private JTextField tf;
 
 	public interface ActionHandler {
 		void handleAction();
 	}
 
-	public PopupPseudo(String title, String message, ActionHandler actionHandler) {
+	public PopupPseudo(String title, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -73,7 +70,6 @@ public class PopupPseudo extends JFrame {
 		okButton.addActionListener(e -> {
 			if (actionHandler != null) {
 				actionHandler.handleAction();
-				IS_OK = true;
 			}
 			dispose();
 		});
