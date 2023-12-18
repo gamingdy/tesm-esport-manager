@@ -1,6 +1,7 @@
 package controlleur.admin.equipes;
 
 import controlleur.VueObserver;
+import controlleur.admin.tournois.TournoisObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
@@ -9,6 +10,7 @@ import modele.Equipe;
 import modele.Joueur;
 import modele.Pays;
 import vue.Page;
+import vue.admin.equipes.creation.PopupPseudo;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.common.JFramePopup;
 
@@ -113,6 +115,16 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getSource() == vue.getbtnAjoutJoueurs()) {
+			PopupPseudo s = new PopupPseudo("Veuillez entrer le pseudo du Joueur", "Pseudo du joueur", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			if (s.IS_OK) {
+				System.out.println("ui");
+			} else {
+				System.out.println("patata");
+			}
+
+			//this.vue.setJoueur(resultat, 1);
+		}
 		if (e.getSource() == vue.getLabelLogo()) {
 			JFileChooser chooser = new JFileChooser();
 			chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));

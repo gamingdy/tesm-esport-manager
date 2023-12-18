@@ -267,6 +267,10 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcJ.weighty = 1F / 7F;
 		this.panelJoueurs.add(this.labelJoueurs[i], gbcJ);
 	}
+	
+	public JLabel getbtnAjoutJoueurs() {
+		return this.btnAjoutJoueurs;
+	}
 
 	public void activerBoutonAjoutJoueur(boolean b) {
 		if (b) {
