@@ -1,6 +1,7 @@
  	package vue.admin.tournois.creation;
 
 import controlleur.admin.equipes.EquipeCreationControlleur;
+import modele.Niveau;
 import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
@@ -16,12 +17,14 @@ public class VueAdminTournoisCreation extends JPanel {
 	private JTextField textfieldNom;
 	private JTextField textfieldDateDebut;
 	private JTextField textfieldDateFin;
-	private JLabel panelEquipes[];
+	private JLabel labelEquipes[];
 	private JButton boutonValider;
 	private JButton boutonAnnuler;
 	private JLabel labelLogo;
 	private JLabel btnAjoutEquipes;
-	private JPanel panelJoueurs;
+	private JPanel panelEquipes;
+	private DefaultListModel<JLabel> model;
+	private JComboBox<Niveau> comboboxNiveaux;
 
 	/**
 	 * Create the panel.
@@ -39,7 +42,16 @@ public class VueAdminTournoisCreation extends JPanel {
 		setLayout(gridBagLayout);
 		setOpaque(false);
 
-
+		JPanel panelTop = new JPanel();
+		panelTop.setLayout(new GridBagLayout());
+		panelTop.setPreferredSize(new Dimension(0, 0));
+		panelTop.setOpaque(false);
+		GridBagConstraints gbcPanelTop = new GridBagConstraints();
+		gbcPanelTop.weighty = 1;
+		gbcPanelTop.fill = GridBagConstraints.BOTH;
+		gbcPanelTop.gridx = 0;
+		gbcPanelTop.gridy = 0;
+		add(panelTop, gbcPanelTop);
 
 		JPanel champNom = new JPanel();
 		champNom.setLayout(new GridLayout(2, 1, 10, 0));
@@ -58,20 +70,59 @@ public class VueAdminTournoisCreation extends JPanel {
 		textfieldNom.setFont(MaFont.getFontTitre3());
 		champNom.add(textfieldNom);
 		GridBagConstraints gbcNom = new GridBagConstraints();
+		gbcNom.fill = GridBagConstraints.BOTH;
+		gbcNom.insets = new Insets(0, 0, 0, 50);
 		gbcNom.gridx = 0;
 		gbcNom.gridy = 0;
-		gbcNom.weightx = 1F/5F;
+		gbcNom.weightx = 1F/2F;
+		gbcNom.weighty = 1F/5F;
+		panelTop.add(champNom,gbcNom);
 		
-		add(champNom,gbcNom);
+
+		
+		
+		JPanel champNiveau = new JPanel();
+		champNiveau.setLayout(new GridLayout(2, 1, 10, 0));
+		champNiveau.setOpaque(false);
+		JLabel labelNiveau = new JLabel("Niveau");
+		labelNiveau.setForeground(CustomColor.BLANC);
+		labelNiveau.setFont(MaFont.getFontTitre2());
+		champNiveau.add(labelNiveau);
+		DefaultComboBoxModel<Niveau> modelNiveaux = new DefaultComboBoxModel<Niveau>();
+		modelNiveaux.addElement(null);
+		Arrays.stream(Niveau.values()).forEach(p -> modelNiveaux.addElement(p));
+		comboboxNiveaux = new JComboBox<Niveau>(modelNiveaux);
+		comboboxNiveaux.setRenderer(new ListCellRenderer<Niveau>() {
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Niveau> list, Niveau value, int index,
+														  boolean isSelected, boolean cellHasFocus) {
+				JLabel panel = new JLabel();
+				if (value != null) {
+					panel.setText(value.getNom());
+				} else {
+					panel.setText("Choissez le niveau du tournoi");
+				}
+				return panel;
+			}
+		});
+		champNiveau.add(comboboxNiveaux);
+		GridBagConstraints gbcNiveau = new GridBagConstraints();
+		gbcNiveau.fill = GridBagConstraints.BOTH;
+		gbcNiveau.insets = new Insets(0, 0, 0, 50);
+		gbcNiveau.gridx = 0;
+		gbcNiveau.gridy = 1;
+		gbcNiveau.weightx = 1F/2F;
+		gbcNiveau.weighty = 1F/5F;
+		panelTop.add(champNiveau,gbcNiveau);
 
 
-		JPanel champDateDébut = new JPanel();
-		champDateDébut.setLayout(new GridLayout(2, 1, 10, 0));
-		champDateDébut.setOpaque(false);
-		JLabel labelDateDébut = new JLabel("Date de début");
-		labelDateDébut.setForeground(CustomColor.BLANC);
-		labelDateDébut.setFont(MaFont.getFontTitre2());
-		champDateDébut.add(labelDateDébut);
+		JPanel champDateDebut = new JPanel();
+		champDateDebut.setLayout(new GridLayout(2, 1, 10, 0));
+		champDateDebut.setOpaque(false);
+		JLabel labelDateDebut = new JLabel("Date de début");
+		labelDateDebut.setForeground(CustomColor.BLANC);
+		labelDateDebut.setFont(MaFont.getFontTitre2());
+		champDateDebut.add(labelDateDebut);
 		textfieldDateDebut = new JTextField();
 		textfieldDateDebut.setBackground(CustomColor.BACKGROUND_MENU);
 		textfieldDateDebut.setBorder(BorderFactory.createCompoundBorder(
@@ -80,13 +131,111 @@ public class VueAdminTournoisCreation extends JPanel {
 		textfieldDateDebut.setForeground(CustomColor.BLANC);
 		textfieldDateDebut.setCaretColor(CustomColor.BLANC);
 		textfieldDateDebut.setFont(MaFont.getFontTitre3());
-		champDateDébut.add(textfieldDateDebut);
-		GridBagConstraints gbcDateDébut = new GridBagConstraints();
-		gbcDateDébut.gridx = 0;
-		gbcDateDébut.gridy = 1;
-		gbcDateDébut.weightx = 1F/5F;
+		champDateDebut.add(textfieldDateDebut);
+		GridBagConstraints gbcDateDebut = new GridBagConstraints();
+		gbcDateDebut.fill = GridBagConstraints.BOTH;
+		gbcDateDebut.insets = new Insets(0, 0, 0, 50);
+		gbcDateDebut.gridx = 0;
+		gbcDateDebut.gridy = 2;
+		gbcDateDebut.weightx = 1F/2F;
+		gbcDateDebut.weighty = 1F/5F;
+		panelTop.add(champDateDebut,gbcDateDebut);
+
+
+		JPanel champDateFin = new JPanel();
+		champDateFin.setLayout(new GridLayout(2, 1, 10, 0));
+		champDateFin.setOpaque(false);
+		JLabel labelDateFin = new JLabel("Date de début");
+		labelDateFin.setForeground(CustomColor.BLANC);
+		labelDateFin.setFont(MaFont.getFontTitre2());
+		champDateFin.add(labelDateFin);
+		textfieldDateFin = new JTextField();
+		textfieldDateFin.setBackground(CustomColor.BACKGROUND_MENU);
+		textfieldDateFin.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		textfieldDateFin.setForeground(CustomColor.BLANC);
+		textfieldDateFin.setCaretColor(CustomColor.BLANC);
+		textfieldDateFin.setFont(MaFont.getFontTitre3());
+		champDateFin.add(textfieldDateFin);
+		GridBagConstraints gbcDateFin = new GridBagConstraints();
+		gbcDateFin.fill = GridBagConstraints.BOTH;
+		gbcDateFin.insets = new Insets(0, 0, 0, 50);
+		gbcDateFin.gridx = 0;
+		gbcDateFin.gridy = 3;
+		gbcDateFin.weightx = 1F/2F;
+		gbcDateFin.weighty = 1F/5F;
+		panelTop.add(champDateFin,gbcDateFin);
 		
-		add(champDateDébut,gbcDateDébut);
+		panelEquipes = new JPanel();
+		panelEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
+		panelEquipes.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
+		GridBagLayout gblPanelEquipes = new GridBagLayout();
+		panelEquipes.setLayout(gblPanelEquipes);
+		GridBagConstraints gbcPanelEquipes = new GridBagConstraints();
+		gbcPanelEquipes.fill = GridBagConstraints.BOTH;
+		gbcPanelEquipes.insets = new Insets(0, 50, 0, 0);
+		gbcPanelEquipes.gridx = 1;
+		gbcPanelEquipes.gridy = 0;
+		gbcPanelEquipes.gridheight = 4;
+		gbcPanelEquipes.weightx = 1/2F;
+		gbcPanelEquipes.weighty = 5F / 7F;
+		
+		panelTop.add(panelEquipes,gbcPanelEquipes);
+
+		JLabel labelEquipe = new JLabel("Équipes");
+		labelEquipe.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+		labelEquipe.setForeground(CustomColor.BLANC);
+		labelEquipe.setFont(MaFont.getFontTitre2());
+		GridBagConstraints gbcLabelEquipe = new GridBagConstraints();
+		gbcLabelEquipe.fill = GridBagConstraints.BOTH;
+		gbcLabelEquipe.gridx = 0;
+		gbcLabelEquipe.gridy = 0;
+		gbcLabelEquipe.weightx = 1;
+		gbcLabelEquipe.weighty = 1F / 9F;
+		panelEquipes.add(labelEquipe, gbcLabelEquipe);
+
+		btnAjoutEquipes = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
+		btnAjoutEquipes.setHorizontalTextPosition(JLabel.TRAILING);
+
+		GridBagConstraints gbcAjout = new GridBagConstraints();
+		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
+		gbcAjout.gridx = 1;
+		gbcAjout.gridy = 0;
+		panelEquipes.add(btnAjoutEquipes, gbcAjout);
+
+		model = new DefaultListModel<JLabel>();
+		model.addElement(new JLabel());
+		model.addElement(new JLabel());
+		model.addElement(new JLabel());
+		model.addElement(new JLabel());
+		model.addElement(new JLabel());
+		model.addElement(new JLabel());
+		model.addElement(new JLabel());
+		JList<JLabel> l = new JList<JLabel>(model);
+		l.setLayout(new GridLayout(0,1));
+		l.setBackground(CustomColor.BACKGROUND_MAIN);
+		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
+		l.setCellRenderer(new ListCellRenderer<JLabel>() {
+
+			@Override
+			public Component getListCellRendererComponent(JList<? extends JLabel> list, JLabel value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				return value;
+			}
+			
+		});
+
+		GridBagConstraints gbcJ = new GridBagConstraints();
+		gbcJ.fill = GridBagConstraints.BOTH;
+		gbcJ.gridwidth = 2;
+		gbcJ.gridx = 0;
+		gbcJ.gridy = 1;
+		gbcJ.weighty = 1F;
+		panelEquipes.add(l, gbcJ);
+		
+		
+
 
 		JPanel panelBot = new JPanel();
 		panelBot.setOpaque(false);
@@ -146,42 +295,18 @@ public class VueAdminTournoisCreation extends JPanel {
 	 * @param i indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setEquipe(String nom, Icon logo, int i) {
-		this.panelEquipes[i] = new JLabel(nom);
-		this.panelEquipes[i].setIcon(logo);
-		this.panelEquipes[i].setForeground(CustomColor.BLANC);
-		this.panelEquipes[i].setFont(MaFont.getFontTitre3());
-		this.panelEquipes[i].setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
-		GridBagConstraints gbcJ = new GridBagConstraints();
-		gbcJ.fill = GridBagConstraints.HORIZONTAL;
-		gbcJ.gridx = 0;
-		gbcJ.gridy = i+1;
-		gbcJ.weighty = 1F/9F;
-		this.panelJoueurs.add(this.panelEquipes[i],gbcJ);
-	}
-	
-	public void activerBoutonAjoutEquipes(boolean b) {
-		if (b) {
-			GridBagConstraints gbcJ = new GridBagConstraints();
-			gbcJ.fill = GridBagConstraints.HORIZONTAL;
-			gbcJ.gridx = 0;
-			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F/7F;
-			panelJoueurs.add(btnAjoutEquipes,gbcJ);
-		}
-		else {
-			GridBagConstraints gbcJ = new GridBagConstraints();
-			gbcJ.fill = GridBagConstraints.HORIZONTAL;
-			gbcJ.gridx = 0;
-			gbcJ.gridy = 5;
-			gbcJ.weighty = 1F/7F;
-			panelJoueurs.add(this.panelEquipes[4],gbcJ);
-		}
+		JLabel equipe = new JLabel(nom);
+		equipe.setIcon(logo);
+		equipe.setForeground(CustomColor.BLANC);
+		equipe.setFont(MaFont.getFontTitre3());
+		equipe.setBorder(BorderFactory.createMatteBorder(0,0,2,0,CustomColor.ROSE_CONTOURS));
+		this.model.add(i, equipe);
 	}
 	
 	public String[] getEquipes() {
 		String[] retour = new String[5];
 		for (int i = 0; i<5; i++) {
-			retour[i] = panelEquipes[i].getText();
+			retour[i] = labelEquipes[i].getText();
 		}
 		return retour;
 	}

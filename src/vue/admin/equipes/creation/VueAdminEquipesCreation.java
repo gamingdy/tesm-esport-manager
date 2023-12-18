@@ -148,7 +148,6 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcAjout.gridy = 0;
 		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);
 
-
 		model = new DefaultListModel<String>();
 		model.addElement(" ");
 		model.addElement(" ");
@@ -166,7 +165,7 @@ public class VueAdminEquipesCreation extends JPanel {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
 					boolean isSelected, boolean cellHasFocus) {
-				JLabel l = new JLabel("value");
+				JLabel l = new JLabel(value);
 				l.setForeground(CustomColor.BLANC);
 				l.setFont(MaFont.getFontTitre3());
 				return l;
