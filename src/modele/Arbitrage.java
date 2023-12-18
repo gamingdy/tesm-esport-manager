@@ -8,21 +8,10 @@ public class Arbitrage {
 
 	private Arbitre arbitre;
 	private Tournoi tournoi;
-	//TODO à retirer
-	private Set<Arbitrage> arbitrage;
 	
 	public Arbitrage(Arbitre arbitre, Tournoi tournoi) {
 		this.arbitre=arbitre;
 		this.tournoi=tournoi;
-		this.arbitrage=new HashSet<>();
-	}
-	
-	public void addAppartenance(Arbitrage arbitrage) {
-		this.arbitrage.add(arbitrage);
-	}
-	
-	public void deleteAppartenance(Arbitrage arbitrage) {
-		this.arbitrage.remove(arbitrage);
 	}
 
 	public Arbitre getArbitre() {
