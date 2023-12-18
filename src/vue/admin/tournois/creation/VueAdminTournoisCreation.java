@@ -2,7 +2,6 @@ package vue.admin.tournois.creation;
 
 import controlleur.admin.equipes.EquipeCreationControlleur;
 import modele.Niveau;
-import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;

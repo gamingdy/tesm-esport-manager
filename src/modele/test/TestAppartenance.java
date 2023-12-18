@@ -8,7 +8,6 @@ import static org.junit.Assert.assertEquals;
 
 public class TestAppartenance {
 	private Appartenance appartenance;
-	private Equipe equipe;
 	private Poule poule;
 	private Tournoi tournoi;
 	private Equipe e1;

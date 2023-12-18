@@ -1,12 +1,6 @@
 package modele;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-
-import exceptions.EquipeInexistanteException;
-
 public class Inscription {
 	
 	private Equipe equipe;

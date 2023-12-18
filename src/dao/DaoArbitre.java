@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import modele.Arbitre;
-import modele.Saison;
 
 public class DaoArbitre implements Dao<Arbitre,Integer> {
 

@@ -14,9 +14,6 @@ import static org.junit.Assert.assertEquals;
 public class TestPoule {
 	private Poule poule;
 	private Tournoi tournoi;
-	private Character libelle;
-	private Equipe e1;
-	private Equipe e2;
 	private CustomDate debut;
 	private CustomDate fin;
 

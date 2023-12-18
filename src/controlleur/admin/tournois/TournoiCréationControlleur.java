@@ -1,8 +1,6 @@
 package controlleur.admin.tournois;
 
-import controlleur.VueObserver;
 import dao.Connexion;
-import dao.Dao;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import modele.CustomDate;
@@ -10,7 +8,6 @@ import modele.Saison;
 import modele.Tournoi;
 import vue.Page;
 import vue.admin.tournois.creation.VueAdminTournoisCreation;
-import vue.admin.tournois.liste.VueAdminTournoisListe;
 import vue.common.JFramePopup;
 
 import java.awt.event.ActionEvent;

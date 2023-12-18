@@ -1,7 +1,6 @@
 package dao;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import modele.Appartenance;
 import modele.Arbitrage;
