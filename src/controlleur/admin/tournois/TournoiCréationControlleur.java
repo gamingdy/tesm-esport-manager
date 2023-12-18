@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import modele.Equipe;
+
 public class TournoiCréationControlleur implements ActionListener, MouseListener {
 	private VueAdminTournoisCreation vue;
 	private DaoTournoi daoTournoi;
@@ -131,7 +133,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public void addEquipe() {
 		if (this.nbEquipes < 8) {
 			String nomEquipe = this.popupAjoutEquipe.getSaisie().getNom();
-			Icon icon = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
+			ImageIcon icon = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
 			this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
 			this.nbEquipes++;
 		}
