@@ -1,6 +1,6 @@
 package vue.admin.tournois.creation;
 
-import controlleur.admin.equipes.EquipeCreationControlleur;
+import controlleur.admin.tournois.TournoiCréationControlleur;
 import modele.Niveau;
 import vue.Vue;
 import vue.common.CustomColor;
@@ -8,7 +8,9 @@ import vue.common.MaFont;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class VueAdminTournoisCreation extends JPanel {
 
@@ -24,6 +26,7 @@ public class VueAdminTournoisCreation extends JPanel {
 	private JPanel panelEquipes;
 	private DefaultListModel<JLabel> model;
 	private JComboBox<Niveau> comboboxNiveaux;
+	private TournoiCréationControlleur controleur;
 
 	/**
 	 * Create the panel.
@@ -73,13 +76,11 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcNom.insets = new Insets(0, 0, 0, 50);
 		gbcNom.gridx = 0;
 		gbcNom.gridy = 0;
-		gbcNom.weightx = 1F/2F;
-		gbcNom.weighty = 1F/5F;
-		panelTop.add(champNom,gbcNom);
-		
+		gbcNom.weightx = 1F / 2F;
+		gbcNom.weighty = 1F / 5F;
+		panelTop.add(champNom, gbcNom);
 
-		
-		
+
 		JPanel champNiveau = new JPanel();
 		champNiveau.setLayout(new GridLayout(2, 1, 10, 0));
 		champNiveau.setOpaque(false);
@@ -110,9 +111,9 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcNiveau.insets = new Insets(0, 0, 0, 50);
 		gbcNiveau.gridx = 0;
 		gbcNiveau.gridy = 1;
-		gbcNiveau.weightx = 1F/2F;
-		gbcNiveau.weighty = 1F/5F;
-		panelTop.add(champNiveau,gbcNiveau);
+		gbcNiveau.weightx = 1F / 2F;
+		gbcNiveau.weighty = 1F / 5F;
+		panelTop.add(champNiveau, gbcNiveau);
 
 
 		JPanel champDateDebut = new JPanel();
@@ -136,9 +137,9 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcDateDebut.insets = new Insets(0, 0, 0, 50);
 		gbcDateDebut.gridx = 0;
 		gbcDateDebut.gridy = 2;
-		gbcDateDebut.weightx = 1F/2F;
-		gbcDateDebut.weighty = 1F/5F;
-		panelTop.add(champDateDebut,gbcDateDebut);
+		gbcDateDebut.weightx = 1F / 2F;
+		gbcDateDebut.weighty = 1F / 5F;
+		panelTop.add(champDateDebut, gbcDateDebut);
 
 
 		JPanel champDateFin = new JPanel();
@@ -162,10 +163,10 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcDateFin.insets = new Insets(0, 0, 0, 50);
 		gbcDateFin.gridx = 0;
 		gbcDateFin.gridy = 3;
-		gbcDateFin.weightx = 1F/2F;
-		gbcDateFin.weighty = 1F/5F;
-		panelTop.add(champDateFin,gbcDateFin);
-		
+		gbcDateFin.weightx = 1F / 2F;
+		gbcDateFin.weighty = 1F / 5F;
+		panelTop.add(champDateFin, gbcDateFin);
+
 		panelEquipes = new JPanel();
 		panelEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelEquipes.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
@@ -177,10 +178,10 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcPanelEquipes.gridx = 1;
 		gbcPanelEquipes.gridy = 0;
 		gbcPanelEquipes.gridheight = 4;
-		gbcPanelEquipes.weightx = 1/2F;
+		gbcPanelEquipes.weightx = 1 / 2F;
 		gbcPanelEquipes.weighty = 5F / 7F;
-		
-		panelTop.add(panelEquipes,gbcPanelEquipes);
+
+		panelTop.add(panelEquipes, gbcPanelEquipes);
 
 		JLabel labelEquipe = new JLabel("Équipes");
 		labelEquipe.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
@@ -196,7 +197,7 @@ public class VueAdminTournoisCreation extends JPanel {
 
 		btnAjoutEquipes = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
 		btnAjoutEquipes.setHorizontalTextPosition(JLabel.TRAILING);
-		btnAjoutEquipes.setBorder(BorderFactory.createEmptyBorder(10,0,0,10));
+		btnAjoutEquipes.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
@@ -213,17 +214,17 @@ public class VueAdminTournoisCreation extends JPanel {
 		model.addElement(new JLabel());
 		model.addElement(new JLabel());
 		JList<JLabel> l = new JList<JLabel>(model);
-		l.setLayout(new GridLayout(0,1));
+		l.setLayout(new GridLayout(0, 1));
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
 		l.setCellRenderer(new ListCellRenderer<JLabel>() {
 
 			@Override
 			public Component getListCellRendererComponent(JList<? extends JLabel> list, JLabel value, int index,
-					boolean isSelected, boolean cellHasFocus) {
+														  boolean isSelected, boolean cellHasFocus) {
 				return value;
 			}
-			
+
 		});
 
 		GridBagConstraints gbcJ = new GridBagConstraints();
@@ -233,8 +234,6 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcJ.gridy = 1;
 		gbcJ.weighty = 1F;
 		panelEquipes.add(l, gbcJ);
-		
-		
 
 
 		JPanel panelBot = new JPanel();
@@ -260,6 +259,8 @@ public class VueAdminTournoisCreation extends JPanel {
 		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
+		controleur = new TournoiCréationControlleur(this);
+		setControleur(controleur);
 
 	}
 
@@ -268,10 +269,10 @@ public class VueAdminTournoisCreation extends JPanel {
 	 *
 	 * @param controleur
 	 */
-	public void setControleur(EquipeCreationControlleur controleur) {
+	public void setControleur(TournoiCréationControlleur controleur) {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
-		this.labelLogo.addMouseListener(controleur);
+		this.btnAjoutEquipes.addMouseListener(controleur);
 	}
 
 
@@ -301,16 +302,8 @@ public class VueAdminTournoisCreation extends JPanel {
 		equipe.setIcon(logo);
 		equipe.setForeground(CustomColor.BLANC);
 		equipe.setFont(MaFont.getFontTitre3());
-		equipe.setBorder(BorderFactory.createMatteBorder(0,0,2,0,CustomColor.ROSE_CONTOURS));
+		equipe.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS));
 		this.model.add(i, equipe);
-	}
-	
-	public String[] getEquipes() {
-		String[] retour = new String[5];
-		for (int i = 0; i<5; i++) {
-			retour[i] = labelEquipes[i].getText();
-		}
-		return retour;
 	}
 
 	public JButton getBoutonValider() {
@@ -329,6 +322,20 @@ public class VueAdminTournoisCreation extends JPanel {
 		return this.textfieldDateFin.getText();
 	}
 
+	public Niveau getNiveau() {
+		if (this.comboboxNiveaux.getSelectedItem() == null) {
+			return null;
+		}
+		return (Niveau) this.comboboxNiveaux.getSelectedItem();
+	}
+
+	public List<String> getEquipes() {
+		return Arrays.stream(model.toArray()).map(x -> ((JLabel) x).getText()).collect(Collectors.toList());
+	}
+
+	public JLabel getBtnAjoutEquipes() {
+		return this.btnAjoutEquipes;
+	}
 }
 
 

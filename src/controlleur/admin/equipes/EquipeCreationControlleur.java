@@ -1,7 +1,10 @@
 package controlleur.admin.equipes;
 
 import controlleur.VueObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoEquipe;
+import dao.DaoJoueur;
+import dao.DaoSaison;
 import modele.Equipe;
 import modele.Joueur;
 import modele.Pays;
@@ -18,9 +21,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class EquipeCreationControlleur implements ActionListener, ItemListener, MouseListener {
@@ -48,23 +48,21 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
 			String nomEquipe = vue.getNomEquipe().trim();
 			Pays champPaysEquipe;
-			if (this.nbJoueurs < 5) {
-				new JFramePopup("Erreur", "Pas assez de joueurs dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-			}
+
 			if (vue.getChampPaysEquipe() == null) {
 				champPaysEquipe = null;
 			} else {
 				champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
 			}
-			if ((nomEquipe.isEmpty()) || (logo == null) || (champPaysEquipe == null)) {
-				if (nomEquipe.isEmpty()) {
-					new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-				} else if (logo == null) {
-					new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-				} else {
-					new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-				}
-
+			//if ((nomEquipe.isEmpty()) || (logo == null) || (champPaysEquipe == null)) {
+			if (nomEquipe.isEmpty()) {
+				new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+			} else if (logo == null) {
+				new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+			} else if (champPaysEquipe == null) {
+				new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+			} else if (this.nbJoueurs < 5) {
+				new JFramePopup("Erreur", "Pas assez de joueurs dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 			} else if (equipeDejaExistante(nomEquipe)) {
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				this.logo = null;
@@ -118,24 +116,21 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == vue.getbtnAjoutJoueurs()) {
-			this.popupPseudo = new PopupPseudo("Veuillez entrer le pseudo du Joueur", () -> {
-				EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
-				this.addJoueur();
-			});
+			if (!equipeComplete()) {
+				this.popupPseudo = new PopupPseudo("Veuillez entrer le pseudo du Joueur", () -> {
+					EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
+					this.addJoueur();
+				});
+			} else {
+				new JFramePopup("Erreur", "Equipe déjà complète", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+			}
 
-			//this.vue.setJoueur(resultat, 1);
 		}
 		if (e.getSource() == vue.getLabelLogo()) {
 			JFileChooser chooser = new JFileChooser();
 			chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));
-			int returnVal = 0;
-			try {
-				// ...
-				returnVal = chooser.showOpenDialog(this.vue);
-				// ...
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			int returnVal = chooser.showOpenDialog(this.vue);
+			
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				//recuperer le fichier choisi
 				File fichier = chooser.getSelectedFile();
@@ -163,6 +158,10 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		this.nbJoueurs++;
 	}
 
+	public boolean equipeComplete() {
+		return this.nbJoueurs == 5;
+	}
+
 
 	BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
 		Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
@@ -173,17 +172,13 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	public void initEquipe(Equipe equipe) {
 		daoJoueur = new DaoJoueur(c);
-		if (this.nbJoueurs == 5) {
-			Object[] liste = this.vue.getJoueurs();
-			try {
-				for (Object pseudo : liste) {
-					daoJoueur.add(new Joueur(pseudo.toString(), equipe));
-				}
-			} catch (Exception e) {
-
+		Object[] liste = this.vue.getJoueurs();
+		try {
+			for (Object pseudo : liste) {
+				daoJoueur.add(new Joueur(pseudo.toString(), equipe));
 			}
-		} else {
-			new JFramePopup("Erreur", "Il n'y a pas assez de joueurs dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+		} catch (Exception e) {
+
 		}
 	}
 
