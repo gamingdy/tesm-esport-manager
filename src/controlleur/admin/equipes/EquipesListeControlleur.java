@@ -11,8 +11,9 @@ import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;

@@ -1,9 +1,18 @@
 package modele.test;
 
 import exceptions.EquipeInexistanteException;
-import modele.*;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import modele.Arbitre;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Niveau;
+import modele.Pays;
+import modele.Saison;
+import modele.Tournoi;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -3,9 +3,18 @@ package modele.test;
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
-import modele.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import modele.Categorie;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Matche;
+import modele.Niveau;
+import modele.Pays;
+import modele.Saison;
+import modele.Tournoi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
