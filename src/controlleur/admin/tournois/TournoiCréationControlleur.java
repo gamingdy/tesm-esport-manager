@@ -73,7 +73,7 @@ public class TournoiCréationControlleur implements ActionListener {
 			Tournoi tournoiRecherche;
 			try {
 				//Recherche par nom
-				tournoiRecherche = daoTournoi.getById(saison.getAnnee(), nom);
+				tournoiRecherche = daoTournoi.getById(saison.getAnnee(), nom).get();
 				if (tournoiRecherche != null) {
 					new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 				}

@@ -96,7 +96,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	private boolean equipeDejaExistante(String nomEquipe) {
 		try {
-			Equipe equipe = daoEquipe.getById(nomEquipe);
+			Equipe equipe = daoEquipe.getById(nomEquipe).get();
 			return equipe != null;
 		} catch (Exception ignored) {
 			return false;

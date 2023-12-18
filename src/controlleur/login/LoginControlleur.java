@@ -74,10 +74,10 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	}
 
 	public CompteUtilisateur compteAdminOuUtilisateur(String login, String mdp) {
-		if (login.equals(admin.getUsername()) && mdp.equals(admin.getMdp())) {
+		if (login.equals(admin.getUsername()) && mdp.equals(admin.getHashMdp())) {
 			return this.admin;
 		}
-		if (login.equals(arbitre.getUsername()) && mdp.equals(arbitre.getMdp())) {
+		if (login.equals(arbitre.getUsername()) && mdp.equals(arbitre.getHashMdp())) {
 			return this.arbitre;
 		}
 		return null;
