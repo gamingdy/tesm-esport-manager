@@ -144,7 +144,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		JPanel champDateFin = new JPanel();
 		champDateFin.setLayout(new GridLayout(2, 1, 10, 0));
 		champDateFin.setOpaque(false);
-		JLabel labelDateFin = new JLabel("Date de début");
+		JLabel labelDateFin = new JLabel("Date de fin");
 		labelDateFin.setForeground(CustomColor.BLANC);
 		labelDateFin.setFont(MaFont.getFontTitre2());
 		champDateFin.add(labelDateFin);
