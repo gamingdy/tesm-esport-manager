@@ -80,8 +80,11 @@ public class VueAdminEquipesCreation extends JPanel {
 		champNom.add(labelNom);
 		textfieldNom = new JTextField();
 		textfieldNom.setBackground(CustomColor.BACKGROUND_MENU);
-		textfieldNom.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
+		textfieldNom.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		textfieldNom.setForeground(CustomColor.BLANC);
+		textfieldNom.setCaretColor(CustomColor.BLANC);
 		textfieldNom.setFont(MaFont.getFontTitre3());
 		champNom.add(textfieldNom);
 
