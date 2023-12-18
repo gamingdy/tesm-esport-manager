@@ -1,11 +1,11 @@
 package vue.common;
 
 import vue.Vue;
-import vue.admin.VueAdmin;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TitleBar extends JPanel {
 

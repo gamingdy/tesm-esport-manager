@@ -1,11 +1,5 @@
 package controlleur;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Objects;
-
 import vue.BoutonNavBar;
 import vue.Page;
 import vue.admin.VueAdmin;
@@ -16,6 +10,12 @@ import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
 import vue.admin.tournois.VueAdminTournois;
 import vue.common.JFramePopup;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Objects;
 
 enum ETAT {
 	ACCUEIL, ARBITRES, EQUIPES, TOURNOIS

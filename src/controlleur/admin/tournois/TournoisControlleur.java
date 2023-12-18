@@ -2,8 +2,6 @@ package controlleur.admin.tournois;
 
 import controlleur.admin.tournois.TournoisObserver;
 import vue.Page;
-import vue.admin.equipes.creation.VueAdminEquipesCreation;
-import vue.admin.equipes.liste.VueAdminEquipesListe;
 import vue.admin.tournois.VueAdminTournois;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
 

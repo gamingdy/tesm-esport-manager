@@ -1,17 +1,10 @@
 package vue.admin.accueil;
 
-import javax.swing.JPanel;
-
-import java.awt.Color;
-import java.awt.GridLayout;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.border.EmptyBorder;
-
-import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
+
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class PanelEquipeClassement extends JPanel {
@@ -19,7 +12,7 @@ public class PanelEquipeClassement extends JPanel {
 
 		setLayout(new GridLayout(1, 0, 0, 0));
 		setBackground(CustomColor.BACKGROUND_MAIN);
-		
+
 		JLabel labelPlace = new JLabel("" + place);
 		labelPlace.setForeground(CustomColor.BLANC);
 		labelPlace.setFont(MaFont.getFontTitre3());

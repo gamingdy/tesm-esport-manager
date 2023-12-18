@@ -1,29 +1,14 @@
 package vue.admin.equipes.creation;
 
-import java.awt.*;
-
-import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
-
 import controlleur.admin.equipes.EquipeCreationControlleur;
 import modele.Pays;
+import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.DefaultListModel;
-import javax.swing.DefaultComboBoxModel;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -31,9 +16,12 @@ public class VueAdminEquipesCreation extends JPanel {
 	private JLabel labelDrapeau;
 	private JComboBox<Pays> comboboxPays;
 	private JTextField textfieldNom;
+	private JLabel labelJoueurs[];
 	private JButton boutonValider;
 	private JButton boutonAnnuler;
 	private JLabel labelLogo;
+	private JLabel btnAjoutJoueurs;
+	private JPanel panelJoueurs;
 
 	/**
 	 * Create the panel.
@@ -86,7 +74,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		textfieldNom.setCaretColor(CustomColor.BLANC);
 		textfieldNom.setFont(MaFont.getFontTitre3());
 		champNom.add(textfieldNom);
-
+		
 		JPanel champPays = new JPanel();
 		champPays.setLayout(new GridLayout(2, 1, 10, 0));
 		champPays.setOpaque(false);
@@ -127,7 +115,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelDrapeau.setVerticalAlignment(JLabel.CENTER);
 		panelTop.add(labelDrapeau);
 
-		JPanel panelJoueurs = new JPanel();
+		panelJoueurs = new JPanel();
 		panelJoueurs.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelJoueurs.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		GridBagLayout gblPanelJoueurs = new GridBagLayout();
@@ -146,37 +134,32 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcLabelJoueurs.gridx = 0;
 		gbcLabelJoueurs.gridy = 0;
 		gbcLabelJoueurs.weightx = 1;
-		gbcLabelJoueurs.weighty = 1F / 7F;
+		gbcLabelJoueurs.weighty = 2F/7F;
 		panelJoueurs.add(labelJoueurs, gbcLabelJoueurs);
+		
+		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"),20,20));
+		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
 
-		DefaultListModel<String> lmJoueurs = new DefaultListModel<String>();
-		JList<String> listeJoueurs = new JList<String>(lmJoueurs);
-		listeJoueurs.setCellRenderer(new ListCellRenderer<String>() {
-			@Override
-			public Component getListCellRendererComponent(JList list, String value, int index, boolean isSelected, boolean cellHasFocus) {
-				JLabel panel = new JLabel(value);
-				panel.setOpaque(false);
-				panel.setForeground(CustomColor.BLANC);
-				panel.setFont(MaFont.getFontTitre4());
-				panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 0));
-				return panel;
-			}
 
-		});
-		listeJoueurs.setOpaque(false);
-		listeJoueurs.setPreferredSize(new Dimension());
-		lmJoueurs.addElement("Joueur1");
-		lmJoueurs.addElement("Joueur2");
-		lmJoueurs.addElement("Joueur3");
-		lmJoueurs.addElement("Joueur4");
-		lmJoueurs.addElement("Joueur5");
-		GridBagConstraints gbcListeJoueurs = new GridBagConstraints();
-		gbcListeJoueurs.fill = GridBagConstraints.BOTH;
-		gbcListeJoueurs.gridx = 0;
-		gbcListeJoueurs.gridy = 1;
-		gbcListeJoueurs.weightx = 1;
-		gbcListeJoueurs.weighty = 6F / 7F;
-		panelJoueurs.add(listeJoueurs, gbcListeJoueurs);
+		this.labelJoueurs = new JLabel[5];
+		for (int i = 0; i<4;i++) {
+			this.labelJoueurs[i] = new JLabel(" ");
+			this.labelJoueurs[i].setForeground(CustomColor.BLANC);
+			this.labelJoueurs[i].setFont(MaFont.getFontTitre3());
+			GridBagConstraints gbcJ = new GridBagConstraints();
+			gbcJ.fill = GridBagConstraints.HORIZONTAL;
+			gbcJ.gridx = 0;
+			gbcJ.gridy = i+1;
+			gbcJ.weighty = 1F/7F;
+			panelJoueurs.add(this.labelJoueurs[i],gbcJ);
+		}
+		
+		GridBagConstraints gbcJ = new GridBagConstraints();
+		gbcJ.fill = GridBagConstraints.HORIZONTAL;
+		gbcJ.gridx = 0;
+		gbcJ.gridy = 7;
+		gbcJ.weighty = 1F/7F;
+		panelJoueurs.add(btnAjoutJoueurs,gbcJ);
 
 		labelLogo = new JLabel("Insérer logo");
 		labelLogo.setOpaque(true);
@@ -215,7 +198,10 @@ public class VueAdminEquipesCreation extends JPanel {
 
 	}
 
-	// setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
+	/**
+	 * setControlleur est une méthode qui permet d'ajouter les controlleurs au bouton, c'est par défaut dans Jbutton
+	 * @param controleur
+	 */
 	public void setControleur(EquipeCreationControlleur controleur) {
 		this.comboboxPays.addItemListener(controleur);
 		this.boutonValider.addActionListener(controleur);
@@ -261,7 +247,50 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		labelDrapeau.setIcon(img);
 	}
-
+	
+	/**
+	 * Set le nom d'un joueur
+	 * @param nom nom du joueur
+	 * @param i indice du joueur dans le tableau ==> <strong>0 à 4</strong>
+	 */
+	public void setJoueur(String nom, int i) {
+		this.labelJoueurs[i] = new JLabel(nom);
+		this.labelJoueurs[i].setForeground(CustomColor.BLANC);
+		this.labelJoueurs[i].setFont(MaFont.getFontTitre3());
+		GridBagConstraints gbcJ = new GridBagConstraints();
+		gbcJ.fill = GridBagConstraints.HORIZONTAL;
+		gbcJ.gridx = 0;
+		gbcJ.gridy = i+1;
+		gbcJ.weighty = 1F/7F;
+		this.panelJoueurs.add(this.labelJoueurs[i],gbcJ);
+	}
+	
+	public void activerBoutonAjoutJoueur(boolean b) {
+		if (b) {
+			GridBagConstraints gbcJ = new GridBagConstraints();
+			gbcJ.fill = GridBagConstraints.HORIZONTAL;
+			gbcJ.gridx = 0;
+			gbcJ.gridy = 5;
+			gbcJ.weighty = 1F/7F;
+			panelJoueurs.add(btnAjoutJoueurs,gbcJ);
+		}
+		else {
+			GridBagConstraints gbcJ = new GridBagConstraints();
+			gbcJ.fill = GridBagConstraints.HORIZONTAL;
+			gbcJ.gridx = 0;
+			gbcJ.gridy = 5;
+			gbcJ.weighty = 1F/7F;
+			panelJoueurs.add(this.labelJoueurs[4],gbcJ);
+		}
+	}
+	
+	public String[] getJoueurs() {
+		String[] retour = new String[5];
+		for (int i = 0; i<5; i++) {
+			retour[i] = labelJoueurs[i].getText();
+		}
+		return retour;
+	}
 }
 
 

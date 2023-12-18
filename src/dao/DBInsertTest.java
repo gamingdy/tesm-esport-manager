@@ -1,10 +1,10 @@
 package dao;
 
+import modele.Niveau;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import modele.Niveau;
 
 public class DBInsertTest {
 

@@ -1,12 +1,7 @@
 package vue.common;
 
 import javax.swing.*;
-
-import controlleur.VueObserver;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class JFramePopup extends JFrame {
 

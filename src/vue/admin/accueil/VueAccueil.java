@@ -1,27 +1,12 @@
 package vue.admin.accueil;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.DefaultListModel;
-import javax.swing.SwingConstants;
-
-import java.awt.Dimension;
-
-import javax.swing.ListModel;
-
 import controlleur.admin.accueil.AccueilControlleur;
 import vue.common.CustomColor;
-import vue.common.MaFont;
 import vue.common.CustomScrollBarUI;
+import vue.common.MaFont;
 
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.awt.*;
 
 public class VueAccueil extends JPanel {
 

@@ -5,10 +5,9 @@ import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
 import dao.DaoSaison;
+import modele.Equipe;
 import modele.Joueur;
 import modele.Pays;
-import modele.Equipe;
-
 import vue.Page;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.common.JFramePopup;
