@@ -159,8 +159,13 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	}
 
 	public void addJoueur() {
-		this.vue.setJoueur(this.popupPseudo.getSaisie(), this.nbJoueurs);
-		this.nbJoueurs++;
+		if (this.popupPseudo.getSaisie().trim().isEmpty()) {
+			new JFramePopup("Erreur", "Le pseudo du joueur est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+		} else {
+			this.vue.setJoueur(this.popupPseudo.getSaisie(), this.nbJoueurs);
+			this.nbJoueurs++;
+		}
+
 	}
 
 	public boolean equipeComplete() {
