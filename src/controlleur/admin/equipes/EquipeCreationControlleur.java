@@ -1,7 +1,6 @@
 package controlleur.admin.equipes;
 
 import controlleur.VueObserver;
-import controlleur.admin.tournois.TournoisObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
@@ -33,6 +32,8 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	private BufferedImage logo;
 	private ImageIcon drapeauDeBase = new ImageIcon("assets/country-flags/earth.png");
 	private static Connexion c;
+	private PopupPseudo popupPseudo;
+	private int nbJoueurs = 0;
 
 	public EquipeCreationControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
@@ -116,12 +117,10 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == vue.getbtnAjoutJoueurs()) {
-			PopupPseudo s = new PopupPseudo("Veuillez entrer le pseudo du Joueur", "Pseudo du joueur", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
-			if (s.IS_OK) {
-				System.out.println("ui");
-			} else {
-				System.out.println("non");
-			}
+			this.popupPseudo = new PopupPseudo("Veuillez entrer le pseudo du Joueur", () -> {
+				EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
+				this.addJoueur();
+			});
 
 			//this.vue.setJoueur(resultat, 1);
 		}
@@ -156,6 +155,11 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				}
 			}
 		}
+	}
+
+	public void addJoueur() {
+		this.vue.setJoueur(this.popupPseudo.getSaisie(), this.nbJoueurs);
+		this.nbJoueurs++;
 	}
 
 	@Override
