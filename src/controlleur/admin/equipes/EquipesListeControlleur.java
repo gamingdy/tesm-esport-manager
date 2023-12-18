@@ -11,12 +11,13 @@ import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
 
-import java.awt.*;
-import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

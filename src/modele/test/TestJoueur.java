@@ -1,19 +1,17 @@
 package modele.test;
 
-import static org.junit.Assert.*;
-
-
 import exceptions.*;
-import modele.Pays;
 import modele.Equipe;
+import modele.Joueur;
+import modele.Pays;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import modele.Joueur;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TestJoueur {
 	private Joueur j;

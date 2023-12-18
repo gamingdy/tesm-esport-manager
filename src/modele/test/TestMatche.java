@@ -3,12 +3,12 @@ package modele.test;
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
+import modele.*;
 import org.junit.Before;
 import org.junit.Test;
-import modele.*;
 
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TestMatche {
 	private Matche m;

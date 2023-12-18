@@ -1,11 +1,9 @@
 package vue.admin.main;
 
-import java.awt.CardLayout;
-import java.awt.Component;
+import vue.Page;
 
 import javax.swing.*;
-
-import vue.Page;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
@@ -27,8 +25,8 @@ public class ConteneurMain extends JPanel {
 	public void show(Page equipes) {
 		cardLayout.show(this, equipes.name());
 	}
-	
+
 	public void addPage(Component page, Page id) {
-		add(page,id.name());
+		add(page, id.name());
 	}
 }

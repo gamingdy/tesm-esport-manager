@@ -2,8 +2,6 @@ package modele;
 
 
 import exceptions.EquipeInexistanteException;
-import exceptions.FausseDateException;
-import exceptions.ExceptionPointsNegatifs;
 
 import java.util.*;
 

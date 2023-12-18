@@ -1,20 +1,12 @@
 package vue.login;
 
-import javax.swing.JPanel;
-
-import controlleur.login.LoginControlleur;
 import controlleur.VueObserver;
+import controlleur.login.LoginControlleur;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import java.awt.Cursor;
-
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 @SuppressWarnings("serial")

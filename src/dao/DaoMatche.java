@@ -1,15 +1,15 @@
 package dao;
 
+import modele.Categorie;
+import modele.CustomDate;
+import modele.Matche;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import modele.Categorie;
-import modele.CustomDate;
-import modele.Matche;
 
 public class DaoMatche implements Dao<Matche, Integer> {
 
@@ -133,12 +133,12 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			add.setString(5, value.getEquipe2().getNom());
 			add.setInt(6, value.getTournoi().getSaison().getAnnee());
 			add.setString(7, value.getTournoi().getNom());
-			boolean execute = add.executeUpdate()==1;
+			boolean execute = add.executeUpdate() == 1;
 			ResultSet rs = add.getGeneratedKeys();
 			if (rs.next()) {
 				value.setId(rs.getInt(1));
 			}
-			return execute;		
+			return execute;
 		}
 	}
 

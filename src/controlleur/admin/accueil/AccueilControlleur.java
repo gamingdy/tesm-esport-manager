@@ -1,12 +1,15 @@
 package controlleur.admin.accueil;
 
 import controlleur.ControlleurObserver;
-import dao.*;
-import modele.*;
+import dao.Connexion;
+import dao.DaoMatche;
+import dao.DaoSaison;
+import dao.DaoTournoi;
+import modele.Tournoi;
 import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.VueAccueil;
 
-import javax.swing.DefaultListModel;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 

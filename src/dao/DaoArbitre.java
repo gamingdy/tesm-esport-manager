@@ -1,13 +1,13 @@
 package dao;
 
+import modele.Arbitre;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import modele.Arbitre;
 
 public class DaoArbitre implements Dao<Arbitre, Integer> {
 
