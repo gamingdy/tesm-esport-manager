@@ -73,8 +73,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				new JFramePopup("Erreur", "Pas assez de joueurs dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 			} else if (equipeDejaExistante(nomEquipe)) {
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-				this.logo = null;
-				this.vue.clearField();
+				resetChamps();
 			} else {
 				Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
 
@@ -84,8 +83,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 					File outputfile = new File("assets/logo-equipes/" + nomEquipe + ".jpg");
 					ImageIO.write(logo, "jpg", outputfile);
 					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-					this.logo = null;
-					this.vue.clearField();
+					resetChamps();
 
 
 				} catch (Exception ex) {
@@ -97,8 +95,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 		} else if ((Objects.equals(bouton.getText(), "Annuler"))) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
-			this.logo = null;
-			this.vue.clearField();
+			resetChamps();
 		}
 	}
 
@@ -138,7 +135,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			JFileChooser chooser = new JFileChooser();
 			chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));
 			int returnVal = chooser.showOpenDialog(this.vue);
-			
+
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				//recuperer le fichier choisi
 				File fichier = chooser.getSelectedFile();
@@ -190,6 +187,11 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		}
 	}
 
+	public void resetChamps() {
+		this.logo = null;
+		this.vue.clearField();
+		this.nbJoueurs = 0;
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
