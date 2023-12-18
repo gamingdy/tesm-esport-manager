@@ -297,7 +297,19 @@ public class VueAdminTournoisCreation extends JPanel {
 		this.comboboxNiveaux.setSelectedItem(null);
 		this.textfieldDateDebut.setText("");
 		this.textfieldDateFin.setText("");
+		resetEquipes();
+		
+	}
 
+	private void resetEquipes() {
+		model.set(1,new JLabel());
+		model.set(2,new JLabel());
+		model.set(3,new JLabel());
+		model.set(4,new JLabel());
+		model.set(5,new JLabel());
+		model.set(6,new JLabel());
+		model.set(7,new JLabel());
+		model.set(0,new JLabel());
 	}
 
 	public String getNomEquipe() {
