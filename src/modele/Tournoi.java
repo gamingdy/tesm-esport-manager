@@ -1,5 +1,9 @@
 package modele;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 //import java.util.HashMap;
 //import java.util.Map;
 
@@ -14,7 +18,9 @@ public class Tournoi {
 	private Niveau niveau;
 	private boolean estEncours;
 	private CompteArbitre compteArbitre;
-	//private Map<Character,Poule> poules;
+	
+	private Set<Poule> poules;
+	private Set<Matche> matches;
 
 	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDateException {
 		if (debut.getAnnee() < saison.getAnnee()) {
@@ -35,6 +41,9 @@ public class Tournoi {
 		} else {
 			this.estEncours = false;
 		}
+		
+		this.matches = new HashSet<>();
+		this.poules = new HashSet<>();
 	}
 
 	public Saison getSaison() {
@@ -96,29 +105,35 @@ public class Tournoi {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(nom, saison);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof Tournoi)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-
-		Tournoi tournoiComparable = (Tournoi) obj;
-
-		return this.toString().equals(tournoiComparable.toString());
+		Tournoi other = (Tournoi) obj;
+		return Objects.equals(nom, other.nom) && Objects.equals(saison, other.saison);
 	}
 
-
-	/*public Map<Character, Poule> getPoules() {
-		return poules;
+	public void addPoules(Poule poule) {
+		this.poules.add(poule);
 	}
-
-	public void addPoule(Poule poule) {
-		this.poules.put(poule.getNom(), poule);
+	
+	public void deletePoules(Poule poule) {
+		this.poules.remove(poule);
 	}
-
-	public void setPoules(Map<Character, Poule> poules) {
-		this.poules = poules;
-	}*/
+	
+	public void addMatche(Matche matche) {
+		this.matches.add(matche);
+	}
+	
+	public void deleteMatche(Matche matche) {
+		this.matches.remove(matche);
+	}
 }

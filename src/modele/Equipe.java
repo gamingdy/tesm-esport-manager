@@ -1,33 +1,36 @@
 package modele;
 
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+
 import exceptions.EquipeCompleteException;
 import exceptions.EquipeVideException;
-import exceptions.ExceptionPointsNegatifs;
+import exceptions.JoueurException;
 import exceptions.JoueurNonPresentException;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
+import exceptions.ExceptionPointsNegatifs;
 
 public class Equipe {
 
 	private String nom;
 	private Set<Joueur> equipe; //à voir si on laisse ou créer une classe association
 	private int point; //calculable donc pas dans le MCDi
-	private Pays pays;
+	private Country pays;
 
 
-	public Equipe(String nom, Pays pays) {
+	public Equipe(String nom, Country pays) {
 		this.equipe = new LinkedHashSet<Joueur>();
 		this.nom = nom;
 		this.point = 0;
 		this.pays = pays;
 	}
 
-	public Pays getPays() {
+	public Country getPays() {
 		return this.pays;
 	}
 
-	public void setPays(Pays pays) {
+	public void setPays(Country pays) {
 		this.pays = pays;
 	}
 
@@ -97,6 +100,23 @@ public class Equipe {
 	@Override
 	public String toString() {
 		return "Equipe [nom=" + nom + ", point=" + point + ", pays=" + pays + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nom);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Equipe other = (Equipe) obj;
+		return Objects.equals(nom, other.nom);
 	}
 }
 

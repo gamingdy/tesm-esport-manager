@@ -44,7 +44,6 @@ public class Joueur implements Comparable<Joueur> {
 		return this.equipe;
 	}
 
-
 	public int compareTo(Joueur j) {
 		return j.getPseudo().compareTo(this.getPseudo());
 	}
