@@ -43,18 +43,4 @@ public class TestDaoArbitre extends TestDao{
 		x.testUpdate();
 		
 	}
-	
-	private String randomUsername(String name) {
-		String str = name;
-		List<String> characters = Arrays.asList(str.split(""));
-		Collections.shuffle(characters);
-		String afterShuffle = "";
-		for (String character : characters) {
-			afterShuffle += character;
-		}
-		return afterShuffle;
-	}
-	
-	
-
 }

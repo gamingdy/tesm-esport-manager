@@ -4,8 +4,7 @@ import java.sql.SQLException;
 
 public class DBGeneration {
 
-	public static void main(String[] args) throws SQLException {
-		Connexion c = Connexion.getConnexion();
+	public static void main(Connexion c) throws SQLException {
 		DaoEquipe.createTable(c);
 		DaoJoueur.createTable(c);
 		DaoArbitre.createTable(c);

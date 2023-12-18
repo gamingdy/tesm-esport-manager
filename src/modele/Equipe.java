@@ -39,11 +39,6 @@ public class Equipe {
 		return this.nom;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-
 	public void setPoint(int point) throws ExceptionPointsNegatifs {
 		if (point < 0) {
 			throw new ExceptionPointsNegatifs("On ne peut pas mettre des points negatifs");
