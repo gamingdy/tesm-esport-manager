@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.List;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
@@ -11,8 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 
@@ -66,6 +69,15 @@ public class PopupEquipe extends JFrame {
 		model.addAll(equipes);
 		
 		c = new JComboBox<Equipe>(model);
+		c.setRenderer(new ListCellRenderer<Equipe>() {
+
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				return new JLabel(value.getNom());
+			}
+			
+		});
 		
 		panel.add(c, BorderLayout.CENTER);
 
