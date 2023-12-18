@@ -5,6 +5,7 @@ import dao.Connexion;
 import dao.DaoTournoi;
 import modele.Equipe;
 import modele.Tournoi;
+import vue.Page;
 import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
@@ -50,6 +51,8 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		if (e.getSource() == this.vueAdminTournoisListe.getBoutonAjouter()) {
+			TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
+		}
 	}
 }

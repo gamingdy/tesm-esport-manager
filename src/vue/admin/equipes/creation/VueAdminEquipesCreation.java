@@ -280,6 +280,10 @@ public class VueAdminEquipesCreation extends JPanel {
 	public void setJoueur(String nom, int i) {
 		model.set(i, nom);
 	}
+	
+	public JLabel getbtnAjoutJoueurs() {
+		return this.btnAjoutJoueurs;
+	}
 
 	public void activerBoutonAjoutJoueur(boolean b) {
 		btnAjoutJoueurs.setEnabled(b);
