@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import modele.Arbitrage;
 import modele.Saison;
 
 public class DaoSaison implements Dao<Saison, Integer> {

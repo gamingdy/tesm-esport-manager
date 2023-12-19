@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import modele.Appartenance;
 import modele.Arbitrage;
 import modele.Arbitre;
 import modele.Tournoi;
