@@ -1,6 +1,6 @@
 package vue.admin.arbitres.creation;
 
-import controlleur.admin.tournois.TournoiCréationControlleur;
+import controlleur.admin.arbitres.ArbitresCreationControlleur;
 import modele.Niveau;
 import vue.Vue;
 import vue.common.CustomColor;
@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -68,7 +67,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcPanelTop.gridx = 0;
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
-		
+
 		JLabel icone = new JLabel("assets/userGrand.png");
 		GridBagConstraints gbcIcone = new GridBagConstraints();
 		gbcIcone.fill = GridBagConstraints.BOTH;
@@ -78,8 +77,8 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcIcone.gridheight = 2;
 		gbcIcone.weightx = 1F / 4F;
 		gbcIcone.weighty = 1F / 5F;
-		panelTop.add(icone,gbcIcone);
-		
+		panelTop.add(icone, gbcIcone);
+
 
 		JPanel champNom = new JPanel();
 		champNom.setLayout(new GridLayout(2, 1, 10, 0));
@@ -233,10 +232,10 @@ public class VueAdminArbitresCreation extends JPanel {
 	 *
 	 * @param controleur
 	 */
-	public void setControleur(TournoiCréationControlleur controleur) {
-		this.boutonValider.addActionListener(controleur);
+	public void setControleur(ArbitresCreationControlleur controleur) {
+		/*this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
-		this.btnAjoutTournois.addMouseListener(controleur);
+		this.btnAjoutTournois.addMouseListener(controleur);*/
 	}
 
 
@@ -245,7 +244,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		this.textfieldPrenom.setText("");
 		this.comboboxNiveaux.setSelectedItem(null);
 		resetTournois();
-		
+
 	}
 
 	private void resetTournois() {
@@ -267,8 +266,8 @@ public class VueAdminArbitresCreation extends JPanel {
 	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setEquipe(String nom, String dateDébut, String dateFin, int i) {
-		
-		this.model.set(i, new LigneTournoi(nom,dateDébut,dateFin));
+
+		this.model.set(i, new LigneTournoi(nom, dateDébut, dateFin));
 	}
 
 	public JButton getBoutonValider() {
@@ -278,7 +277,7 @@ public class VueAdminArbitresCreation extends JPanel {
 	public String getTextfieldNom() {
 		return this.textfieldNom.getText();
 	}
-	
+
 	public Niveau getNiveau() {
 		if (this.comboboxNiveaux.getSelectedItem() == null) {
 			return null;

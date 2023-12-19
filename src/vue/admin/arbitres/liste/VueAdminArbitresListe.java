@@ -1,7 +1,7 @@
 package vue.admin.arbitres.liste;
 
 
-import controlleur.admin.equipes.EquipesListeControlleur;
+import controlleur.admin.arbitres.ArbitresListeControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
@@ -12,7 +12,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -115,9 +114,8 @@ public class VueAdminArbitresListe extends JPanel {
 		return this.boutonAjouter;
 	}
 
-	public void setControleur(EquipesListeControlleur controleur) {
+	public void setControleur(ArbitresListeControlleur controleur) {
 		this.boutonAjouter.addActionListener(controleur);
-
 	}
 
 }

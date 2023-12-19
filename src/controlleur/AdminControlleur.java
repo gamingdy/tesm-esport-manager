@@ -52,7 +52,6 @@ public class AdminControlleur implements ActionListener, MouseListener {
 			BoutonMenu boutonSelection = (BoutonMenu) e.getSource();
 			if (Objects.equals(boutonSelection.getText(), BoutonNavBar.ARBITRES.getNom()) && etat != ETAT.ARBITRES) {
 				this.etat = ETAT.ARBITRES;
-
 				this.vue.setPage(Page.ARBITRES);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.DECONNEXION.getNom())) {
 				new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> {
