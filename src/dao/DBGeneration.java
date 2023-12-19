@@ -19,7 +19,6 @@ public class DBGeneration {
 		DaoArbitrage.createTable(c);
 		DaoAppartenance.createTable(c);
 		System.out.println("Toutes les tables ont été correctement créées");
-		c.stop();
 	}
 
 }
