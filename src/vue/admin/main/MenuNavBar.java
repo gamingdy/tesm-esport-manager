@@ -78,9 +78,9 @@ public class MenuNavBar extends JPanel {
 	public void selectionner(BoutonMenu bouton) {
 		boutons.entrySet().stream()
 				.forEach(e -> {
-					if (e.getKey() == bouton.getText()) {
+					if (e.getKey() == bouton.getText() && e.getKey() != BoutonNavBar.DECONNEXION.getNom()) {
 						e.getValue().selectionner();
-					} else if (e.getKey() != BoutonNavBar.DECONNEXION.getNom()) {
+					} else if (e.getKey() != BoutonNavBar.DECONNEXION.getNom()){
 						e.getValue().deselectionner();
 					}
 				});
