@@ -17,11 +17,14 @@ import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import modele.Appartenance;
+import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Equipe;
 import modele.Joueur;
+import modele.Matche;
 import modele.Niveau;
+import modele.Partie;
 import modele.Pays;
 import modele.Poule;
 import modele.Saison;
@@ -150,7 +153,7 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 		
-		/*
+		
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
 
 
@@ -165,7 +168,7 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		*/
+		
 	}
 
 	private static String randomUsername(String name) {
