@@ -268,23 +268,24 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		}
 	}
 	
-	public Optional<Tournoi> getTournoiBetweenDate(CustomDate dateAvant, CustomDate dateApres) throws Exception {
+	public List<Tournoi> getTournoiBetweenDate(CustomDate dateAvant, CustomDate dateApres) throws Exception {
 		try(PreparedStatement getTournoiBetweenDate = connexion.getConnection().prepareStatement(
-				"SELECT *"
-				+ "FROM Tournoi"
-				+ "WHERE Date_Debut < ? AND Date_Fin > ? OR"
-				+ "Date_Debut < ? AND Date_Fin < ? OR"
-				+ "Date_Debut > ? AND Date_Debut < ?")) {
+				"SELECT * "
+				+ "FROM Tournoi "
+				+ "WHERE (Date_Debut BETWEEN ? AND ?) "
+				+ "OR (Date_Fin BETWEEN ? AND ?)"
+				+ "OR (Date_Debut > ? AND Date_Fin < ?)")) {
 			getTournoiBetweenDate.setTimestamp(1, dateAvant.toSQL());
-			getTournoiBetweenDate.setTimestamp(2, dateAvant.toSQL());
-			getTournoiBetweenDate.setTimestamp(5, dateAvant.toSQL());
-			getTournoiBetweenDate.setTimestamp(3, dateApres.toSQL());
+			getTournoiBetweenDate.setTimestamp(2, dateApres.toSQL());
+			getTournoiBetweenDate.setTimestamp(3, dateAvant.toSQL());
 			getTournoiBetweenDate.setTimestamp(4, dateApres.toSQL());
+			getTournoiBetweenDate.setTimestamp(5, dateAvant.toSQL());
 			getTournoiBetweenDate.setTimestamp(6, dateApres.toSQL());
 			ResultSet resultat = getTournoiBetweenDate.executeQuery();
-			Tournoi sortie = null;
-			if(resultat.next()) {
-				sortie = new Tournoi(
+			List<Tournoi> sortie = new ArrayList<>();
+			Tournoi tournoi = null;
+			while(resultat.next()) {
+				tournoi = new Tournoi(
 						new Saison(resultat.getInt("Annee")),
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Debut")),
@@ -294,8 +295,9 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 								resultat.getString("username"),
 								resultat.getString("mdp"))
 				);
+				sortie.add(tournoi);
 			}
-			return Optional.ofNullable(sortie);
+			return sortie;
 		}
 	}
 	
