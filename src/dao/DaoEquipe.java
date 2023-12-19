@@ -95,6 +95,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 				"INSERT INTO Equipe(Nom_Equipe,Pays_Equipe) values (?,?)")){
 			add.setString(1, value.getNom());
 			add.setString(2, value.getPays().name());
+			System.out.println(value.getPays().name());
 			return add.execute();
 		}
 	}
@@ -108,7 +109,7 @@ public class DaoEquipe implements Dao<Equipe,String>{
 				"UPDATE Equipe SET "
 						+"Pays_Equipe = ?"
 						+"WHERE Nom_Equipe = ?")) {
-			update.setString(1, value.getPays().getNom());
+			update.setString(1, value.getPays().name());
 			update.setString(2, value.getNom());
 			return update.execute();
 		}

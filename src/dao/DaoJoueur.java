@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Joueur;
 
 public class DaoJoueur implements Dao<Joueur,Integer>{
