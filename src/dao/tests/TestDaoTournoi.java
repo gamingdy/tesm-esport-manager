@@ -105,8 +105,8 @@ public class TestDaoTournoi extends TestDao {
 	
 	public void testGetTournoiBetweenDate() throws DateTimeException, Exception {
 		System.out.println("______________________________");
-		Optional<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiBetweenDate(new CustomDate(2023,12,12), new CustomDate(2023,12,30));
-		System.out.println(t.get().toString());
+		List<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiBetweenDate(new CustomDate(2023,12,31), new CustomDate(2023,12,30));
+		t.forEach(x -> System.out.println(x.toString()));
 	}
 	
 	public static void main(String[] args) throws Exception {
