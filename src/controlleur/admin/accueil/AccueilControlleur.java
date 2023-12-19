@@ -47,10 +47,15 @@ public class AccueilControlleur implements ControlleurObserver {
 		listeTournoi = new DefaultListModel<LigneTournoi>();
 		try {
 			List<Tournoi> liste = new ArrayList<>(daoTournoi.getAll());
-			Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
-			LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
-			listeTournoi.addElement(ligne);
-			liste.remove(tournoiActuel);
+			try {
+				Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
+				LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
+				listeTournoi.addElement(ligne);
+				liste.remove(tournoiActuel);
+			} catch (Exception e) {
+
+			}
+
 			for (Tournoi tournoi : liste) {
 				LigneTournoi ligne1 = new LigneTournoi(tournoi.getNom(), tournoi.isEstEncours());
 				listeTournoi.addElement(ligne1);
@@ -67,7 +72,6 @@ public class AccueilControlleur implements ControlleurObserver {
 			List<Equipe> liste = new ArrayList<>(daoEquipe.getAll());
 			for (int i = 0; i < liste.size(); i++) {
 				String nomEquipe = liste.get(i).getNom();
-				System.out.println(liste.get(i));
 				ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
 				LigneEquipe ligneEquipe = new LigneEquipe(i, icone, nomEquipe, liste.get(i).getPoint());
 				listeClassement.addElement(ligneEquipe);

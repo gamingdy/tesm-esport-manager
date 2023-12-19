@@ -12,7 +12,10 @@ public enum Page {
 
 
 	SAISON_PRECEDENTES("Saisons precedentes"),
-	ACCUEIL_ADMIN("Admin-Accueil");
+	ACCUEIL_ADMIN("Admin-Accueil"),
+	ARBITRES_CREATION("Arbitres Creation"),
+	ARBITRES_LISTE("Arbitres liste");
+
 
 	private String nom;
 

@@ -22,7 +22,7 @@ import java.awt.event.KeyListener;
 public class LoginControlleur implements ActionListener, DocumentListener, KeyListener {
 	private VueLogin vue;
 	private CompteAdmin admin = CompteAdmin.compteAdmin;
-	private CompteArbitre arbitre;
+	private CompteArbitre arbitre = null;
 	private String champLogin;
 	private String champMotDePasse;
 
@@ -34,9 +34,14 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		Connexion c = Connexion.getConnexion();
 
 		DaoTournoi daoTournoi = new DaoTournoi(c);
-		Tournoi tournoi = daoTournoi.getTournoiActuel().get();
+		try {
+			Tournoi tournoi = daoTournoi.getTournoiActuel().get();
+			arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
+		} catch (Exception e) {
 
-		arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
+		}
+
+
 	}
 
 	public void attach(VueObserver obs) {
@@ -75,12 +80,14 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	}
 
 	public CompteUtilisateur compteAdminOuUtilisateur(String login, String mdp) {
+
 		if (login.equals(admin.getUsername()) && mdp.equals(admin.getHashMdp())) {
 			return this.admin;
 		}
-		if (login.equals(arbitre.getUsername()) && mdp.equals(arbitre.getHashMdp())) {
-			return this.arbitre;
+		if (this.arbitre != null) {
+
 		}
+
 		return null;
 	}
 
