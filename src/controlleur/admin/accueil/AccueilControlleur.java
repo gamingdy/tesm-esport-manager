@@ -69,7 +69,7 @@ public class AccueilControlleur implements ControlleurObserver {
 				String nomEquipe = liste.get(i).getNom();
 				System.out.println(liste.get(i));
 				ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
-				LigneEquipe ligneEquipe = new LigneEquipe(i, icone, nomEquipe, liste.get(i).getPoint());
+				LigneEquipe ligneEquipe = new LigneEquipe(i+1, icone, nomEquipe, liste.get(i).getPoint());
 				listeClassement.addElement(ligneEquipe);
 			}
 			vue.setListeEquipes(listeClassement);
