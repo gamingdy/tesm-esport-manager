@@ -32,8 +32,17 @@ public class ESporterManagerInitBDD {
 
 		Connexion c = Connexion.getConnexion();
 
-		DBSuppression.main(c);
-		DBGeneration.main(c);
+		try {
+			DBSuppression.main(c);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+
+		try {
+			DBGeneration.main(c);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 
 		DaoTournoi daoTournoi = new DaoTournoi(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
