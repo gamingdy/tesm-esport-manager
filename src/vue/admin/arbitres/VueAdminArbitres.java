@@ -7,8 +7,8 @@ import controlleur.VueObserver;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-public class VueArbitres extends JPanel {
-	public VueArbitres() {
+public class VueAdminArbitres extends JPanel {
+	public VueAdminArbitres() {
 		setOpaque(false);
 		JLabel labelTitreClassement = new JLabel("Classement des équipes année précédente");
 		labelTitreClassement.setFont(MaFont.getFontTitre1());

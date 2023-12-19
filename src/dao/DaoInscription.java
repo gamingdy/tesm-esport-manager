@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
+import modele.Arbitre;
 import modele.Equipe;
 import modele.Inscription;
 import modele.Saison;
+import modele.Tournoi;
 
 public class DaoInscription implements Dao<Inscription,Object>{
 

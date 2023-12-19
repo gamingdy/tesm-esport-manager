@@ -43,7 +43,7 @@ public class Joueur implements Comparable<Joueur> {
 	public Equipe getEquipe() {
 		return this.equipe;
 	}
-
+	
 
 	public int compareTo(Joueur j) {
 		return j.getPseudo().compareTo(this.getPseudo());
@@ -66,5 +66,9 @@ public class Joueur implements Comparable<Joueur> {
 	@Override
 	public String toString() {
 		return "Joueur [id=" + id + ", pseudo=" + pseudo + ", equipe=" + equipe + "]";
+	}
+
+	public void setEquipe(Equipe equipe) {
+		this.equipe = equipe;
 	}
 }

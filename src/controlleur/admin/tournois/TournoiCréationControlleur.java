@@ -65,8 +65,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 				new JFramePopup("Erreur", "Le tournoi doit avoir un nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 			} else if (Objects.equals(niveau, null)) {
 				new JFramePopup("Erreur", "Veuillez choisir un niveau de tournoi", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-			} else if (nbEquipes > 4) {
-				new JFramePopup("Erreur", "Il faut au moins deux equipes", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+			} else if (nbEquipes < 4) {
+				new JFramePopup("Erreur", "Il faut au moins 4 equipes", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 			} else if (dateDebutString.isEmpty()) {
 				new JFramePopup("Erreur", "Le tournoi doit avoir une date de debut", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 			} else if (dateFinString.isEmpty()) {
@@ -85,12 +85,12 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 					}
 					//TEST POUR TOURNOI DEJA EXISTANT
 					Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, niveau.getNom()));
-					if (isTournoiMemeNomExistant(tournoiInserer)) {
+					/*if (isTournoiMemeNomExistant(tournoiInserer)) {
 						new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 					}
 					if (isTournoiMemeDateExistant(tournoiInserer)) {
 						new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					}
+					}*/
 
 					//CREATION TOURNOI
 
@@ -132,6 +132,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public void resetChamps() {
 		this.vue.clearField();
 		this.nbEquipes = 0;
+
 	}
 
 	public void addEquipe() {

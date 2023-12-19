@@ -1,5 +1,9 @@
 package dao.tests;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import dao.Connexion;
 
 public class TestDao {
@@ -12,5 +16,16 @@ public class TestDao {
 
 	public Connexion getC() {
 		return c;
+	}
+	
+	protected String randomUsername(String name) {
+		String str = name;
+		List<String> characters = Arrays.asList(str.split(""));
+		Collections.shuffle(characters);
+		String afterShuffle = "";
+		for (String character : characters) {
+			afterShuffle += character;
+		}
+		return afterShuffle;
 	}
 }

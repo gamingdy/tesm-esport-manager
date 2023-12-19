@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import exceptions.FausseDateException;
 import exceptions.MemeEquipeException;
+import modele.Arbitrage;
 import modele.Categorie;
 import modele.CustomDate;
 import modele.Equipe;

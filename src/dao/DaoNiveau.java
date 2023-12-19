@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitrage;
 import modele.Niveau;
 
 public class DaoNiveau implements Dao<Niveau,String>{
@@ -89,7 +90,7 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	public boolean add(Niveau value) throws Exception {
 		try(PreparedStatement add = connexion.getConnection().prepareStatement(
 				"INSERT INTO Niveau(Libelle_Niveau,Coefficient) values (?,?)")){
-			add.setString(1, value.getNom());
+			add.setString(1, value.name());
 			add.setFloat(2, value.getCoefficient());
 			return add.execute();
 		}

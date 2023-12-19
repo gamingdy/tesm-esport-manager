@@ -1,17 +1,20 @@
 package dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import exceptions.FausseDateException;
 import modele.Appartenance;
+import modele.Arbitrage;
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -85,7 +88,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 						resultat.getString("Nom_Tournoi"),
 						new CustomDate(resultat.getTimestamp("Date_Debut")),
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
-						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
+						Niveau.valueOf(resultat.getString("Libelle_Niveau")),
 						new CompteArbitre(
 								resultat.getString("username"),
 								resultat.getString("mdp"))
@@ -102,9 +105,9 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	 */
 	@Override
 	public Optional<Tournoi> getById(Object... id) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Tournoi WHERE Nom_Tournoi = ? AND Annee = ?")) {
-			getById.setString(1, (String) id[0]);
-			getById.setInt(2, (Integer) id[1]);
+		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
+			getById.setInt(1, (Integer) id[0]);
+			getById.setString(2, (String) id[1]);
 			ResultSet resultat = getById.executeQuery();
 			Tournoi tournoi = null;
 			if (resultat.next()) {
@@ -137,7 +140,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			add.setTimestamp(4, value.getFin().toSQL());
 			add.setString(5, value.getCompteArbitre().getUsername());
 			add.setString(6, value.getCompteArbitre().getHashMdp());
-			add.setString(7, value.getNiveau().getNom());
+			add.setString(7, value.getNiveau().name());
 
 			return add.execute();
 		}
@@ -149,12 +152,12 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	@Override
 	public boolean update(Tournoi value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
-				"UPDATE Tournoi SET"
-						+ "Date_Debut = ?,"
-						+ "Date_Fin = ?,"
-						+ "username = ?,"
-						+ "mdp = ?,"
-						+ "Libelle_Niveau = ?"
+				"UPDATE Tournoi SET "
+						+ "Date_Debut = ?, "
+						+ "Date_Fin = ?, "
+						+ "username = ?, "
+						+ "mdp = ?, "
+						+ "Libelle_Niveau = ? "
 						+ "WHERE Annee = ? AND Nom_Tournoi = ?")) {
 			update.setInt(6, value.getSaison().getAnnee());
 			update.setString(7, value.getNom());
@@ -162,7 +165,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			update.setTimestamp(2, value.getFin().toSQL());
 			update.setString(3, value.getCompteArbitre().getUsername());
 			update.setString(4, value.getCompteArbitre().getHashMdp());
-			update.setString(5, value.getNiveau().getNom());
+			update.setString(5, value.getNiveau().name());
 
 			return update.execute();
 		}
@@ -269,10 +272,15 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		try(PreparedStatement getTournoiBetweenDate = connexion.getConnection().prepareStatement(
 				"SELECT *"
 				+ "FROM Tournoi"
-				+ "WHERE Date_Debut >= ?"
-				+ "AND Date_Fin <= ?")) {
+				+ "WHERE Date_Debut < ? AND Date_Fin > ? OR"
+				+ "Date_Debut < ? AND Date_Fin < ? OR"
+				+ "Date_Debut > ? AND Date_Debut < ?")) {
 			getTournoiBetweenDate.setTimestamp(1, dateAvant.toSQL());
-			getTournoiBetweenDate.setTimestamp(2, dateApres.toSQL());
+			getTournoiBetweenDate.setTimestamp(2, dateAvant.toSQL());
+			getTournoiBetweenDate.setTimestamp(5, dateAvant.toSQL());
+			getTournoiBetweenDate.setTimestamp(3, dateApres.toSQL());
+			getTournoiBetweenDate.setTimestamp(4, dateApres.toSQL());
+			getTournoiBetweenDate.setTimestamp(6, dateApres.toSQL());
 			ResultSet resultat = getTournoiBetweenDate.executeQuery();
 			Tournoi sortie = null;
 			if(resultat.next()) {

@@ -1,9 +1,14 @@
 package dao;
-
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
+import modele.Categorie;
+import modele.CustomDate;
 import modele.Niveau;
 
 public class DBInsertTest {
