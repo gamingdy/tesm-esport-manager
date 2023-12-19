@@ -6,7 +6,7 @@ import java.util.List;
 
 import dao.Connexion;
 
-public class TestDao {
+public abstract class TestDao {
 
 	private Connexion c;
 	
@@ -28,4 +28,8 @@ public class TestDao {
 		}
 		return afterShuffle;
 	}
+	
+	public abstract void testInsert() throws Exception;
+	public abstract void testDelete() throws Exception;
+	public abstract void testUpdate() throws Exception;
 }

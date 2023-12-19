@@ -29,9 +29,10 @@ public class TestDaoTournoi extends TestDao {
 		super();
 		saison = new Saison(2023);
 		saison2 = new Saison(2022);
-		//FactoryDAO.getDaoSaison(getC()).add(saison2);
-		//FactoryDAO.getDaoNiveau(getC()).add(Niveau.INTERNATIONAL_CLASSE);
-		//FactoryDAO.getDaoNiveau(getC()).add(Niveau.LOCAL);
+		FactoryDAO.getDaoSaison(getC()).add(saison);
+		FactoryDAO.getDaoSaison(getC()).add(saison2);
+		FactoryDAO.getDaoNiveau(getC()).add(Niveau.INTERNATIONAL_CLASSE);
+		FactoryDAO.getDaoNiveau(getC()).add(Niveau.LOCAL);
 		tournoi1 = new Tournoi(
 				saison,
 				"zzzz",
@@ -65,8 +66,8 @@ public class TestDaoTournoi extends TestDao {
 	}
 	
 	public void testInsert() throws Exception {
-		//FactoryDAO.getDaoTournoi(super.getC()).add(tournoi1);
-		//FactoryDAO.getDaoTournoi(super.getC()).add(tournoi2);
+		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi1);
+		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi2);
 		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi3);
 		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi4);
 		System.out.println(FactoryDAO.getDaoTournoi(getC()).visualizeTable());
@@ -112,7 +113,7 @@ public class TestDaoTournoi extends TestDao {
 	public static void main(String[] args) throws Exception {
 		TestDaoTournoi x = new TestDaoTournoi();
 		
-		//x.testInsert();
+		x.testInsert();
 		x.testDelete();
 		x.testUpdate();
 		x.testGetCompteArbitreByTournoi();
