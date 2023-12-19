@@ -67,7 +67,7 @@ public class VueAccueil extends JPanel {
 		gbl_panelClassement.rowWeights = new double[]{0.0, 1.0};
 		panelClassement.setLayout(gbl_panelClassement);
 
-		JLabel labelTitreClassement = new JLabel("Classement des équipes année précédente");
+		JLabel labelTitreClassement = new JLabel("Classement des équipes de la saison actuelle");
 		labelTitreClassement.setFont(MaFont.getFontTitre1());
 		labelTitreClassement.setForeground(CustomColor.BLANC);
 		GridBagConstraints gbcLabelTitreClassement = new GridBagConstraints();
@@ -145,11 +145,7 @@ public class VueAccueil extends JPanel {
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
 		listeTournois.setBackground(CustomColor.TRANSPARENT);
 
-		try {
-			this.controlleur = new AccueilControlleur(this);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+
 		JScrollPane scrollPaneTournois = new JScrollPane(listeTournois, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneTournois.setWheelScrollingEnabled(true);
 		scrollPaneTournois.setOpaque(false);
@@ -206,6 +202,11 @@ public class VueAccueil extends JPanel {
 		gbcLabelTitreMatch.gridy = 0;
 		panelMatchs.add(labelTitreMatch, gbcLabelTitreMatch);
 		panelMatchs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		try {
+			this.controlleur = new AccueilControlleur(this);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public VueAccueil() {
