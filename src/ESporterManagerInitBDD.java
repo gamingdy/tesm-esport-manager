@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Optional;
 
 import dao.Connexion;
+import dao.DBGeneration;
+import dao.DBSuppression;
 import dao.DaoAppartenance;
 import dao.DaoEquipe;
 import dao.DaoJoueur;
@@ -19,6 +21,7 @@ import modele.CustomDate;
 import modele.Equipe;
 import modele.Joueur;
 import modele.Niveau;
+import modele.Pays;
 import modele.Poule;
 import modele.Saison;
 import modele.Tournoi;
@@ -27,6 +30,9 @@ public class ESporterManagerInitBDD {
 	public static void main(String[] args) throws Exception {
 
 		Connexion c = Connexion.getConnexion();
+
+		DBSuppression.main(c);
+		DBGeneration.main(c);
 
 		DaoTournoi daoTournoi = new DaoTournoi(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
@@ -69,12 +75,17 @@ public class ESporterManagerInitBDD {
 
 		CustomDate debut = new CustomDate(2023, 12, 5);
 		CustomDate debut1 = new CustomDate(2023, 12, 7);
-		/*
-		Equipe equipe = new Equipe("FAZE", Pays.FRANCE);
-		Equipe equipe1 = new Equipe("TSM", Pays.FRANCE);
-		Equipe equipe2 = new Equipe("FOX", Pays.FRANCE);
-		Equipe equipe3 = new Equipe("KC", Pays.FRANCE);
-		Equipe equipe4 = new Equipe("F-Society", Pays.FRANCE);
+		
+		Equipe equipe = new Equipe("terros", Pays.FRANCE);
+		Equipe equipe1 = new Equipe("lion-rouge", Pays.FRANCE);
+		Equipe equipe2 = new Equipe("shark", Pays.FRANCE);
+		Equipe equipe3 = new Equipe("goule", Pays.FRANCE);
+		Equipe equipe4 = new Equipe("dragon", Pays.FRANCE);
+		Equipe equipe5 = new Equipe("aigle", Pays.FRANCE);
+		Equipe equipe6 = new Equipe("bear", Pays.FRANCE);
+		Equipe equipe7 = new Equipe("chevarcher", Pays.FRANCE);
+		Equipe equipe8 = new Equipe("loup", Pays.FRANCE);
+		Equipe equipe9 = new Equipe("mort", Pays.FRANCE);
 
 		try {
 			daoEquipe.add(equipe);
@@ -82,6 +93,11 @@ public class ESporterManagerInitBDD {
 			daoEquipe.add(equipe2);
 			daoEquipe.add(equipe3);
 			daoEquipe.add(equipe4);
+			daoEquipe.add(equipe5);
+			daoEquipe.add(equipe6);
+			daoEquipe.add(equipe7);
+			daoEquipe.add(equipe8);
+			daoEquipe.add(equipe9);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -91,8 +107,13 @@ public class ESporterManagerInitBDD {
 		initEquipe(equipe2);
 		initEquipe(equipe3);
 		initEquipe(equipe4);
+		initEquipe(equipe5);
+		initEquipe(equipe6);
+		initEquipe(equipe7);
+		initEquipe(equipe8);
+		initEquipe(equipe9);
 
-
+		/*
 		Appartenance appartenance = new Appartenance(equipe, poule);
 		Appartenance appartenance1 = new Appartenance(equipe1, poule);
 		Appartenance appartenance2 = new Appartenance(equipe2, poule);
