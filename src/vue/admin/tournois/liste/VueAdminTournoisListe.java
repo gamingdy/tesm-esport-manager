@@ -36,7 +36,6 @@ public class VueAdminTournoisListe extends JPanel {
 
 		setBorder(BorderFactory.createEmptyBorder(0, 50, 50, 50));
 
-		List<CaseTournoi> model = new LinkedList<CaseTournoi>();
 		list = new JPanel(new GridLayout(0, 3, 15, 15));
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));

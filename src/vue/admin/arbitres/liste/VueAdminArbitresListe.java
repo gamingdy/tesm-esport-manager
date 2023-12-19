@@ -1,4 +1,4 @@
-package vue.admin.equipes.liste;
+package vue.admin.arbitres.liste;
 
 
 import controlleur.admin.equipes.EquipesListeControlleur;
@@ -23,13 +23,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class VueAdminEquipesListe extends JPanel {
+public class VueAdminArbitresListe extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel list;
 	private JButton boutonAjouter;
 
-	public VueAdminEquipesListe() {
+	public VueAdminArbitresListe() {
 
 		setOpaque(false);
 		setLayout(new GridBagLayout());
@@ -40,7 +40,6 @@ public class VueAdminEquipesListe extends JPanel {
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-		//setListEquipes(model);
 
 		JScrollPane sp = new JScrollPane(list);
 		sp.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -99,9 +98,9 @@ public class VueAdminEquipesListe extends JPanel {
 		add(boutonAjouter, gbcBtnAjt);
 	}
 
-	public void setListEquipes(List<CaseEquipe> l) {
+	public void setListArbitress(List<CaseArbitre> l) {
 		list.removeAll();
-		for (CaseEquipe c : l) {
+		for (CaseArbitre c : l) {
 			list.add(c.getPanel());
 		}
 		JPanel j;
