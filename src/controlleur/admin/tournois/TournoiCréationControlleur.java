@@ -54,9 +54,9 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vue.getBoutonValider()) {
 			//Recuperation des champs
-			String nom = vue.getTextfieldNom();
-			String dateDebutString = vue.getTextfieldDateDebut();
-			String dateFinString = vue.getTextfieldDateFin();
+			String nom = vue.getTextfieldNom().trim();
+			String dateDebutString = vue.getTextfieldDateDebut().trim();
+			String dateFinString = vue.getTextfieldDateFin().trim();
 			List<String> tabloEquipes = vue.getEquipes();
 			Niveau niveau = vue.getNiveau();
 
@@ -85,18 +85,19 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 					}
 					//TEST POUR TOURNOI DEJA EXISTANT
 					Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, niveau.getNom()));
-					/*if (isTournoiMemeNomExistant(tournoiInserer)) {
+					if (isTournoiMemeNomExistant(tournoiInserer)) {
 						new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					}
-					if (isTournoiMemeDateExistant(tournoiInserer)) {
+					} else if (isTournoiMemeDateExistant(tournoiInserer)) {
 						new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					}*/
+					} else {
+						daoTournoi.add(tournoiInserer);
+						new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+						resetChamps();
+					}
 
 					//CREATION TOURNOI
 
-					daoTournoi.add(tournoiInserer);
-					new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					resetChamps();
+
 				} catch (DateTimeException dateTimeException) {
 					new JFramePopup("Erreur", "Le bon format est dd/mm/yyyy", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 				} catch (FausseDateException ex) {
@@ -150,7 +151,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 
 	public boolean isTournoiMemeNomExistant(Tournoi tournoi) throws Exception {
 		Optional<Tournoi> tournoiRecherche;
-		tournoiRecherche = daoTournoi.getById(tournoi.getNom(), saison.getAnnee());
+		tournoiRecherche = daoTournoi.getById(saison.getAnnee(), tournoi.getNom());
 		return tournoiRecherche.isPresent();
 
 	}
@@ -158,7 +159,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public boolean isTournoiMemeDateExistant(Tournoi tournoi) throws Exception {
 		List<Tournoi> tournoiRecherche2;
 		tournoiRecherche2 = daoTournoi.getTournoiBetweenDate(tournoi.getDebut(), tournoi.getFin());
-		return tournoiRecherche2.size() == 0;
+		return tournoiRecherche2.size() != 0;
 	}
 
 	@Override
