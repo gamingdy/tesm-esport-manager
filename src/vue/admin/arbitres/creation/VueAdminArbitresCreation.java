@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
-public class VueAdminTournoisCreation extends JPanel {
+public class VueAdminArbitresCreation extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textfieldNom;
@@ -45,7 +45,7 @@ public class VueAdminTournoisCreation extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public VueAdminTournoisCreation() {
+	public VueAdminArbitresCreation() {
 
 		setBorder(BorderFactory.createEmptyBorder(50, 100, 50, 100));
 
