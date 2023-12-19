@@ -156,9 +156,9 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	}
 
 	public boolean isTournoiMemeDateExistant(Tournoi tournoi) throws Exception {
-		Optional<Tournoi> tournoiRecherche2;
+		List<Tournoi> tournoiRecherche2;
 		tournoiRecherche2 = daoTournoi.getTournoiBetweenDate(tournoi.getDebut(), tournoi.getFin());
-		return tournoiRecherche2.isPresent();
+		return tournoiRecherche2.size() == 0;
 	}
 
 	@Override
