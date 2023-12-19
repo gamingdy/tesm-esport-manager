@@ -16,6 +16,7 @@ import dao.DaoPartie;
 import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
+import modele.Appartenance;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Equipe;
@@ -113,12 +114,15 @@ public class ESporterManagerInitBDD {
 		initEquipe(equipe8);
 		initEquipe(equipe9);
 
-		/*
 		Appartenance appartenance = new Appartenance(equipe, poule);
 		Appartenance appartenance1 = new Appartenance(equipe1, poule);
 		Appartenance appartenance2 = new Appartenance(equipe2, poule);
 		Appartenance appartenance3 = new Appartenance(equipe3, poule);
 		Appartenance appartenance4 = new Appartenance(equipe4, poule);
+		Appartenance appartenance5 = new Appartenance(equipe5, poule);
+		Appartenance appartenance6 = new Appartenance(equipe6, poule);
+		Appartenance appartenance7 = new Appartenance(equipe7, poule);
+
 		try {
 			daoPoule.add(poule);
 		} catch (SQLException e) {
@@ -130,9 +134,14 @@ public class ESporterManagerInitBDD {
 			daoAppartenance.add(appartenance2);
 			daoAppartenance.add(appartenance3);
 			daoAppartenance.add(appartenance4);
+			daoAppartenance.add(appartenance5);
+			daoAppartenance.add(appartenance6);
+			daoAppartenance.add(appartenance7);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+		
+		/*
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
 
 
