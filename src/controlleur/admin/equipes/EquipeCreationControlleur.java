@@ -12,6 +12,7 @@ import vue.Page;
 import vue.admin.equipes.creation.PopupPseudo;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.common.JFramePopup;
+import vue.common.JFramePopupEquipe;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -30,19 +31,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EquipeCreationControlleur implements ActionListener, ItemListener, MouseListener {
 	private final VueAdminEquipesCreation vue;
 	private final DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
 	private BufferedImage logo;
-	private ImageIcon drapeauDeBase = new ImageIcon("assets/country-flags/earth.png");
 	private static Connexion c;
 	private PopupPseudo popupPseudo;
+	private List<String> listePseudo;
 	private int nbJoueurs = 0;
 
 	public EquipeCreationControlleur(VueAdminEquipesCreation newVue) {
 		this.vue = newVue;
+		this.listePseudo = new ArrayList<>();
 		c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);
 		DaoSaison daoSaison = new DaoSaison(c);
@@ -78,17 +82,20 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
 
 				try {
+
+					new JFramePopupEquipe("Ajouter", " Voulez vous juste créer une equipe ou l'ajouter dans la saison actuelle",
+							() -> new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES)));
 					daoEquipe.add(equipeInserer);
 					initEquipe(equipeInserer);
 					File outputfile = new File("assets/logo-equipes/" + nomEquipe + ".jpg");
 					ImageIO.write(logo, "jpg", outputfile);
-					new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 					resetChamps();
 
 
 				} catch (Exception ex) {
 					this.logo = null;
 					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+					this.vue.clearField();
 					throw new RuntimeException(ex);
 				}
 			}
@@ -159,10 +166,14 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	}
 
 	public void addJoueur() {
-		if (this.popupPseudo.getSaisie().trim().isEmpty()) {
+		String nomJoueur = this.popupPseudo.getSaisie().trim();
+		if (nomJoueur.isEmpty()) {
 			new JFramePopup("Erreur", "Le pseudo du joueur est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+		} else if (this.listePseudo.contains(nomJoueur)) {
+			new JFramePopup("Erreur", "Le joueur est deja dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 		} else {
-			this.vue.setJoueur(this.popupPseudo.getSaisie(), this.nbJoueurs);
+			this.vue.setJoueur(nomJoueur, this.nbJoueurs);
+			this.listePseudo.add(nomJoueur);
 			this.nbJoueurs++;
 		}
 
@@ -196,6 +207,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		this.logo = null;
 		this.vue.clearField();
 		this.nbJoueurs = 0;
+		this.listePseudo.clear();
 	}
 
 	@Override
@@ -218,6 +230,3 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	}
 }
-
-//Code du Popup pour ajouter une équipe dans la saison ou pas (à mettre au bon endroit):
-//new JFramePopupEquipe("Ok", "Saison ou pas", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
