@@ -1,14 +1,14 @@
 package controlleur.admin.equipes;
 
 import controlleur.ControlleurObserver;
-import dao.Connexion;
-import dao.DaoEquipe;
-import dao.DaoJoueur;
+import dao.*;
 import modele.Equipe;
 import modele.Joueur;
+import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
+import vue.common.JFramePopup;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +26,17 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	private VueAdminEquipesListe vue;
 	private DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
+	private DaoSaison daoSaison;
+	private Saison saison;
+	private DaoInscription daoInscription;
 
 	public EquipesListeControlleur(VueAdminEquipesListe newVue) {
 		this.vue = newVue;
 		Connexion c = Connexion.getConnexion();
 		this.daoEquipe = new DaoEquipe(c);
 		this.daoJoueur = new DaoJoueur(c);
+		this.daoInscription = new DaoInscription(c);
+		this.daoSaison = new DaoSaison(c);
 		this.update();
 
 	}
@@ -66,6 +72,22 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 
 		}
 		return resultat;
+	}
+
+	public List<CaseEquipe> filtreSaison() throws Exception {
+		saison = daoSaison.getLastSaison();
+		List<Equipe> listeEquipe = daoInscription.getEquipeBySaison(saison);
+		return convertListToCase(listeEquipe);
+	}
+
+	public void supprimerEquipe(Equipe equipe) throws Exception {
+		try {
+			daoEquipe.delete(equipe.getNom());
+			new JFramePopup("Suppression effectuée", "L'equipe est supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+			this.update();
+		} catch (Exception e) {
+			new JFramePopup("Suppression echoué", "L'equipe  ne peut pas etre supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+		}
 	}
 
 	@Override

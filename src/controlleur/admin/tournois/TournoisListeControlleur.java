@@ -7,6 +7,7 @@ import modele.Tournoi;
 import vue.Page;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
+import vue.common.JFramePopup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,6 +52,21 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vueAdminTournoisListe.getBoutonAjouter()) {
 			TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
+		}
+	}
+
+	public void supprimerTournoi(Tournoi tournoi) {
+		if (tournoi.isEstEncours()) {
+			new JFramePopup("Erreur de suppression", "Le tournoi est en cours", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
+		} else {
+			try {
+				daoTournoi.delete(tournoi.getNom());
+				new JFramePopup("Tournoi supprimé", "Le tournoi a été bien supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
+				this.update();
+			} catch (Exception e) {
+				new JFramePopup("Erreur de suppression", "Le tournoi n'a pas pu être supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
+			}
+
 		}
 	}
 }

@@ -23,6 +23,18 @@ public class ArbitresCreationControlleur implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == vue.getBoutonValider()) {
+			String nomArbitre = "";
+			String prenomArbitre = "";
+			if (nomArbitre.isEmpty()) {
+
+			} else if (nomArbitre.isEmpty()) {
+
+			} else {
+
+			}
+
+		}
 		if (e.getSource() == vue.getBoutonAnnuler()) {
 			ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE);
 		}
