@@ -19,6 +19,7 @@ public class TestDaoMatche extends TestDao {
 	
 	public TestDaoMatche() throws Exception {
 		super();
+		
 		t = FactoryDAO.getDaoTournoi(getC()).getById(2023,"wwww").get();
 		t2 = FactoryDAO.getDaoTournoi(getC()).getById(2023,"zzzz").get();
 		Matche match = null;
@@ -27,7 +28,7 @@ public class TestDaoMatche extends TestDao {
 			if(x) {
 				match =new Matche(
 						3, 
-						new CustomDate(2023,12,12,i/2,0), 
+						new CustomDate(2023,12,12,Math.floorMod(i, 23),0), 
 						Categorie.POULE, 
 						allEquipe.get(i), 
 						allEquipe.get(i+1), 
@@ -37,7 +38,7 @@ public class TestDaoMatche extends TestDao {
 			} else {
 				match =new Matche(
 						3, 
-						new CustomDate(2023,12,15,i/2,0), 
+						new CustomDate(2023,12,15,Math.floorMod(i, 23),0), 
 						Categorie.POULE, 
 						allEquipe.get(i), 
 						allEquipe.get(i+1), 
@@ -81,14 +82,14 @@ public class TestDaoMatche extends TestDao {
 	}
 	
 	public void testGetMatchByTournoiFromCategorie() throws Exception {
-		List<Matche> m = FactoryDAO.getDaoMatche(getC()).getMatchesByTournoiFromCategorie(FactoryDAO.getDaoTournoi(getC()).getById(2023,"wwww").get(),Categorie.PETITE_FINALE);
+		List<Matche> m = FactoryDAO.getDaoMatche(getC()).getMatchesByTournoiFromCategorie(FactoryDAO.getDaoTournoi(getC()).getById(2023,"zzzz").get(),Categorie.PETITE_FINALE);
 		m.forEach(x -> System.out.println(x.toString()));
 	}
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoMatche x = new TestDaoMatche();
-	//	x.testInsert();
-	//	x.testDelete();
+		//x.testInsert();
+		//x.testDelete();
 		x.testUpdate();
 		System.out.println("_______________GetMatchByTournoi_________________");
 		x.testGetMatchByTournoi();

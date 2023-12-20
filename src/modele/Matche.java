@@ -4,7 +4,11 @@ import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
 
+import java.sql.SQLException;
 import java.util.Objects;
+
+import dao.Connexion;
+import dao.FactoryDAO;
 
 public class Matche {
 
@@ -20,33 +24,43 @@ public class Matche {
 
 
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
-				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
-
-		if (dateDebutMatche == null || categorie == null || equipe1 == null || equipe2 == null || tournoi == null) {
-			throw new IllegalArgumentException("Un des paramètres est null");
-		}
-
-		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
-			throw new MemeEquipeException("Les 2 équipes sont identiques");
-		}
-
-		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
-			throw new FausseDateException("La date de début du matche est avant la date de début du tournoi");
-		}
-
-		if (nombreMaxParties < 1) {
-			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
-		}
-
-		this.nombreMaxParties = nombreMaxParties;
-		this.dateDebutMatche = dateDebutMatche;
-		this.categorie = categorie;
-		this.equipe1 = equipe1;
-		this.equipe2 = equipe2;
-		this.tournoi = tournoi;
-		this.vainqueur = null;
-		this.saison = tournoi.getSaison();
+				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException, SQLException {
+		this(FactoryDAO.getDaoMatche(Connexion.getConnexion()).getLastId(), nombreMaxParties, dateDebutMatche, categorie, equipe1, equipe2, tournoi);
 	}
+	
+	private Matche(Integer id,int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
+			  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
+
+	if (dateDebutMatche == null || categorie == null || equipe1 == null || equipe2 == null || tournoi == null) {
+		throw new IllegalArgumentException("Un des paramètres est null");
+	}
+
+	if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
+		throw new MemeEquipeException("Les 2 équipes sont identiques");
+	}
+
+	if (dateDebutMatche.estAvant(tournoi.getDebut())) {
+		throw new FausseDateException("La date de début du matche est avant la date de début du tournoi");
+	}
+
+	if (nombreMaxParties < 1) {
+		throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
+	}
+
+	if(id==null) {
+		this.id = 0;
+	} else {
+		this.id = id+1;
+	}
+	this.nombreMaxParties = nombreMaxParties;
+	this.dateDebutMatche = dateDebutMatche;
+	this.categorie = categorie;
+	this.equipe1 = equipe1;
+	this.equipe2 = equipe2;
+	this.tournoi = tournoi;
+	this.vainqueur = null;
+	this.saison = tournoi.getSaison();
+}
 
 	public int getNombreMaxParties() {
 		return nombreMaxParties;

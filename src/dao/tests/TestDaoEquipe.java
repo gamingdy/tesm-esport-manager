@@ -25,6 +25,8 @@ public class TestDaoEquipe extends TestDao {
 	}
 	
 	public void testInsert() throws Exception {
+		FactoryDAO.getDaoEquipe(getC()).add(equipe);
+		FactoryDAO.getDaoEquipe(getC()).add(equipe2);
 		for(int i = 0;i<30;i++) {
 			FactoryDAO.getDaoEquipe(getC()).add(ekip.get(i));
 		}
@@ -34,6 +36,7 @@ public class TestDaoEquipe extends TestDao {
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoEquipe(getC()).delete(equipe.getNom());
 		System.out.println(FactoryDAO.getDaoEquipe(getC()).visualizeTable());
+		FactoryDAO.getDaoEquipe(getC()).add(equipe);
 	}
 	
 	public void testUpdate() throws Exception {
@@ -47,7 +50,7 @@ public class TestDaoEquipe extends TestDao {
 		TestDaoEquipe x = new TestDaoEquipe();
 		x.testInsert();
 		x.testDelete();
-		//x.testUpdate();
+		x.testUpdate();
 		
 	}
 

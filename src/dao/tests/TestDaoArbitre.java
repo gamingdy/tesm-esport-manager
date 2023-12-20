@@ -26,6 +26,7 @@ public class TestDaoArbitre extends TestDao{
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoAbritre(getC()).delete(FactoryDAO.getDaoAbritre(getC()).getLastId());
 		System.out.println(FactoryDAO.getDaoAbritre(getC()).visualizeTable());
+		FactoryDAO.getDaoAbritre(super.getC()).add(a);
 	}
 	
 	public void testUpdate() throws Exception {
