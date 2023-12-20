@@ -1,11 +1,9 @@
 package controlleur.admin.tournois;
 
-import controlleur.admin.equipes.EquipesObserver;
 import dao.*;
 import exceptions.FausseDateException;
 import modele.*;
 import vue.Page;
-import vue.admin.equipes.creation.PopupPseudo;
 import vue.admin.tournois.creation.PopupEquipe;
 import vue.admin.tournois.creation.VueAdminTournoisCreation;
 import vue.common.JFramePopup;
@@ -83,21 +81,19 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 						new JFramePopup("Erreur", "La date debut doit etre avant la date fin", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 					} else if (saison.getAnnee() != dateDebut.getAnnee() || saison.getAnnee() != dateFin.getAnnee()) {
 						new JFramePopup("Erreur", "L'année doit etre : " + saison.getAnnee(), () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					}
-					//TEST POUR TOURNOI DEJA EXISTANT
-					Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, niveau.getNom()));
-					if (isTournoiMemeNomExistant(tournoiInserer)) {
-						new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					} else if (isTournoiMemeDateExistant(tournoiInserer)) {
-						new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 					} else {
-						daoTournoi.add(tournoiInserer);
-						initEquipes(tournoiInserer, listeEquipe);
-						new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-						resetChamps();
+						Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, niveau.getNom()));
+						if (isTournoiMemeNomExistant(tournoiInserer)) {
+							new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+						} else if (isTournoiMemeDateExistant(tournoiInserer)) {
+							new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+						} else {
+							daoTournoi.add(tournoiInserer);
+							initEquipes(tournoiInserer, listeEquipe);
+							new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+							resetChamps();
+						}
 					}
-
-					//CREATION TOURNOI
 
 
 				} catch (DateTimeException dateTimeException) {
