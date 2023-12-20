@@ -22,7 +22,7 @@ public class JFramePopupEquipe extends JFrame {
         super(title);
         setType(Type.UTILITY);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 200));
+        setPreferredSize(new Dimension(600, 200));
 
         ImageIcon icon = new ImageIcon(("assets/logo.png"));
         setIconImage(icon.getImage());
@@ -50,6 +50,7 @@ public class JFramePopupEquipe extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.setBackground(new Color(15, 3, 25));
+
         JButton closeButton = new JButton("Annuler");
         closeButton.setFont(MaFont.getFontTitre4());
         closeButton.setForeground(CustomColor.BLANC);
@@ -73,7 +74,7 @@ public class JFramePopupEquipe extends JFrame {
         });
         buttonPanel.add(okButton);
 
-        JButton addToSeasonButton = new JButton("Créer et ajouter à la saison");
+        JButton addToSeasonButton = new JButton("Ajouter à la saison");
         addToSeasonButton.setFont(MaFont.getFontTitre4());
         addToSeasonButton.setForeground(CustomColor.BLANC);
         addToSeasonButton.setBackground(CustomColor.TRANSPARENT);
