@@ -1,13 +1,8 @@
 package controlleur.admin.equipes;
 
 import controlleur.VueObserver;
-import dao.Connexion;
-import dao.DaoEquipe;
-import dao.DaoJoueur;
-import dao.DaoSaison;
-import modele.Equipe;
-import modele.Joueur;
-import modele.Pays;
+import dao.*;
+import modele.*;
 import vue.Page;
 import vue.admin.equipes.creation.PopupPseudo;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
@@ -30,6 +25,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +34,8 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	private final VueAdminEquipesCreation vue;
 	private final DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
+	private DaoSaison daoSaison;
+	private DaoInscription daoInscription;
 	private BufferedImage logo;
 	private static Connexion c;
 	private PopupPseudo popupPseudo;
@@ -49,8 +47,9 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		this.listePseudo = new ArrayList<>();
 		c = Connexion.getConnexion();
 		daoEquipe = new DaoEquipe(c);
-		DaoSaison daoSaison = new DaoSaison(c);
+		daoSaison = new DaoSaison(c);
 		daoJoueur = new DaoJoueur(c);
+		daoInscription = new DaoInscription(c);
 	}
 
 	@Override
@@ -84,12 +83,25 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				try {
 
 					new JFramePopupEquipe("Ajouter", " Voulez vous juste créer une equipe ou l'ajouter dans la saison actuelle",
-							() -> new JFramePopup("Succès", "L'équipe est insérée", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES)));
-					daoEquipe.add(equipeInserer);
-					initEquipe(equipeInserer);
-					File outputfile = new File("assets/logo-equipes/" + nomEquipe + ".jpg");
-					ImageIO.write(logo, "jpg", outputfile);
-					resetChamps();
+							() -> {
+								addEquipe(equipeInserer);
+								new JFramePopup("Succès", "L'équipe est insérée",
+										() -> {
+											VueObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
+											resetChamps();
+										}
+								);
+							},
+							() -> {
+								addEquipeSaison(equipeInserer);
+								new JFramePopup("Succès", "L'équipe est insérée dans la saison",
+										() -> {
+											VueObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
+											resetChamps();
+										}
+								);
+							}
+					);
 
 
 				} catch (Exception ex) {
@@ -116,6 +128,29 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	}
 
+	public void addEquipe(Equipe equipeInserer) {
+		try {
+			daoEquipe.add(equipeInserer);
+			initEquipe(equipeInserer);
+			File outputfile = new File("assets/logo-equipes/" + equipeInserer.getNom() + ".jpg");
+			ImageIO.write(logo, "jpg", outputfile);
+		} catch (Exception e) {
+			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+		}
+	}
+
+	public void addEquipeSaison(Equipe equipeInserer) {
+		try {
+			addEquipe(equipeInserer);
+			Saison saison = daoSaison.getLastSaison();
+			Inscription inscription = new Inscription(saison, equipeInserer);
+			daoInscription.add(inscription);
+		} catch (SQLException e) {
+			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+		} catch (Exception e) {
+			new JFramePopup("Erreur", "Erreur d'insertion dans la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+		}
+	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
@@ -140,7 +175,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		}
 		if (e.getSource() == vue.getLabelLogo()) {
 			JFileChooser chooser = new JFileChooser();
-			chooser.setFileFilter(new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif"));
+			chooser.setFileFilter(new FileNameExtensionFilter("JPG Images", "jpg"));
 			int returnVal = chooser.showOpenDialog(this.vue);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
