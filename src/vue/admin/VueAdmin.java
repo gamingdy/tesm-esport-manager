@@ -1,16 +1,13 @@
 package vue.admin;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import controlleur.AdminControlleur;
 import vue.Page;
 import vue.admin.main.Main;
 import vue.admin.main.MenuNavBar;
 import vue.common.TitleBar;
+
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class VueAdmin extends JPanel {

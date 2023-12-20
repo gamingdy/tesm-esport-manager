@@ -1,9 +1,5 @@
 package controlleur.admin.arbitres;
 
-import controlleur.ControlleurObserver;
-import controlleur.admin.tournois.TournoiCréationControlleur;
-import controlleur.admin.tournois.TournoisListeControlleur;
-import controlleur.admin.tournois.TournoisObserver;
 import dao.Connexion;
 import dao.DaoMatche;
 import dao.DaoSaison;
@@ -12,9 +8,6 @@ import vue.Page;
 import vue.admin.arbitres.VueAdminArbitres;
 import vue.admin.arbitres.creation.VueAdminArbitresCreation;
 import vue.admin.arbitres.liste.VueAdminArbitresListe;
-import vue.admin.tournois.creation.VueAdminTournoisCreation;
-import vue.admin.tournois.liste.VueAdminTournoisListe;
-import vue.common.TitleBar;
 
 public class ArbitresControlleur {
 	private VueAdminArbitres vue;

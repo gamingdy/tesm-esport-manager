@@ -19,6 +19,7 @@ public class TournoisControlleur {
 		tournoisListeControlleur = new TournoisListeControlleur(vueAdminTournoisListe);
 		vueAdminTournoisListe.setControleur(tournoisListeControlleur);
 
+
 		vueAdminTournois.addPage(vueAdminTournoisCreation, Page.TOURNOIS_CREATION);
 		vueAdminTournois.addPage(vueAdminTournoisListe, Page.TOURNOIS_LISTE);
 		vueAdminTournois.setPage(Page.TOURNOIS_LISTE);
