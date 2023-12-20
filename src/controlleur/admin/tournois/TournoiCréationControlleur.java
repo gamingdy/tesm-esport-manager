@@ -1,10 +1,7 @@
 package controlleur.admin.tournois;
 
 import controlleur.admin.equipes.EquipesObserver;
-import dao.Connexion;
-import dao.DaoEquipe;
-import dao.DaoSaison;
-import dao.DaoTournoi;
+import dao.*;
 import exceptions.FausseDateException;
 import modele.*;
 import vue.Page;
@@ -27,6 +24,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private VueAdminTournoisCreation vue;
 	private DaoTournoi daoTournoi;
 	private DaoSaison daoSaison;
+	private DaoPoule daoPoule;
+	private DaoAppartenance daoAppartenance;
 	private DaoEquipe daoEquipe;
 	private Saison saison;
 	private Connexion c;
@@ -41,6 +40,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);
 		daoEquipe = new DaoEquipe(c);
+		daoPoule = new DaoPoule(c);
+		daoAppartenance = new DaoAppartenance(c);
 		try {
 			saison = daoSaison.getLastSaison();
 			listeEquipe = daoEquipe.getAll();
@@ -91,6 +92,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 						new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 					} else {
 						daoTournoi.add(tournoiInserer);
+						initEquipes(tournoiInserer, listeEquipe);
 						new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 						resetChamps();
 					}
@@ -125,8 +127,16 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	}
 
 
-	public void initEquipes(Tournoi tournoi) {
+	public void initEquipes(Tournoi tournoi, List<Equipe> listeEquipe) throws Exception {
+		//creation de la poule
 		Poule poule = new Poule(tournoi, 'A');
+		daoPoule.add(poule);
+		//ajout des equipes dans la poule
+		for (Equipe e : listeEquipe) {
+			Appartenance appartenance = new Appartenance(e, poule);
+			daoAppartenance.add(appartenance);
+		}
+
 
 	}
 

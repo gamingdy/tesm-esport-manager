@@ -224,7 +224,6 @@ public class VueAdminArbitresCreation extends JPanel {
 		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonValider.setForeground(CustomColor.BLANC);
 		panelBot.add(boutonValider);
-
 	}
 
 	/**
@@ -233,9 +232,8 @@ public class VueAdminArbitresCreation extends JPanel {
 	 * @param controleur
 	 */
 	public void setControleur(ArbitresCreationControlleur controleur) {
-		/*this.boutonValider.addActionListener(controleur);
+		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
-		this.btnAjoutTournois.addMouseListener(controleur);*/
 	}
 
 

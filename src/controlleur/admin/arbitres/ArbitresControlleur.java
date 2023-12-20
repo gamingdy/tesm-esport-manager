@@ -14,10 +14,12 @@ import vue.admin.arbitres.creation.VueAdminArbitresCreation;
 import vue.admin.arbitres.liste.VueAdminArbitresListe;
 import vue.admin.tournois.creation.VueAdminTournoisCreation;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
+import vue.common.TitleBar;
 
-public class ArbitresControlleur implements ControlleurObserver {
+public class ArbitresControlleur {
 	private VueAdminArbitres vue;
-	private ArbitresListeControlleur controlleur;
+	private ArbitresListeControlleur arbitresListeControlleur;
+	private ArbitresCreationControlleur arbitresCreationControlleur;
 	private DaoTournoi daoTournoi;
 	private DaoSaison daoSaison;
 	private DaoMatche daoMatche;
@@ -29,11 +31,11 @@ public class ArbitresControlleur implements ControlleurObserver {
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
 		VueAdminArbitresListe vueAdminArbitresListe = new VueAdminArbitresListe();
-		ArbitresListeControlleur arbitresListeControlleur = new ArbitresListeControlleur(vueAdminArbitresListe);
+		arbitresListeControlleur = new ArbitresListeControlleur(vueAdminArbitresListe);
 		vueAdminArbitresListe.setControleur(arbitresListeControlleur);
 
 		VueAdminArbitresCreation vueAdminArbitresCreation = new VueAdminArbitresCreation();
-		ArbitresCreationControlleur arbitresCreationControlleur = new ArbitresCreationControlleur(vueAdminArbitresCreation);
+		arbitresCreationControlleur = new ArbitresCreationControlleur(vueAdminArbitresCreation);
 		vueAdminArbitresCreation.setControleur(arbitresCreationControlleur);
 
 		vue.addPage(vueAdminArbitresCreation, Page.ARBITRES_CREATION);
@@ -44,14 +46,8 @@ public class ArbitresControlleur implements ControlleurObserver {
 
 	public void update(Page id) {
 		if (Page.ARBITRES_LISTE.equals(id)) {
-			this.controlleur.update();
+			this.arbitresListeControlleur.update();
 		}
-
 		this.vue.setPage(id);
-	}
-
-	@Override
-	public void update() {
-
 	}
 }

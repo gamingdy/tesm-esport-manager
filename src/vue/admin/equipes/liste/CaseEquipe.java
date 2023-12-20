@@ -163,4 +163,5 @@ public class CaseEquipe {
 	public void setPays(ImageIcon pays) {
 		this.pays = pays;
 	}
+
 }
