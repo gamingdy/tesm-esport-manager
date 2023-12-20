@@ -218,3 +218,6 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	}
 }
+
+//Code du Popup pour ajouter une équipe dans la saison ou pas (à mettre au bon endroit):
+//new JFramePopupEquipe("Ok", "Saison ou pas", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
