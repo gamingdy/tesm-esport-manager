@@ -44,7 +44,7 @@ public class Modele {
 
 	public Integer getWorldRank(Equipe equipe) throws SQLException {
 		Saison s = daoSaison.getLastSaison();
-		
+
 	}
     
 }
