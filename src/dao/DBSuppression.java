@@ -18,7 +18,6 @@ public class DBSuppression {
 		DaoArbitre.dropTable(c);
 		DaoJoueur.dropTable(c);
 		DaoEquipe.dropTable(c);
-
 		System.out.println("Toutes les tables ont été correctement supprimées");
 	}
 

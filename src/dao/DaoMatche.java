@@ -131,7 +131,8 @@ public class DaoMatche implements Dao<Matche, Integer> {
 						+ "Nom_Equipe1,"
 						+ "Nom_Equipe2,"
 						+ "Annee,"
-						+ "Nom_Tournoi) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+						+ "Nom_Tournoi,"
+						+ "Id_Match) values (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
 			add.setString(1, value.getCategorie().name());
 			add.setInt(2, value.getNombreMaxParties());
 			add.setTimestamp(3, value.getDateDebutMatche().toSQL());
@@ -139,12 +140,8 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			add.setString(5, value.getEquipe2().getNom());
 			add.setInt(6, value.getTournoi().getSaison().getAnnee());
 			add.setString(7, value.getTournoi().getNom());
-			boolean execute = add.executeUpdate()==1;
-			ResultSet rs = add.getGeneratedKeys();
-			if (rs.next()) {
-				value.setId(rs.getInt(1));
-			}
-			return execute;		
+			add.setInt(8, value.getId());
+			return add.execute();		
 		}
 	}
 
@@ -158,7 +155,6 @@ public class DaoMatche implements Dao<Matche, Integer> {
 						+ "categorie = ?,"
 						+ "Nombres_Parties_Max = ?,"
 						+ "Date_Matche_Debut = ?,"
-						+ "Date_Matche_Fin = ?,"
 						+ "Nom_Equipe1 = ?,"
 						+ "Nom_Equipe2 = ?"
 						+ "WHERE Id_Match = ?")) {
@@ -167,8 +163,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			update.setTimestamp(3, value.getDateDebutMatche().toSQL());
 			update.setString(4, value.getEquipe1().getNom());
 			update.setString(5, value.getEquipe2().getNom());
-			update.setString(6, value.getTournoi().getNom());
-			update.setInt(7, value.getId());
+			update.setInt(6, value.getId());
 			return update.execute();
 		}
 	}
@@ -180,7 +175,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	@Override
 	public boolean delete(Integer... value) throws Exception {
 		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
-				"DELETE FROM Matche where Id_Matche = ?")) {
+				"DELETE FROM Matche where Id_Match = ?")) {
 			delete.setInt(1, value[0]);
 			return delete.execute();
 		}
@@ -188,7 +183,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 
 	public List<Matche> getMatchByTournoi(Object... value) throws Exception {
 		try (PreparedStatement getMatchByTournoi = connexion.getConnection().prepareStatement("SELECT * FROM Matche WHERE Annee = ? AND Nom_Tournoi = ?")) {
-			getMatchByTournoi.setShort(1, (Short) value[0]);
+			getMatchByTournoi.setInt(1, (Integer) value[0]);
 			getMatchByTournoi.setString(2, (String) value[1]);
 			ResultSet resultat = getMatchByTournoi.executeQuery();
 			List<Matche> sortie = new ArrayList<>();
@@ -210,9 +205,9 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	public Integer getLastId() throws SQLException {
 		try(PreparedStatement getLastId = connexion.getConnection().prepareStatement(
 				"SELECT Id_Match "
-               + "FROM Matche"
-               + "ORDER BY Id_Match DESC "
-               + "FETCH FIRST 1 ROW ONLY")) {
+						+ "FROM Matche "
+						+ "ORDER BY Id_Match DESC "
+						+ "FETCH FIRST 1 ROW ONLY")) {
 			ResultSet resultat = getLastId.executeQuery();
 			Integer sortie = null;
 			if (resultat.next()) {
@@ -245,11 +240,11 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	
 	public List<Matche> getMatchesByTournoiFromCategorie(Tournoi tournoi,Categorie categorie) throws FausseDateException, MemeEquipeException, SQLException, Exception {
 		try(PreparedStatement getMatchesFromCategorie = connexion.getConnection().prepareStatement(
-				"SELECT *"
-				+ "FROM Matche"
-				+ "WHERE categorie = ?"
-				+ "AND Annee = ?"
-				+ "AND Nom_tournoi = ?")){
+				"SELECT * "
+						+ "FROM Matche "
+						+ "WHERE categorie = ? "
+						+ "AND Annee = ? "
+						+ "AND Nom_tournoi = ?")){
 			getMatchesFromCategorie.setString(1, categorie.name());
 			getMatchesFromCategorie.setInt(2, tournoi.getSaison().getAnnee());
 			getMatchesFromCategorie.setString(3, tournoi.getNom());

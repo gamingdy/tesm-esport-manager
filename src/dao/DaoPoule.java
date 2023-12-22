@@ -66,7 +66,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 			List<Poule> sortie = new ArrayList<>();
 			while (resultat.next()) {
 				Poule poule = new Poule(
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get(),
+						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")).get(),
 						resultat.getString("Libelle").charAt(0));
 				sortie.add(poule);
 			}
@@ -88,9 +88,9 @@ public class DaoPoule implements Dao<Poule, Object> {
 			Poule poule = null;
 			if (resultat.next()) {
 				poule = new Poule(
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get(),
+						daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")).get(),
 						resultat.getString("Libelle").charAt(0));
-
+				
 			}
 			return Optional.ofNullable(poule);
 		}
@@ -98,6 +98,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 
 	/**
 	 * Ajoute une poule à la table poule à partir d'un objet poule
+	 * 
 	 */
 	@Override
 	public boolean add(Poule value) throws Exception {
@@ -122,6 +123,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 	/**
 	 * Supprime une poule
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_tournoi (STRING), Libelle (STRING)
+	 * 
 	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
@@ -133,9 +135,9 @@ public class DaoPoule implements Dao<Poule, Object> {
 			return delete.execute();
 		}
 	}
-
+	
 	public List<Poule> getPouleByTournoi(Tournoi tournoi) throws Exception {
-		try (PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
+		try(PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
 				+ "SELECT *"
 				+ "FROM Poule"
 				+ "WHERE Annee = ?"
@@ -144,24 +146,24 @@ public class DaoPoule implements Dao<Poule, Object> {
 			getPouleByTournoi.setString(2, tournoi.getNom());
 			ResultSet resultat = getPouleByTournoi.executeQuery();
 			List<Poule> sortie = new ArrayList<>();
-			while (resultat.next()) {
+			while(resultat.next()) {
 				Poule poule = new Poule(
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get(),
+						daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")).get(),
 						resultat.getString("Libelle").charAt(0));
 				sortie.add(poule);
 			}
 			return sortie;
 		}
 	}
-
+	
 	@Override
 	public String visualizeTable() throws Exception {
 		String s = "_______________Poule_______________________" + "\n";
 		List<Poule> l = this.getAll();
-		for (Poule a : l) {
-			s += a.toString() + "\n";
+		for(Poule a : l) {
+			s+=a.toString()+"\n";
 		}
-		s += "\n\n\n";
+		s+="\n\n\n";
 		return s;
 	}
 }

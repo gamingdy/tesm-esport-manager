@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 import modele.Arbitre;
+import modele.Saison;
+import modele.Tournoi;
 
 public class DaoArbitre implements Dao<Arbitre,Integer> {
 
@@ -130,6 +132,14 @@ public class DaoArbitre implements Dao<Arbitre,Integer> {
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
 				"DELETE FROM Arbitre WHERE Id_Arbitre = ?")){
 			delete.setInt(1,value[0]);
+			List<Saison> saisons = FactoryDAO.getDaoSelection(connexion).getSaisonByArbitre(value[0]);
+			List<Tournoi> tournois = FactoryDAO.getDaoArbitrage(connexion).getTournoiByArbitre(value[0]);
+			for(Saison s : saisons) {
+				FactoryDAO.getDaoSelection(connexion).delete(value[0],s.getAnnee());
+			}
+			for(Tournoi t : tournois) {
+				FactoryDAO.getDaoArbitrage(connexion).delete(value[0],t.getSaison().getAnnee(),t.getNom());
+			}
 			return delete.execute();
 		}
 	}

@@ -96,18 +96,11 @@ public class DaoNiveau implements Dao<Niveau,String>{
 	}
 
 	/**
-	 * update un niveau à partir d'un objet niveau
+	 * Ne pas utiliser
 	 */
 	@Override
 	public boolean update(Niveau value) throws Exception {
-		try(PreparedStatement update = connexion.getConnection().prepareStatement(
-				"UPDATE Niveau SET "
-						+"Coefficient = ?"
-						+"WHERE Libelle_Niveau = ?")){
-			update.setFloat(1, value.getCoefficient());
-			update.setString(2, value.getNom());
-			return update.execute();
-		}
+		return false;
 	}
 
 	/**
