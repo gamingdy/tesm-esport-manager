@@ -108,7 +108,7 @@ public class VueAdminEquipesListe extends JPanel {
 	}
 	
 	public void add(CaseEquipe c) {
-		if (nbCases <= 3) {
+		if (nbCases < 3) {
 			list.remove(nbCases);
 		}
 		list.add(c.getPanel(),nbCases);
