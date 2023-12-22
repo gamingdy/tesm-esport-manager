@@ -72,7 +72,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
 
-		JLabel icone = new JLabel(Vue.resize(new ImageIcon("assets/grandUser.png"),200,200));
+		JLabel icone = new JLabel(Vue.resize(new ImageIcon("assets/grandUser.png"), 200, 200));
 		icone.setPreferredSize(new Dimension());
 		GridBagConstraints gbcIcone = new GridBagConstraints();
 		gbcIcone.fill = GridBagConstraints.BOTH;
@@ -166,7 +166,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		btnAjoutTournois.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutTournois.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
 		btnAjoutTournois.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		
+
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
 		gbcAjout.gridx = 1;
@@ -243,13 +243,14 @@ public class VueAdminArbitresCreation extends JPanel {
 	public void setControleur(ArbitresCreationControlleur controleur) {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
+		this.btnAjoutTournois.addMouseListener(controleur);
 	}
 
 
 	public void clearField() {
 		this.textfieldNom.setText("");
 		this.textfieldPrenom.setText("");
-		this.comboboxNiveaux.setSelectedItem(null);
+		this.resetTournois();
 		resetTournois();
 
 	}
@@ -267,8 +268,9 @@ public class VueAdminArbitresCreation extends JPanel {
 	}
 
 	public void addTournoi(String nom, String dateDébut, String dateFin, int i) {
-		this.model.add(i,new LigneTournoi(nom, dateDébut, dateFin));
+		this.model.add(i, new LigneTournoi(nom, dateDébut, dateFin));
 	}
+
 
 	public JButton getBoutonValider() {
 		return this.boutonValider;

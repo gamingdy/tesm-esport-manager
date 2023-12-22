@@ -107,10 +107,10 @@ public class VueAdminTournoisListe extends JPanel {
 		if (nbCases < 6) {
 			list.remove(nbCases);
 		}
-		list.add(c.getPanel(),nbCases);
+		list.add(c.getPanel(), nbCases);
 		nbCases += 1;
 	}
-	
+
 
 	public void addAll(List<CaseTournoi> c) {
 		c.stream().forEach(this::add);
