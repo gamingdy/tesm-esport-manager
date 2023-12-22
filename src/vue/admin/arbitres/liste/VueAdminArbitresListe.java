@@ -28,6 +28,7 @@ public class VueAdminArbitresListe extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JPanel list;
 	private JButton boutonAjouter;
+	private int nbCases = 0;
 
 	public VueAdminArbitresListe() {
 
@@ -98,18 +99,18 @@ public class VueAdminArbitresListe extends JPanel {
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
 	}
+	
+	public void add(CaseArbitre c) {
+		if (nbCases < 6) {
+			list.remove(nbCases);
+		}
+		list.add(c.getPanel(),nbCases);
+		nbCases += 1;
+	}
+	
 
-	public void setListArbitress(List<CaseArbitre> l) {
-		list.removeAll();
-		for (CaseArbitre c : l) {
-			list.add(c.getPanel());
-		}
-		JPanel j;
-		for (int i = 4; l.size() < i; i--) {
-			j = new JPanel();
-			j.setOpaque(false);
-			list.add(j);
-		}
+	public void addAll(List<CaseArbitre> c) {
+		c.stream().forEach(this::add);
 	}
 
 	public JButton getBoutonAjouter() {

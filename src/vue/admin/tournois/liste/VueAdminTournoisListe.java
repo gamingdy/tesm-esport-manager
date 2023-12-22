@@ -3,6 +3,7 @@ package vue.admin.tournois.liste;
 
 import controlleur.admin.tournois.TournoisListeControlleur;
 import vue.Vue;
+import vue.admin.equipes.liste.CaseEquipe;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
@@ -29,6 +30,7 @@ public class VueAdminTournoisListe extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JPanel list;
 	private JButton boutonAjouter;
+	private int nbCases = 0;
 
 	public VueAdminTournoisListe() {
 
@@ -101,17 +103,17 @@ public class VueAdminTournoisListe extends JPanel {
 		add(boutonAjouter, gbcBtnAjt);
 	}
 
-	public void setListeTournois(List<CaseTournoi> l) {
-		list.removeAll();
-		for (CaseTournoi c : l) {
-			list.add(c.getPanel());
+	public void add(CaseTournoi c) {
+		if (nbCases < 6) {
+			list.remove(nbCases);
 		}
-		JPanel j;
-		for (int i = 7; l.size() < i; i--) {
-			j = new JPanel();
-			j.setOpaque(false);
-			list.add(j);
-		}
+		list.add(c.getPanel(),nbCases);
+		nbCases += 1;
+	}
+	
+
+	public void addAll(List<CaseTournoi> c) {
+		c.stream().forEach(this::add);
 	}
 
 	public JButton getBoutonAjouter() {

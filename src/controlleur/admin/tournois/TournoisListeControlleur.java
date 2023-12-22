@@ -31,7 +31,7 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 		try {
 			List<Tournoi> liste = daoTournoi.getAll();
 			List<CaseTournoi> listeCase = convertListToCase(liste);
-			this.vueAdminTournoisListe.setListeTournois(listeCase);
+			this.vueAdminTournoisListe.addAll(listeCase);
 		} catch (Exception e) {
 
 		}
