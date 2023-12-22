@@ -7,6 +7,7 @@ import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
 
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -81,6 +82,7 @@ public class VueAdminTournoisListe extends JPanel {
 		add(panelRecherche, gbcRecherche);
 
 		boutonAjouter = new JButton("Ajouter");
+		boutonAjouter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		ImageIcon ajt = new ImageIcon("assets/BoutonAjouter.png");
 		ajt = new ImageIcon(ajt.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));

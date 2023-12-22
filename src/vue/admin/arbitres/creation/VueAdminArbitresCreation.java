@@ -8,6 +8,7 @@ import vue.common.MaFont;
 
 import java.util.List;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -164,7 +165,8 @@ public class VueAdminArbitresCreation extends JPanel {
 		btnAjoutTournois = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
 		btnAjoutTournois.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutTournois.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
-
+		btnAjoutTournois.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
 		gbcAjout.gridx = 1;
@@ -183,6 +185,7 @@ public class VueAdminArbitresCreation extends JPanel {
 			public Component getListCellRendererComponent(JList<? extends LigneTournoi> list, LigneTournoi value, int index,
 														  boolean isSelected, boolean cellHasFocus) {
 				JPanel panelItem = new JPanel();
+				panelItem.setOpaque(false);
 				JLabel nom = new JLabel(value.getNom());
 				nom.setForeground(CustomColor.BLANC);
 				nom.setFont(MaFont.getFontTitre3());
@@ -221,12 +224,14 @@ public class VueAdminArbitresCreation extends JPanel {
 		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());
 		boutonAnnuler.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS.darker(), 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonAnnuler.setForeground(CustomColor.BLANC.darker());
+		boutonAnnuler.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonAnnuler);
 
 		boutonValider = new JButton("Ajouter");
 		boutonValider.setBackground(CustomColor.BACKGROUND_MENU.brighter());
 		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonValider.setForeground(CustomColor.BLANC);
+		boutonValider.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonValider);
 	}
 

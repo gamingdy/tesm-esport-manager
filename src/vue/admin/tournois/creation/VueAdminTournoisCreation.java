@@ -8,6 +8,7 @@ import vue.common.MaFont;
 
 import java.util.List;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -214,7 +215,8 @@ public class VueAdminTournoisCreation extends JPanel {
 		btnAjoutEquipes = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
 		btnAjoutEquipes.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutEquipes.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
-
+		btnAjoutEquipes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
 		gbcAjout.gridx = 1;
@@ -270,12 +272,14 @@ public class VueAdminTournoisCreation extends JPanel {
 		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());
 		boutonAnnuler.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS.darker(), 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonAnnuler.setForeground(CustomColor.BLANC.darker());
+		boutonAnnuler.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonAnnuler);
 
 		boutonValider = new JButton("Ajouter");
 		boutonValider.setBackground(CustomColor.BACKGROUND_MENU.brighter());
 		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonValider.setForeground(CustomColor.BLANC);
+		boutonValider.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonValider);
 
 	}

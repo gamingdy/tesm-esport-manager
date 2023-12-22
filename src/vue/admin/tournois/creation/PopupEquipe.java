@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
@@ -81,6 +82,7 @@ public class PopupEquipe extends JFrame {
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.setBackground(new Color(15, 3, 25));
 		JButton closeButton = new JButton("Annuler");
+		closeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		closeButton.setFont(MaFont.getFontTitre4());
 		closeButton.setForeground(CustomColor.BLANC);
 		closeButton.setBackground(CustomColor.TRANSPARENT);
@@ -90,6 +92,7 @@ public class PopupEquipe extends JFrame {
 		buttonPanel.add(closeButton);
 
 		JButton okButton = new JButton("Valider");
+		okButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		okButton.setFont(MaFont.getFontTitre4());
 		okButton.setForeground(CustomColor.BLANC);
 		okButton.setBackground(CustomColor.TRANSPARENT);
