@@ -29,6 +29,7 @@ public class VueAdminEquipesListe extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JPanel list;
 	private JButton boutonAjouter;
+	private int nbCases = 0;
 
 	public VueAdminEquipesListe() {
 
@@ -42,7 +43,7 @@ public class VueAdminEquipesListe extends JPanel {
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		
 		JPanel j;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			j = new JPanel();
 			j.setOpaque(false);
 			list.add(j);
@@ -113,16 +114,16 @@ public class VueAdminEquipesListe extends JPanel {
 		for (CaseEquipe c : l) {
 			list.add(c.getPanel());
 		}
-		JPanel j;
-		for (int i = 4; l.size() < i; i--) {
-			j = new JPanel();
-			j.setOpaque(false);
-			list.add(j);
-		}
 	}
 	
-	public void add(CaseEquipe c,int index) {
-		list.add(c.getPanel(),index);
+	public void add(CaseEquipe c) {
+		list.add(c.getPanel(),nbCases);
+		nbCases += 1;
+	}
+	
+
+	public void addAll(List<CaseEquipe> c) {
+		c.stream().forEach(this::add);
 	}
 
 	public JButton getBoutonAjouter() {
