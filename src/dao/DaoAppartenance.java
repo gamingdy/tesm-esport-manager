@@ -144,6 +144,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			delete.setInt(2,(Integer)value[1]);
 			delete.setString(3, (String) value[2]);
 			delete.setString(4, (String)value[3]);
+			
 			return delete.execute();
 		}
 	}
