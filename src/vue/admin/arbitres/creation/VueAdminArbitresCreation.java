@@ -280,6 +280,10 @@ public class VueAdminArbitresCreation extends JPanel {
 		return this.textfieldNom.getText();
 	}
 
+	public String getTextfieldPrenom() {
+		return this.textfieldPrenom.getText();
+	}
+
 	public Niveau getNiveau() {
 		if (this.comboboxNiveaux.getSelectedItem() == null) {
 			return null;
@@ -291,7 +295,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		return Arrays.stream(model.toArray()).map(x -> ((JLabel) x).getText()).collect(Collectors.toList());
 	}
 
-	public JLabel getBtnAjoutEquipes() {
+	public JLabel getBoutonAjoutTournois() {
 		return this.btnAjoutTournois;
 	}
 
