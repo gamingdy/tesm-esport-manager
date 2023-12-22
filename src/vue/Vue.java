@@ -79,6 +79,6 @@ public class Vue extends JFrame {
 	}
 
 	public static ImageIcon resize(ImageIcon i, int width, int height) {
-		return new ImageIcon(i.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+		return new ImageIcon(i.getImage().getScaledInstance(width, height, Image.SCALE_FAST));
 	}
 }
