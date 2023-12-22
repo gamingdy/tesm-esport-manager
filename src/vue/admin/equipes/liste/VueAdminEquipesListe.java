@@ -39,6 +39,13 @@ public class VueAdminEquipesListe extends JPanel {
 		list = new JPanel(new GridLayout(0, 3, 15, 15));
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		
+		JPanel j;
+		for (int i = 0; i < 4; i++) {
+			j = new JPanel();
+			j.setOpaque(false);
+			list.add(j);
+		}
 
 		//setListEquipes(model);
 
@@ -110,6 +117,10 @@ public class VueAdminEquipesListe extends JPanel {
 			j.setOpaque(false);
 			list.add(j);
 		}
+	}
+	
+	public void add(CaseEquipe c,int index) {
+		list.add(c.getPanel(),index);
 	}
 
 	public JButton getBoutonAjouter() {
