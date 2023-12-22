@@ -49,8 +49,6 @@ public class VueAdminEquipesListe extends JPanel {
 			list.add(j);
 		}
 
-		//setListEquipes(model);
-
 		JScrollPane sp = new JScrollPane(list);
 		sp.setBackground(CustomColor.BACKGROUND_MAIN);
 		sp.getVerticalScrollBar().setUnitIncrement(15);
@@ -108,15 +106,11 @@ public class VueAdminEquipesListe extends JPanel {
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
 	}
-
-	public void setListEquipes(List<CaseEquipe> l) {
-		list.removeAll();
-		for (CaseEquipe c : l) {
-			list.add(c.getPanel());
-		}
-	}
 	
 	public void add(CaseEquipe c) {
+		if (nbCases <= 3) {
+			list.remove(nbCases);
+		}
 		list.add(c.getPanel(),nbCases);
 		nbCases += 1;
 	}
