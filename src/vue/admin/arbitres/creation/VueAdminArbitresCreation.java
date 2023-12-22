@@ -266,15 +266,8 @@ public class VueAdminArbitresCreation extends JPanel {
 		return this.labelLogo;
 	}
 
-	/**
-	 * Set le nom d'un joueur
-	 *
-	 * @param nom nom du joueur
-	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
-	 */
-	public void setEquipe(String nom, String dateDébut, String dateFin, int i) {
-
-		this.model.set(i, new LigneTournoi(nom, dateDébut, dateFin));
+	public void addTournoi(String nom, String dateDébut, String dateFin, int i) {
+		this.model.add(i,new LigneTournoi(nom, dateDébut, dateFin));
 	}
 
 	public JButton getBoutonValider() {
