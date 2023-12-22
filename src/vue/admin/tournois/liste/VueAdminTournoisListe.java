@@ -43,8 +43,12 @@ public class VueAdminTournoisListe extends JPanel {
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-		//setListEquipes(model);
-
+		JPanel j;
+		for (int i = 0; i<6;i++) {
+			j = new JPanel();
+			j.setOpaque(false);
+			list.add(j);
+		}
 		JScrollPane sp = new JScrollPane(list);
 		sp.setBackground(CustomColor.BACKGROUND_MAIN);
 		sp.getVerticalScrollBar().setUnitIncrement(15);
