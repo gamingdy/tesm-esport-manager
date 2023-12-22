@@ -23,6 +23,7 @@ enum ETAT {
 
 public class AdminControlleur implements ActionListener, MouseListener {
 	private final VueAdmin vue;
+	private final VueAdminEquipes vueAdminEquipes;
 	private ETAT etat;
 	MenuNavBar navbar;
 
@@ -30,7 +31,9 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		this.navbar = navbar;
 		this.etat = ETAT.ACCUEIL;
 		this.vue = vue;
+		this.vueAdminEquipes = new VueAdminEquipes();
 		this.vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
+		this.vue.addPage(vueAdminEquipes, Page.EQUIPES);
 		this.vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
@@ -65,8 +68,7 @@ public class AdminControlleur implements ActionListener, MouseListener {
 
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.EQUIPES.getNom())) {
 				this.etat = ETAT.EQUIPES;
-
-				this.vue.addPage(new VueAdminEquipes(), Page.EQUIPES);
+				this.vueAdminEquipes.updateControlleur(Page.EQUIPES_LISTE);
 				this.vue.setPage(Page.EQUIPES);
 			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.TOURNOIS.getNom())) {
 				this.etat = ETAT.TOURNOIS;

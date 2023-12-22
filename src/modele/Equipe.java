@@ -95,6 +95,15 @@ public class Equipe {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Equipe) {
+			Equipe e = (Equipe) o;
+			return this.toString().equals(e.toString());
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "Equipe [nom=" + nom + ", point=" + point + ", pays=" + pays + "]";
 	}

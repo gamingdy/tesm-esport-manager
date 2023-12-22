@@ -11,16 +11,15 @@ import vue.admin.equipes.liste.VueAdminEquipesListe;
 import vue.common.JFramePopup;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EquipesListeControlleur implements ActionListener, ControlleurObserver {
 	private VueAdminEquipesListe vue;
@@ -29,6 +28,8 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	private DaoSaison daoSaison;
 	private Saison saison;
 	private DaoInscription daoInscription;
+	private List<CaseEquipe> listeCase;
+	private List<Equipe> listeEquipe;
 
 	public EquipesListeControlleur(VueAdminEquipesListe newVue) {
 		this.vue = newVue;
@@ -94,8 +95,22 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	public void update() {
 		try {
 			List<Equipe> liste = daoEquipe.getAll();
-			List<CaseEquipe> listeCase = convertListToCase(liste);
-			this.vue.setListEquipes(listeCase);
+
+			if (this.listeCase == null) {
+				this.listeEquipe = liste;
+				this.listeCase = convertListToCase(this.listeEquipe);
+				System.out.println(this.listeCase.size());
+				this.vue.addAll(this.listeCase);
+			} else {
+				List<Equipe> differences = liste.stream()
+						.filter(element -> !this.listeEquipe.contains(element))
+						.collect(Collectors.toList());
+				List<CaseEquipe> differencesCase = convertListToCase(differences);
+
+				this.vue.addAll(differencesCase);
+				this.listeCase.addAll(differencesCase);
+			}
+
 		} catch (Exception e) {
 		}
 	}

@@ -139,18 +139,24 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public void resetChamps() {
 		this.vue.clearField();
 		this.nbEquipes = 0;
+		try {
+			this.listeEquipe = daoEquipe.getAll();
+		} catch (Exception e) {
+		}
 
 	}
 
 	public void addEquipe() {
 		if (this.nbEquipes < 8) {
-			String nomEquipe = this.popupAjoutEquipe.getSaisie().getNom();
+			Equipe equipe = this.popupAjoutEquipe.getSaisie();
+			String nomEquipe = equipe.getNom();
 			ImageIcon icon = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
 			List<String> lst_equipes = this.vue.getEquipes();
 			if (!lst_equipes.contains(nomEquipe)) {
 				this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
 				this.nbEquipes++;
 			}
+			this.listeEquipe.remove(equipe);
 		}
 
 	}
