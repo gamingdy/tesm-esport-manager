@@ -53,10 +53,17 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			} else if (prenomArbitre.isEmpty()) {
 				new JFramePopup("Erreur", "Veuillez completer le prénom de l'arbitre", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 			} else {
-				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre);
+				Arbitre arbitre = null;
+				try {
+					arbitre = new Arbitre(nomArbitre, prenomArbitre);
+				} catch (SQLException ex) {
+					throw new RuntimeException(ex);
+				}
 				try {
 					daoArbitre.add(arbitre);
-					//addTournoisBdd(listeTournoi, arbitre);
+					addTournoisBdd(listeTournoi, arbitre);
+					new JFramePopup("Succès", "Arbitre ajouté", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
+					resetChamps();
 				} catch (Exception exceptionInsertion) {
 					exceptionInsertion.printStackTrace();
 					new JFramePopup("Erreur", "Erreur d'insertion", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
