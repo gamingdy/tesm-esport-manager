@@ -58,7 +58,10 @@ public class VueAdminArbitresCreation extends JPanel {
 		setOpaque(false);
 
 		JPanel panelTop = new JPanel();
-		panelTop.setLayout(new GridBagLayout());
+		GridBagLayout gbl_panelTop = new GridBagLayout();
+		gbl_panelTop.columnWeights = new double[]{0.0, 1.0};
+		gbl_panelTop.columnWidths = new int[]{87, 0};
+		panelTop.setLayout(gbl_panelTop);
 		panelTop.setPreferredSize(new Dimension(0, 0));
 		panelTop.setOpaque(false);
 		GridBagConstraints gbcPanelTop = new GridBagConstraints();
@@ -68,15 +71,15 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
 
-		JLabel icone = new JLabel("assets/userGrand.png");
+		JLabel icone = new JLabel(Vue.resize(new ImageIcon("assets/grandUser.png"),200,200));
+		icone.setPreferredSize(new Dimension());
 		GridBagConstraints gbcIcone = new GridBagConstraints();
 		gbcIcone.fill = GridBagConstraints.BOTH;
-		gbcIcone.insets = new Insets(0, 0, 0, 50);
 		gbcIcone.gridx = 0;
 		gbcIcone.gridy = 0;
 		gbcIcone.gridheight = 2;
-		gbcIcone.weightx = 1F / 4F;
-		gbcIcone.weighty = 1F / 5F;
+		gbcIcone.weightx = 1F / 2F;
+		gbcIcone.weighty = 1F / 3F;
 		panelTop.add(icone, gbcIcone);
 
 
@@ -98,18 +101,17 @@ public class VueAdminArbitresCreation extends JPanel {
 		champNom.add(textfieldNom);
 		GridBagConstraints gbcNom = new GridBagConstraints();
 		gbcNom.fill = GridBagConstraints.BOTH;
-		gbcNom.insets = new Insets(0, 0, 0, 50);
 		gbcNom.gridx = 1;
 		gbcNom.gridy = 0;
-		gbcNom.weightx = 3F / 4F;
-		gbcNom.weighty = 1F / 4F;
+		gbcNom.weightx = 1F / 2F;
+		gbcNom.weighty = 1F / 6F;
 		panelTop.add(champNom, gbcNom);
 
 
 		JPanel champPrenom = new JPanel();
 		champPrenom.setLayout(new GridLayout(2, 1, 10, 0));
 		champPrenom.setOpaque(false);
-		JLabel labelPrenom = new JLabel("Nom");
+		JLabel labelPrenom = new JLabel("Prénom");
 		labelPrenom.setForeground(CustomColor.BLANC);
 		labelPrenom.setFont(MaFont.getFontTitre2());
 		champPrenom.add(labelPrenom);
@@ -124,9 +126,10 @@ public class VueAdminArbitresCreation extends JPanel {
 		champPrenom.add(textfieldPrenom);
 		GridBagConstraints gbcPrenom = new GridBagConstraints();
 		gbcPrenom.fill = GridBagConstraints.BOTH;
-		gbcPrenom.insets = new Insets(0, 0, 0, 50);
 		gbcPrenom.gridx = 1;
 		gbcPrenom.gridy = 1;
+		gbcPrenom.weightx = 1F / 2F;
+		gbcPrenom.weighty = 1F / 6F;
 		panelTop.add(champPrenom, gbcPrenom);
 
 		panelTournois = new JPanel();
@@ -135,13 +138,14 @@ public class VueAdminArbitresCreation extends JPanel {
 		GridBagLayout gblPanelTournois = new GridBagLayout();
 		panelTournois.setLayout(gblPanelTournois);
 		GridBagConstraints gbcPanelTournois = new GridBagConstraints();
+		gbcPanelTournois.gridwidth = 2;
 		gbcPanelTournois.fill = GridBagConstraints.BOTH;
-		gbcPanelTournois.insets = new java.awt.Insets(0, 50, 0, 0);
-		gbcPanelTournois.gridx = 1;
-		gbcPanelTournois.gridy = 0;
+		gbcPanelTournois.insets = new Insets(50, 0, 0, 0);
+		gbcPanelTournois.gridx = 0;
+		gbcPanelTournois.gridy = 2;
 		gbcPanelTournois.gridheight = 4;
-		gbcPanelTournois.weightx = 1 / 2F;
-		gbcPanelTournois.weighty = 5F / 7F;
+		gbcPanelTournois.weightx = 1F;
+		gbcPanelTournois.weighty = 2F / 3F;
 
 		panelTop.add(panelTournois, gbcPanelTournois);
 
