@@ -5,10 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import modele.Arbitrage;
+import modele.Matche;
 import modele.Partie;
 
 public class DaoPartie implements Dao<Partie, Integer> {
@@ -82,7 +84,11 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	 */
 	@Override
 	public Optional<Partie> getById(Integer... id) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Partie WHERE Id_Match = ? AND Numero_Partie = ?")) {
+		try (PreparedStatement getById = connexion.getConnection().prepareStatement(""
+				+ "SELECT * "
+				+ "FROM Partie "
+				+ "WHERE Id_Match = ? "
+				+ "AND Id_Partie = ?")) {
 			getById.setInt(1, id[0]);
 			getById.setInt(2, id[1]);
 			ResultSet resultat = getById.executeQuery();
@@ -118,12 +124,12 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	public boolean update(Partie value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Partie SET "
-						+ "Nom_Equipe = ?,"
-						+ "Id_Match = ?"
-						+ "WHERE Id_Partie = ?")) {
+						+ "Nom_Equipe = ? "
+						+ "WHERE Id_Partie = ? "
+						+ "AND Id_Match = ?")) {
 			update.setString(1, value.getVainqueur().getNom());
-			update.setInt(2, value.getMatche().getId());
-			update.setInt(3, value.getNumeroPartie());
+			update.setInt(3, value.getMatche().getId());
+			update.setInt(2, value.getNumeroPartie());
 			return update.execute();
 		}
 	}
@@ -139,6 +145,23 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			delete.setInt(1, value[0]);
 			delete.setInt(2, value[1]);
 			return delete.execute();
+		}
+	}
+	
+	public List<Partie> getPartieByMatche(Matche matche) throws IllegalArgumentException, SQLException, Exception {
+		try (PreparedStatement getPartieByMatche = connexion.getConnection().prepareStatement(
+				"SELECT * "
+				+ "FROM Partie "
+				+ "WHERE Id_Match = ?")) {
+			getPartieByMatche.setInt(1, matche.getId());
+			ResultSet resultat = getPartieByMatche.executeQuery();
+			List<Partie> sortie = new LinkedList<>();
+			while(resultat.next()) {
+				sortie.add(new Partie(
+						FactoryDAO.getDaoMatche(connexion).getById(resultat.getInt("Id_Match")).get(),
+						resultat.getInt("Id_Partie")));
+			}
+			return sortie;
 		}
 	}
 	

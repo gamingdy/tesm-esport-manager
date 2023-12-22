@@ -5,11 +5,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import modele.Equipe;
+import modele.Joueur;
+import modele.Matche;
+import modele.Partie;
 import modele.Pays;
+import modele.Poule;
+import modele.Saison;
+import modele.Tournoi;
 
 public class DaoEquipe implements Dao<Equipe,String>{
 
@@ -123,6 +130,29 @@ public class DaoEquipe implements Dao<Equipe,String>{
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
 				"DELETE FROM Equipe where Nom_Equipe = ?")){
 			delete.setString(1,value[0]);
+			List<Joueur> joueurs = FactoryDAO.getDaoJoueur(connexion).getJoueurParEquipe(value[0]);
+			List<Saison> saisons = FactoryDAO.getDaoInscription(connexion).getSaisonByEquipe(value[0]);
+			List<Tournoi> tournois = FactoryDAO.getDaoAppartenance(connexion).getTournoiByEquipe(value[0]);
+			List<Poule> poules = new LinkedList<>();
+			List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchByEquipe(FactoryDAO.getDaoEquipe(connexion).getById(value[0]).get());
+			for(Tournoi t : tournois) {
+				for(Poule p : FactoryDAO.getDaoAppartenance(connexion).getPouleByEquipe(value[0],t.getNom(),t.getSaison().getAnnee())) {
+					poules.add(p);
+				}
+			}
+			for(Joueur j : joueurs) {
+				FactoryDAO.getDaoJoueur(connexion).delete(j.getId());
+			}
+			for(Saison s : saisons) {
+				FactoryDAO.getDaoInscription(connexion).delete(s.getAnnee(),value[0]);
+			}
+			for(Poule p : poules) {
+				FactoryDAO.getDaoAppartenance(connexion).delete(value[0],p.getTournoi().getSaison().getAnnee(),p.getTournoi().getNom(),p.getLibelle());
+			}
+			for(Matche m : matches) {
+				FactoryDAO.getDaoMatche(connexion).delete(m.getId());
+			}
+			 
 			return delete.execute();
 		}
 	}

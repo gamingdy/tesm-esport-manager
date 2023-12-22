@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import modele.Arbitre;
+import modele.Equipe;
 import modele.Saison;
+import modele.Tournoi;
 
 public class DaoSaison implements Dao<Saison, Integer> {
 
@@ -107,6 +110,19 @@ public class DaoSaison implements Dao<Saison, Integer> {
 		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
 				"DELETE FROM Saison where Annee = ?")) {
 			delete.setInt(1, value[0]);
+			List<Tournoi> tournois = FactoryDAO.getDaoTournoi(connexion).getTournoiBySaison(FactoryDAO.getDaoSaison(connexion).getById(value[0]).get());
+			List<Equipe> equipes = FactoryDAO.getDaoInscription(connexion).getEquipeBySaison(value[0]);
+			List<Arbitre> arbitres = FactoryDAO.getDaoSelection(connexion).getArbitreBySaison(FactoryDAO.getDaoSaison(connexion).getById(value[0]).get());
+			for(Tournoi t : tournois) {
+				FactoryDAO.getDaoTournoi(connexion).delete(t.getSaison().getAnnee(),t.getNom());
+			}
+			for(Equipe e : equipes) {
+				FactoryDAO.getDaoInscription(connexion).delete(value[0],e.getNom());
+			}
+			for(Arbitre a : arbitres) {
+				FactoryDAO.getDaoSelection(connexion).delete(a.getId(),value[0]);
+			}
+			
 			return delete.execute();
 		}
 	}

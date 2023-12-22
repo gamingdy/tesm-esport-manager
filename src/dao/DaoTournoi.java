@@ -7,11 +7,13 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import exceptions.FausseDateException;
 import modele.Appartenance;
+import modele.Arbitre;
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -183,6 +185,18 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				"DELETE FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
 			delete.setInt(1, (Integer) value[0]);
 			delete.setString(2, (String) value[1]);
+			List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchByTournoi(value[0],value[1]);
+			List<Poule> poules = FactoryDAO.getDaoPoule(connexion).getPouleByTournoi(FactoryDAO.getDaoTournoi(connexion).getById(value[0],value[1]).get());
+			List<Arbitre> arbitres = FactoryDAO.getDaoArbitrage(connexion).getArbitreByTournoi(value[1],value[0]);
+			for(Matche m : matches) {
+				FactoryDAO.getDaoMatche(connexion).delete(m.getId());
+			}
+			for(Poule p : poules) {
+				FactoryDAO.getDaoPoule(connexion).delete(p.getTournoi().getSaison().getAnnee(),p.getTournoi().getNom(),p.getLibelle());
+			}
+			for(Arbitre a : arbitres) {
+				FactoryDAO.getDaoArbitrage(connexion).delete(a.getId(),value[0],value[1]);
+			}
 			return delete.execute();
 		}
 	}
@@ -260,6 +274,32 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 										resultat.getString("username"),
 										resultat.getString("mdp"))
 						));
+			}
+			return sortie;
+		}
+	}
+	
+	public List<Tournoi> getTournoiByNiveau(Niveau niveau) throws FausseDateException, SQLException {
+		try (PreparedStatement getTournoiByNiveau = connexion.getConnection().prepareStatement(
+				"SELECT *"
+				+ "FROM Tournoi"
+				+ "WHERE Libelle_Niveau = ?")) {
+			getTournoiByNiveau.setString(1, niveau.name());
+			ResultSet resultat = getTournoiByNiveau.executeQuery();
+			List<Tournoi> sortie = new LinkedList<>();
+			while(resultat.next()) {
+				sortie.add(new Tournoi(
+						new Saison(resultat.getInt("Annee")),
+						resultat.getString("Nom_Tournoi"),
+						new CustomDate(resultat.getTimestamp("Date_Debut")),
+						new CustomDate(resultat.getTimestamp("Date_Fin")),
+						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
+						new CompteArbitre(
+								resultat.getString("username"),
+								resultat.getString("mdp"))
+					)
+				);
+				
 			}
 			return sortie;
 		}

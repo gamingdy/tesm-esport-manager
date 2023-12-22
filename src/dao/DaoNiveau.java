@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import modele.Niveau;
+import modele.Tournoi;
 
 public class DaoNiveau implements Dao<Niveau,String>{
 
@@ -112,6 +113,10 @@ public class DaoNiveau implements Dao<Niveau,String>{
 		try(PreparedStatement delete = connexion.getConnection().prepareStatement(
 				"DELETE FROM Niveau where Libelle_Niveau = ?")){
 			delete.setString(1,value[0]);
+			List<Tournoi> tournois = FactoryDAO.getDaoTournoi(connexion).getTournoiByNiveau(FactoryDAO.getDaoNiveau(connexion).getById(value[0]).get());
+			for(Tournoi t : tournois) {
+				FactoryDAO.getDaoTournoi(connexion).delete(t.getSaison().getAnnee(),t.getNom());
+			}
 			return delete.execute();
 		}
 	}
