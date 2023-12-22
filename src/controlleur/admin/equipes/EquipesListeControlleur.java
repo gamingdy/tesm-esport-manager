@@ -99,16 +99,15 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 			if (this.listeCase == null) {
 				this.listeEquipe = liste;
 				this.listeCase = convertListToCase(this.listeEquipe);
-				System.out.println(this.listeCase.size());
 				this.vue.addAll(this.listeCase);
 			} else {
 				List<Equipe> differences = liste.stream()
 						.filter(element -> !this.listeEquipe.contains(element))
 						.collect(Collectors.toList());
 				List<CaseEquipe> differencesCase = convertListToCase(differences);
-
-				this.vue.addAll(differencesCase);
 				this.listeCase.addAll(differencesCase);
+				this.listeEquipe.addAll(differences);
+				this.vue.addAll(differencesCase);
 			}
 
 		} catch (Exception e) {
