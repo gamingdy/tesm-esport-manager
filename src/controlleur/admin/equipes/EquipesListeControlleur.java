@@ -84,6 +84,8 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	public void supprimerEquipe(Equipe equipe) throws Exception {
 		try {
 			daoEquipe.delete(equipe.getNom());
+			File fichierLogo = new File("assets/logo-equipes/" + equipe.getNom() + ".jpg");
+			fichierLogo.delete();
 			new JFramePopup("Suppression effectuée", "L'equipe est supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 			this.update();
 		} catch (Exception e) {
