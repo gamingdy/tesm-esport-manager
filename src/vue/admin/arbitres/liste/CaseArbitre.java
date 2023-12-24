@@ -50,7 +50,7 @@ public class CaseArbitre {
 		
 		
 		JLabel nom = new JLabel(getNom()+" "+getPrenom());
-		nom.setIconTextGap(15);
+		nom.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
 		nom.setForeground(CustomColor.BLANC);
 		nom.setFont(MaFont.getFontTitre3());
 		GridBagConstraints gbcNom = new GridBagConstraints();
@@ -63,6 +63,7 @@ public class CaseArbitre {
 
 		JLabel labelModif = new JLabel(Vue.resize(new ImageIcon("assets/modif.png"), 30, 30));
 		labelModif.setHorizontalAlignment(JLabel.RIGHT);
+		labelModif.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 		GridBagConstraints gbcModif = new GridBagConstraints();
 		gbcModif.fill = GridBagConstraints.HORIZONTAL;
 		gbcModif.gridx = 1;
@@ -75,7 +76,7 @@ public class CaseArbitre {
 		GridBagConstraints gbcDelete = new GridBagConstraints();
 		gbcDelete.fill = GridBagConstraints.HORIZONTAL;
 		gbcDelete.gridx = 2;
-		gbcDelete.gridy = 2;
+		gbcDelete.gridy = 1;
 		panelItem.add(labelDelete, gbcDelete);
 
 		return panelItem;
