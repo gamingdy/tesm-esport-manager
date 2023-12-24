@@ -50,7 +50,6 @@ public class VueAdminArbitresListe extends JPanel {
 
 		JScrollPane sp = new JScrollPane(list);
 		sp.setBackground(CustomColor.BACKGROUND_MAIN);
-		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		sp.getVerticalScrollBar().setUnitIncrement(15);
 		sp.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 
