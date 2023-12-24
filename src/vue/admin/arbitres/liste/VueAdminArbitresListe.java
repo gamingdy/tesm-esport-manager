@@ -42,7 +42,7 @@ public class VueAdminArbitresListe extends JPanel {
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 		JPanel j;
-		for (int i = 0; i<6;i++) {
+		for (int i = 0; i<7;i++) {
 			j = new JPanel();
 			j.setOpaque(false);
 			list.add(j);
@@ -50,6 +50,7 @@ public class VueAdminArbitresListe extends JPanel {
 
 		JScrollPane sp = new JScrollPane(list);
 		sp.setBackground(CustomColor.BACKGROUND_MAIN);
+		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		sp.getVerticalScrollBar().setUnitIncrement(15);
 		sp.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 
@@ -107,7 +108,7 @@ public class VueAdminArbitresListe extends JPanel {
 	}
 	
 	public void add(CaseArbitre c) {
-		if (nbCases < 6) {
+		if (nbCases < 7) {
 			list.remove(nbCases);
 		}
 		list.add(c.getPanel(),nbCases);
