@@ -40,7 +40,7 @@ public class CaseArbitre {
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
 				BorderFactory.createEmptyBorder(20, 20, 20, 20)));
 
-		JLabel icone = new JLabel(new ImageIcon("assets/grandUser.png"));
+		JLabel icone = new JLabel(new ImageIcon("assets/petitUser.png"));
 		GridBagConstraints gbcIcone = new GridBagConstraints();
 		gbcIcone.fill = GridBagConstraints.HORIZONTAL;
 		gbcIcone.gridx = 0;
