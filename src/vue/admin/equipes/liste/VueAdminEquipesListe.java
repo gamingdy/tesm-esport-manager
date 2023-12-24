@@ -43,7 +43,7 @@ public class VueAdminEquipesListe extends JPanel {
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 		
 		JPanel j;
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			j = new JPanel();
 			j.setOpaque(false);
 			list.add(j);
