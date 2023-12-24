@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import vue.Vue;
 import vue.common.CustomColor;
@@ -49,8 +50,11 @@ public class CaseArbitre {
 		panelItem.add(icone, gbcIcone);
 		
 		
-		JLabel nom = new JLabel(getNom()+" "+getPrenom());
+		JTextArea nom = new JTextArea(getNom()+" "+getPrenom());
 		nom.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
+		nom.setLineWrap(true);
+		nom.setWrapStyleWord(true);
+		nom.setOpaque(false);
 		nom.setForeground(CustomColor.BLANC);
 		nom.setFont(MaFont.getFontTitre3());
 		GridBagConstraints gbcNom = new GridBagConstraints();
