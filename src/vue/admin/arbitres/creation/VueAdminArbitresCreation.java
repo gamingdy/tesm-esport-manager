@@ -190,7 +190,7 @@ public class VueAdminArbitresCreation extends JPanel {
 				nom.setForeground(CustomColor.BLANC);
 				nom.setFont(MaFont.getFontTitre3());
 				panelItem.add(nom);
-				JLabel date = new JLabel(value.getNom());
+				JLabel date = new JLabel(value.getDateDébut()+"  "+value.getDateFin());
 				date.setForeground(CustomColor.BLANC.darker());
 				date.setFont(MaFont.getFontTitre4());
 				panelItem.add(date);
@@ -250,7 +250,6 @@ public class VueAdminArbitresCreation extends JPanel {
 	public void clearField() {
 		this.textfieldNom.setText("");
 		this.textfieldPrenom.setText("");
-		this.resetTournois();
 		resetTournois();
 
 	}
