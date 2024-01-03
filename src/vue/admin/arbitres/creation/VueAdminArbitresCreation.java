@@ -255,7 +255,7 @@ public class VueAdminArbitresCreation extends JPanel {
 	}
 
 	private void resetTournois() {
-		model = new DefaultListModel<LigneTournoi>();
+		model.removeAllElements();
 	}
 
 	public String getNomEquipe() {
