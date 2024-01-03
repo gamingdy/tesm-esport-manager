@@ -3,8 +3,10 @@ package controlleur.admin.tournois;
 import controlleur.ControlleurObserver;
 import dao.Connexion;
 import dao.DaoTournoi;
+import modele.Arbitre;
 import modele.Tournoi;
 import vue.Page;
+import vue.admin.arbitres.liste.CaseArbitre;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
 import vue.common.JFramePopup;
@@ -13,14 +15,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TournoisListeControlleur implements ActionListener, ControlleurObserver {
-	private VueAdminTournoisListe vueAdminTournoisListe;
+	private VueAdminTournoisListe vue;
 	private DaoTournoi daoTournoi;
 	private Connexion c;
+	private List<Tournoi> listeTournois;
+	private List<CaseTournoi> listeCase;
 
 	public TournoisListeControlleur(VueAdminTournoisListe newVue) {
-		this.vueAdminTournoisListe = newVue;
+		this.vue = newVue;
 		this.c = Connexion.getConnexion();
 		daoTournoi = new DaoTournoi(c);
 		this.update();
@@ -30,10 +35,22 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 	public void update() {
 		try {
 			List<Tournoi> liste = daoTournoi.getAll();
-			List<CaseTournoi> listeCase = convertListToCase(liste);
-			this.vueAdminTournoisListe.addAll(listeCase);
-		} catch (Exception e) {
 
+			if (this.listeCase == null) {
+				this.listeTournois = liste;
+				this.listeCase = convertListToCase(this.listeTournois);
+				this.vue.addAll(this.listeCase);
+			} else {
+				List<Tournoi> differences = liste.stream()
+						.filter(element -> !this.listeTournois.contains(element))
+						.collect(Collectors.toList());
+				List<CaseTournoi> differencesCase = convertListToCase(differences);
+				this.listeCase.addAll(differencesCase);
+				this.listeTournois.addAll(differences);
+				this.vue.addAll(differencesCase);
+			}
+
+		} catch (Exception e) {
 		}
 
 	}
@@ -50,7 +67,7 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == this.vueAdminTournoisListe.getBoutonAjouter()) {
+		if (e.getSource() == this.vue.getBoutonAjouter()) {
 			TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
 		}
 	}
