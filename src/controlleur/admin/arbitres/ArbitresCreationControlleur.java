@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ArbitresCreationControlleur implements ActionListener, MouseListener {
@@ -61,7 +62,9 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 				}
 				try {
 					daoArbitre.add(arbitre);
-					addTournoisBdd(listeTournoi, arbitre);
+					if(!listeTournoi.isEmpty()){
+						addTournoisBdd(listeTournoi, arbitre);
+					}
 					new JFramePopup("Succès", "Arbitre ajouté", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
 					resetChamps();
 				} catch (Exception exceptionInsertion) {
@@ -79,7 +82,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 
 	public void resetChamps() {
 		this.vue.clearField();
-		this.listeTournoi = null;
+		this.listeTournoi.clear();
 	}
 
 	@Override
