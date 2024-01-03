@@ -34,7 +34,6 @@ public class ESporterManagerInitBDD {
 	public static void main(String[] args) throws Exception {
 
 		Connexion c = Connexion.getConnexion();
-	   /*
 		try {
 			DBSuppression.main(c);
 		} catch (SQLException e) {
@@ -45,7 +44,7 @@ public class ESporterManagerInitBDD {
 			DBGeneration.main(c);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
-		}*/
+		}
 
 		DaoTournoi daoTournoi = new DaoTournoi(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
@@ -170,7 +169,7 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 		*/
-		 
+
 		
 	}
 
