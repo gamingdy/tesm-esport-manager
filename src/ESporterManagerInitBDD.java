@@ -34,7 +34,7 @@ public class ESporterManagerInitBDD {
 	public static void main(String[] args) throws Exception {
 
 		Connexion c = Connexion.getConnexion();
-
+	   /*
 		try {
 			DBSuppression.main(c);
 		} catch (SQLException e) {
@@ -45,7 +45,7 @@ public class ESporterManagerInitBDD {
 			DBGeneration.main(c);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
-		}
+		}*/
 
 		DaoTournoi daoTournoi = new DaoTournoi(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
@@ -64,30 +64,31 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		Saison saison = new Saison(2023);
+		Saison saison = new Saison(2024);
 		try {
 			daoSaison.add(saison);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		CustomDate debutTournoi = new CustomDate(2023, 12, 1);
-		CustomDate fin = new CustomDate(2023, 12, 30);
+		CustomDate debutTournoi = new CustomDate(2024, 12, 1);
+		CustomDate fin = new CustomDate(2024, 12, 30);
 		Tournoi tournoi = new Tournoi(saison, "RLCS", debutTournoi, fin, Niveau.LOCAL, new CompteArbitre("arbitre", "rlcs"));
 		try {
 			daoTournoi.add(tournoi);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+		/*
 		Optional<Tournoi> tournoiOptional = daoTournoi.getTournoiActuel();
 
 		if (tournoiOptional.isPresent()) {
 			tournoi = tournoiOptional.get();
-		}
+		}*/
 
 		Poule poule = new Poule(tournoi, 'A');
 
-		CustomDate debut = new CustomDate(2023, 12, 5);
-		CustomDate debut1 = new CustomDate(2023, 12, 7);
+		CustomDate debut = new CustomDate(2024, 12, 5);
+		CustomDate debut1 = new CustomDate(2024, 12, 7);
 		
 		Equipe equipe = new Equipe("terros", Pays.FRANCE);
 		Equipe equipe1 = new Equipe("lion-rouge", Pays.FRANCE);
@@ -153,7 +154,7 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 		
-		
+		/*
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
 
 
@@ -168,6 +169,8 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+		*/
+		 
 		
 	}
 
