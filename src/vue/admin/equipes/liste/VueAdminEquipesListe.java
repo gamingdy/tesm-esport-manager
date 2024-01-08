@@ -7,15 +7,6 @@ import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
 
-import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.util.LinkedList;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.List;
 
 public class VueAdminEquipesListe extends JPanel {
 
@@ -41,7 +39,7 @@ public class VueAdminEquipesListe extends JPanel {
 		list = new JPanel(new GridLayout(0, 3, 15, 15));
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-		
+
 		JPanel j;
 		for (int i = 0; i < 4; i++) {
 			j = new JPanel();
@@ -106,15 +104,16 @@ public class VueAdminEquipesListe extends JPanel {
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
 	}
-	
+
 	public void add(CaseEquipe c) {
 		if (nbCases < 3) {
 			list.remove(nbCases);
 		}
-		list.add(c.getPanel(),nbCases);
+
+		list.add(c, nbCases);
 		nbCases += 1;
 	}
-	
+
 
 	public void addAll(List<CaseEquipe> c) {
 		c.stream().forEach(this::add);
