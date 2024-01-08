@@ -14,10 +14,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.util.Arrays;
+import java.util.Collection;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -312,45 +314,45 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.modelJoueurs.clear();
 		this.modelSaisons.clear();
 	}
+	
+	public void setNom(String nom) {
+		this.textfieldNom.setText(nom);
+	}
+	
+	public void setPays(Pays pays) {
+		this.comboboxPays.setSelectedItem(pays);
+	}
+	
+	public void setWorldRank(int wr) {
+		this.textfieldWR.setText(""+wr);
+	}
+	
+	public void setLogo(Icon logo) {
+		this.labelLogo.setIcon(logo);
+	}
+	
+	public void setJoueurs(Collection<String> joueurs) {
+		this.modelJoueurs.removeAllElements();
+		joueurs.stream().forEach(s -> modelJoueurs.addElement(s));
+	}
+	
+	public void setSaisons(Collection<Integer> saisons) {
+		this.modelSaisons.removeAllElements();
+		saisons.stream().forEach(s -> modelSaisons.addElement(""+s));
+	}
 
 	public JComboBox<Pays> getComboboxPays() {
 		return this.comboboxPays;
 	}
 	
-	public JTextField getNomEquipe() {
-		return this.textfieldNom;
-	}
-
 	public JLabel getLabelLogo() {
 		return this.labelLogo;
-	}
-	
-	public JTextField getLabelWorldRank() {
-		return this.textfieldWR;
-	}
-
-	/**
-	 * Set le nom d'un joueur
-	 *
-	 * @param nom nom du joueur
-	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
-	 */
-	public void setJoueur(String nom, int i) {
-		modelJoueurs.setElementAt(nom,i);
 	}
 	
 	public void addSaison(int annee) {
 		modelSaisons.addElement(""+annee);
 	}
 	
-	public Object[] getSaisons() {
-		return modelSaisons.toArray();
-	}
-	
-	public Object[] getJoueurs() {
-		return modelJoueurs.toArray();
-	}
-
 	public JLabel getbtnAjoutJoueurs() {
 		return this.btnAjoutJoueurs;
 	}
