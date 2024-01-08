@@ -42,11 +42,9 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 		new JFramePopupSuppressionEquipe("Choisissez votre action", "Vous voulez la supprimer de la saison ou de l'equipe ?",
 				() -> {
 					supprimerEquipeSaison();
-					new JFramePopup("Suppression effectuée", "L'equipe est supprimée de la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 					this.update();
 				},
 				() -> {
-
 					supprimerEquipeDefinitivement();
 					EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 				}
@@ -78,37 +76,41 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 
 	public void supprimerEquipeSaison() {
 		try {
-			System.out.println("j'essaye de supp de la saison");
 			Equipe equipe = this.daoEquipe.getById(caseEquipe.getNom()).get();
+
 			if (isEquipeDansTournoiSaisonActuelle(equipe)) {
 				new JFramePopup("Erreur", "L'equipe est inscrite dans un tournoi", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 			} else {
 				if (isEquipeInscriteSaisonActuelle(equipe)) {
 					saison = daoSaison.getLastSaison();
 					daoInscription.delete(saison.getAnnee(), equipe.getNom());
-
+					new JFramePopup("Erreur", "L'equipe a été supprimé de la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 				} else {
 					new JFramePopup("Erreur", "L'equipe n'est pas inscrite dans la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 				}
 			}
-			new JFramePopup("Erreur", "L'equipe n'est pas inscrite dans la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+
 
 		} catch (Exception e) {
-
+			System.out.println(e.getMessage());
 		}
 
 	}
 
 	private boolean isEquipeInscriteSaisonActuelle(Equipe equipe) throws Exception {
 		saison = daoSaison.getLastSaison();
-		List<Saison> listeSaison = daoInscription.getSaisonByEquipe(equipe);
+		System.out.println("Last saison : " + saison.getAnnee());
+		List<Saison> listeSaison = daoInscription.getSaisonByEquipe(equipe.getNom());
+		System.out.println("NB saison : " + listeSaison.size());
 		return listeSaison.contains(saison);
 	}
 
 	private boolean isEquipeDansTournoiSaisonActuelle(Equipe equipe) throws SQLException, Exception {
 		saison = daoSaison.getLastSaison();
+		System.out.println("Last saison tournoi : " + saison.getAnnee());
 		Inscription inscription = new Inscription(saison, equipe);
 		List<Tournoi> listeTournoisJoue = daoAppartenance.getTournoiByEquipeForSaison(inscription);
+		System.out.println("NB tournois joue : " + listeTournoisJoue.size());
 		return !listeTournoisJoue.isEmpty();
 	}
 
