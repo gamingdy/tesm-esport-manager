@@ -2,9 +2,11 @@ package vue.admin.tournois.creation;
 
 import controlleur.admin.tournois.TournoiCréationControlleur;
 import modele.Niveau;
+import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
+import vue.common.CustomComboBox;
 
 import java.util.List;
 import java.awt.Component;
@@ -108,17 +110,21 @@ public class VueAdminTournoisCreation extends JPanel {
 		DefaultComboBoxModel<Niveau> modelNiveaux = new DefaultComboBoxModel<Niveau>();
 		modelNiveaux.addElement(null);
 		Arrays.stream(Niveau.values()).forEach(p -> modelNiveaux.addElement(p));
-		comboboxNiveaux = new JComboBox<Niveau>(modelNiveaux);
-		comboboxNiveaux.setRenderer(new ListCellRenderer<Niveau>() {
+		comboboxNiveaux = new CustomComboBox<Niveau>(modelNiveaux);
+		comboboxNiveaux.setRenderer(new javax.swing.ListCellRenderer<Niveau>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Niveau> list, Niveau value, int index,
 														  boolean isSelected, boolean cellHasFocus) {
 				JLabel panel = new JLabel();
+				panel.setOpaque(true);
 				if (value != null) {
 					panel.setText(value.getNom());
 				} else {
 					panel.setText("Choissez le niveau du tournoi");
 				}
+				panel.setForeground(CustomColor.BLANC);
+				panel.setBackground(CustomColor.BACKGROUND_MAIN);
+				panel.setFocusable(false);
 				return panel;
 			}
 		});
