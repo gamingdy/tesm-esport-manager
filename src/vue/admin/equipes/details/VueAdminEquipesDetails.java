@@ -162,7 +162,6 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelTop.add(panelJoueurs);
 
 		JLabel labelJoueurs = new JLabel("Joueurs");
-		labelJoueurs.setPreferredSize(new Dimension());
 		labelJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre2());
