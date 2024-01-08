@@ -40,9 +40,9 @@ public class VueAdminArbitresListe extends JPanel {
 		list = new JPanel(new GridLayout(0, 3, 15, 15));
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
+		
 		JPanel j;
-		for (int i = 0; i<7;i++) {
+		for (int i = 0; i < 7; i++) {
 			j = new JPanel();
 			j.setOpaque(false);
 			list.add(j);
