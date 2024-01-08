@@ -20,9 +20,8 @@ public class EquipeCaseModificationControlleur extends MouseAdapter {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (editing) {
-			System.out.println("Clique sur le bouton modifié de la case " + this.caseEquipe.getNom());
+			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_DETAILS, this.caseEquipe.getNom(), true);
 		} else {
-			System.out.println("Clique sur la case " + this.caseEquipe.getNom());
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_DETAILS, this.caseEquipe.getNom(), false);
 		}
 	}

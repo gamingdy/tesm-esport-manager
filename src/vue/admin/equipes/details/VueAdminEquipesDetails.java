@@ -1,6 +1,7 @@
 package vue.admin.equipes.details;
 
 import controlleur.admin.equipes.EquipeCreationControlleur;
+import controlleur.admin.equipes.EquipeModificationControlleur;
 import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
@@ -284,7 +285,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		boutonValider.setForeground(CustomColor.BLANC);
 		boutonValider.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonValider);
-
+		setControleur(new EquipeModificationControlleur(this));
 	}
 
 	/**
@@ -292,13 +293,17 @@ public class VueAdminEquipesDetails extends JPanel {
 	 *
 	 * @param controleur
 	 */
-	public void setControleur(EquipeCreationControlleur controleur) {
+	public void setControleur(EquipeModificationControlleur controleur) {
 		this.comboboxPays.addItemListener(controleur);
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.labelLogo.addMouseListener(controleur);
 	}
 
+	public void removeControleur(EquipeModificationControlleur controlleur) {
+		this.comboboxPays.removeItemListener(controlleur);
+		this.labelLogo.removeMouseListener(controlleur);
+	}
 
 	public void clearField() {
 		this.textfieldNom.setText("");
@@ -327,6 +332,14 @@ public class VueAdminEquipesDetails extends JPanel {
 
 	public void setWorldRank(int wr) {
 		this.textfieldWR.setText("" + wr);
+	}
+
+	public JButton getBoutonValider() {
+		return this.boutonValider;
+	}
+
+	public JButton getBoutonAnnuler() {
+		return this.boutonAnnuler;
 	}
 
 	public JTextField getChampWorldRank() {
