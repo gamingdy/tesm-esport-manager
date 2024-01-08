@@ -16,6 +16,7 @@ import dao.DaoPartie;
 import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
+import dao.FactoryDAO;
 import modele.Appartenance;
 import modele.Categorie;
 import modele.CompteArbitre;
@@ -153,10 +154,8 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 		
-		/*
+		
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
-
-
 		Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
 		Partie partie1 = new Partie(matche, 1);
 		Partie partie2 = new Partie(matche1, 1);
@@ -168,7 +167,7 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		*/
+		
 
 		
 	}

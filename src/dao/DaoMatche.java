@@ -39,7 +39,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Matche("
-				+ "Id_Match INT NOT NULL,"
+				+ "Id_Match INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
 				+ "categorie VARCHAR(50),"
 				+ "Nombres_Parties_Max INT,"
 				+ "Date_Matche_Debut DATE,"
@@ -133,8 +133,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 						+ "Nom_Equipe1,"
 						+ "Nom_Equipe2,"
 						+ "Annee,"
-						+ "Nom_Tournoi,"
-						+ "Id_Match) values (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+						+ "Nom_Tournoi) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
 			add.setString(1, value.getCategorie().name());
 			add.setInt(2, value.getNombreMaxParties());
 			add.setTimestamp(3, value.getDateDebutMatche().toSQL());
@@ -142,8 +141,9 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			add.setString(5, value.getEquipe2().getNom());
 			add.setInt(6, value.getTournoi().getSaison().getAnnee());
 			add.setString(7, value.getTournoi().getNom());
-			add.setInt(8, value.getId());
-			return add.execute();		
+			boolean execute = add.execute();
+			value.setId(getLastId());
+			return execute;		
 		}
 	}
 

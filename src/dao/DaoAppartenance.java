@@ -246,7 +246,7 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 			ResultSet resultat = getTournoiByEquipeForSaison.executeQuery();
 			List<Tournoi> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"),resultat.getInt("Annee")).get());
+				sortie.add(daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")).get());
 			}
 			return sortie;
 		}
