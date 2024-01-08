@@ -310,26 +310,23 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.labelLogo.setIcon(null);
 		this.comboboxPays.setSelectedItem(null);
 		this.modelJoueurs.clear();
-
+		this.modelSaisons.clear();
 	}
 
 	public JComboBox<Pays> getComboboxPays() {
 		return this.comboboxPays;
 	}
-
-	public String getChampPaysEquipe() {
-		if (this.comboboxPays.getSelectedItem() != null) {
-			return this.comboboxPays.getSelectedItem().toString();
-		}
-		return null;
-	}
-
-	public String getNomEquipe() {
-		return this.textfieldNom.getText();
+	
+	public JTextField getNomEquipe() {
+		return this.textfieldNom;
 	}
 
 	public JLabel getLabelLogo() {
 		return this.labelLogo;
+	}
+	
+	public JTextField getLabelWorldRank() {
+		return this.textfieldWR;
 	}
 
 	/**
@@ -339,9 +336,17 @@ public class VueAdminEquipesDetails extends JPanel {
 	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
 	 */
 	public void setJoueur(String nom, int i) {
-		modelJoueurs.addElement(nom);
+		modelJoueurs.setElementAt(nom,i);
 	}
-
+	
+	public void addSaison(int annee) {
+		modelSaisons.addElement(""+annee);
+	}
+	
+	public Object[] getSaisons() {
+		return modelSaisons.toArray();
+	}
+	
 	public Object[] getJoueurs() {
 		return modelJoueurs.toArray();
 	}
@@ -350,8 +355,8 @@ public class VueAdminEquipesDetails extends JPanel {
 		return this.btnAjoutJoueurs;
 	}
 
-	public void activerBoutonAjoutJoueur(boolean b) {
-		btnAjoutJoueurs.setEnabled(b);
+	public JLabel getbtnAjoutSaisons() {
+		return this.btnAjoutSaisons;
 	}
 }
 
