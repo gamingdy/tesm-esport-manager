@@ -72,7 +72,10 @@ public class PopupEquipe extends JFrame {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
 					boolean isSelected, boolean cellHasFocus) {
+				if (value != null) {
 				return new JLabel(value.getNom());
+				}
+				return new JLabel("");
 			}
 			
 		});
