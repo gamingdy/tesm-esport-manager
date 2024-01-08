@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.DateTimeException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private List<Equipe> listeEquipe;
 
 	private PopupEquipe popupAjoutEquipe;
+	private DaoInscription daoInscription;
 
 	public TournoiCréationControlleur(VueAdminTournoisCreation newVue) {
 		this.vue = newVue;
@@ -40,11 +42,15 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		daoEquipe = new DaoEquipe(c);
 		daoPoule = new DaoPoule(c);
 		daoAppartenance = new DaoAppartenance(c);
+		daoInscription = new DaoInscription(c);
 		try {
 			saison = daoSaison.getLastSaison();
-			listeEquipe = daoEquipe.getAll();
+			listeEquipe = daoInscription.getEquipeBySaison(saison);
+            if (listeEquipe.isEmpty()) {
+                listeEquipe = new ArrayList<>();
+            }
 		} catch (Exception e) {
-
+            listeEquipe = new ArrayList<>();
 		}
 
 	}
