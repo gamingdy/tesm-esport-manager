@@ -74,13 +74,18 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 		try(Statement getAll = connexion.getConnection().createStatement()){
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Appartenance");
 			List<Appartenance> sortie = new ArrayList<>();
-			while(resultat.next()) {
-				Appartenance appartenance = new Appartenance(
-						daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
-						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")).get());
-				sortie.add(appartenance);
-			}
+			generateListAppartenance(resultat, sortie);
 			return sortie;
+		}
+	}
+
+	private void generateListAppartenance(ResultSet resultat, List<Appartenance> sortie)
+			throws SQLException, Exception {
+		while(resultat.next()) {
+			Appartenance appartenance = new Appartenance(
+					daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
+					daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")).get());
+			sortie.add(appartenance);
 		}
 	}
 
@@ -98,13 +103,19 @@ public class DaoAppartenance implements Dao<Appartenance,Object>{
 
 			ResultSet resultat = getById.executeQuery();
 			Appartenance appartenance = null;
-			if (resultat.next()) {
-				appartenance = new Appartenance(
-						daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
-						daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")).get());
-			}
+			appartenance = findAppartenance(resultat, appartenance);
 			return Optional.ofNullable(appartenance);
 		}
+	}
+
+	private Appartenance findAppartenance(ResultSet resultat, Appartenance appartenance)
+			throws SQLException, Exception {
+		if (resultat.next()) {
+			appartenance = new Appartenance(
+					daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
+					daopoule.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi"),resultat.getString("Libelle")).get());
+		}
+		return appartenance;
 	}
 
 	/**
