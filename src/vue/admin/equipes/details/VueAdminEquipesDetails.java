@@ -233,7 +233,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		btnAjoutSaisons = new JLabel("Ajouter à la saison actuelle");
 		btnAjoutSaisons.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createEmptyBorder(20, 0, 0, 20),
-				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,2)));
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2)));
 		btnAjoutSaisons.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutSaisons.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAjoutSaisons.setFont(MaFont.getFontTitre3());
@@ -321,16 +321,33 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.textfieldNom.setText(nom);
 	}
 
+	public JTextField getNom() {
+		return this.textfieldNom;
+	}
+
 	public void setPays(Pays pays) {
 		this.comboboxPays.setSelectedItem(pays);
+	}
+
+	public JComboBox<Pays> getComboboxPays() {
+		return this.comboboxPays;
 	}
 
 	public void setWorldRank(int wr) {
 		this.textfieldWR.setText("" + wr);
 	}
 
+
+	public JTextField getWorldRank() {
+		return this.textfieldWR;
+	}
+
 	public void setLogo(Icon logo) {
 		this.labelLogo.setIcon(logo);
+	}
+
+	public JLabel getLabelLogo() {
+		return this.labelLogo;
 	}
 
 	public void setJoueurs(List<String> joueurs) {
@@ -341,14 +358,6 @@ public class VueAdminEquipesDetails extends JPanel {
 	public void setSaisons(List<Integer> saisons) {
 		this.modelSaisons.removeAllElements();
 		saisons.forEach(s -> modelSaisons.addElement("" + s));
-	}
-
-	public JComboBox<Pays> getComboboxPays() {
-		return this.comboboxPays;
-	}
-
-	public JLabel getLabelLogo() {
-		return this.labelLogo;
 	}
 
 	public void addSaison(int annee) {
