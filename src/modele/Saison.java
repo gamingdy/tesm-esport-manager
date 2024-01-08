@@ -1,13 +1,13 @@
 package modele;
 
 
+import exceptions.EquipeInexistanteException;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
-import exceptions.EquipeInexistanteException;
 
 public class Saison {
 
@@ -69,6 +69,15 @@ public class Saison {
 	@Override
 	public String toString() {
 		return "Saison [annee=" + annee + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Saison) {
+			Saison saison = (Saison) obj;
+			return this.annee == saison.getAnnee();
+		}
+		return false;
 	}
 
 	public void addTournoi(Tournoi tournoi) {

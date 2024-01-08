@@ -147,7 +147,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 	}
 
 	public List<Poule> getPouleByTournoi(Tournoi tournoi) throws Exception {
-		try (PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
+		try(PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
 				+ "SELECT * "
 				+ "FROM Poule "
 				+ "WHERE Annee = ? "

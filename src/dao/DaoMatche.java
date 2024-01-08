@@ -39,7 +39,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Matche("
-				+ "Id_Match INT NOT NULL,"
+				+ "Id_Match INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
 				+ "categorie VARCHAR(50),"
 				+ "Nombres_Parties_Max INT,"
 				+ "Date_Matche_Debut DATE,"
@@ -81,17 +81,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 		try (Statement getAll = connexion.getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Matche");
 			List<Matche> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				Matche matche = new Matche(
-						resultat.getInt("Nombres_Parties_Max"),
-						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
-						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
-						matche.setId(resultat.getInt("Id_Match"));
-				sortie.add(matche);
-			}
+			generateListMatche(resultat, sortie);
 			return sortie;
 		}
 	}
@@ -106,16 +96,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
 			Matche matche = null;
-			if (resultat.next()) {
-				matche = new Matche(
-						resultat.getInt("Nombres_Parties_Max"),
-						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
-						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
-						matche.setId(resultat.getInt("Id_Match"));
-			}
+			matche = findMatche(resultat, matche);
 			return Optional.ofNullable(matche);
 		}
 	}
@@ -133,8 +114,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 						+ "Nom_Equipe1,"
 						+ "Nom_Equipe2,"
 						+ "Annee,"
-						+ "Nom_Tournoi,"
-						+ "Id_Match) values (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+						+ "Nom_Tournoi) values (?,?,?,?,?,?,?)")) {
 			add.setString(1, value.getCategorie().name());
 			add.setInt(2, value.getNombreMaxParties());
 			add.setTimestamp(3, value.getDateDebutMatche().toSQL());
@@ -142,7 +122,6 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			add.setString(5, value.getEquipe2().getNom());
 			add.setInt(6, value.getTournoi().getSaison().getAnnee());
 			add.setString(7, value.getTournoi().getNom());
-			add.setInt(8, value.getId());
 			return add.execute();		
 		}
 	}
@@ -200,32 +179,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			getMatchByTournoi.setString(2, (String) value[1]);
 			ResultSet resultat = getMatchByTournoi.executeQuery();
 			List<Matche> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				Matche matche = new Matche(
-						resultat.getInt("Nombres_Parties_Max"),
-						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
-						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
-						matche.setId(resultat.getInt("Id_Match"));
-				sortie.add(matche);
-			}
-			return sortie;
-		}
-	}
-	
-	public Integer getLastId() throws SQLException {
-		try(PreparedStatement getLastId = connexion.getConnection().prepareStatement(
-				"SELECT Id_Match "
-						+ "FROM Matche "
-						+ "ORDER BY Id_Match DESC "
-						+ "FETCH FIRST 1 ROW ONLY")) {
-			ResultSet resultat = getLastId.executeQuery();
-			Integer sortie = null;
-			if (resultat.next()) {
-				sortie = resultat.getInt("Id_Match");
-			}
+			generateListMatche(resultat, sortie);
 			return sortie;
 		}
 	}
@@ -263,17 +217,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			getMatchesFromCategorie.setString(3, tournoi.getNom());
 			ResultSet resultat = getMatchesFromCategorie.executeQuery();
 			List<Matche> sortie = new ArrayList<>();
-			while(resultat.next()) {
-				Matche matche = new Matche(
-						resultat.getInt("Nombres_Parties_Max"),
-						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
-						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
-						matche.setId(resultat.getInt("Id_Match"));
-				sortie.add(matche);
-			}
+			generateListMatche(resultat, sortie);
 			return sortie;
 		}
 	}
@@ -288,20 +232,11 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			getMatchByEquipe.setString(2, equipe.getNom());
 			ResultSet resultat = getMatchByEquipe.executeQuery();
 			List<Matche> sortie = new LinkedList<>();
-			while(resultat.next()) {
-				Matche matche = new Matche(
-						resultat.getInt("Nombres_Parties_Max"),
-						new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
-						Categorie.valueOf(resultat.getString("categorie")),
-						daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
-						daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
-						daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
-						matche.setId(resultat.getInt("Id_Match"));
-				sortie.add(matche);
-			}
+			generateListMatche(resultat, sortie);
 			return sortie;
 		}
 	}
+
 	
 	@Override
 	public String visualizeTable() throws Exception {
@@ -312,6 +247,51 @@ public class DaoMatche implements Dao<Matche, Integer> {
 		}
 		s+="\n\n\n";
 		return s;
+	}
+	
+	public Integer getLastId() throws SQLException {
+		try(PreparedStatement getLastId = connexion.getConnection().prepareStatement(
+				"SELECT Id_Match "
+               + "FROM Matche "
+               + "ORDER BY Id_Projet DESC "
+               + "FETCH FIRST 1 ROW ONLY")) {
+			ResultSet resultat = getLastId.executeQuery();
+			Integer sortie = null;
+			if (resultat.next()) {
+				sortie = resultat.getInt("Id_Match");
+			}
+			return sortie;
+		}
+	}
+	
+	private void generateListMatche(ResultSet resultat, List<Matche> sortie)
+			throws SQLException, FausseDateException, MemeEquipeException, Exception {
+		while(resultat.next()) {
+			Matche matche = new Matche(
+					resultat.getInt("Nombres_Parties_Max"),
+					new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
+					Categorie.valueOf(resultat.getString("categorie")),
+					daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
+					daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
+					daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
+					matche.setId(resultat.getInt("Id_Match"));
+			sortie.add(matche);
+		}
+	}
+	
+	private Matche findMatche(ResultSet resultat, Matche matche)
+			throws SQLException, FausseDateException, MemeEquipeException, Exception {
+		if (resultat.next()) {
+			matche = new Matche(
+					resultat.getInt("Nombres_Parties_Max"),
+					new CustomDate(resultat.getTimestamp("Date_Matche_Debut")),
+					Categorie.valueOf(resultat.getString("categorie")),
+					daoequipe.getById(resultat.getString("Nom_Equipe1")).get(),
+					daoequipe.getById(resultat.getString("Nom_Equipe2")).get(),
+					daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
+					matche.setId(resultat.getInt("Id_Match"));
+		}
+		return matche;
 	}
 }
 

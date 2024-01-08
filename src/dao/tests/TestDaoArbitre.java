@@ -15,7 +15,7 @@ public class TestDaoArbitre extends TestDao{
 
 	public TestDaoArbitre() throws SQLException {
 		super();
-		a = new Arbitre("Brando","Titouan");
+		
 	}
 	
 	public void testInsert() throws Exception {
@@ -24,13 +24,13 @@ public class TestDaoArbitre extends TestDao{
 	}
 	
 	public void testDelete() throws Exception {
-		FactoryDAO.getDaoAbritre(getC()).delete(FactoryDAO.getDaoAbritre(getC()).getLastId());
+		FactoryDAO.getDaoAbritre(getC()).delete("Brando","Titouan",0606060606);
 		System.out.println(FactoryDAO.getDaoAbritre(getC()).visualizeTable());
 		FactoryDAO.getDaoAbritre(super.getC()).add(a);
 	}
 	
 	public void testUpdate() throws Exception {
-		Optional<Arbitre> b = FactoryDAO.getDaoAbritre(getC()).getById(FactoryDAO.getDaoAbritre(getC()).getLastId());
+		Optional<Arbitre> b = FactoryDAO.getDaoAbritre(getC()).getById("Brando","Titouan",0606060606);
 		b.get().setNom(randomUsername("Pelletier"));
 		b.get().setPrenom(randomUsername("Alex"));
 		FactoryDAO.getDaoAbritre(getC()).update(b.get());
@@ -39,9 +39,16 @@ public class TestDaoArbitre extends TestDao{
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoArbitre x = new TestDaoArbitre();
+		x.setup();
 		x.testInsert();
 		x.testDelete();
 		x.testUpdate();
+		
+	}
+
+	@Override
+	public void setup() throws SQLException {
+		a = new Arbitre("Brando","Titouan",0606060606);
 		
 	}
 }

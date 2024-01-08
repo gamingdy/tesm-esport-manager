@@ -15,7 +15,7 @@ public class Partie {
 	}
 
 	public Partie(Matche matche, int numeroPartie) throws IllegalArgumentException {
-		if (numeroPartie <= 0) {
+		if (numeroPartie < 0) {
 			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
 		}
 		this.numeroPartie = numeroPartie;

@@ -3,6 +3,7 @@ package modele.test;
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
+import modele.*;
 import org.junit.Before;
 import org.junit.Test;
 

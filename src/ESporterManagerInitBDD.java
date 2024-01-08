@@ -1,11 +1,36 @@
+import dao.Connexion;
+import dao.DBGeneration;
+import dao.DBSuppression;
+import dao.DaoAppartenance;
+import dao.DaoEquipe;
+import dao.DaoInscription;
+import dao.DaoJoueur;
+import dao.DaoMatche;
+import dao.DaoNiveau;
+import dao.DaoPartie;
+import dao.DaoPoule;
+import dao.DaoSaison;
+import dao.DaoTournoi;
+import modele.Appartenance;
+import modele.Categorie;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Inscription;
+import modele.Joueur;
+import modele.Matche;
+import modele.Niveau;
+import modele.Partie;
+import modele.Pays;
+import modele.Poule;
+import modele.Saison;
+import modele.Tournoi;
+
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Optional;
+import java.util.List;
 
-import dao.*;
-import modele.*;
 
 public class ESporterManagerInitBDD {
 	public static void main(String[] args) throws Exception {
@@ -151,11 +176,9 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		
-		/*
+
+
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
-
-
 		Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
 		Partie partie1 = new Partie(matche, 1);
 		Partie partie2 = new Partie(matche1, 1);
@@ -167,7 +190,6 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-		*/
 
 
 	}

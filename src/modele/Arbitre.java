@@ -1,30 +1,18 @@
 package modele;
 
-import java.sql.SQLException;
 import java.util.Objects;
-import java.util.Optional;
-
-import dao.Connexion;
-import dao.DaoArbitre;
 import exceptions.IdNotSetException;
 
 public class Arbitre implements Comparable<Arbitre> {
 	private Integer id;
 	private String nom;
 	private String prenom;
+	private Integer numeroTelephone;
 	
-	public Arbitre (String nom,String prenom) throws SQLException {
-		this(nom,prenom,new DaoArbitre(Connexion.getConnexion()).getLastId());
-	}
-
-	private Arbitre(String nom, String prenom, Integer id) {
+	public Arbitre(String nom, String prenom, Integer numeroTelephone) {
 		this.nom = nom;
 		this.prenom = prenom;
-		if (id==null) {
-			this.id=0;
-		} else {
-			this.id = id+1;
-		}
+		this.numeroTelephone = numeroTelephone;
 	}
 
 	public String getNom() {
@@ -63,9 +51,25 @@ public class Arbitre implements Comparable<Arbitre> {
 		return "Arbitre [id=" + id + ", nom=" + nom + ", prenom=" + prenom + "]";
 	}
 
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public Integer getNumeroTelephone() {
+		return numeroTelephone;
+	}
+
+	public void setNumeroTelephone(Integer numeroTelephone) {
+		this.numeroTelephone = numeroTelephone;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, nom, prenom);
+		return Objects.hash(nom, numeroTelephone, prenom);
 	}
 
 	@Override
@@ -77,14 +81,7 @@ public class Arbitre implements Comparable<Arbitre> {
 		if (getClass() != obj.getClass())
 			return false;
 		Arbitre other = (Arbitre) obj;
-		return Objects.equals(id, other.id) && Objects.equals(nom, other.nom) && Objects.equals(prenom, other.prenom);
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+		return Objects.equals(nom, other.nom) && Objects.equals(numeroTelephone, other.numeroTelephone)
+				&& Objects.equals(prenom, other.prenom);
 	}
 }
