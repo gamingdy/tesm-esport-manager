@@ -5,6 +5,7 @@ import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
+import vue.common.CustomComboBox;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -111,17 +112,21 @@ public class VueAdminEquipesDetails extends JPanel {
 		DefaultComboBoxModel<Pays> modelPays = new DefaultComboBoxModel<Pays>();
 		modelPays.addElement(null);
 		Arrays.stream(Pays.values()).forEach(p -> modelPays.addElement(p));
-		comboboxPays = new JComboBox<Pays>(modelPays);
+		comboboxPays = new CustomComboBox<Pays>(modelPays);
 		comboboxPays.setRenderer(new javax.swing.ListCellRenderer<Pays>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
 														  boolean isSelected, boolean cellHasFocus) {
 				JLabel panel = new JLabel();
+				panel.setOpaque(true);
 				if (value != null) {
 					panel.setText(value.getNom());
 				} else {
 					panel.setText("Choissez le pays de l'équipe");
 				}
+				panel.setForeground(CustomColor.BLANC);
+				panel.setBackground(CustomColor.BACKGROUND_MAIN);
+				panel.setFocusable(false);
 				return panel;
 			}
 		});
