@@ -28,6 +28,7 @@ public class VueAdminEquipesListe extends JPanel {
 	private JPanel list;
 	private JButton boutonAjouter;
 	private int nbCases = 0;
+	private JButton boutonSaison;
 
 	public VueAdminEquipesListe() {
 
@@ -69,7 +70,7 @@ public class VueAdminEquipesListe extends JPanel {
 		JTextField recherche = new JTextField();
 		panelRecherche.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelRecherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
-		recherche.setColumns(25);
+		recherche.setColumns(15);
 		recherche.setBackground(CustomColor.BACKGROUND_MENU.brighter());
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));
 		recherche.setForeground(CustomColor.BLANC);
@@ -84,6 +85,21 @@ public class VueAdminEquipesListe extends JPanel {
 		panelRecherche.add(recherche);
 
 		add(panelRecherche, gbcRecherche);
+		
+		boutonSaison = new JButton("Toutes les équipes");
+		boutonSaison.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		boutonSaison.setBackground(CustomColor.BACKGROUND_MENU.brighter());
+		boutonSaison.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
+		boutonSaison.setForeground(CustomColor.BLANC);
+		boutonSaison.setFont(MaFont.getFontTitre4());
+		boutonSaison.setFocusPainted(false);
+		GridBagConstraints gbcBtnSaisons = new GridBagConstraints();
+		gbcBtnSaisons.fill = GridBagConstraints.NONE;
+		gbcBtnSaisons.gridx = 1;
+		gbcBtnSaisons.gridy = 0;
+		gbcBtnSaisons.weightx = 0.15F;
+		gbcBtnSaisons.weighty = 0.2F;
+		add(boutonSaison, gbcBtnSaisons);
 
 		boutonAjouter = new JButton("Ajouter");
 		boutonAjouter.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -98,9 +114,9 @@ public class VueAdminEquipesListe extends JPanel {
 		boutonAjouter.setFont(MaFont.getFontTitre4());
 		GridBagConstraints gbcBtnAjt = new GridBagConstraints();
 		gbcBtnAjt.fill = GridBagConstraints.NONE;
-		gbcBtnAjt.gridx = 1;
+		gbcBtnAjt.gridx = 2;
 		gbcBtnAjt.gridy = 0;
-		gbcBtnAjt.weightx = 0.4F;
+		gbcBtnAjt.weightx = 0.15F;
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
 	}
