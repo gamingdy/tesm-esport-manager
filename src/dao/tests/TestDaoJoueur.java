@@ -22,11 +22,7 @@ public class TestDaoJoueur extends TestDao {
 
 	public TestDaoJoueur() throws EquipeCompleteException, JoueurException, Exception {
 		super();
-		j1 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
-		j2 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
-		j3 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
-		j4 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
-		j5 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());	
+		
 	}
 	
 	public void testInsert() throws Exception {
@@ -61,6 +57,7 @@ public class TestDaoJoueur extends TestDao {
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoJoueur x = new TestDaoJoueur();
+		x.setup();
 		System.out.println("___________Test 1____________");
 		x.testInsert();
 		System.out.println("___________Test 2____________");
@@ -69,6 +66,16 @@ public class TestDaoJoueur extends TestDao {
 		x.testUpdate();
 		System.out.println("___________Test 4____________");
 		x.testGetJoueurParEquipe();
+		
+	}
+
+	@Override
+	public void setup() throws Exception {
+		j1 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
+		j2 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
+		j3 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
+		j4 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
+		j5 = new Joueur(super.randomUsername(nom),FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());	
 		
 	}	
 }

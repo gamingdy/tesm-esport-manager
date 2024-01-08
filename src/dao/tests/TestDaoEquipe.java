@@ -16,11 +16,7 @@ public class TestDaoEquipe extends TestDao {
 	
 	public TestDaoEquipe() {
 		super();
-		equipe = new Equipe("Bienveillance",Pays.REPUBLIQUE_DEMOCRATIQUE_DU_CONGO);
-		equipe2 = new Equipe("Bonheur",Pays.REPUBLIQUE_DU_CONGO);
-		for(int i = 0;i<30;i++) {
-			ekip.add(new Equipe(super.randomUsername("NomDequipeSuperCool"),Pays.values()[i]));
-		}
+		
 		
 	}
 	
@@ -30,6 +26,7 @@ public class TestDaoEquipe extends TestDao {
 		for(int i = 0;i<30;i++) {
 			FactoryDAO.getDaoEquipe(getC()).add(ekip.get(i));
 		}
+		
 		System.out.println(FactoryDAO.getDaoEquipe(getC()).visualizeTable());
 	}
 	
@@ -48,9 +45,20 @@ public class TestDaoEquipe extends TestDao {
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoEquipe x = new TestDaoEquipe();
+		x.setup();
 		x.testInsert();
 		x.testDelete();
 		x.testUpdate();
+		
+	}
+
+	@Override
+	public void setup() throws Exception {
+		equipe = new Equipe("Bienveillance",Pays.REPUBLIQUE_DEMOCRATIQUE_DU_CONGO);
+		equipe2 = new Equipe("Bonheur",Pays.REPUBLIQUE_DU_CONGO);
+		for(int i = 0;i<30;i++) {
+			ekip.add(new Equipe(super.randomUsername("NomDequipeSuperCool"),Pays.values()[i]));
+		}
 		
 	}
 

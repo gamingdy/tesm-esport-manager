@@ -106,7 +106,7 @@ public class DaoJoueur implements Dao<Joueur,Integer>{
 	}
 
 	/**
-	 * update une ligen de la table joueur à partir d'un objet joueur
+	 * update une ligne de la table joueur à partir d'un objet joueur
 	 */
 	@Override
 	public boolean update(Joueur value) throws Exception {

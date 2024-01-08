@@ -1,10 +1,12 @@
 package modele;
 
+import java.sql.SQLException;
+
+import dao.Connexion;
+import dao.FactoryDAO;
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
-
-import java.util.Objects;
 
 public class Matche {
 
@@ -19,6 +21,7 @@ public class Matche {
 	private Saison saison;
 
 
+	
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
 
@@ -26,12 +29,12 @@ public class Matche {
 			throw new IllegalArgumentException("Un des paramètres est null");
 		}
 
-		if (Objects.equals(equipe1.getNom(), equipe2.getNom())) {
-			throw new MemeEquipeException("Les 2 équipes sont identiques");
-		}
-
 		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
 			throw new FausseDateException("La date de début du matche est avant la date de début du tournoi");
+		}
+
+		if (nombreMaxParties < 1) {
+			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
 		}
 
 		if (nombreMaxParties < 1) {
@@ -47,6 +50,7 @@ public class Matche {
 		this.vainqueur = null;
 		this.saison = tournoi.getSaison();
 	}
+
 
 	public int getNombreMaxParties() {
 		return nombreMaxParties;

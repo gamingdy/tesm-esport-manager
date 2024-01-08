@@ -3,6 +3,8 @@ package dao.tests;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.Test;
+
 import dao.FactoryDAO;
 import modele.Categorie;
 import modele.CustomDate;
@@ -12,44 +14,13 @@ import modele.Tournoi;
 
 public class TestDaoMatche extends TestDao {
 
-	private final Tournoi t;
-	private final Tournoi t2;
+	private Tournoi t;
+	private Tournoi t2;
 	private List<Equipe> allEquipe = FactoryDAO.getDaoEquipe(getC()).getAll();
 	private List<Matche> matche = new LinkedList<>(); 
 	
 	public TestDaoMatche() throws Exception {
 		super();
-		
-		t = FactoryDAO.getDaoTournoi(getC()).getById(2023,"wwww").get();
-		t2 = FactoryDAO.getDaoTournoi(getC()).getById(2023,"zzzz").get();
-		Matche match = null;
-		boolean x = true;
-		for (int i = 0; i<allEquipe.size(); i+=2) {
-			if(x) {
-				match =new Matche(
-						3, 
-						new CustomDate(2023,12,12,Math.floorMod(i, 23),0), 
-						Categorie.POULE, 
-						allEquipe.get(i), 
-						allEquipe.get(i+1), 
-						t);
-				match.setId(i/2);
-				x = false;
-			} else {
-				match =new Matche(
-						3, 
-						new CustomDate(2023,12,15,Math.floorMod(i, 23),0), 
-						Categorie.POULE, 
-						allEquipe.get(i), 
-						allEquipe.get(i+1), 
-						t2);
-				match.setId(i/2);
-				x = true;
-			}
-			
-			matche.add(match);
-		}
-		
 	}
 
 	@Override
@@ -88,13 +59,50 @@ public class TestDaoMatche extends TestDao {
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoMatche x = new TestDaoMatche();
+		x.setup();
 		//x.testInsert();
-		//x.testDelete();
+		x.testDelete();
 		x.testUpdate();
 		System.out.println("_______________GetMatchByTournoi_________________");
 		x.testGetMatchByTournoi();
 		System.out.println("_______________GetMatchByTournoiFromCategorie_________________");
 		x.testGetMatchByTournoiFromCategorie();
+	}
+
+	@Override
+	public void setup() throws Exception {
+		t = FactoryDAO.getDaoTournoi(getC()).getById(2023,"wwww").get();
+		t2 = FactoryDAO.getDaoTournoi(getC()).getById(2023,"zzzz").get();
+		Matche match = null;
+		boolean x = true;
+		for (int i = 0; i<allEquipe.size(); i+=2) {
+			if(x) {
+				match =new Matche(
+						3, 
+						new CustomDate(2023,12,12,Math.floorMod(i, 23),0), 
+						Categorie.POULE, 
+						allEquipe.get(i), 
+						allEquipe.get(i+1), 
+						t);
+				match.setId(i/2);
+				x = false;
+				System.out.println(match.toString());
+			} else {
+				match =new Matche(
+						3, 
+						new CustomDate(2023,12,15,Math.floorMod(i, 23),0), 
+						Categorie.POULE, 
+						allEquipe.get(i), 
+						allEquipe.get(i+1), 
+						t2);
+				match.setId(i/2);
+				x = true;
+				System.out.println(match.toString());
+			}
+			
+			matche.add(match);
+		}
+		
 	}
 
 	

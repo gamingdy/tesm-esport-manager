@@ -7,7 +7,7 @@ import dao.FactoryDAO;
 public class GenerationDataTest {
 	
 	public static void main(String[] args) throws Exception {
-		DBReset.main(args);
+		//DBReset.main(args);
 		TestDaoEquipe e = new TestDaoEquipe();
 		TestDaoArbitre a = new TestDaoArbitre();
 		TestDaoJoueur j = new TestDaoJoueur();
@@ -41,7 +41,7 @@ public class GenerationDataTest {
 		
 		po.setup();
 		po.testInsert();
-		wait(1);
+		Object.class.wait(1);
 		m.setup();
 		m.testInsert();
 		
