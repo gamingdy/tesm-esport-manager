@@ -20,7 +20,7 @@ public class GenerationDataTest {
 		
 		
 		
-		/*
+		
 		e.setup();
 		e.testInsert();
 		
@@ -41,7 +41,7 @@ public class GenerationDataTest {
 		
 		po.setup();
 		po.testInsert();
-		*/
+		Object.class.wait(1);
 		m.setup();
 		m.testInsert();
 		
