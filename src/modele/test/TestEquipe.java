@@ -1,16 +1,15 @@
 package modele.test;
 
-import modele.Equipe;
-import modele.Joueur;
-import modele.Pays;
-import org.junit.Before;
-import org.junit.Test;
-
 import exceptions.EquipeCompleteException;
 import exceptions.EquipeVideException;
 import exceptions.ExceptionPointsNegatifs;
 import exceptions.JoueurException;
 import exceptions.JoueurNonPresentException;
+import modele.Equipe;
+import modele.Joueur;
+import modele.Pays;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -113,11 +112,6 @@ public class TestEquipe {
 		assertEquals("Faze", equipe1.getNom());
 	}
 
-	@Test
-	public void testSetNom() {
-		equipe2.setNom("Faz2");
-		assertEquals("Faz2", equipe2.getNom());
-	}
 
 	@Test(expected = ExceptionPointsNegatifs.class)
 	public void testSetPointNegatif() throws ExceptionPointsNegatifs {

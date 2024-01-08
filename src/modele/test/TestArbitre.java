@@ -17,7 +17,7 @@ public class TestArbitre {
 
 	@Before
 	public void setUp() throws Exception {
-		a = new Arbitre("Brando", "Titouan");
+		a = new Arbitre("Brando", "Titouan", Integer.parseInt("124567890"));
 	}
 
 	@Test(expected = IdNotSetException.class)
@@ -97,7 +97,7 @@ public class TestArbitre {
 
 	@Test
 	public void testCompareToPasPareil() throws SQLException {
-		Arbitre a2 = new Arbitre("A", "A");
+		Arbitre a2 = new Arbitre("A", "A", Integer.parseInt("134567890"));
 		assertEquals(1, a.compareTo(a2));
 	}
 }

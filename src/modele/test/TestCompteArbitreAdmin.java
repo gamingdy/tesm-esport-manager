@@ -1,8 +1,5 @@
 package modele.test;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import modele.Arbitre;
 import modele.CompteAdmin;
 import modele.CompteArbitre;
@@ -10,6 +7,8 @@ import modele.CustomDate;
 import modele.Niveau;
 import modele.Saison;
 import modele.Tournoi;
+import org.junit.Before;
+import org.junit.Test;
 
 public class TestCompteArbitreAdmin {
 	private CompteArbitre compteArbitre;
@@ -19,7 +18,7 @@ public class TestCompteArbitreAdmin {
 
 	@Before
 	public void setUp() throws Exception {
-		a = new Arbitre("Michel", "Jean");
+		a = new Arbitre("Michel", "Jean", Integer.parseInt("1234567890"));
 		CustomDate d1 = new CustomDate(2022, 11, 13);
 		CustomDate d2 = new CustomDate(2022, 10, 10);
 		s = new Saison(2022);
