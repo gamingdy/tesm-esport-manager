@@ -313,7 +313,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.textfieldNom.setText(nom);
 	}
 
-	public JTextField getNom() {
+	public JTextField getChampNom() {
 		return this.textfieldNom;
 	}
 
@@ -329,8 +329,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.textfieldWR.setText("" + wr);
 	}
 
-
-	public JTextField getWorldRank() {
+	public JTextField getChampWorldRank() {
 		return this.textfieldWR;
 	}
 
