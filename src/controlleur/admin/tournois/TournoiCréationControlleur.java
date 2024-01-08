@@ -47,13 +47,9 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		daoInscription = new DaoInscription(c);
 		try {
 			saison = daoSaison.getLastSaison();
-			listeEquipe = daoInscription.getEquipeBySaison(saison);
-			if (listeEquipe.isEmpty()) {
-				listeEquipe = new ArrayList<>();
-			}
-
+			listeEquipe = daoInscription.getEquipeBySaison(saison.getAnnee());
 		} catch (Exception e) {
-			listeEquipe = new ArrayList<>();
+			e.printStackTrace();
 		}
 
 	}
