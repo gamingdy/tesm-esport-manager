@@ -4,8 +4,6 @@ import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
 
-import java.util.Objects;
-
 public class Matche {
 
 	private Integer id;
@@ -26,13 +24,13 @@ public class Matche {
 			throw new IllegalArgumentException("Un des paramètres est null");
 		}
 
-	if (dateDebutMatche.estAvant(tournoi.getDebut())) {
-		throw new FausseDateException("La date de début du matche est avant la date de début du tournoi");
-	}
+		if (dateDebutMatche.estAvant(tournoi.getDebut())) {
+			throw new FausseDateException("La date de début du matche est avant la date de début du tournoi");
+		}
 
-	if (nombreMaxParties < 1) {
-		throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
-	}
+		if (nombreMaxParties < 1) {
+			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
+		}
 
 		if (nombreMaxParties < 1) {
 			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
@@ -47,15 +45,7 @@ public class Matche {
 		this.vainqueur = null;
 		this.saison = tournoi.getSaison();
 	}
-	this.nombreMaxParties = nombreMaxParties;
-	this.dateDebutMatche = dateDebutMatche;
-	this.categorie = categorie;
-	this.equipe1 = equipe1;
-	this.equipe2 = equipe2;
-	this.tournoi = tournoi;
-	this.vainqueur = null;
-	this.saison = tournoi.getSaison();
-}
+
 
 	public int getNombreMaxParties() {
 		return nombreMaxParties;
