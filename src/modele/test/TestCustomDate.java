@@ -4,11 +4,14 @@ import modele.CustomDate;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.sql.Timestamp;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
-
-import static org.junit.Assert.*;
 
 public class TestCustomDate {
 	private CustomDate d1;

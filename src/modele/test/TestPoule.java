@@ -3,7 +3,6 @@ package modele.test;
 import exceptions.ExceptionDate;
 import exceptions.FausseDateException;
 import modele.CustomDate;
-import modele.Equipe;
 import modele.Poule;
 import modele.Tournoi;
 import org.junit.Before;
@@ -14,9 +13,6 @@ import static org.junit.Assert.assertEquals;
 public class TestPoule {
 	private Poule poule;
 	private Tournoi tournoi;
-	private Character libelle;
-	private Equipe e1;
-	private Equipe e2;
 	private CustomDate debut;
 	private CustomDate fin;
 

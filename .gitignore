@@ -1,4 +1,5 @@
 .idea/
+.settings/
 .metadata/
 bin/
 out/
@@ -6,7 +7,7 @@ TESM/
 derby.log
 .classpath
 .project
-
+assets/logo-equipes/*.jpg
 *.iml
 *.jar
 *.json

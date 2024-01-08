@@ -1,20 +1,22 @@
 package vue;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.CardLayout;
-import java.io.IOException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import controller.VueControleur;
+import controlleur.VueControlleur;
 import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
 import vue.common.WindowResizer;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+
+import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+
+
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class Vue extends JFrame {
@@ -31,7 +33,7 @@ public class Vue extends JFrame {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setBackground();
 
-		titleBar = new TitleBar(this);
+		titleBar = TitleBar.getInstance(this);
 
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,7 +49,7 @@ public class Vue extends JFrame {
 		panelContenu.setLayout(cl);
 		add(panelContenu, BorderLayout.CENTER);
 		panelContenu.setOpaque(false);
-		VueControleur mainController = new VueControleur(this);
+		VueControlleur mainController = new VueControlleur(this);
 	}
 
 	private void setBackground() {
@@ -67,13 +69,16 @@ public class Vue extends JFrame {
 		}
 	}
 
-	public void setPage(String identifiant) {
-		cl.show(panelContenu, identifiant);
-		titleBar.setTitle(identifiant);
+	public void setPage(Page identifiant) {
+		cl.show(panelContenu, identifiant.getNom());
 	}
 
 	public void addPage(JComponent page, String identifiant) {
 		page.setOpaque(false);
 		panelContenu.add(page, identifiant);
+	}
+
+	public static ImageIcon resize(ImageIcon i, int width, int height) {
+		return new ImageIcon(i.getImage().getScaledInstance(width, height, Image.SCALE_FAST));
 	}
 }

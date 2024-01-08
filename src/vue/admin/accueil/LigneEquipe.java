@@ -3,16 +3,16 @@ package vue.admin.accueil;
 import javax.swing.ImageIcon;
 
 public class LigneEquipe {
-	
+
 	private int place;
 	private ImageIcon logo;
 	private String nom;
 	private int points;
-	
+
 	/**
-	 * @param place la place de l'équipe dans la saison précédente
-	 * @param logo le logo de l'équipe
-	 * @param nom le nom de l'équipe
+	 * @param place  la place de l'équipe dans la saison précédente
+	 * @param logo   le logo de l'équipe
+	 * @param nom    le nom de l'équipe
 	 * @param points le nombre de points de l'équipe dans la saison précédente
 	 * @return le paramètre LigneEquipe nécessaire pour une ligne d'équipe de la page d'accueil
 	 */
@@ -50,6 +50,6 @@ public class LigneEquipe {
 	public int getPoints() {
 		return points;
 	}
-	
-	
+
+
 }

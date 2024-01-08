@@ -1,21 +1,18 @@
 package vue.admin.accueil;
 
-import javax.swing.JPanel;
-
-import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.BorderLayout;
-import java.awt.Color;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")

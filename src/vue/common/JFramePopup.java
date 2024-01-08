@@ -1,26 +1,33 @@
 package vue.common;
 
-import controller.VueObserver;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class JFramePopup extends JFrame {
 
-	public JFramePopup(String title, String message) {
+	public interface ActionHandler {
+		void handleAction();
+	}
+
+	public JFramePopup(String title, String message, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
-
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
 		setIconImage(icon.getImage());
 
-		JPanel panel = createPanel(message);
+		JPanel panel = createPanel(message, actionHandler);
 		add(panel);
 
 		pack();
@@ -28,7 +35,7 @@ public class JFramePopup extends JFrame {
 		setVisible(true);
 	}
 
-	private JPanel createPanel(String message) {
+	private JPanel createPanel(String message, ActionHandler actionHandler) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
@@ -36,7 +43,7 @@ public class JFramePopup extends JFrame {
 		JLabel label = new JLabel(message);
 		label.setForeground(Color.white);
 		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
-		label.setFont(MaFont.getFontTitre3());// Agrandir la police
+		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 
 		panel.add(label, BorderLayout.CENTER);
 
@@ -49,12 +56,7 @@ public class JFramePopup extends JFrame {
 		closeButton.setBackground(CustomColor.TRANSPARENT);
 		closeButton.setOpaque(false);
 		closeButton.setFocusable(false);
-		closeButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose(); // Ferme la fenêtre lorsque le bouton est cliqué
-			}
-		});
+		closeButton.addActionListener(e -> dispose());
 		buttonPanel.add(closeButton);
 
 		JButton okButton = new JButton("OK");
@@ -63,23 +65,16 @@ public class JFramePopup extends JFrame {
 		okButton.setBackground(CustomColor.TRANSPARENT);
 		okButton.setOpaque(false);
 		okButton.setFocusable(false);
-		okButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VueObserver.getInstance().notifyVue("Login");
-				dispose();
+		okButton.addActionListener(e -> {
+			if (actionHandler != null) {
+				actionHandler.handleAction();
 			}
+			dispose();
 		});
 		buttonPanel.add(okButton);
 
 		panel.add(buttonPanel, BorderLayout.SOUTH);
 
 		return panel;
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			new JFramePopup("Titre de la fenêtre", "Message à afficher");
-		});
 	}
 }

@@ -1,49 +1,35 @@
 package vue.admin.main;
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
+import java.awt.Component;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
-import controller.AccueilControleur;
-import vue.admin.accueil.LigneEquipe;
-import vue.admin.accueil.LigneMatche;
-import vue.admin.accueil.LigneTournoi;
-import vue.admin.accueil.VueAccueil;
-import vue.admin.arbitres.VueArbitres;
+import vue.Page;
+
 
 @SuppressWarnings("serial")
 public class ConteneurMain extends JPanel {
 
 	private CardLayout cardLayout;
-	private VueAccueil vueAccueil;
 
 	public ConteneurMain() {
 		this.setOpaque(false);
 
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
-		vueAccueil = new VueAccueil(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
-		try {
-			new AccueilControleur(vueAccueil);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		VueArbitres vueArbitres = new VueArbitres();
-
-		add(vueAccueil, "Accueil");
-		add(vueArbitres, "Arbitres");
-		show("Accueil");
 	}
 
 	/**
 	 * Choisit la page à afficher
 	 *
-	 * @param identifiant de la page à afficher
+	 * @param equipes de la page à afficher
 	 */
-	public void show(String identifiant) {
-		cardLayout.show(this, identifiant);
+	public void show(Page equipes) {
+		cardLayout.show(this, equipes.name());
+	}
+
+	public void addPage(Component page, Page id) {
+		add(page, id.name());
 	}
 }

@@ -21,6 +21,6 @@ public class TestCompteUtilisateur {
 
 	@Test
 	public void getMdp() {
-		assertEquals("1234", compte.getMdp());
+		assertEquals("1234", compte.getHashMdp());
 	}
 }

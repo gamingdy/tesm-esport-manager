@@ -1,17 +1,14 @@
 package vue.admin.main;
 
-import java.awt.Color;
+import vue.common.CustomColor;
+import vue.common.MaFont;
+
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-
-import vue.admin.VueAdmin;
-import vue.admin.main.MenuNavBar;
-import vue.common.CustomColor;
-import vue.common.MaFont;
 
 @SuppressWarnings("serial")
 public class BoutonMenu extends JButton {

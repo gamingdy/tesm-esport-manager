@@ -1,11 +1,21 @@
 package vue.common;
 
 import vue.Vue;
-import vue.admin.VueAdmin;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class TitleBar extends JPanel {
 
@@ -14,8 +24,10 @@ public class TitleBar extends JPanel {
 	final ButtonTitleBar exit;
 	final ButtonTitleBar enlarge;
 	private JLabel title;
+	private static TitleBar instance;
 
-	public TitleBar(Vue vue) {
+
+	private TitleBar(Vue vue) {
 		super(new BorderLayout());
 
 		vue.setUndecorated(true);
@@ -89,6 +101,17 @@ public class TitleBar extends JPanel {
 				vue.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
 			}
 		});
+	}
+
+	public static synchronized TitleBar getInstance() {
+		return instance;
+	}
+
+	public static synchronized TitleBar getInstance(Vue vue) {
+		if (instance == null) {
+			instance = new TitleBar(vue);
+		}
+		return instance;
 	}
 
 	public void setTitle(String title) {

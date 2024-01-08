@@ -1,16 +1,14 @@
 package vue.admin.accueil;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
@@ -45,9 +43,11 @@ public class TournoiCellRenderer implements ListCellRenderer<LigneTournoi> {
 
 		PanelNomTournoi panelNomTournoi = new PanelNomTournoi(value.getNom());
 		panelTournoi.add(panelNomTournoi, BorderLayout.CENTER);
-		panelNomTournoi.setOpaque(false);
+
 		panelNomTournoi.setForeground(CustomColor.BLANC);
-		panelTournoi.setOpaque(false);
+		panelNomTournoi.setBackground(CustomColor.BACKGROUND_MAIN);
+		panelTournoi.setBackground(CustomColor.BACKGROUND_MAIN);
+
 		panelNomTournoi.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 55, 0, 75), panelNomTournoi.getBorder()));
 		return panelTournoi;
 	}

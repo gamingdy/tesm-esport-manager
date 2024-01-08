@@ -1,55 +1,55 @@
 package vue.admin;
 
-import controller.BoutonMenuControlleur;
-import controller.VueObserver;
+import controlleur.AdminControlleur;
+import vue.Page;
 import vue.admin.main.Main;
 import vue.admin.main.MenuNavBar;
-import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
-import vue.common.WindowResizer;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Image;
-import java.io.IOException;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class VueAdmin extends JPanel {
 
 	private Main main;
 	private MenuNavBar navbar;
-	private BoutonMenuControlleur controlleurBoutons;
+	private AdminControlleur controlleurBoutons;
+
 
 	public VueAdmin() {
 		setLayout(new BorderLayout());
-
 		navbar = new MenuNavBar();
 		main = new Main(navbar);
-		controlleurBoutons = new BoutonMenuControlleur(navbar, this);
+		controlleurBoutons = new AdminControlleur(navbar, this);
 		navbar.addButtonControlleur(controlleurBoutons);
 		main.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		main.setOpaque(false);
 		add(main, BorderLayout.CENTER);
-		setPage("Accueil");
+		setPage(Page.ACCUEIL_ADMIN);
 	}
 
 
 	/**
 	 * Change la page de contenue du main
 	 *
-	 * @param identifiant l'identifiant
+	 * @param equipes l'identifiant
 	 */
-	public void setPage(String identifiant) {
-		main.setPage(identifiant);
+	public void setPage(Page equipes) {
+		main.setPage(equipes);
+		TitleBar.getInstance().setTitle(equipes.getNom());
 	}
 
 
-	public void attachObserver(VueObserver obs) {
-		this.controlleurBoutons.attach(obs);
+	/**
+	 * Ajoute une page pour l'admin (par exemple VueAdminEquipes MAIS PAS VueAdminEquipesCreation qui sera ajoutée dans VueAdminEquipes)
+	 *
+	 * @param c       la page à ajouter (VueAdmin...)
+	 * @param equipes le nom de la page
+	 */
+	public void addPage(JComponent c, Page equipes) {
+		main.addPage(c, equipes);
 	}
+
+
 }

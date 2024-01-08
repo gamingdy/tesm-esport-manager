@@ -1,18 +1,14 @@
 package vue.admin.accueil;
 
-import javax.swing.JPanel;
-import java.awt.Color;
+import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import vue.admin.VueAdmin;
 import vue.common.CustomColor;
 import vue.common.MaFont;
-
-import java.awt.GridBagLayout;
-import java.awt.BorderLayout;
 
 public class PanelNomTournoi extends JPanel {
 	public PanelNomTournoi(String nomDuTournoi) {

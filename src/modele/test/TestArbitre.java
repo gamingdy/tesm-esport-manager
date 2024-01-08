@@ -5,6 +5,7 @@ import modele.Arbitre;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -95,7 +96,7 @@ public class TestArbitre {
 	}
 
 	@Test
-	public void testCompareToPasPareil() {
+	public void testCompareToPasPareil() throws SQLException {
 		Arbitre a2 = new Arbitre("A", "A");
 		assertEquals(1, a.compareTo(a2));
 	}

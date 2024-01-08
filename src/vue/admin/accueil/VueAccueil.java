@@ -1,46 +1,24 @@
 package vue.admin.accueil;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JSlider;
-import javax.swing.ListModel;
-
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import javax.swing.SpringLayout;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import controller.BoutonMenuControlleur;
-import vue.admin.VueAdmin;
-import vue.common.CustomColor;
-import vue.common.MaFont;
-import vue.common.CustomScrollBarUI;
-
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
+import javax.swing.SwingConstants;
+
+import controlleur.admin.accueil.AccueilControlleur;
+import vue.common.CustomColor;
+import vue.common.CustomScrollBarUI;
+import vue.common.MaFont;
 
 public class VueAccueil extends JPanel {
 
@@ -51,7 +29,7 @@ public class VueAccueil extends JPanel {
 	private JList<LigneTournoi> listeTournois;
 
 	private JList<LigneEquipe> listeEquipes;
-	private BoutonMenuControlleur controlleur;
+	private AccueilControlleur controlleur;
 
 	/**
 	 * Create the panel.
@@ -62,7 +40,9 @@ public class VueAccueil extends JPanel {
 	 */
 	public VueAccueil(ListModel<LigneEquipe> equipes, ListModel<LigneTournoi> tournois, ListModel<LigneMatche> matches) {
 		setOpaque(false);
-		setBorder(new EmptyBorder(20, 20, 20, 20));
+
+
+		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -87,7 +67,7 @@ public class VueAccueil extends JPanel {
 		gbl_panelClassement.rowWeights = new double[]{0.0, 1.0};
 		panelClassement.setLayout(gbl_panelClassement);
 
-		JLabel labelTitreClassement = new JLabel("Classement des équipes année précédente");
+		JLabel labelTitreClassement = new JLabel("Classement des équipes de la saison actuelle");
 		labelTitreClassement.setFont(MaFont.getFontTitre1());
 		labelTitreClassement.setForeground(CustomColor.BLANC);
 		GridBagConstraints gbcLabelTitreClassement = new GridBagConstraints();
@@ -222,6 +202,15 @@ public class VueAccueil extends JPanel {
 		gbcLabelTitreMatch.gridy = 0;
 		panelMatchs.add(labelTitreMatch, gbcLabelTitreMatch);
 		panelMatchs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		try {
+			this.controlleur = new AccueilControlleur(this);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public VueAccueil() {
+		this(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
 	}
 
 	public void setListeEquipes(DefaultListModel<LigneEquipe> equipes) {
@@ -229,6 +218,7 @@ public class VueAccueil extends JPanel {
 	}
 
 	public void setListeTournois(DefaultListModel<LigneTournoi> tournois) {
+
 		this.listeTournois.setModel(tournois);
 	}
 

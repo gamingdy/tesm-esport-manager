@@ -1,15 +1,17 @@
 package vue.admin.main;
 
-import java.awt.*;
-import java.io.IOException;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import vue.admin.VueAdmin;
+import vue.Page;
 import vue.common.CustomColor;
-import vue.common.JPanelWithBackground;
 import vue.common.MaFont;
-import vue.common.WindowResizer;
 
 public class Main extends JPanel {
 
@@ -29,7 +31,7 @@ public class Main extends JPanel {
 		setContent();
 		setMenu();
 	}
-	
+
 	public void setContent() {
 		GridBagLayout gbl_PanelContenu = new GridBagLayout();
 		gbl_PanelContenu.columnWidths = new int[]{0, 0};
@@ -39,7 +41,7 @@ public class Main extends JPanel {
 		setLayout(gbl_PanelContenu);
 
 		panelMain = new ConteneurMain();
-		panelMain.setPreferredSize(new Dimension(0,0));
+		panelMain.setPreferredSize(new Dimension(0, 0));
 		panelMain.setOpaque(false);
 		GridBagConstraints gbcPanelContenu = new GridBagConstraints();
 		gbcPanelContenu.fill = GridBagConstraints.BOTH;
@@ -52,7 +54,7 @@ public class Main extends JPanel {
 	public void setMenu() {
 		JPanel panelMenu = new JPanel();
 		GridBagLayout gbl_panelMenu = new GridBagLayout();
-		panelMenu.setPreferredSize(new Dimension(0,0));
+		panelMenu.setPreferredSize(new Dimension(0, 0));
 		panelMenu.setLayout(gbl_panelMenu);
 		gbl_panelMenu.columnWidths = new int[]{0};
 		gbl_panelMenu.rowHeights = new int[]{0};
@@ -89,9 +91,19 @@ public class Main extends JPanel {
 	/**
 	 * Change la page de contenue du main
 	 *
-	 * @param identifiant l'identifiant
+	 * @param equipes l'identifiant
 	 */
-	public void setPage(String identifiant) {
-		panelMain.show(identifiant);
+	public void setPage(Page equipes) {
+		panelMain.show(equipes);
+	}
+
+	/**
+	 * Ajoute une page dans le conteneur du contenu
+	 *
+	 * @param c  le composant à ajouter
+	 * @param id son identifiant
+	 */
+	public void addPage(JComponent c, Page id) {
+		panelMain.add(c, id.name());
 	}
 }

@@ -8,8 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-import vue.admin.VueAdmin;
-
 public class CustomScrollBarUI extends BasicScrollBarUI {
 	@Override
 	protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
