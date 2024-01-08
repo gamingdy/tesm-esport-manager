@@ -1,17 +1,16 @@
 package modele.test;
 
-import static org.junit.Assert.*;
-
 import exceptions.*;
-import modele.Country;
+import modele.Equipe;
+import modele.Joueur;
+import modele.Pays;
 import org.junit.Before;
 import org.junit.Test;
 
-import modele.Equipe;
-import modele.Joueur;
-
 import java.util.Set;
 import java.util.TreeSet;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestEquipe {
 	private Equipe equipe1;
@@ -25,8 +24,8 @@ public class TestEquipe {
 
 	@Before
 	public void setUp() throws EquipeCompleteException, JoueurException {
-		equipe1 = new Equipe("Faze", Country.ALGERIE);
-		equipe2 = new Equipe("Patate", Country.ALGERIE);
+		equipe1 = new Equipe("Faze", Pays.ALGERIE);
+		equipe2 = new Equipe("Patate", Pays.ALGERIE);
 		j2 = new Joueur("Soso1", equipe1);
 		j3 = new Joueur("SoSo2", equipe1);
 		j4 = new Joueur("Sososo3", equipe1);
@@ -42,23 +41,23 @@ public class TestEquipe {
 
 	@Test
 	public void testgetCountry() {
-		assertEquals(Country.ALGERIE, equipe1.getPays());
+		assertEquals(Pays.ALGERIE, equipe1.getPays());
 	}
 
 	@Test
 	public void testsetCountry() {
-		equipe1.setPays(Country.POLOGNE);
-		assertEquals(Country.POLOGNE, equipe1.getPays());
+		equipe1.setPays(Pays.POLOGNE);
+		assertEquals(Pays.POLOGNE, equipe1.getPays());
 	}
 
 	@Test
 	public void testCountryName() {
-		assertEquals("Pologne", Country.POLOGNE.getNom());
+		assertEquals("Pologne", Pays.POLOGNE.getNom());
 	}
 
 	@Test
 	public void testCountryCode() {
-		assertEquals("pl", Country.POLOGNE.getCode());
+		assertEquals("pl", Pays.POLOGNE.getCode());
 	}
 
 

@@ -8,14 +8,14 @@ public class Partie {
 	private int vainqueur;
 	private Matche matche;
 
-
+	/*
 	public Partie(Matche matche) {
 		this.vainqueur = 0;
 		this.matche = matche;
 	}
-
+	*/
 	public Partie(Matche matche, int numeroPartie) throws IllegalArgumentException {
-		if (numeroPartie <= 0) {
+		if (numeroPartie < 0) {
 			throw new IllegalArgumentException("Le numéro de partie ne peut pas être négatif");
 		}
 		this.numeroPartie = numeroPartie;

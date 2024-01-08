@@ -15,7 +15,7 @@ public class TestDaoArbitre extends TestDao{
 
 	public TestDaoArbitre() throws SQLException {
 		super();
-		a = new Arbitre("Brando","Titouan");
+		
 	}
 	
 	public void testInsert() throws Exception {
@@ -39,9 +39,16 @@ public class TestDaoArbitre extends TestDao{
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoArbitre x = new TestDaoArbitre();
+		x.setup();
 		x.testInsert();
 		x.testDelete();
 		x.testUpdate();
+		
+	}
+
+	@Override
+	public void setup() throws SQLException {
+		a = new Arbitre("Brando","Titouan");
 		
 	}
 }

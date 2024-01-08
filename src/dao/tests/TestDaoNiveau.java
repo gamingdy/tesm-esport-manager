@@ -6,11 +6,11 @@ import modele.Niveau;
 
 public class TestDaoNiveau extends TestDao {
 
-	private final Niveau[] niveaux; 
+	private Niveau[] niveaux; 
 	
 	public TestDaoNiveau() {
 		super();
-		niveaux = Niveau.values();
+		
 	}
 
 	@Override
@@ -35,8 +35,15 @@ public class TestDaoNiveau extends TestDao {
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoNiveau x = new TestDaoNiveau();
+		x.setup();
 		x.testInsert();
 		x.testDelete();
+	}
+
+	@Override
+	public void setup() throws Exception {
+		niveaux = Niveau.values();
+		
 	}
 
 }

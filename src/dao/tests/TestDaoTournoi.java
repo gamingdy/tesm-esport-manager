@@ -27,38 +27,7 @@ public class TestDaoTournoi extends TestDao {
 	
 	public TestDaoTournoi() throws Exception {
 		super();
-		saison = new Saison(2023);
-		saison2 = new Saison(2022);
-		tournoi1 = new Tournoi(
-				saison,
-				"zzzz",
-				new CustomDate(2023,12,14),
-				new CustomDate(2023,12,30),
-				Niveau.INTERNATIONAL_CLASSE,
-				new CompteArbitre("username","potdemasse"));
 		
-		tournoi2 = new Tournoi(
-				saison,
-				"wwww",
-				new CustomDate(2023,12,1),
-				new CustomDate(2023,12,13),
-				Niveau.INTERNATIONAL_CLASSE,
-				new CompteArbitre("username","potdemasse"));
-		tournoi3 = new Tournoi(
-				saison2,
-				"zzzzz",
-				new CustomDate(2022,12,14),
-				new CustomDate(2022,12,30),
-				Niveau.INTERNATIONAL_CLASSE,
-				new CompteArbitre("username","potdemasse"));
-		
-		tournoi4 = new Tournoi(
-				saison2,
-				"wwwww",
-				new CustomDate(2022,12,1),
-				new CustomDate(2022,12,13),
-				Niveau.INTERNATIONAL_CLASSE,
-				new CompteArbitre("username","potdemasse"));
 	}
 	
 	public void testInsert() throws Exception {
@@ -108,14 +77,49 @@ public class TestDaoTournoi extends TestDao {
 	
 	public static void main(String[] args) throws Exception {
 		TestDaoTournoi x = new TestDaoTournoi();
-		
-		x.testInsert();
+		x.setup();
+		//x.testInsert();
 		x.testDelete();
 		x.testUpdate();
 		x.testGetCompteArbitreByTournoi();
 		x.testGetTournoiActuel();
 		x.testGetTournoiBySaison();
 		x.testGetTournoiBetweenDate();
+		
+	}
+
+	@Override
+	public void setup() throws Exception {
+		tournoi1 = new Tournoi(
+				FactoryDAO.getDaoSaison(getC()).getById(2023).get(),
+				"zzzz",
+				new CustomDate(2023,12,14),
+				new CustomDate(2023,12,30),
+				Niveau.INTERNATIONAL_CLASSE,
+				new CompteArbitre("username","potdemasse"));
+		
+		tournoi2 = new Tournoi(
+				FactoryDAO.getDaoSaison(getC()).getById(2023).get(),
+				"wwww",
+				new CustomDate(2023,12,1),
+				new CustomDate(2023,12,13),
+				Niveau.INTERNATIONAL_CLASSE,
+				new CompteArbitre("username","potdemasse"));
+		tournoi3 = new Tournoi(
+				FactoryDAO.getDaoSaison(getC()).getById(2022).get(),
+				"zzzzz",
+				new CustomDate(2022,12,14),
+				new CustomDate(2022,12,30),
+				Niveau.INTERNATIONAL_CLASSE,
+				new CompteArbitre("username","potdemasse"));
+		
+		tournoi4 = new Tournoi(
+				FactoryDAO.getDaoSaison(getC()).getById(2022).get(),
+				"wwwww",
+				new CustomDate(2022,12,1),
+				new CustomDate(2022,12,13),
+				Niveau.INTERNATIONAL_CLASSE,
+				new CompteArbitre("username","potdemasse"));
 		
 	}
 }

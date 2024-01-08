@@ -29,6 +29,7 @@ public abstract class TestDao {
 		return afterShuffle;
 	}
 	
+	public abstract void setup() throws Exception;
 	public abstract void testInsert() throws Exception;
 	public abstract void testDelete() throws Exception;
 	public abstract void testUpdate() throws Exception;

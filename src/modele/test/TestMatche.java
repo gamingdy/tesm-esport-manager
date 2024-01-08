@@ -3,17 +3,17 @@ package modele.test;
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
+import modele.*;
 import org.junit.Before;
 import org.junit.Test;
-import modele.*;
 
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TestMatche {
 	private Matche m;
-	private Equipe e1 = new Equipe("Faze", Country.POLOGNE);
-	private Equipe e2 = new Equipe("KC", Country.ALGERIE);
+	private Equipe e1 = new Equipe("Faze", Pays.POLOGNE);
+	private Equipe e2 = new Equipe("KC", Pays.ALGERIE);
 	private CustomDate d1;
 	private CustomDate d2;
 	private Tournoi tournoi;

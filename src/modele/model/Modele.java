@@ -1,4 +1,4 @@
-package modele;
+package modele.model;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -15,6 +15,8 @@ import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.ExceptionPointsNegatifs;
 import exceptions.FausseDateException;
+import modele.Equipe;
+
 import java.time.LocalDate;
 
 public class Modele {
@@ -43,7 +45,8 @@ public class Modele {
     }
 
 	public Integer getWorldRank(Equipe equipe) throws SQLException {
-		Saison s = daoSaison.getLastSaison();
+		//Saison s = daoSaison.getLastSaison();
+		return null;
 
 	}
     

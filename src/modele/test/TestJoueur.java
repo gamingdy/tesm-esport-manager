@@ -1,19 +1,17 @@
 package modele.test;
 
-import static org.junit.Assert.*;
-
-
 import exceptions.*;
-import modele.Country;
 import modele.Equipe;
+import modele.Joueur;
+import modele.Pays;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import modele.Joueur;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TestJoueur {
 	private Joueur j;
@@ -21,7 +19,7 @@ public class TestJoueur {
 
 	@Before
 	public void setUp() throws EquipeCompleteException, JoueurException {
-		equipe1 = new Equipe("Faze", Country.ALGERIE);
+		equipe1 = new Equipe("Faze", Pays.ALGERIE);
 		j = new Joueur("Cricri", equipe1);
 	}
 
@@ -36,12 +34,14 @@ public class TestJoueur {
 		j.setId(5);
 		assertEquals((Integer) 5, j.getId());
 	}
+
 	@Test
-	public void testHashcode(){
-		Set<Joueur> joueurs=new HashSet<>();
+	public void testHashcode() {
+		Set<Joueur> joueurs = new HashSet<>();
 		joueurs.add(j);
 		joueurs.add(j);
 	}
+
 	@Test(expected = IdNotSetException.class)
 	public void testIdnotSet() throws IdNotSetException {
 		j.getId();
@@ -50,27 +50,28 @@ public class TestJoueur {
 
 	@Test
 	public void testGetEquipe() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException, JoueurException {
-		assertEquals(equipe1,j.getEquipe());
+		assertEquals(equipe1, j.getEquipe());
 	}
 
 	@Test
-	public void testGetNomEquipe(){
+	public void testGetNomEquipe() {
 		assertEquals(equipe1.getNom(), j.getNomEquipe());
 	}
 
 	@Test
 	public void testSameJoueur() throws EquipeCompleteException, JoueurException {
 		Joueur j2 = new Joueur("Cricri", equipe1);
-		assertEquals(j,j2);
+		assertEquals(j, j2);
 	}
 
 	@Test
 	public void testJoueurDifferent() throws EquipeCompleteException, JoueurException {
 		Joueur j2 = new Joueur("Cricri2", equipe1);
-		assertNotEquals(j,j2);
+		assertNotEquals(j, j2);
 	}
+
 	@Test
-	public void testEqualsPasMemeType(){
-		assertNotEquals(j,5);
+	public void testEqualsPasMemeType() {
+		assertNotEquals(j, 5);
 	}
 }
