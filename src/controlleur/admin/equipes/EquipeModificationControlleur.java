@@ -52,11 +52,10 @@ public class EquipeModificationControlleur implements ActionListener {
 			Equipe equipe = find_equipe.get();
 
 			BufferedImage img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
-			
-			ImageIcon logo = new ImageIcon(resizeImage(img,this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
+
+			ImageIcon logo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
 
 			List<Saison> saisons = this.daoInscription.getSaisonByEquipe(equipe.getNom());
-			System.out.println(saisons.size());
 			List<Integer> lst_saison = saisons.stream().map(Saison::getAnnee).collect(Collectors.toList());
 
 			this.vue.setNom(equipe.getNom());
