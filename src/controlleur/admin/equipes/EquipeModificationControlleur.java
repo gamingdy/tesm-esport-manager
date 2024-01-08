@@ -41,14 +41,11 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vue.getBoutonAnnuler()) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
-			System.out.println("ANNULER");
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Valider")) {
 			passerEnNonEditing();
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
-			System.out.println("VALIDER");
 
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Modifier")) {
-			System.out.println("MODIFIER");
 			passerEnEditing();
 		}
 
