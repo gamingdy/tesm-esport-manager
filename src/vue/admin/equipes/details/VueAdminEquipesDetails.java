@@ -68,10 +68,10 @@ public class VueAdminEquipesDetails extends JPanel {
 		gbcPanelTop.gridx = 0;
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
-		GridLayout gl = new GridLayout(2, 2, 100, 100);
+		GridLayout gl = new GridLayout(2, 2, 100, 50);
 		panelTop.setLayout(gl);
 
-		labelLogo = new JLabel("Logo ici");
+		labelLogo = new JLabel("");
 		labelLogo.setOpaque(true);
 		labelLogo.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelLogo.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
@@ -82,7 +82,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelTop.add(labelLogo);
 
 		JPanel panelChamps = new JPanel();
-		panelChamps.setLayout(new GridLayout(3, 1, 40, 0));
+		panelChamps.setLayout(new GridLayout(3, 1, 20, 0));
 		panelChamps.setOpaque(false);
 
 		JPanel champNom = new JPanel();
@@ -177,7 +177,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		btnAjoutJoueurs.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
-		gbcAjout.fill = GridBagConstraints.BOTH;
+		gbcAjout.fill = GridBagConstraints.NONE;
 		gbcAjout.gridx = 1;
 		gbcAjout.gridy = 0;
 
@@ -216,7 +216,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelSaisons.setLayout(gblPanelSaisons);
 		panelTop.add(panelSaisons);
 
-		JLabel labelSaisons = new JLabel("Joueurs");
+		JLabel labelSaisons = new JLabel("Saisons");
 		labelSaisons.setPreferredSize(new Dimension());
 		labelSaisons.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		labelSaisons.setForeground(CustomColor.BLANC);
@@ -231,9 +231,13 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelSaisons.add(labelSaisons, gbcLabelSaisons);
 
 		btnAjoutSaisons = new JLabel("Ajouter à la saison actuelle");
-		btnAjoutSaisons.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 20));
+		btnAjoutSaisons.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createEmptyBorder(20, 0, 0, 20),
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,2)));
 		btnAjoutSaisons.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutSaisons.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnAjoutSaisons.setFont(MaFont.getFontTitre3());
+		btnAjoutSaisons.setForeground(CustomColor.BLANC);
 
 		panelSaisons.add(btnAjoutSaisons, gbcAjout);
 
@@ -256,7 +260,7 @@ public class VueAdminEquipesDetails extends JPanel {
 
 		});
 
-		panelJoueurs.add(ls, gbcL);
+		panelSaisons.add(ls, gbcL);
 
 
 		JPanel panelBot = new JPanel();
@@ -274,14 +278,14 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelBot.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
 		panelBot.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 0));
 
-		boutonAnnuler = new JButton("Annuler");
+		boutonAnnuler = new JButton("Retour");
 		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());
 		boutonAnnuler.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS.darker(), 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonAnnuler.setForeground(CustomColor.BLANC.darker());
 		boutonAnnuler.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonAnnuler);
 
-		boutonValider = new JButton("Ajouter");
+		boutonValider = new JButton("Modifier");
 		boutonValider.setBackground(CustomColor.BACKGROUND_MENU.brighter());
 		boutonValider.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonValider.setForeground(CustomColor.BLANC);

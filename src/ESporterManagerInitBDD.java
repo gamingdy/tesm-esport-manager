@@ -55,6 +55,7 @@ public class ESporterManagerInitBDD {
 		DaoMatche daoMatche = new DaoMatche(c);
 		DaoPartie daoPartie = new DaoPartie(c);
 		DaoSaison daoSaison = new DaoSaison(c);
+		DaoInscription daoInscription = new DaoInscription(c);
 		try {
 			daoNiveau.add(Niveau.LOCAL);
 			daoNiveau.add(Niveau.INTERNATIONAL);
@@ -89,7 +90,7 @@ public class ESporterManagerInitBDD {
 
 		CustomDate debut = new CustomDate(2024, 12, 5);
 		CustomDate debut1 = new CustomDate(2024, 12, 7);
-		
+
 		Equipe equipe = new Equipe("terros", Pays.FRANCE);
 		Equipe equipe1 = new Equipe("lion-rouge", Pays.FRANCE);
 		Equipe equipe2 = new Equipe("shark", Pays.FRANCE);
@@ -100,8 +101,19 @@ public class ESporterManagerInitBDD {
 		Equipe equipe7 = new Equipe("chevarcher", Pays.FRANCE);
 		Equipe equipe8 = new Equipe("loup", Pays.FRANCE);
 		Equipe equipe9 = new Equipe("mort", Pays.FRANCE);
+		Inscription inscription = new Inscription(saison, equipe);
+		Inscription inscription1 = new Inscription(saison, equipe1);
+		Inscription inscription2 = new Inscription(saison, equipe2);
+		Inscription inscription3 = new Inscription(saison, equipe3);
+		Inscription inscription4 = new Inscription(saison, equipe4);
+		Inscription inscription5 = new Inscription(saison, equipe5);
+		Inscription inscription6 = new Inscription(saison, equipe6);
+		Inscription inscription7 = new Inscription(saison, equipe7);
+		Inscription inscription8 = new Inscription(saison, equipe8);
+		Inscription inscription9 = new Inscription(saison, equipe9);
 
 		try {
+
 			daoEquipe.add(equipe);
 			daoEquipe.add(equipe1);
 			daoEquipe.add(equipe2);
@@ -112,6 +124,16 @@ public class ESporterManagerInitBDD {
 			daoEquipe.add(equipe7);
 			daoEquipe.add(equipe8);
 			daoEquipe.add(equipe9);
+			daoInscription.add(inscription);
+			daoInscription.add(inscription1);
+			daoInscription.add(inscription2);
+			daoInscription.add(inscription3);
+			daoInscription.add(inscription4);
+			daoInscription.add(inscription5);
+			daoInscription.add(inscription6);
+			daoInscription.add(inscription7);
+			daoInscription.add(inscription8);
+			daoInscription.add(inscription9);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -169,7 +191,7 @@ public class ESporterManagerInitBDD {
 		}
 		
 
-		
+
 	}
 
 	private static String randomUsername(String name) {
@@ -185,7 +207,7 @@ public class ESporterManagerInitBDD {
 	private static void initEquipe(Equipe equipe) {
 		Connexion c = Connexion.getConnexion();
 		DaoJoueur daoJoueur = new DaoJoueur(c);
-		String default_username = "patata";
+		String default_username = "patata1234";
 		for (int i = 0; i < 5; i++) {
 			default_username = randomUsername(default_username);
 			try {
