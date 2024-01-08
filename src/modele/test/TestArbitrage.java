@@ -1,8 +1,5 @@
 package modele.test;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import modele.Arbitrage;
 import modele.Arbitre;
 import modele.CompteArbitre;
@@ -10,6 +7,8 @@ import modele.CustomDate;
 import modele.Niveau;
 import modele.Saison;
 import modele.Tournoi;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,7 +24,7 @@ public class TestArbitrage {
 		debut = new CustomDate(2022, 10, 10);
 		fin = new CustomDate(2022, 10, 22);
 		tournoi = new Tournoi(new Saison(2022), "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("1234", "1234"));
-		arbitre = new Arbitre("Armand", "Simon");
+		arbitre = new Arbitre("Armand", "Simon", Integer.parseInt("123456790"));
 		arbitrage = new Arbitrage(arbitre, tournoi);
 	}
 
