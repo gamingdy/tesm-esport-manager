@@ -1,21 +1,25 @@
 package controlleur.admin.equipes;
 
 import controlleur.ControlleurObserver;
-import dao.*;
-import modele.*;
+import dao.Connexion;
+import dao.DaoEquipe;
+import dao.DaoInscription;
+import dao.DaoJoueur;
+import dao.DaoSaison;
+import modele.Equipe;
+import modele.Joueur;
+import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
-import vue.common.JFramePopup;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +31,8 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	private DaoSaison daoSaison;
 	private Saison saison;
 	private DaoInscription daoInscription;
-	private DaoAppartenance daoAppartenance;
+
+
 	private List<CaseEquipe> listeCase;
 	private List<Equipe> listeEquipe;
 
@@ -36,9 +41,9 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		Connexion c = Connexion.getConnexion();
 		this.daoEquipe = new DaoEquipe(c);
 		this.daoJoueur = new DaoJoueur(c);
-		this.daoInscription = new DaoInscription(c);
 		this.daoSaison = new DaoSaison(c);
-		this.daoAppartenance = new DaoAppartenance(c);
+		this.daoInscription = new DaoInscription(c);
+
 		this.update();
 
 	}
@@ -80,58 +85,6 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		saison = daoSaison.getLastSaison();
 		List<Equipe> listeEquipe = daoInscription.getEquipeBySaison(saison);
 		return convertListToCase(listeEquipe);
-	}
-
-	public void supprimerEquipeDefinitivement(Equipe equipe) throws Exception {
-		try {
-			if (isEquipeDansTournoiSaisonActuelle(equipe)) {
-				new JFramePopup("Erreur", "L'equipe est inscrite dans un tournoi", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-			} else {
-				if (isEquipeInscriteSaisonActuelle(equipe)) {
-					saison = daoSaison.getLastSaison();
-					daoInscription.delete(saison.getAnnee(), equipe.getNom());
-				}
-				daoEquipe.delete(equipe.getNom());
-				File fichierLogo = new File("assets/logo-equipes/" + equipe.getNom() + ".jpg");
-				fichierLogo.delete();
-				new JFramePopup("Suppression effectuée", "L'equipe est supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-				this.update();
-
-			}
-
-		} catch (Exception e) {
-			new JFramePopup("Suppression echoué", "L'equipe  ne peut pas etre supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-		}
-	}
-
-	public void supprimerEquipeSaison(Equipe equipe) {
-		try {
-			if (isEquipeDansTournoiSaisonActuelle(equipe)) {
-				new JFramePopup("Erreur", "L'equipe est inscrite dans un tournoi", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-			} else {
-				if (isEquipeInscriteSaisonActuelle(equipe)) {
-					saison = daoSaison.getLastSaison();
-					daoInscription.delete(saison.getAnnee(), equipe.getNom());
-				}
-
-			}
-		} catch (Exception e) {
-
-		}
-
-	}
-
-	private boolean isEquipeInscriteSaisonActuelle(Equipe equipe) throws Exception {
-		saison = daoSaison.getLastSaison();
-		List<Saison> listeSaison = daoInscription.getSaisonByEquipe(equipe);
-		return listeSaison.contains(saison);
-	}
-
-	private boolean isEquipeDansTournoiSaisonActuelle(Equipe equipe) throws SQLException, Exception {
-		saison = daoSaison.getLastSaison();
-		Inscription inscription = new Inscription(saison, equipe);
-		List<Tournoi> listeTournoisJoue = daoAppartenance.getTournoiByEquipeForSaison(inscription);
-		return !listeTournoisJoue.isEmpty();
 	}
 
 	@Override
