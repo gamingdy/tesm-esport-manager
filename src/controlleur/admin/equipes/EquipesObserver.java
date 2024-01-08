@@ -25,4 +25,8 @@ public class EquipesObserver {
 		controlleur.update(page);
 	}
 
+	public void notifyVue(Page page, String nomEquipe, boolean editing) {
+		controlleur.update(page, nomEquipe, editing);
+	}
+
 }

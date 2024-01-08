@@ -6,16 +6,6 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.util.Arrays;
-import java.util.Collection;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -28,6 +18,15 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.util.Arrays;
+import java.util.List;
 
 public class VueAdminEquipesDetails extends JPanel {
 
@@ -69,9 +68,9 @@ public class VueAdminEquipesDetails extends JPanel {
 		gbcPanelTop.gridx = 0;
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
-		GridLayout gl = new GridLayout(2,2,100,100);
+		GridLayout gl = new GridLayout(2, 2, 100, 100);
 		panelTop.setLayout(gl);
-		
+
 		labelLogo = new JLabel("Logo ici");
 		labelLogo.setOpaque(true);
 		labelLogo.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -181,7 +180,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		gbcAjout.fill = GridBagConstraints.BOTH;
 		gbcAjout.gridx = 1;
 		gbcAjout.gridy = 0;
-		
+
 		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);
 
 		modelJoueurs = new DefaultListModel<String>();
@@ -209,7 +208,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		gbcL.gridy = 1;
 		gbcL.weighty = 5F / 7F;
 		panelJoueurs.add(l, gbcL);
-		
+
 		panelSaisons = new JPanel();
 		panelSaisons.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelSaisons.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
@@ -256,10 +255,9 @@ public class VueAdminEquipesDetails extends JPanel {
 			}
 
 		});
-		
+
 		panelJoueurs.add(ls, gbcL);
 
-		
 
 		JPanel panelBot = new JPanel();
 		panelBot.setOpaque(false);
@@ -314,45 +312,45 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.modelJoueurs.clear();
 		this.modelSaisons.clear();
 	}
-	
+
 	public void setNom(String nom) {
 		this.textfieldNom.setText(nom);
 	}
-	
+
 	public void setPays(Pays pays) {
 		this.comboboxPays.setSelectedItem(pays);
 	}
-	
+
 	public void setWorldRank(int wr) {
-		this.textfieldWR.setText(""+wr);
+		this.textfieldWR.setText("" + wr);
 	}
-	
+
 	public void setLogo(Icon logo) {
 		this.labelLogo.setIcon(logo);
 	}
-	
-	public void setJoueurs(Collection<String> joueurs) {
+
+	public void setJoueurs(List<String> joueurs) {
 		this.modelJoueurs.removeAllElements();
-		joueurs.stream().forEach(s -> modelJoueurs.addElement(s));
+		joueurs.forEach(s -> modelJoueurs.addElement(s));
 	}
-	
-	public void setSaisons(Collection<Integer> saisons) {
+
+	public void setSaisons(List<Integer> saisons) {
 		this.modelSaisons.removeAllElements();
-		saisons.stream().forEach(s -> modelSaisons.addElement(""+s));
+		saisons.forEach(s -> modelSaisons.addElement("" + s));
 	}
 
 	public JComboBox<Pays> getComboboxPays() {
 		return this.comboboxPays;
 	}
-	
+
 	public JLabel getLabelLogo() {
 		return this.labelLogo;
 	}
-	
+
 	public void addSaison(int annee) {
-		modelSaisons.addElement(""+annee);
+		modelSaisons.addElement("" + annee);
 	}
-	
+
 	public JLabel getbtnAjoutJoueurs() {
 		return this.btnAjoutJoueurs;
 	}
