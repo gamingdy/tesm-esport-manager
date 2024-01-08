@@ -36,7 +36,6 @@ public class VueAdminEquipesDetails extends JPanel {
 	private JButton boutonValider;
 	private JButton boutonAnnuler;
 	private JLabel labelLogo;
-	private JLabel btnAjoutJoueurs;
 	private JPanel panelJoueurs;
 	private DefaultListModel<String> modelJoueurs;
 	private DefaultListModel<String> modelSaisons;
@@ -171,17 +170,11 @@ public class VueAdminEquipesDetails extends JPanel {
 		gbcLabelJoueurs.weighty = 2F / 7F;
 		panelJoueurs.add(labelJoueurs, gbcLabelJoueurs);
 
-		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
-		btnAjoutJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 20));
-		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
-		btnAjoutJoueurs.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.NONE;
 		gbcAjout.gridx = 1;
 		gbcAjout.gridy = 0;
-
-		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);
 
 		modelJoueurs = new DefaultListModel<String>();
 		JList<String> l = new JList<String>(modelJoueurs);
@@ -304,7 +297,6 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.labelLogo.addMouseListener(controleur);
-		this.btnAjoutJoueurs.addMouseListener(controleur);
 	}
 
 
@@ -364,9 +356,6 @@ public class VueAdminEquipesDetails extends JPanel {
 		modelSaisons.addElement("" + annee);
 	}
 
-	public JLabel getbtnAjoutJoueurs() {
-		return this.btnAjoutJoueurs;
-	}
 
 	public JLabel getbtnAjoutSaisons() {
 		return this.btnAjoutSaisons;
