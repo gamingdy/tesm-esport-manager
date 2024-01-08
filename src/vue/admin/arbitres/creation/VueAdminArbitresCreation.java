@@ -41,6 +41,7 @@ public class VueAdminArbitresCreation extends JPanel {
 	private JPanel panelTournois;
 	private DefaultListModel<LigneTournoi> model;
 	private JComboBox<Niveau> comboboxNiveaux;
+	private JTextField textfieldTelephone;
 
 	/**
 	 * Create the panel.
@@ -78,7 +79,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcIcone.fill = GridBagConstraints.BOTH;
 		gbcIcone.gridx = 0;
 		gbcIcone.gridy = 0;
-		gbcIcone.gridheight = 2;
+		gbcIcone.gridheight = 3;
 		gbcIcone.weightx = 1F / 2F;
 		gbcIcone.weighty = 1F / 3F;
 		panelTop.add(icone, gbcIcone);
@@ -132,6 +133,30 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcPrenom.weightx = 1F / 2F;
 		gbcPrenom.weighty = 1F / 6F;
 		panelTop.add(champPrenom, gbcPrenom);
+		
+		JPanel champTelephone = new JPanel();
+		champTelephone.setLayout(new GridLayout(2, 1, 10, 0));
+		champTelephone.setOpaque(false);
+		JLabel labelTelephone = new JLabel("Numéro de téléphone");
+		labelTelephone.setForeground(CustomColor.BLANC);
+		labelTelephone.setFont(MaFont.getFontTitre2());
+		champTelephone.add(labelTelephone);
+		textfieldTelephone = new JTextField();
+		textfieldTelephone.setBackground(CustomColor.BACKGROUND_MENU);
+		textfieldTelephone.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		textfieldTelephone.setForeground(CustomColor.BLANC);
+		textfieldTelephone.setCaretColor(CustomColor.BLANC);
+		textfieldTelephone.setFont(MaFont.getFontTitre3());
+		champTelephone.add(textfieldTelephone);
+		GridBagConstraints gbcTelephone = new GridBagConstraints();
+		gbcTelephone.fill = GridBagConstraints.BOTH;
+		gbcTelephone.gridx = 1;
+		gbcTelephone.gridy = 2;
+		gbcTelephone.weightx = 1F / 2F;
+		gbcTelephone.weighty = 1F / 6F;
+		panelTop.add(champTelephone, gbcTelephone);
 
 		panelTournois = new JPanel();
 		panelTournois.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -143,7 +168,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcPanelTournois.fill = GridBagConstraints.BOTH;
 		gbcPanelTournois.insets = new Insets(50, 0, 0, 0);
 		gbcPanelTournois.gridx = 0;
-		gbcPanelTournois.gridy = 2;
+		gbcPanelTournois.gridy = 3;
 		gbcPanelTournois.gridheight = 4;
 		gbcPanelTournois.weightx = 1F;
 		gbcPanelTournois.weighty = 2F / 3F;
