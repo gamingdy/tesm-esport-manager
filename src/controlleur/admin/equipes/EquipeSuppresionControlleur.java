@@ -90,7 +90,6 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 				}
 			}
 
-
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
