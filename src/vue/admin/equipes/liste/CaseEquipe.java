@@ -1,19 +1,20 @@
 package vue.admin.equipes.liste;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import controlleur.admin.equipes.EquipeCaseModificationControlleur;
+import controlleur.admin.equipes.EquipeSuppresionControlleur;
+import vue.Vue;
+import vue.common.CustomColor;
+import vue.common.MaFont;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
-import vue.Vue;
-import vue.common.CustomColor;
-import vue.common.MaFont;
-
-public class CaseEquipe {
+public class CaseEquipe extends JPanel {
 
 	private String nom;
 	private String[] joueurs;
@@ -27,10 +28,18 @@ public class CaseEquipe {
 	 * @param pays    l'icone du drapeau du pays
 	 */
 	public CaseEquipe(String nom, String[] joueurs, ImageIcon logo, ImageIcon pays) {
+		super(new GridBagLayout());
 		this.nom = nom;
 		this.joueurs = joueurs;
 		this.logo = logo;
 		this.pays = pays;
+		addMouseListener(new EquipeCaseModificationControlleur(this, false));
+		this.updatePanel();
+		setBackground(CustomColor.BACKGROUND_MAIN);
+		setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(20, 20, 20, 20)));
+
 	}
 
 	/**
@@ -38,13 +47,8 @@ public class CaseEquipe {
 	 *
 	 * @return un JPanel contentant les infos de l'équipe
 	 */
-	public JPanel getPanel() {
-		JPanel panelItem = new JPanel(new GridBagLayout());
-		panelItem.setBackground(CustomColor.BACKGROUND_MAIN);
-		panelItem.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
-				BorderFactory.createEmptyBorder(20, 20, 20, 20)));
-
+	public void updatePanel() {
+		removeAll();
 		JLabel nom = new JLabel(getNom());
 		nom.setIconTextGap(15);
 		nom.setIcon(Vue.resize(getLogo(), 45, 45));
@@ -56,7 +60,7 @@ public class CaseEquipe {
 		gbcNom.gridy = 0;
 		gbcNom.weighty = 0.2F;
 		gbcNom.gridwidth = GridBagConstraints.REMAINDER;
-		panelItem.add(nom, gbcNom);
+		add(nom, gbcNom);
 
 		JPanel panelJoueurs = new JPanel(new GridLayout(0, 1));
 		((GridLayout) panelJoueurs.getLayout()).setVgap(3);
@@ -74,7 +78,7 @@ public class CaseEquipe {
 		gbcJoueurs.weighty = 0.6F;
 		gbcJoueurs.gridwidth = GridBagConstraints.REMAINDER;
 		panelJoueurs.setBackground(CustomColor.BACKGROUND_MAIN);
-		panelItem.add(panelJoueurs, gbcJoueurs);
+		add(panelJoueurs, gbcJoueurs);
 
 		JLabel labelDrapeau = new JLabel(Vue.resize(getPays(), 45, 30));
 		labelDrapeau.setHorizontalAlignment(JLabel.LEFT);
@@ -84,7 +88,7 @@ public class CaseEquipe {
 		gbcDrapeau.gridy = 2;
 		gbcDrapeau.weightx = 0.2F;
 		gbcDrapeau.weighty = 0.2F;
-		panelItem.add(labelDrapeau, gbcDrapeau);
+		add(labelDrapeau, gbcDrapeau);
 
 		JLabel labelModif = new JLabel(Vue.resize(new ImageIcon("assets/modif.png"), 30, 30));
 		labelModif.setHorizontalAlignment(JLabel.RIGHT);
@@ -94,7 +98,8 @@ public class CaseEquipe {
 		gbcModif.gridy = 2;
 		gbcModif.weightx = 0.6F;
 		gbcModif.weighty = 0.2F;
-		panelItem.add(labelModif, gbcModif);
+		labelModif.addMouseListener(new EquipeCaseModificationControlleur(this, true));
+		add(labelModif, gbcModif);
 
 		JLabel labelDelete = new JLabel(Vue.resize(new ImageIcon("assets/delete.png"), 30, 30));
 		GridBagConstraints gbcDelete = new GridBagConstraints();
@@ -103,9 +108,9 @@ public class CaseEquipe {
 		gbcDelete.gridy = 2;
 		gbcDelete.weightx = 0.2F;
 		gbcDelete.weighty = 0.2F;
-		panelItem.add(labelDelete, gbcDelete);
+		labelDelete.addMouseListener(new EquipeSuppresionControlleur(this));
+		add(labelDelete, gbcDelete);
 
-		return panelItem;
 	}
 
 	/**
