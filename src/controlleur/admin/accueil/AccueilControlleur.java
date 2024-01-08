@@ -2,9 +2,7 @@ package controlleur.admin.accueil;
 
 import controlleur.ControlleurObserver;
 import dao.*;
-import modele.Equipe;
-import modele.Matche;
-import modele.Tournoi;
+import modele.*;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;
 import vue.admin.accueil.LigneTournoi;
@@ -46,7 +44,9 @@ public class AccueilControlleur implements ControlleurObserver {
 	public void mettreAjourListeTournoi() {
 		listeTournoi = new DefaultListModel<LigneTournoi>();
 		try {
-			List<Tournoi> liste = new ArrayList<>(daoTournoi.getAll());
+			Saison saisonActuelle = daoSaison.getLastSaison();
+			CustomDate debutSaison = new CustomDate(saisonActuelle.getAnnee(), 01, 01);
+			List<Tournoi> liste = new ArrayList<>(daoTournoi.getTournoiBetweenDate(debutSaison, CustomDate.now()));
 			try {
 				Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
 				LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
@@ -73,7 +73,7 @@ public class AccueilControlleur implements ControlleurObserver {
 			for (int i = 0; i < liste.size(); i++) {
 				String nomEquipe = liste.get(i).getNom();
 				ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
-				LigneEquipe ligneEquipe = new LigneEquipe(i+1, icone, nomEquipe, liste.get(i).getPoint());
+				LigneEquipe ligneEquipe = new LigneEquipe(i + 1, icone, nomEquipe, liste.get(i).getPoint());
 				listeClassement.addElement(ligneEquipe);
 			}
 			vue.setListeEquipes(listeClassement);
