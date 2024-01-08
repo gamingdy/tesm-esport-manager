@@ -14,82 +14,82 @@ import javax.swing.SwingConstants;
 
 public class JFramePopupSuppressionEquipe extends JFrame {
 
-    public interface ActionHandler {
-        void handleAction();
-    }
+	public interface ActionHandler {
+		void handleAction();
+	}
 
-    public JFramePopupSuppressionEquipe(String title, String message, ActionHandler actionHandler) {
-        super(title);
-        setType(Type.UTILITY);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setPreferredSize(new Dimension(600, 200));
+	public JFramePopupSuppressionEquipe(String title, String message, ActionHandler supprimerSaison, ActionHandler supprimerDefinitivement) {
+		super(title);
+		setType(Type.UTILITY);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setPreferredSize(new Dimension(600, 200));
 
-        ImageIcon icon = new ImageIcon(("assets/logo.png"));
-        setIconImage(icon.getImage());
+		ImageIcon icon = new ImageIcon(("assets/logo.png"));
+		setIconImage(icon.getImage());
 
-        JPanel panel = createPanel(message, actionHandler);
-        add(panel);
+		JPanel panel = createPanel(message, supprimerSaison, supprimerDefinitivement);
+		add(panel);
 
-        pack();
-        setLocationRelativeTo(null); // Centre la fenêtre sur l'écran
-        setVisible(true);
-    }
+		pack();
+		setLocationRelativeTo(null); // Centre la fenêtre sur l'écran
+		setVisible(true);
+	}
 
-    private JPanel createPanel(String message, ActionHandler actionHandler) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(15, 3, 25));
+	private JPanel createPanel(String message, ActionHandler supprimerSaison, ActionHandler supprimerDefinitivemnt) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.setBackground(new Color(15, 3, 25));
 
-        JLabel label = new JLabel(message);
-        label.setForeground(Color.white);
-        label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
-        label.setFont(MaFont.getFontTitre3()); // Agrandir la police
+		JLabel label = new JLabel(message);
+		label.setForeground(Color.white);
+		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
+		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 
-        panel.add(label, BorderLayout.CENTER);
+		panel.add(label, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.setBackground(new Color(15, 3, 25));
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.setBackground(new Color(15, 3, 25));
 
-        JButton closeButton = new JButton("Annuler");
-        closeButton.setFont(MaFont.getFontTitre4());
-        closeButton.setForeground(CustomColor.BLANC);
-        closeButton.setBackground(CustomColor.TRANSPARENT);
-        closeButton.setOpaque(false);
-        closeButton.setFocusable(false);
-        closeButton.addActionListener(e -> dispose());
-        buttonPanel.add(closeButton);
+		JButton closeButton = new JButton("Annuler");
+		closeButton.setFont(MaFont.getFontTitre4());
+		closeButton.setForeground(CustomColor.BLANC);
+		closeButton.setBackground(CustomColor.TRANSPARENT);
+		closeButton.setOpaque(false);
+		closeButton.setFocusable(false);
+		closeButton.addActionListener(e -> dispose());
+		buttonPanel.add(closeButton);
 
-        JButton okButton = new JButton("Supprimer de la saison");
-        okButton.setFont(MaFont.getFontTitre4());
-        okButton.setForeground(CustomColor.BLANC);
-        okButton.setBackground(CustomColor.TRANSPARENT);
-        okButton.setOpaque(false);
-        okButton.setFocusable(false);
-        okButton.addActionListener(e -> {
-            if (actionHandler != null) {
-                actionHandler.handleAction();
-            }
-            dispose();
-        });
-        buttonPanel.add(okButton);
+		JButton okButton = new JButton("Supprimer de la saison");
+		okButton.setFont(MaFont.getFontTitre4());
+		okButton.setForeground(CustomColor.BLANC);
+		okButton.setBackground(CustomColor.TRANSPARENT);
+		okButton.setOpaque(false);
+		okButton.setFocusable(false);
+		okButton.addActionListener(e -> {
+			if (supprimerSaison != null) {
+				supprimerSaison.handleAction();
+			}
+			dispose();
+		});
+		buttonPanel.add(okButton);
 
-        JButton addToSeasonButton = new JButton("Supprimet définitivement");
-        addToSeasonButton.setFont(MaFont.getFontTitre4());
-        addToSeasonButton.setForeground(CustomColor.BLANC);
-        addToSeasonButton.setBackground(CustomColor.TRANSPARENT);
-        addToSeasonButton.setOpaque(false);
-        addToSeasonButton.setFocusable(false);
-        addToSeasonButton.addActionListener(e -> {
-            if (actionHandler != null) {
-                actionHandler.handleAction();
-            }
-            dispose();
-        });
-        buttonPanel.add(addToSeasonButton);
+		JButton addToSeasonButton = new JButton("Supprimer définitivement");
+		addToSeasonButton.setFont(MaFont.getFontTitre4());
+		addToSeasonButton.setForeground(CustomColor.BLANC);
+		addToSeasonButton.setBackground(CustomColor.TRANSPARENT);
+		addToSeasonButton.setOpaque(false);
+		addToSeasonButton.setFocusable(false);
+		addToSeasonButton.addActionListener(e -> {
+			if (supprimerDefinitivemnt != null) {
+				supprimerDefinitivemnt.handleAction();
+			}
+			dispose();
+		});
+		buttonPanel.add(addToSeasonButton);
 
-        panel.add(buttonPanel, BorderLayout.SOUTH);
+		panel.add(buttonPanel, BorderLayout.SOUTH);
 
-        return panel;
-    }
+		return panel;
+	}
 }
