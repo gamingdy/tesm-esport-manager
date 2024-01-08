@@ -253,7 +253,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 		try(PreparedStatement getLastId = connexion.getConnection().prepareStatement(
 				"SELECT Id_Match "
                + "FROM Matche "
-               + "ORDER BY Id_Projet DESC "
+               + "ORDER BY Id_Match DESC "
                + "FETCH FIRST 1 ROW ONLY")) {
 			ResultSet resultat = getLastId.executeQuery();
 			Integer sortie = null;
