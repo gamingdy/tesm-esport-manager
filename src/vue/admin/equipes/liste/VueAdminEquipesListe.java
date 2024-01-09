@@ -14,12 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.util.List;
 
 public class VueAdminEquipesListe extends JPanel {
@@ -85,12 +80,13 @@ public class VueAdminEquipesListe extends JPanel {
 		panelRecherche.add(recherche);
 
 		add(panelRecherche, gbcRecherche);
-		
-		boutonSaison = new JButton("Toutes les équipes");
+
+		boutonSaison = new JButton("Equipes de la saison");
 		boutonSaison.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		boutonSaison.setBackground(CustomColor.BACKGROUND_MENU.brighter());
 		boutonSaison.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
 		boutonSaison.setForeground(CustomColor.BLANC);
+		boutonSaison.setMinimumSize(new Dimension(250, 70));
 		boutonSaison.setFont(MaFont.getFontTitre4());
 		boutonSaison.setFocusPainted(false);
 		GridBagConstraints gbcBtnSaisons = new GridBagConstraints();
@@ -139,9 +135,13 @@ public class VueAdminEquipesListe extends JPanel {
 		return this.boutonAjouter;
 	}
 
+	public JButton getBoutonSaison() {
+		return this.boutonSaison;
+	}
+
 	public void setControleur(EquipesListeControlleur controleur) {
 		this.boutonAjouter.addActionListener(controleur);
-
+		this.boutonSaison.addActionListener(controleur);
 	}
 
 }

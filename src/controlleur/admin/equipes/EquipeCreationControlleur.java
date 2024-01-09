@@ -1,20 +1,26 @@
 package controlleur.admin.equipes;
 
 import controlleur.VueObserver;
-import dao.*;
-import modele.*;
+import dao.Connexion;
+import dao.DaoEquipe;
+import dao.DaoInscription;
+import dao.DaoJoueur;
+import dao.DaoSaison;
+import modele.Equipe;
+import modele.Inscription;
+import modele.Joueur;
+import modele.Pays;
+import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.creation.PopupPseudo;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
+import vue.common.FileChooser;
 import vue.common.JFramePopup;
 import vue.common.JFramePopupEquipe;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
+import javax.swing.JLabel;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,9 +32,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EquipeCreationControlleur implements ActionListener, ItemListener, MouseListener {
 	private final VueAdminEquipesCreation vue;
@@ -174,29 +180,8 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 		}
 		if (e.getSource() == vue.getLabelLogo()) {
-			JFileChooser chooser = new JFileChooser();
-			chooser.setFileFilter(new FileNameExtensionFilter("JPG Images", "jpg"));
-			int returnVal = chooser.showOpenDialog(this.vue);
-
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				//recuperer le fichier choisi
-				File fichier = chooser.getSelectedFile();
-				try {
-					//le transformer en image et la resize
-					BufferedImage image = ImageIO.read(fichier);
-					BufferedImage image_resized = resizeImage(image, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight());
-					//transformer en icone pour pouvoir l'afficher
-
-					ImageIcon imageIcon = new ImageIcon(image_resized);
-					//passer l'image au controleur pour pouvoir la stoquer plus tard
-					this.logo = image;
-					//affichage
-					this.vue.getLabelLogo().setIcon(imageIcon);
-					this.vue.getLabelLogo().setText("");
-				} catch (IOException ex) {
-					throw new RuntimeException(ex);
-				}
-			}
+			JLabel lableLogo = this.vue.getLabelLogo();
+			this.logo = FileChooser.createPopup(this.logo, lableLogo);
 		}
 	}
 
