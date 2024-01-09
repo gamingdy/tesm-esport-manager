@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
+import javax.swing.text.*;
 
 public class JFramePopup extends JFrame {
 
@@ -35,17 +36,20 @@ public class JFramePopup extends JFrame {
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
 
-		JTextArea label = new JTextArea(message);
-		label.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-		label.setLineWrap(true);
-		label.setWrapStyleWord(true);
+		JTextPane label = new JTextPane();
+		StyledDocument documentStyle = label.getStyledDocument();
+		SimpleAttributeSet centerAttribute = new SimpleAttributeSet();
+		StyleConstants.setAlignment(centerAttribute, StyleConstants.ALIGN_CENTER);
+		documentStyle.setParagraphAttributes(0, documentStyle.getLength(), centerAttribute, false);
+		label.setText(message);
+		label.setBorder(BorderFactory.createEmptyBorder(40, 20, 0, 0));
 		label.setOpaque(false);
 		label.setForeground(CustomColor.BLANC);
-		label.setAlignmentX(JTextField.CENTER); // Centre le texte
-		label.setAlignmentY(JTextField.CENTER);
+		label.setAlignmentX(JTextField.CENTER_ALIGNMENT); // Centre le texte
+		label.setAlignmentY(JTextField.CENTER_ALIGNMENT);
 		label.setEditable(false);
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
-
+		label.setPreferredSize(new Dimension());
 		panel.add(label, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();
