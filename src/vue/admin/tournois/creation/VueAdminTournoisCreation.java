@@ -6,6 +6,7 @@ import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
+import vue.common.PlaceholderTextField;
 import vue.common.CustomComboBox;
 
 import java.util.List;
@@ -36,16 +37,19 @@ public class VueAdminTournoisCreation extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textfieldNom;
-	private JTextField textfieldDateDebut;
-	private JTextField textfieldDateFin;
+	private PlaceholderTextField textfieldDateDebut;
+	private PlaceholderTextField textfieldDateFin;
 	private JLabel labelEquipes[];
 	private JButton boutonValider;
 	private JButton boutonAnnuler;
 	private JLabel labelLogo;
 	private JLabel btnAjoutEquipes;
 	private JPanel panelEquipes;
-	private DefaultListModel<JLabel> model;
+	private DefaultListModel<JLabel> modelArbitres;
+	private DefaultListModel<JLabel> modelEquipes;
 	private JComboBox<Niveau> comboboxNiveaux;
+	private JPanel panelArbitres;
+	private JLabel btnAjoutArbitres;
 
 	/**
 	 * Create the panel.
@@ -58,7 +62,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.8, 0.2, Double.MIN_VALUE};
 
 		setLayout(gridBagLayout);
 		setOpaque(false);
@@ -95,6 +99,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcNom.insets = new Insets(0, 0, 0, 50);
 		gbcNom.gridx = 0;
 		gbcNom.gridy = 0;
+		gbcNom.gridwidth = 2;
 		gbcNom.weightx = 1F / 2F;
 		gbcNom.weighty = 1F / 5F;
 		panelTop.add(champNom, gbcNom);
@@ -134,6 +139,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcNiveau.insets = new Insets(0, 0, 0, 50);
 		gbcNiveau.gridx = 0;
 		gbcNiveau.gridy = 1;
+		gbcNiveau.gridwidth = 2;
 		gbcNiveau.weightx = 1F / 2F;
 		gbcNiveau.weighty = 1F / 5F;
 		panelTop.add(champNiveau, gbcNiveau);
@@ -146,7 +152,8 @@ public class VueAdminTournoisCreation extends JPanel {
 		labelDateDebut.setForeground(CustomColor.BLANC);
 		labelDateDebut.setFont(MaFont.getFontTitre2());
 		champDateDebut.add(labelDateDebut);
-		textfieldDateDebut = new JTextField();
+		textfieldDateDebut = new PlaceholderTextField();
+		textfieldDateDebut.setPlaceholder("JJ/MM/AAAA");
 		textfieldDateDebut.setBackground(CustomColor.BACKGROUND_MENU);
 		textfieldDateDebut.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
@@ -157,10 +164,10 @@ public class VueAdminTournoisCreation extends JPanel {
 		champDateDebut.add(textfieldDateDebut);
 		GridBagConstraints gbcDateDebut = new GridBagConstraints();
 		gbcDateDebut.fill = GridBagConstraints.BOTH;
-		gbcDateDebut.insets = new Insets(0, 0, 0, 50);
+		gbcDateDebut.insets = new Insets(0,0,0,0);
 		gbcDateDebut.gridx = 0;
 		gbcDateDebut.gridy = 2;
-		gbcDateDebut.weightx = 1F / 2F;
+		gbcDateDebut.weightx = 1F / 4F;
 		gbcDateDebut.weighty = 1F / 5F;
 		panelTop.add(champDateDebut, gbcDateDebut);
 
@@ -172,7 +179,8 @@ public class VueAdminTournoisCreation extends JPanel {
 		labelDateFin.setForeground(CustomColor.BLANC);
 		labelDateFin.setFont(MaFont.getFontTitre2());
 		champDateFin.add(labelDateFin);
-		textfieldDateFin = new JTextField();
+		textfieldDateFin = new PlaceholderTextField();
+		textfieldDateFin.setPlaceholder("JJ/MM/AAAA");
 		textfieldDateFin.setBackground(CustomColor.BACKGROUND_MENU);
 		textfieldDateFin.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
@@ -183,12 +191,80 @@ public class VueAdminTournoisCreation extends JPanel {
 		champDateFin.add(textfieldDateFin);
 		GridBagConstraints gbcDateFin = new GridBagConstraints();
 		gbcDateFin.fill = GridBagConstraints.BOTH;
-		gbcDateFin.insets = new Insets(0, 0, 0, 50);
-		gbcDateFin.gridx = 0;
-		gbcDateFin.gridy = 3;
-		gbcDateFin.weightx = 1F / 2F;
+		gbcDateFin.insets = new Insets(0, 50, 0, 50);
+		gbcDateFin.gridx = 1;
+		gbcDateFin.gridy = 2;
+		gbcDateFin.weightx = 1F / 4F;
 		gbcDateFin.weighty = 1F / 5F;
 		panelTop.add(champDateFin, gbcDateFin);
+		
+		panelArbitres = new JPanel();
+		panelArbitres.setBackground(CustomColor.BACKGROUND_MAIN);
+		panelArbitres.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
+		GridBagLayout gblpanelArbitres = new GridBagLayout();
+		panelArbitres.setLayout(gblpanelArbitres);
+		GridBagConstraints gbcpanelArbitres = new GridBagConstraints();
+		gbcpanelArbitres.fill = GridBagConstraints.BOTH;
+		gbcpanelArbitres.insets = new java.awt.Insets(30, 0, 0, 50);
+		gbcpanelArbitres.gridx = 0;
+		gbcpanelArbitres.gridy = 3;
+		gbcpanelArbitres.gridwidth = 2;
+		gbcpanelArbitres.weightx = 1F / 2F;
+		gbcpanelArbitres.weighty = 1F / 3F;
+
+		panelTop.add(panelArbitres, gbcpanelArbitres);
+
+		JLabel labelArbitre = new JLabel("Arbitres");
+		labelArbitre.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
+		labelArbitre.setForeground(CustomColor.BLANC);
+		labelArbitre.setFont(MaFont.getFontTitre2());
+		GridBagConstraints gbcLabelArbitre = new GridBagConstraints();
+		gbcLabelArbitre.fill = GridBagConstraints.BOTH;
+		gbcLabelArbitre.gridx = 0;
+		gbcLabelArbitre.gridy = 0;
+		gbcLabelArbitre.weightx = 1;
+		gbcLabelArbitre.weighty = 1F / 5F;
+		panelArbitres.add(labelArbitre, gbcLabelArbitre);
+
+		btnAjoutArbitres = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
+		btnAjoutArbitres.setHorizontalTextPosition(JLabel.TRAILING);
+		btnAjoutArbitres.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
+		btnAjoutArbitres.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
+		GridBagConstraints gbcAjout = new GridBagConstraints();
+		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
+		gbcAjout.gridx = 1;
+		gbcAjout.gridy = 0;
+		panelArbitres.add(btnAjoutArbitres, gbcAjout);
+
+		modelArbitres = new DefaultListModel<JLabel>();
+		modelArbitres.addElement(new JLabel());
+		modelArbitres.addElement(new JLabel());
+		modelArbitres.addElement(new JLabel());
+		modelArbitres.addElement(new JLabel());
+		modelArbitres.addElement(new JLabel());
+		JList<JLabel> l = new JList<JLabel>(modelArbitres);
+		l.setPreferredSize(new Dimension());
+		l.setLayout(new GridLayout(0, 1));
+		l.setBackground(CustomColor.BACKGROUND_MAIN);
+		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
+		l.setCellRenderer(new ListCellRenderer<JLabel>() {
+
+			@Override
+			public Component getListCellRendererComponent(JList<? extends JLabel> list, JLabel value, int index,
+														  boolean isSelected, boolean cellHasFocus) {
+				return value;
+			}
+
+		});
+
+		GridBagConstraints gbcJ = new GridBagConstraints();
+		gbcJ.fill = GridBagConstraints.BOTH;
+		gbcJ.gridwidth = 2;
+		gbcJ.gridx = 0;
+		gbcJ.gridy = 1;
+		gbcJ.weighty = 1F;
+		panelArbitres.add(l, gbcJ);
 
 		panelEquipes = new JPanel();
 		panelEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -198,7 +274,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		GridBagConstraints gbcPanelEquipes = new GridBagConstraints();
 		gbcPanelEquipes.fill = GridBagConstraints.BOTH;
 		gbcPanelEquipes.insets = new java.awt.Insets(0, 50, 0, 0);
-		gbcPanelEquipes.gridx = 1;
+		gbcPanelEquipes.gridx = 2;
 		gbcPanelEquipes.gridy = 0;
 		gbcPanelEquipes.gridheight = 4;
 		gbcPanelEquipes.weightx = 1 / 2F;
@@ -223,27 +299,23 @@ public class VueAdminTournoisCreation extends JPanel {
 		btnAjoutEquipes.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
 		btnAjoutEquipes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
-		GridBagConstraints gbcAjout = new GridBagConstraints();
-		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
-		gbcAjout.gridx = 1;
-		gbcAjout.gridy = 0;
 		panelEquipes.add(btnAjoutEquipes, gbcAjout);
 
-		model = new DefaultListModel<JLabel>();
-		model.addElement(new JLabel());
-		model.addElement(new JLabel());
-		model.addElement(new JLabel());
-		model.addElement(new JLabel());
-		model.addElement(new JLabel());
-		model.addElement(new JLabel());
-		model.addElement(new JLabel());
-		model.addElement(new JLabel());
-		JList<JLabel> l = new JList<JLabel>(model);
-		l.setPreferredSize(new Dimension());
-		l.setLayout(new GridLayout(0, 1));
-		l.setBackground(CustomColor.BACKGROUND_MAIN);
-		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
-		l.setCellRenderer(new ListCellRenderer<JLabel>() {
+		modelEquipes = new DefaultListModel<JLabel>();
+		modelEquipes.addElement(new JLabel());
+		modelEquipes.addElement(new JLabel());
+		modelEquipes.addElement(new JLabel());
+		modelEquipes.addElement(new JLabel());
+		modelEquipes.addElement(new JLabel());
+		modelEquipes.addElement(new JLabel());
+		modelEquipes.addElement(new JLabel());
+		modelEquipes.addElement(new JLabel());
+		JList<JLabel> le = new JList<JLabel>(modelEquipes);
+		le.setPreferredSize(new Dimension());
+		le.setLayout(new GridLayout(0, 1));
+		le.setBackground(CustomColor.BACKGROUND_MAIN);
+		le.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
+		le.setCellRenderer(new ListCellRenderer<JLabel>() {
 
 			@Override
 			public Component getListCellRendererComponent(JList<? extends JLabel> list, JLabel value, int index,
@@ -252,14 +324,8 @@ public class VueAdminTournoisCreation extends JPanel {
 			}
 
 		});
-
-		GridBagConstraints gbcJ = new GridBagConstraints();
-		gbcJ.fill = GridBagConstraints.BOTH;
-		gbcJ.gridwidth = 2;
-		gbcJ.gridx = 0;
-		gbcJ.gridy = 1;
-		gbcJ.weighty = 1F;
-		panelEquipes.add(l, gbcJ);
+		
+		panelEquipes.add(le, gbcJ);
 
 
 		JPanel panelBot = new JPanel();
@@ -312,14 +378,14 @@ public class VueAdminTournoisCreation extends JPanel {
 	}
 
 	private void resetEquipes() {
-		model.set(1,new JLabel());
-		model.set(2,new JLabel());
-		model.set(3,new JLabel());
-		model.set(4,new JLabel());
-		model.set(5,new JLabel());
-		model.set(6,new JLabel());
-		model.set(7,new JLabel());
-		model.set(0,new JLabel());
+		modelEquipes.set(1,new JLabel());
+		modelEquipes.set(2,new JLabel());
+		modelEquipes.set(3,new JLabel());
+		modelEquipes.set(4,new JLabel());
+		modelEquipes.set(5,new JLabel());
+		modelEquipes.set(6,new JLabel());
+		modelEquipes.set(7,new JLabel());
+		modelEquipes.set(0,new JLabel());
 	}
 
 	public String getNomEquipe() {
@@ -331,10 +397,11 @@ public class VueAdminTournoisCreation extends JPanel {
 	}
 
 	/**
-	 * Set le nom d'un joueur
+	 * Set une équipe
 	 *
-	 * @param nom nom du joueur
-	 * @param i   indice du joueur dans le tableau ==> <strong>0 à 4</strong>
+	 * @param nom  nom de l'équipe
+	 * @param logo le logo de l'équipe (pas resize)
+	 * @param i    indice du joueur dans le tableau ==> <strong>0 à 8</strong>
 	 */
 	public void setEquipe(String nom, ImageIcon logo, int i) {
 		JLabel equipe = new JLabel();
@@ -347,7 +414,24 @@ public class VueAdminTournoisCreation extends JPanel {
 		equipe.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS),
 				BorderFactory.createEmptyBorder(10,0,10,0)));
-		this.model.set(i, equipe);
+		this.modelEquipes.set(i, equipe);
+	}
+	
+	/**
+	 * Set le nom d'un arbitre
+	 *
+	 * @param nom nom de l'arbitre
+	 * @param i   indice du joueur dans le tableau ==> <strong>0 à infini</strong> mais que les 4 premiers affichés
+	 */
+	public void addArbitre(String nom, ImageIcon logo) {
+		JLabel arbitre = new JLabel();
+		if (nom != null && logo != null) {
+			arbitre.setText(nom);
+			arbitre.setIcon(Vue.resize(logo, 30, 30));
+		}
+		arbitre.setForeground(CustomColor.BLANC);
+		arbitre.setFont(MaFont.getFontTitre3());
+		this.modelEquipes.addElement(arbitre);
 	}
 
 	public JButton getBoutonValider() {
@@ -374,10 +458,18 @@ public class VueAdminTournoisCreation extends JPanel {
 	}
 
 	public List<String> getEquipes() {
-		return Arrays.stream(model.toArray()).map(x -> ((JLabel) x).getText()).collect(Collectors.toList());
+		return Arrays.stream(modelEquipes.toArray()).map(x -> ((JLabel) x).getText()).collect(Collectors.toList());
+	}
+
+	public List<String> getArbitres() {
+		return Arrays.stream(modelArbitres.toArray()).map(x -> ((JLabel) x).getText()).collect(Collectors.toList());
 	}
 
 	public JLabel getBtnAjoutEquipes() {
+		return this.btnAjoutEquipes;
+	}
+
+	public JLabel getBtnAjoutArbitres() {
 		return this.btnAjoutEquipes;
 	}
 

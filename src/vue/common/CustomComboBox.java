@@ -22,6 +22,7 @@ import javax.swing.plaf.ComboBoxUI;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.JLabel;
 import javax.swing.event.EventListenerList;
 
@@ -43,7 +44,7 @@ public class CustomComboBox<E> extends JComboBox<E> {
 		setForeground(CustomColor.BLANC);
 		setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		setUI(CustomComboBoxUI.createUI(this));
-		this.setFocusable(false); 
+		setFocusable(false); 
 		 Object child = this.getAccessibleContext().getAccessibleChild(0);
 	        if (child instanceof BasicComboPopup) {
 	            BasicComboPopup popup = (BasicComboPopup) child;
@@ -52,6 +53,46 @@ public class CustomComboBox<E> extends JComboBox<E> {
 	            verticalScrollBar.setUI(new CustomScrollBarUI());
 	        }
 	}
+	
+	public void setActif(boolean actif) {
+		if (actif) {
+			setUI(CustomComboBoxUI.createUI(this));
+		}
+		else {
+			setUI(UIDesactiver.createUI(this));
+		}
+	}
+}
+class UIDesactiver extends BasicComboBoxUI {
+
+    public static UIDesactiver createUI(JComponent c) {
+        return new UIDesactiver();
+    }
+    
+    @Override
+    protected JButton createArrowButton() {
+        return new JButton() {
+            @Override
+            public int getWidth() {
+                return 0;
+            }
+        };
+    }
+
+    @Override
+    protected ComboPopup createPopup() {
+        return new BasicComboPopup(comboBox) {
+            @Override
+            protected JScrollPane createScroller() {
+                return new JScrollPane() {
+                    @Override
+                    public int getWidth() {
+                        return 0;
+                    }
+                };
+            }
+        };
+    }
 }
 class CustomComboBoxUI extends BasicComboBoxUI {
 	
