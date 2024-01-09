@@ -133,7 +133,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcPrenom.weightx = 1F / 2F;
 		gbcPrenom.weighty = 1F / 6F;
 		panelTop.add(champPrenom, gbcPrenom);
-		
+
 		JPanel champTelephone = new JPanel();
 		champTelephone.setLayout(new GridLayout(2, 1, 10, 0));
 		champTelephone.setOpaque(false);
@@ -215,7 +215,7 @@ public class VueAdminArbitresCreation extends JPanel {
 				nom.setForeground(CustomColor.BLANC);
 				nom.setFont(MaFont.getFontTitre3());
 				panelItem.add(nom);
-				JLabel date = new JLabel(value.getDateDébut()+"  "+value.getDateFin());
+				JLabel date = new JLabel(value.getDateDébut() + "  " + value.getDateFin());
 				date.setForeground(CustomColor.BLANC.darker());
 				date.setFont(MaFont.getFontTitre4());
 				panelItem.add(date);
@@ -275,6 +275,7 @@ public class VueAdminArbitresCreation extends JPanel {
 	public void clearField() {
 		this.textfieldNom.setText("");
 		this.textfieldPrenom.setText("");
+		this.textfieldTelephone.setText("");
 		resetTournois();
 
 	}
@@ -295,6 +296,9 @@ public class VueAdminArbitresCreation extends JPanel {
 		this.model.add(i, new LigneTournoi(nom, dateDébut, dateFin));
 	}
 
+	public String getTextTelephone() {
+		return this.textfieldTelephone.getText();
+	}
 
 	public JButton getBoutonValider() {
 		return this.boutonValider;
