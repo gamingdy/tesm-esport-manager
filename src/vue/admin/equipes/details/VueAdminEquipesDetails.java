@@ -1,10 +1,12 @@
 package vue.admin.equipes.details;
 
 import controlleur.admin.equipes.EquipeCreationControlleur;
+import controlleur.admin.equipes.EquipeModificationControlleur;
 import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
+import vue.common.CustomComboBox;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -36,7 +38,6 @@ public class VueAdminEquipesDetails extends JPanel {
 	private JButton boutonValider;
 	private JButton boutonAnnuler;
 	private JLabel labelLogo;
-	private JLabel btnAjoutJoueurs;
 	private JPanel panelJoueurs;
 	private DefaultListModel<String> modelJoueurs;
 	private DefaultListModel<String> modelSaisons;
@@ -112,17 +113,21 @@ public class VueAdminEquipesDetails extends JPanel {
 		DefaultComboBoxModel<Pays> modelPays = new DefaultComboBoxModel<Pays>();
 		modelPays.addElement(null);
 		Arrays.stream(Pays.values()).forEach(p -> modelPays.addElement(p));
-		comboboxPays = new JComboBox<Pays>(modelPays);
+		comboboxPays = new CustomComboBox<Pays>(modelPays);
 		comboboxPays.setRenderer(new javax.swing.ListCellRenderer<Pays>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
 														  boolean isSelected, boolean cellHasFocus) {
 				JLabel panel = new JLabel();
+				panel.setOpaque(true);
 				if (value != null) {
 					panel.setText(value.getNom());
 				} else {
 					panel.setText("Choissez le pays de l'équipe");
 				}
+				panel.setForeground(CustomColor.BLANC);
+				panel.setBackground(CustomColor.BACKGROUND_MAIN);
+				panel.setFocusable(false);
 				return panel;
 			}
 		});
@@ -158,7 +163,6 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelTop.add(panelJoueurs);
 
 		JLabel labelJoueurs = new JLabel("Joueurs");
-		labelJoueurs.setPreferredSize(new Dimension());
 		labelJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre2());
@@ -171,17 +175,11 @@ public class VueAdminEquipesDetails extends JPanel {
 		gbcLabelJoueurs.weighty = 2F / 7F;
 		panelJoueurs.add(labelJoueurs, gbcLabelJoueurs);
 
-		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
-		btnAjoutJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 20));
-		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
-		btnAjoutJoueurs.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.NONE;
 		gbcAjout.gridx = 1;
 		gbcAjout.gridy = 0;
-
-		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);
 
 		modelJoueurs = new DefaultListModel<String>();
 		JList<String> l = new JList<String>(modelJoueurs);
@@ -233,7 +231,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		btnAjoutSaisons = new JLabel("Ajouter à la saison actuelle");
 		btnAjoutSaisons.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createEmptyBorder(20, 0, 0, 20),
-				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,2)));
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2)));
 		btnAjoutSaisons.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutSaisons.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAjoutSaisons.setFont(MaFont.getFontTitre3());
@@ -291,7 +289,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		boutonValider.setForeground(CustomColor.BLANC);
 		boutonValider.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonValider);
-
+		setControleur(new EquipeModificationControlleur(this));
 	}
 
 	/**
@@ -299,14 +297,17 @@ public class VueAdminEquipesDetails extends JPanel {
 	 *
 	 * @param controleur
 	 */
-	public void setControleur(EquipeCreationControlleur controleur) {
+	public void setControleur(EquipeModificationControlleur controleur) {
 		this.comboboxPays.addItemListener(controleur);
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.labelLogo.addMouseListener(controleur);
-		this.btnAjoutJoueurs.addMouseListener(controleur);
 	}
 
+	public void removeControleur(EquipeModificationControlleur controlleur) {
+		this.comboboxPays.removeItemListener(controlleur);
+		this.labelLogo.removeMouseListener(controlleur);
+	}
 
 	public void clearField() {
 		this.textfieldNom.setText("");
@@ -321,16 +322,40 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.textfieldNom.setText(nom);
 	}
 
+	public JTextField getChampNom() {
+		return this.textfieldNom;
+	}
+
 	public void setPays(Pays pays) {
 		this.comboboxPays.setSelectedItem(pays);
+	}
+
+	public JComboBox<Pays> getComboboxPays() {
+		return this.comboboxPays;
 	}
 
 	public void setWorldRank(int wr) {
 		this.textfieldWR.setText("" + wr);
 	}
 
+	public JButton getBoutonValider() {
+		return this.boutonValider;
+	}
+
+	public JButton getBoutonAnnuler() {
+		return this.boutonAnnuler;
+	}
+
+	public JTextField getChampWorldRank() {
+		return this.textfieldWR;
+	}
+
 	public void setLogo(Icon logo) {
 		this.labelLogo.setIcon(logo);
+	}
+
+	public JLabel getLabelLogo() {
+		return this.labelLogo;
 	}
 
 	public void setJoueurs(List<String> joueurs) {
@@ -343,21 +368,10 @@ public class VueAdminEquipesDetails extends JPanel {
 		saisons.forEach(s -> modelSaisons.addElement("" + s));
 	}
 
-	public JComboBox<Pays> getComboboxPays() {
-		return this.comboboxPays;
-	}
-
-	public JLabel getLabelLogo() {
-		return this.labelLogo;
-	}
-
 	public void addSaison(int annee) {
 		modelSaisons.addElement("" + annee);
 	}
 
-	public JLabel getbtnAjoutJoueurs() {
-		return this.btnAjoutJoueurs;
-	}
 
 	public JLabel getbtnAjoutSaisons() {
 		return this.btnAjoutSaisons;

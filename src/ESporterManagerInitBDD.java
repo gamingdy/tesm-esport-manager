@@ -1,29 +1,5 @@
-import dao.Connexion;
-import dao.DBGeneration;
-import dao.DBSuppression;
-import dao.DaoAppartenance;
-import dao.DaoEquipe;
-import dao.DaoJoueur;
-import dao.DaoMatche;
-import dao.DaoNiveau;
-import dao.DaoPartie;
-import dao.DaoPoule;
-import dao.DaoSaison;
-import dao.DaoTournoi;
-import dao.FactoryDAO;
-import modele.Appartenance;
-import modele.Categorie;
-import modele.CompteArbitre;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Joueur;
-import modele.Matche;
-import modele.Niveau;
-import modele.Partie;
-import modele.Pays;
-import modele.Poule;
-import modele.Saison;
-import modele.Tournoi;
+import dao.*;
+import modele.*;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -45,7 +21,7 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
-
+		DaoInscription daoInscription = new DaoInscription(c);
 		DaoTournoi daoTournoi = new DaoTournoi(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
 		DaoPoule daoPoule = new DaoPoule(c);
@@ -99,8 +75,19 @@ public class ESporterManagerInitBDD {
 		Equipe equipe7 = new Equipe("chevarcher", Pays.FRANCE);
 		Equipe equipe8 = new Equipe("loup", Pays.FRANCE);
 		Equipe equipe9 = new Equipe("mort", Pays.FRANCE);
+		Inscription inscription = new Inscription(saison, equipe);
+		Inscription inscription1 = new Inscription(saison, equipe1);
+		Inscription inscription2 = new Inscription(saison, equipe2);
+		Inscription inscription3 = new Inscription(saison, equipe3);
+		Inscription inscription4 = new Inscription(saison, equipe4);
+		Inscription inscription5 = new Inscription(saison, equipe5);
+		Inscription inscription6 = new Inscription(saison, equipe6);
+		Inscription inscription7 = new Inscription(saison, equipe7);
+		Inscription inscription8 = new Inscription(saison, equipe8);
+		Inscription inscription9 = new Inscription(saison, equipe9);
 
 		try {
+
 			daoEquipe.add(equipe);
 			daoEquipe.add(equipe1);
 			daoEquipe.add(equipe2);
@@ -111,6 +98,16 @@ public class ESporterManagerInitBDD {
 			daoEquipe.add(equipe7);
 			daoEquipe.add(equipe8);
 			daoEquipe.add(equipe9);
+			daoInscription.add(inscription);
+			daoInscription.add(inscription1);
+			daoInscription.add(inscription2);
+			daoInscription.add(inscription3);
+			daoInscription.add(inscription4);
+			daoInscription.add(inscription5);
+			daoInscription.add(inscription6);
+			daoInscription.add(inscription7);
+			daoInscription.add(inscription8);
+			daoInscription.add(inscription9);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -163,10 +160,7 @@ public class ESporterManagerInitBDD {
 			daoPartie.add(partie1);
 			daoMatche.add(matche1);
 			daoPartie.add(partie2);
-			
-			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
-			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
-			
+
 			List<Partie> partieRecup = daoPartie.getPartieByMatche(matche);
 			System.out.println(partieRecup);
 			partieRecup.get(0).setVainqueur(equipe);
