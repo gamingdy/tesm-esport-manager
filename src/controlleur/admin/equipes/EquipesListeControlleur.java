@@ -15,11 +15,12 @@ import vue.admin.equipes.liste.VueAdminEquipesListe;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +33,10 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	private Saison saison;
 	private DaoInscription daoInscription;
 
+	private enum Etat {SAISON_ACTUELLE, TOUTES}
 
+	;
+	private Etat etat;
 	private List<CaseEquipe> listeCase;
 	private List<Equipe> listeEquipe;
 
@@ -43,15 +47,22 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		this.daoJoueur = new DaoJoueur(c);
 		this.daoSaison = new DaoSaison(c);
 		this.daoInscription = new DaoInscription(c);
-
+		this.etat = Etat.TOUTES;
 		this.update();
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == vue.getBoutonAjouter()) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
+		} else if (e.getSource() == vue.getBoutonSaison() && etat == Etat.TOUTES) {
+			etat = Etat.SAISON_ACTUELLE;
+			this.update();
+			this.vue.getBoutonSaison().setText("Toutes les équipes");
+		} else if (e.getSource() == vue.getBoutonSaison() && etat == Etat.SAISON_ACTUELLE) {
+			etat = Etat.TOUTES;
+			this.update();
+			this.vue.getBoutonSaison().setText("Equipes de la saison");
 		}
 	}
 
@@ -81,18 +92,27 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		return resultat;
 	}
 
-	public List<CaseEquipe> filtreSaison() throws Exception {
-		saison = daoSaison.getLastSaison();
-		List<Equipe> listeEquipe = daoInscription.getEquipeBySaison(saison);
-		return convertListToCase(listeEquipe);
-	}
 
 	@Override
 	public void update() {
 		try {
-			List<Equipe> liste = daoEquipe.getAll();
+			saison = daoSaison.getLastSaison();
+			System.out.println(etat);
+			List<Equipe> liste = new ArrayList<>();
+			if (etat == Etat.TOUTES) {
+				liste = daoEquipe.getAll();
+				System.out.println("TOUTES" + liste.size());
+			} else {
 
-			if (this.listeCase == null) {
+				try {
+					liste = daoInscription.getEquipeBySaison(saison.getAnnee());
+					System.out.println("SAISON" + liste.size());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+			if (this.listeCase == null && etat == Etat.SAISON_ACTUELLE) {
 				this.listeEquipe = liste;
 				this.listeCase = convertListToCase(this.listeEquipe);
 				this.vue.addAll(this.listeCase);

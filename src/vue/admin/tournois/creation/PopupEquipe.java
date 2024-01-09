@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
 
 import modele.Equipe;
@@ -81,7 +82,7 @@ public class PopupEquipe extends JFrame {
 			}
 		});
 		c = new CustomComboBox<Equipe>(model);
-		c.getEditor().getEditorComponent().setFont(MaFont.getFontTitre1());
+		c.setFont(MaFont.getFontTitre1());
 		c.setRenderer(new ListCellRenderer<Equipe>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
@@ -97,6 +98,9 @@ public class PopupEquipe extends JFrame {
 				panel.setBackground(CustomColor.BACKGROUND_MAIN);
 				panel.setFocusable(false);
 				panel.setFont(MaFont.getFontTitre1());
+				if (isSelected) {
+					panel.setForeground(CustomColor.ROSE_CONTOURS);
+				}
 				return panel;
 			}
 		});
