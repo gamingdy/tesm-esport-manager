@@ -102,20 +102,33 @@ public class VueAdminEquipesCreation extends JPanel {
 		Arrays.stream(Pays.values()).forEach(p -> modelPays.addElement(p));
 		comboboxPays = new CustomComboBox<Pays>(modelPays);
 		comboboxPays.style();
+		comboboxPays.setFont(MaFont.getFontTitre4());
 		comboboxPays.setRenderer(new javax.swing.ListCellRenderer<Pays>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
 														  boolean isSelected, boolean cellHasFocus) {
 				JLabel panel = new JLabel();
 				panel.setOpaque(true);
-				if (value != null) {
-					panel.setText(value.getNom());
+				if (value == null) {
+					if (index == -1) {
+						panel.setText("Choissez le pays de l'équipe");
+					}
+					else {
+						return new JLabel();
+					}
 				} else {
-					panel.setText("Choissez le pays de l'équipe");
+					panel.setText(value.getNom());
 				}
-				panel.setForeground(CustomColor.BLANC);
 				panel.setBackground(CustomColor.BACKGROUND_MAIN);
 				panel.setFocusable(false);
+				panel.setFont(MaFont.getFontTitre4());
+				panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
+				if (isSelected) {
+					panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
+				}
+				else {
+					panel.setForeground(CustomColor.BLANC);
+				}
 				return panel;
 			}
 		});
