@@ -45,7 +45,7 @@ public class CustomComboBox<E> extends JComboBox<E> {
 		setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		setUI(CustomComboBoxUI.createUI(this));
 		setFocusable(false); 
-		 styleScrollBar();
+		styleScrollBar();
 	}
 
 	private void styleScrollBar() {
