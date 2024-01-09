@@ -45,7 +45,11 @@ public class CustomComboBox<E> extends JComboBox<E> {
 		setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		setUI(CustomComboBoxUI.createUI(this));
 		setFocusable(false); 
-		 Object child = this.getAccessibleContext().getAccessibleChild(0);
+		 styleScrollBar();
+	}
+
+	private void styleScrollBar() {
+		Object child = this.getAccessibleContext().getAccessibleChild(0);
 	        if (child instanceof BasicComboPopup) {
 	            BasicComboPopup popup = (BasicComboPopup) child;
 	            JScrollPane scrollPane = (JScrollPane) popup.getComponent(0);
@@ -57,6 +61,7 @@ public class CustomComboBox<E> extends JComboBox<E> {
 	public void setActif(boolean actif) {
 		if (actif) {
 			setUI(CustomComboBoxUI.createUI(this));
+			styleScrollBar();
 		}
 		else {
 			setUI(UIDesactiver.createUI(this));
