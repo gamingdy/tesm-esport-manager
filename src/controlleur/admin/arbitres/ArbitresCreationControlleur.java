@@ -6,10 +6,7 @@ import dao.DaoArbitre;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import modele.Arbitrage;
-import modele.Arbitre;
-import modele.Saison;
-import modele.Tournoi;
+import modele.*;
 import vue.Page;
 import vue.admin.arbitres.creation.PopupTournoi;
 import vue.admin.arbitres.creation.VueAdminArbitresCreation;
@@ -49,12 +46,19 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 		if (e.getSource() == vue.getBoutonValider()) {
 			String nomArbitre = vue.getTextfieldNom().trim();
 			String prenomArbitre = vue.getTextfieldPrenom().trim();
+			String telephone = vue.getTextTelephone().trim();
 			if (nomArbitre.isEmpty()) {
 				new JFramePopup("Erreur", "Veuillez completer le nom de l'arbitre", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 			} else if (prenomArbitre.isEmpty()) {
 				new JFramePopup("Erreur", "Veuillez completer le prénom de l'arbitre", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+			} else if (telephone.isEmpty()) {
+				new JFramePopup("Erreur", "Le telephone est obligatoire", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+			} else if (!isDigit(telephone)) {
+				new JFramePopup("Erreur", "Le telephone ne doit pas contenir des caractères", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+			} else if (telephone.length() != 10) {
+				new JFramePopup("Erreur", "Le telephone doit contenir 10 chiffres, actuellement il y en a " + telephone.length(), () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 			} else {
-				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, Integer.parseInt("12567890"));
+				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, Integer.parseInt(telephone));
 				;
 
 				try {
@@ -87,15 +91,28 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 		if (e.getSource() == vue.getBoutonAjoutTournois()) {
 			try {
 				Saison saison = daoSaison.getLastSaison();
-				List<Tournoi> tournoi = daoTournoi.getTournoiBySaison(saison);
+				CustomDate finSaison = new CustomDate(saison.getAnnee(), 12, 31);
+				List<Tournoi> tournoi = daoTournoi.getTournoiBetweenDate(CustomDate.now(), finSaison);
+				if (tournoi.get(0).isEstEncours()) {
+					tournoi.remove(0);
+				}
 				this.popupTournoi = new PopupTournoi("Choisissez le tournoi attribué à l'arbitre", tournoi, () -> {
 					ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION);
-					this.addTournois(popupTournoi.getSaisie());
-					this.listeTournoi.add(popupTournoi.getSaisie());
+					if (listeTournoi.contains(popupTournoi.getSaisie())) {
+						new JFramePopup("Erreur", "Ce tournoi est deja choisi", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+					} else {
+						this.addTournois(popupTournoi.getSaisie());
+						this.listeTournoi.add(popupTournoi.getSaisie());
+						if (listeTournoi.size() == tournoi.size()) {
+							this.vue.getBoutonAjoutTournois().setVisible(false);
+						}
+					}
 				});
 			} catch (SQLException ex) {
 				throw new RuntimeException(ex);
 			} catch (FausseDateException ex) {
+				throw new RuntimeException(ex);
+			} catch (Exception ex) {
 				throw new RuntimeException(ex);
 			}
 		}
@@ -105,6 +122,15 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 		String debut = tournoi.getDebut().toString().substring(6);
 		String fin = tournoi.getFin().toString().substring(6);
 		this.vue.addTournoi(tournoi.getNom(), debut, fin, this.positionTournoi);
+	}
+
+	private boolean isDigit(String telephone) {
+		try {
+			Integer.parseInt(telephone);
+			return true;
+		} catch (NumberFormatException nb) {
+			return false;
+		}
 	}
 
 	public void addTournoisBdd(List<Tournoi> listeTournoi, Arbitre arbitre) {

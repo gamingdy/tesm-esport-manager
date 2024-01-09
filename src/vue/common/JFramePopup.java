@@ -5,12 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 public class JFramePopup extends JFrame {
 
@@ -40,9 +35,15 @@ public class JFramePopup extends JFrame {
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
 
-		JLabel label = new JLabel(message);
-		label.setForeground(Color.white);
-		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
+		JTextArea label = new JTextArea(message);
+		label.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+		label.setLineWrap(true);
+		label.setWrapStyleWord(true);
+		label.setOpaque(false);
+		label.setForeground(CustomColor.BLANC);
+		label.setAlignmentX(JTextField.CENTER); // Centre le texte
+		label.setAlignmentY(JTextField.CENTER);
+		label.setEditable(false);
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 
 		panel.add(label, BorderLayout.CENTER);
