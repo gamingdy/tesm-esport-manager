@@ -1,15 +1,14 @@
 package controlleur.admin.arbitres;
 
-import dao.Connexion;
-import dao.DaoArbitrage;
-import dao.DaoArbitre;
-import dao.DaoSaison;
-import dao.DaoTournoi;
+import controlleur.admin.tournois.TournoisObserver;
+import dao.*;
 import exceptions.FausseDateException;
 import modele.*;
 import vue.Page;
 import vue.admin.arbitres.creation.PopupTournoi;
 import vue.admin.arbitres.creation.VueAdminArbitresCreation;
+import vue.admin.equipes.creation.VueAdminEquipesCreation;
+import vue.admin.equipes.liste.VueAdminEquipesListe;
 import vue.common.JFramePopup;
 
 import java.awt.event.ActionEvent;
@@ -18,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ArbitresCreationControlleur implements ActionListener, MouseListener {
@@ -60,7 +60,6 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			} else {
 				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, Integer.parseInt(telephone));
 				;
-
 				try {
 					daoArbitre.add(arbitre);
 					if (!listeTournoi.isEmpty()) {

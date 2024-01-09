@@ -42,7 +42,9 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		if (e.getSource() == this.vue.getBoutonAnnuler()) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Valider")) {
+			passerEnNonEditing();
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
+
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Modifier")) {
 			passerEnEditing();
 		}
@@ -85,20 +87,18 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	}
 
 	private void passerEnEditing() {
-		this.editing = true;
+		this.editing=true;
 		this.vue.getLabelLogo().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		this.vue.getbtnAjoutSaisons().setVisible(true);
 		this.vue.getComboboxPays().setEnabled(true);
-		this.vue.setControleur(this);
 		this.vue.getBoutonValider().setText("Valider");
 	}
 
 	private void passerEnNonEditing() {
-		this.editing = false;
+		this.editing=false;
 		this.vue.getLabelLogo().setCursor(Cursor.getDefaultCursor());
 		this.vue.getbtnAjoutSaisons().setVisible(false);
 		this.vue.getComboboxPays().setEnabled(false);
-		this.vue.removeControleur(this);
 		this.vue.getBoutonValider().setText("Modifier");
 	}
 

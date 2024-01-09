@@ -162,16 +162,23 @@ public class ESporterManagerInitBDD {
 			daoPartie.add(partie2);
 
 			List<Partie> partieRecup = daoPartie.getPartieByMatche(matche);
+			System.out.println(partieRecup);
 			partieRecup.get(0).setVainqueur(equipe);
 			daoPartie.update(partieRecup.get(0));
 			matche.setVainqueur(equipe);
 			daoMatche.update(matche);
+			
+			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
+			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
 
 			List<Partie> partieRecup1 = daoPartie.getPartieByMatche(matche1);
 			partieRecup1.get(0).setVainqueur(equipe2);
 			daoPartie.update(partieRecup.get(0));
 			matche1.setVainqueur(equipe2);
 			daoMatche.update(matche);
+			
+			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
+			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
