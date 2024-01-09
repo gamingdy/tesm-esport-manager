@@ -19,11 +19,13 @@ import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 
 import modele.Equipe;
+import modele.Pays;
 import modele.Tournoi;
 
 import javax.swing.JComboBox;
 
 import vue.common.CustomColor;
+import vue.common.CustomComboBox;
 import vue.common.MaFont;
 
 
@@ -67,17 +69,20 @@ public class PopupTournoi extends JFrame {
 		DefaultComboBoxModel<Tournoi> model = new DefaultComboBoxModel<Tournoi>();
 		equipes.forEach(model::addElement);
 
-		c = new JComboBox<Tournoi>(model);
+		c = new CustomComboBox<Tournoi>(model);
 		c.setRenderer(new ListCellRenderer<Tournoi>() {
-
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Tournoi> list, Tournoi value, int index,
-					boolean isSelected, boolean cellHasFocus) {
-				return new JLabel(value.getNom()+ " " + value.getSaison().getAnnee());
+														  boolean isSelected, boolean cellHasFocus) {
+				JLabel panel = new JLabel(value.getNom() + " " + value.getSaison().getAnnee());
+				panel.setOpaque(true);
+				panel.setForeground(CustomColor.BLANC);
+				panel.setBackground(CustomColor.BACKGROUND_MAIN);
+				panel.setFocusable(false);
+				return panel;
 			}
-			
 		});
-		panel.add(c, BorderLayout.CENTER);
+		panel.add(c);
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());

@@ -22,7 +22,9 @@ import modele.Equipe;
 
 import javax.swing.JComboBox;
 
+import modele.Tournoi;
 import vue.common.CustomColor;
+import vue.common.CustomComboBox;
 import vue.common.MaFont;
 
 
@@ -71,13 +73,34 @@ public class PopupEquipe extends JFrame {
 
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
-					boolean isSelected, boolean cellHasFocus) {
+														  boolean isSelected, boolean cellHasFocus) {
 				if (value != null) {
-				return new JLabel(value.getNom());
+					return new JLabel(value.getNom());
 				}
 				return new JLabel("");
 			}
 		});
+		c = new CustomComboBox<Equipe>(model);
+		c.getEditor().getEditorComponent().setFont(MaFont.getFontTitre1());
+		c.setRenderer(new ListCellRenderer<Equipe>() {
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
+														  boolean isSelected, boolean cellHasFocus) {
+				JLabel panel;
+				if (value != null) {
+					panel = new JLabel(value.getNom());
+				} else {
+					panel = new JLabel("");
+				}
+				panel.setOpaque(true);
+				panel.setForeground(CustomColor.BLANC);
+				panel.setBackground(CustomColor.BACKGROUND_MAIN);
+				panel.setFocusable(false);
+				panel.setFont(MaFont.getFontTitre1());
+				return panel;
+			}
+		});
+		panel.add(c);
 		panel.add(c, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();
