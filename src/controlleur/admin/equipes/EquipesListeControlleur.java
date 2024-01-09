@@ -15,12 +15,11 @@ import vue.admin.equipes.liste.VueAdminEquipesListe;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import java.awt.*;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -112,9 +111,15 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 				}
 
 			}
-			if (this.listeCase == null && etat == Etat.SAISON_ACTUELLE) {
+			if (this.listeCase == null) {
 				this.listeEquipe = liste;
 				this.listeCase = convertListToCase(this.listeEquipe);
+				this.vue.addAll(this.listeCase);
+			} else if (etat == Etat.SAISON_ACTUELLE) {
+				this.listeEquipe = liste;
+
+				this.listeCase = convertListToCase(this.listeEquipe);
+				this.vue.resetGrille();
 				this.vue.addAll(this.listeCase);
 			} else {
 				List<Equipe> differences = liste.stream()

@@ -14,7 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.List;
 
 public class VueAdminEquipesListe extends JPanel {
@@ -126,6 +132,11 @@ public class VueAdminEquipesListe extends JPanel {
 		nbCases += 1;
 	}
 
+	public void setEquipe(List<CaseEquipe> c) {
+		list.removeAll();
+		nbCases = 0;
+		this.addAll(c);
+	}
 
 	public void addAll(List<CaseEquipe> c) {
 		c.stream().forEach(this::add);

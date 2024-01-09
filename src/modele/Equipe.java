@@ -93,7 +93,7 @@ public class Equipe {
 	public boolean equals(Object o) {
 		if (o instanceof Equipe) {
 			Equipe e = (Equipe) o;
-			return this.toString().equals(e.toString());
+			return this.getNom().equals(e.getNom());
 		}
 		return false;
 	}

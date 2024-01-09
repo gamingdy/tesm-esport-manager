@@ -10,8 +10,10 @@ import modele.Pays;
 import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.details.VueAdminEquipesDetails;
+import vue.admin.equipes.liste.CaseEquipe;
 import vue.common.CustomComboBox;
 import vue.common.FileChooser;
+import vue.common.JFramePopup;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -26,7 +28,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,7 +40,9 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	private DaoJoueur daoJoueur;
 	private DaoInscription daoInscription;
 	private boolean editing;
+	private boolean logoChanged;
 	private BufferedImage logo;
+	private CaseEquipe caseEquipe;
 
 	public EquipeModificationControlleur(VueAdminEquipesDetails vue) {
 		this.vue = vue;
@@ -44,25 +50,52 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		this.daoEquipe = new DaoEquipe(connexion);
 		this.daoJoueur = new DaoJoueur(connexion);
 		this.daoInscription = new DaoInscription(connexion);
-
+		this.logoChanged = false;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vue.getBoutonAnnuler()) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
+			this.reset();
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Valider")) {
 			passerEnNonEditing();
+			String nom_pays = Objects.requireNonNull(this.vue.getComboboxPays().getSelectedItem()).toString();
+			Pays pays = Pays.trouverPaysParNom(nom_pays);
+			Equipe equipe = new Equipe(this.vue.getChampNom().getText(), pays);
+			addEquipe(equipe);
+			updateCase(equipe);
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Modifier")) {
 			passerEnEditing();
 		}
+	}
+
+	public void reset() {
+		this.logoChanged = false;
+		this.logo = null;
+	}
+
+	private void updateCase(Equipe equipe) {
+		try {
+			Image img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
+			ImageIcon icon = new ImageIcon(img);
+			Image imgPays = ImageIO.read(new File("assets/country-flags/png100px/" + equipe.getPays().getCode() + ".png"));
+			ImageIcon iconPays = new ImageIcon(imgPays);
+			this.caseEquipe.setLogo(icon);
+			this.caseEquipe.setPays(iconPays);
+			this.caseEquipe.updatePanel();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 	}
 
-	public void init(String nomEquipe, boolean newEditing) {
+	public void init(CaseEquipe caseEquipe, boolean newEditing) {
 		this.editing = newEditing;
+		String nomEquipe = caseEquipe.getNom();
+		this.caseEquipe = caseEquipe;
 		try {
 			Optional<Equipe> find_equipe = this.daoEquipe.getById(nomEquipe);
 			if (!find_equipe.isPresent()) {
@@ -125,7 +158,6 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-
 	}
 
 	@Override
@@ -133,27 +165,43 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		if (e.getSource() == this.vue.getLabelLogo() && this.editing) {
 			JLabel lableLogo = this.vue.getLabelLogo();
 			this.logo = FileChooser.createPopup(this.logo, lableLogo);
+			this.logoChanged = true;
 		}
 
 	}
 
+	public void addEquipe(Equipe equipeInserer) {
+		try {
+			this.daoEquipe.update(equipeInserer);
+			if (!this.logoChanged) {
+				return;
+			}
+			String filename = "assets/logo-equipes/" + equipeInserer.getNom() + ".jpg";
+			File outputfile = new File(filename);
+			if (outputfile.exists()) {
+				outputfile.delete();
+				outputfile = new File(filename);
+			}
+			ImageIO.write(this.logo, "jpg", outputfile);
+		} catch (Exception e) {
+			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+		}
+	}
+
+
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-
 	}
 }
