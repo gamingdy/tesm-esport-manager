@@ -11,9 +11,11 @@ import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.details.VueAdminEquipesDetails;
 import vue.common.CustomComboBox;
+import vue.common.FileChooser;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -34,6 +36,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	private DaoJoueur daoJoueur;
 	private DaoInscription daoInscription;
 	private boolean editing;
+	private BufferedImage logo;
 
 	public EquipeModificationControlleur(VueAdminEquipesDetails vue) {
 		this.vue = vue;
@@ -81,6 +84,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			this.vue.setJoueurs(liste_joueurs);
 			this.vue.setLogo(logo);
 			this.vue.getChampWorldRank().setEditable(false);
+			this.vue.getChampNom().setEditable(false);
 			if (editing) {
 				passerEnEditing();
 			} else {
@@ -106,7 +110,6 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	private void setEditing(boolean editing) {
 		this.editing = editing;
-		this.vue.getChampNom().setEditable(editing);
 		this.vue.getbtnAjoutSaisons().setVisible(editing);
 
 		CustomComboBox<Pays> ref = this.vue.getComboboxPays();
@@ -127,6 +130,10 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if (e.getSource() == this.vue.getLabelLogo() && this.editing) {
+			JLabel lableLogo = this.vue.getLabelLogo();
+			this.logo = FileChooser.createPopup(this.logo, lableLogo);
+		}
 
 	}
 
