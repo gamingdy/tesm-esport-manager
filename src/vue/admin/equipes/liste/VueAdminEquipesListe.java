@@ -139,6 +139,7 @@ public class VueAdminEquipesListe extends JPanel {
 			j.setOpaque(false);
 			list.add(j);
 		}
+		nbCases = 0;
 	}
 
 	public JButton getBoutonAjouter() {
