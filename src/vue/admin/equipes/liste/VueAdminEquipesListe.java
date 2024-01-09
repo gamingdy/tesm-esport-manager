@@ -130,6 +130,16 @@ public class VueAdminEquipesListe extends JPanel {
 	public void addAll(List<CaseEquipe> c) {
 		c.stream().forEach(this::add);
 	}
+	
+	public void resetGrille() {
+		list.removeAll();
+		JPanel j;
+		for (int i = 0; i < 4; i++) {
+			j = new JPanel();
+			j.setOpaque(false);
+			list.add(j);
+		}
+	}
 
 	public JButton getBoutonAjouter() {
 		return this.boutonAjouter;
