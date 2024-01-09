@@ -1,4 +1,4 @@
-package vue.admin.arbitres.creation;
+package vue.admin.tournois.creation;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -18,26 +18,22 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 
-import modele.Equipe;
-import modele.Pays;
-import modele.Tournoi;
-
-import javax.swing.JComboBox;
+import modele.Arbitre;
 
 import vue.common.CustomColor;
 import vue.common.CustomComboBox;
 import vue.common.MaFont;
 
 
-public class PopupTournoi extends JFrame {
+public class PopupArbitres extends JFrame {
 
-	private JComboBox<Tournoi> c;
+	private CustomComboBox<Arbitre> c;
 
 	public interface ActionHandler {
 		void handleAction();
 	}
 
-	public PopupTournoi(String title, List<Tournoi> equipes, ActionHandler actionHandler) {
+	public PopupArbitres(String title, List<Arbitre> equipes, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -54,35 +50,34 @@ public class PopupTournoi extends JFrame {
 		setVisible(true);
 	}
 
-	private JPanel createPanel(ActionHandler actionHandler, List<Tournoi> equipes) {
+	private JPanel createPanel(ActionHandler actionHandler, List<Arbitre> equipes) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
 
-		JLabel label = new JLabel("Saisir le tournoi :");
+		JLabel label = new JLabel("Saisir l'équipe :");
 		label.setForeground(Color.white);
 		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 		panel.add(label, BorderLayout.NORTH);
 
 
-		DefaultComboBoxModel<Tournoi> model = new DefaultComboBoxModel<Tournoi>();
+		DefaultComboBoxModel<Arbitre> model = new DefaultComboBoxModel<Arbitre>();
 		equipes.forEach(model::addElement);
 
-		c = new CustomComboBox<Tournoi>(model);
-		c.setRenderer(new ListCellRenderer<Tournoi>() {
+		c = new CustomComboBox<Arbitre>(model);
+		c.setRenderer(new ListCellRenderer<Arbitre>() {
+
 			@Override
-			public Component getListCellRendererComponent(JList<? extends Tournoi> list, Tournoi value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel panel = new JLabel(value.getNom() + " " + value.getSaison().getAnnee());
-				panel.setOpaque(true);
-				panel.setForeground(CustomColor.BLANC);
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				return panel;
+			public Component getListCellRendererComponent(JList<? extends Arbitre> list, Arbitre value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				if (value != null) {
+				return new JLabel(value.getNom() + " " + value.getPrenom());
+				}
+				return new JLabel("");
 			}
 		});
-		panel.add(c);
+		panel.add(c, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
@@ -117,7 +112,7 @@ public class PopupTournoi extends JFrame {
 		return panel;
 	}
 
-	public Tournoi getSaisie() {
-		return (Tournoi) c.getSelectedItem();
+	public Arbitre getSaisie() {
+		return (Arbitre) c.getSelectedItem();
 	}
 }
