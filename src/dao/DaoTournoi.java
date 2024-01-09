@@ -44,8 +44,8 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				+ "Nom_tournoi VARCHAR(50),"
 				+ "Date_Debut DATE,"
 				+ "Date_Fin DATE,"
-				+ "username VARCHAR(50),"
-				+ "mdp VARCHAR(50),"
+				+ "Username_Compte_Arbitre VARCHAR(50),"
+				+ "Mot_De_Passe_Compte_Arbitre VARCHAR(50),"
 				+ "Libelle_Niveau VARCHAR(50) NOT NULL,"
 				+ "PRIMARY KEY(Annee, Nom_tournoi),"
 				+ "FOREIGN KEY(Annee) REFERENCES Saison(Annee),"
@@ -89,8 +89,8 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
 						Niveau.valueOf(resultat.getString("Libelle_Niveau")),
 						new CompteArbitre(
-								resultat.getString("username"),
-								resultat.getString("mdp"))
+								resultat.getString("Username_Compte_Arbitre"),
+								resultat.getString("Mot_De_Passe_Compte_Arbitre"))
 				);
 				sortie.add(tournoi);
 			}
@@ -117,8 +117,8 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
 						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
 						new CompteArbitre(
-								resultat.getString("username"),
-								resultat.getString("mdp"))
+								resultat.getString("Username_Compte_Arbitre"),
+								resultat.getString("Mot_De_Passe_Compte_Arbitre"))
 				);
 				
 			}
@@ -132,7 +132,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	@Override
 	public boolean add(Tournoi value) throws Exception {
 		try (PreparedStatement add = connexion.getConnection().prepareStatement(
-				"INSERT INTO Tournoi(Annee,Nom_Tournoi,Date_Debut,Date_Fin,username,mdp,Libelle_Niveau) values (?,?,?,?,?,?,?)")) {
+				"INSERT INTO Tournoi(Annee,Nom_Tournoi,Date_Debut,Date_Fin,Username_Compte_Arbitre,Mot_De_Passe_Compte_Arbitre,Libelle_Niveau) values (?,?,?,?,?,?,?)")) {
 			add.setInt(1, value.getSaison().getAnnee());
 			add.setString(2, value.getNom());
 			add.setTimestamp(3, value.getDebut().toSQL());
@@ -154,8 +154,8 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				"UPDATE Tournoi SET "
 						+ "Date_Debut = ?, "
 						+ "Date_Fin = ?, "
-						+ "username = ?, "
-						+ "mdp = ?, "
+						+ "Username_Compte_Arbitre = ?, "
+						+ "Mot_De_Passe_Compte_Arbitre = ?, "
 						+ "Libelle_Niveau = ? "
 						+ "WHERE Annee = ? AND Nom_Tournoi = ?")) {
 			update.setInt(6, value.getSaison().getAnnee());
@@ -212,12 +212,12 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 	 */
 	public CompteArbitre getCompteArbitreByTournoi(Object... value) throws SQLException {
 		try (PreparedStatement getCompteArbitreByTournoi = connexion.getConnection().prepareStatement(
-				"SELECT username,mdp FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
+				"SELECT Username_Compte_Arbitre,Mot_De_Passe_Compte_Arbitre FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
 			getCompteArbitreByTournoi.setInt(1, (Integer) value[0]);
 			getCompteArbitreByTournoi.setString(2, (String) value[1]);
 			ResultSet resultat = getCompteArbitreByTournoi.executeQuery();
 			resultat.next();
-			return new CompteArbitre(resultat.getString("username"), resultat.getString("mdp"));
+			return new CompteArbitre(resultat.getString("Username_Compte_Arbitre"), resultat.getString("Mot_De_Passe_Compte_Arbitre"));
 		}
 	}
 
@@ -232,17 +232,19 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				"SELECT * FROM Tournoi WHERE ? BETWEEN Date_Debut AND Date_Fin ")) {
 			getCompteArbitreByTournoi.setTimestamp(1, c.toSQL());
 			ResultSet resultat = getCompteArbitreByTournoi.executeQuery();
-			resultat.next();
-			Tournoi tournoi = new Tournoi(
-					new Saison(resultat.getInt("Annee")),
-					resultat.getString("Nom_Tournoi"),
-					new CustomDate(resultat.getTimestamp("Date_Debut")),
-					new CustomDate(resultat.getTimestamp("Date_Fin")),
-					Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
-					new CompteArbitre(
-							resultat.getString("username"),
-							resultat.getString("mdp"))
-			);
+			Tournoi tournoi = null;
+			if (resultat.next()) {
+				tournoi = new Tournoi(
+						new Saison(resultat.getInt("Annee")),
+						resultat.getString("Nom_Tournoi"),
+						new CustomDate(resultat.getTimestamp("Date_Debut")),
+						new CustomDate(resultat.getTimestamp("Date_Fin")),
+						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
+						new CompteArbitre(
+								resultat.getString("Username_Compte_Arbitre"),
+								resultat.getString("Mot_De_Passe_Compte_Arbitre"))
+				);
+			}
 			return Optional.ofNullable(tournoi);
 		}
 	}
@@ -271,8 +273,8 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 								new CustomDate(resultat.getTimestamp("Date_Fin")),
 								Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
 								new CompteArbitre(
-										resultat.getString("username"),
-										resultat.getString("mdp"))
+										resultat.getString("Username_Compte_Arbitre"),
+										resultat.getString("Mot_De_Passe_Compte_Arbitre"))
 						));
 			}
 			return sortie;
@@ -295,8 +297,8 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
 						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
 						new CompteArbitre(
-								resultat.getString("username"),
-								resultat.getString("mdp"))
+								resultat.getString("Username_Compte_Arbitre"),
+								resultat.getString("Mot_De_Passe_Compte_Arbitre"))
 					)
 				);
 				
@@ -329,8 +331,8 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 						new CustomDate(resultat.getTimestamp("Date_Fin")),
 						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
 						new CompteArbitre(
-								resultat.getString("username"),
-								resultat.getString("mdp"))
+								resultat.getString("Username_Compte_Arbitre"),
+								resultat.getString("Mot_De_Passe_Compte_Arbitre"))
 				);
 				sortie.add(tournoi);
 			}
