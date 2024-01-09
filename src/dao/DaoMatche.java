@@ -188,27 +188,6 @@ public class DaoMatche implements Dao<Matche, Integer> {
 		}
 	}
 
-	public Equipe getWinner(Matche matche) throws Exception {
-		try (PreparedStatement getWinner = connexion.getConnection().prepareStatement(
-				"SELECT Nom_Equipe"
-						+ "FROM Partie"
-						+ "WHERE Id_Match = ?")) {
-			getWinner.setInt(1, matche.getId());
-			ResultSet resultat = getWinner.executeQuery();
-			List<Equipe> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				sortie.add(daoequipe.getById("Nom_Equipe").get());
-			}
-			int frequenceEquipe1 = Collections.frequency(sortie, matche.getEquipe1());
-			int frequenceEquipe2 = Collections.frequency(sortie, matche.getEquipe2());
-			if (frequenceEquipe1 > frequenceEquipe2) {
-				return matche.getEquipe2();
-			} else {
-				return matche.getEquipe1();
-			}
-		}
-	}
-
 	public List<Matche> getMatchesByTournoiFromCategorie(Tournoi tournoi, Categorie categorie) throws FausseDateException, MemeEquipeException, SQLException, Exception {
 		try (PreparedStatement getMatchesFromCategorie = connexion.getConnection().prepareStatement(
 				"SELECT * "

@@ -18,23 +18,22 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 
-import modele.Equipe;
-
-import javax.swing.JComboBox;
+import modele.Arbitre;
 
 import vue.common.CustomColor;
+import vue.common.CustomComboBox;
 import vue.common.MaFont;
 
 
-public class PopupEquipe extends JFrame {
+public class PopupArbitres extends JFrame {
 
-	private JComboBox<Equipe> c;
+	private CustomComboBox<Arbitre> c;
 
 	public interface ActionHandler {
 		void handleAction();
 	}
 
-	public PopupEquipe(String title, List<Equipe> equipes, ActionHandler actionHandler) {
+	public PopupArbitres(String title, List<Arbitre> equipes, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -51,7 +50,7 @@ public class PopupEquipe extends JFrame {
 		setVisible(true);
 	}
 
-	private JPanel createPanel(ActionHandler actionHandler, List<Equipe> equipes) {
+	private JPanel createPanel(ActionHandler actionHandler, List<Arbitre> equipes) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
@@ -63,17 +62,17 @@ public class PopupEquipe extends JFrame {
 		panel.add(label, BorderLayout.NORTH);
 
 
-		DefaultComboBoxModel<Equipe> model = new DefaultComboBoxModel<Equipe>();
+		DefaultComboBoxModel<Arbitre> model = new DefaultComboBoxModel<Arbitre>();
 		equipes.forEach(model::addElement);
 
-		c = new JComboBox<Equipe>(model);
-		c.setRenderer(new ListCellRenderer<Equipe>() {
+		c = new CustomComboBox<Arbitre>(model);
+		c.setRenderer(new ListCellRenderer<Arbitre>() {
 
 			@Override
-			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
+			public Component getListCellRendererComponent(JList<? extends Arbitre> list, Arbitre value, int index,
 					boolean isSelected, boolean cellHasFocus) {
 				if (value != null) {
-				return new JLabel(value.getNom());
+				return new JLabel(value.getNom() + " " + value.getPrenom());
 				}
 				return new JLabel("");
 			}
@@ -113,7 +112,7 @@ public class PopupEquipe extends JFrame {
 		return panel;
 	}
 
-	public Equipe getSaisie() {
-		return (Equipe) c.getSelectedItem();
+	public Arbitre getSaisie() {
+		return (Arbitre) c.getSelectedItem();
 	}
 }
