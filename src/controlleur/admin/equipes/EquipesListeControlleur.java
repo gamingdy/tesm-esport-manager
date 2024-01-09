@@ -12,6 +12,7 @@ import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
+import vue.common.TitleBar;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -56,10 +57,12 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
 		} else if (e.getSource() == vue.getBoutonSaison() && etat == Etat.TOUTES) {
 			etat = Etat.SAISON_ACTUELLE;
+			TitleBar.getInstance().setTitle("Equipes de la saison actuelle");
 			this.update();
 			this.vue.getBoutonSaison().setText("Toutes les équipes");
 		} else if (e.getSource() == vue.getBoutonSaison() && etat == Etat.SAISON_ACTUELLE) {
 			etat = Etat.TOUTES;
+			TitleBar.getInstance().setTitle("Equipes");
 			this.update();
 			this.vue.getBoutonSaison().setText("Equipes de la saison");
 		}
@@ -96,16 +99,13 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	public void update() {
 		try {
 			saison = daoSaison.getLastSaison();
-			System.out.println(etat);
 			List<Equipe> liste = new ArrayList<>();
 			if (etat == Etat.TOUTES) {
 				liste = daoEquipe.getAll();
-				System.out.println("TOUTES" + liste.size());
 			} else {
 
 				try {
 					liste = daoInscription.getEquipeBySaison(saison.getAnnee());
-					System.out.println("SAISON" + liste.size());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
