@@ -10,6 +10,7 @@ import dao.DaoPartie;
 import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
+import dao.FactoryDAO;
 import modele.Appartenance;
 import modele.Categorie;
 import modele.CompteArbitre;
@@ -154,7 +155,7 @@ public class ESporterManagerInitBDD {
 
 
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
-		/*Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
+		Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
 		Partie partie1 = new Partie(matche, 1);
 		Partie partie2 = new Partie(matche1, 1);
 		try {
@@ -163,20 +164,30 @@ public class ESporterManagerInitBDD {
 			daoMatche.add(matche1);
 			daoPartie.add(partie2);
 			
+			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
+			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
+			
 			List<Partie> partieRecup = daoPartie.getPartieByMatche(matche);
+			System.out.println(partieRecup);
 			partieRecup.get(0).setVainqueur(equipe);
 			daoPartie.update(partieRecup.get(0));
 			matche.setVainqueur(equipe);
 			daoMatche.update(matche);
+			
+			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
+			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
 
 			List<Partie> partieRecup1 = daoPartie.getPartieByMatche(matche1);
 			partieRecup1.get(0).setVainqueur(equipe2);
 			daoPartie.update(partieRecup.get(0));
 			matche1.setVainqueur(equipe2);
 			daoMatche.update(matche);
+			
+			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
+			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
 		} catch (SQLException e) {
 			System.out.println(e.toString());
-		}*/
+		}
 
 
 	}
