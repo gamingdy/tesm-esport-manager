@@ -1,20 +1,16 @@
 package vue.admin.equipes.details;
 
-import controlleur.admin.equipes.EquipeCreationControlleur;
 import controlleur.admin.equipes.EquipeModificationControlleur;
 import modele.Pays;
-import vue.Vue;
 import vue.common.CustomColor;
-import vue.common.MaFont;
 import vue.common.CustomComboBox;
+import vue.common.MaFont;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -33,7 +29,7 @@ import java.util.List;
 public class VueAdminEquipesDetails extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox<Pays> comboboxPays;
+	private CustomComboBox<Pays> comboboxPays;
 	private JTextField textfieldNom;
 	private JButton boutonValider;
 	private JButton boutonAnnuler;
@@ -330,7 +326,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.comboboxPays.setSelectedItem(pays);
 	}
 
-	public JComboBox<Pays> getComboboxPays() {
+	public CustomComboBox<Pays> getComboboxPays() {
 		return this.comboboxPays;
 	}
 

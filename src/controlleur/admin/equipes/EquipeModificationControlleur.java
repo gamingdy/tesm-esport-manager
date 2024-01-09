@@ -6,17 +6,24 @@ import dao.DaoInscription;
 import dao.DaoJoueur;
 import modele.Equipe;
 import modele.Joueur;
+import modele.Pays;
 import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.details.VueAdminEquipesDetails;
+import vue.common.CustomComboBox;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -73,12 +80,11 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			this.vue.setPays(equipe.getPays());
 			this.vue.setJoueurs(liste_joueurs);
 			this.vue.setLogo(logo);
-			this.vue.getChampNom().setEditable(false);
 			this.vue.getChampWorldRank().setEditable(false);
-			if (!editing) {
-				passerEnNonEditing();
-			} else {
+			if (editing) {
 				passerEnEditing();
+			} else {
+				passerEnNonEditing();
 			}
 			this.vue.setSaisons(lst_saison);
 		} catch (Exception e) {
@@ -87,22 +93,27 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	}
 
 	private void passerEnEditing() {
-		this.editing=true;
+		this.setEditing(true);
 		this.vue.getLabelLogo().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		this.vue.getbtnAjoutSaisons().setVisible(true);
-		this.vue.getComboboxPays().setEnabled(true);
 		this.vue.getBoutonValider().setText("Valider");
 	}
 
 	private void passerEnNonEditing() {
-		this.editing=false;
+		this.setEditing(false);
 		this.vue.getLabelLogo().setCursor(Cursor.getDefaultCursor());
-		this.vue.getbtnAjoutSaisons().setVisible(false);
-		this.vue.getComboboxPays().setEnabled(false);
 		this.vue.getBoutonValider().setText("Modifier");
 	}
 
-	BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+	private void setEditing(boolean editing) {
+		this.editing = editing;
+		this.vue.getChampNom().setEditable(editing);
+		this.vue.getbtnAjoutSaisons().setVisible(editing);
+
+		CustomComboBox<Pays> ref = this.vue.getComboboxPays();
+		ref.setActif(editing);
+	}
+
+	BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
 		Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
 		BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
 		outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
