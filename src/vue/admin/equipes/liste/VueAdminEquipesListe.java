@@ -2,6 +2,7 @@ package vue.admin.equipes.liste;
 
 
 import controlleur.admin.equipes.EquipesListeControlleur;
+import controlleur.admin.historique.HistoriqueControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
@@ -121,6 +122,7 @@ public class VueAdminEquipesListe extends JPanel {
 		gbcBtnAjt.weightx = 0.15F;
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
+
 	}
 
 	public void add(CaseEquipe c) {
@@ -141,7 +143,7 @@ public class VueAdminEquipesListe extends JPanel {
 	public void addAll(List<CaseEquipe> c) {
 		c.stream().forEach(this::add);
 	}
-	
+
 	public void resetGrille() {
 		list.removeAll();
 		JPanel j;
@@ -152,7 +154,7 @@ public class VueAdminEquipesListe extends JPanel {
 		}
 		nbCases = 0;
 	}
-	
+
 	public void supprimerCase(int i) {
 		list.remove(i);
 	}
