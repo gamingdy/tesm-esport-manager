@@ -64,8 +64,8 @@ public class VueAdminHistorique extends JPanel {
 		comboBoxSaison.setForeground(CustomColor.BLANC);
 		comboBoxSaison.setFont(MaFont.getFontTitre1());
 		panelSaisons.add(comboBoxSaison);
-
-		modelEquipes = new DefaultTableModel(null, new String[]{"World Rank", "Équipe", "Points de la saison"});
+		
+		modelEquipes = new DefaultTableModel(null, new String[] {"World Rank", "Équipe", "Points"});
 		tableEquipes = new JTable(modelEquipes);
 		tableEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
 		tableEquipes.setForeground(CustomColor.ROSE_CONTOURS);
@@ -78,7 +78,7 @@ public class VueAdminHistorique extends JPanel {
 		headerEquipes.setFont(MaFont.getFontTitre2());
 		tableEquipes.setTableHeader(headerEquipes);
 		tableEquipes.getColumnModel().getColumn(0).setPreferredWidth(80);
-		tableEquipes.getColumnModel().getColumn(2).setMinWidth(140);
+		tableEquipes.getColumnModel().getColumn(2).setMinWidth(50);
 		tableEquipes.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer());
 		tableEquipes.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer() {
 			@Override
