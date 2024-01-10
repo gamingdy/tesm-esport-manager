@@ -304,6 +304,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.labelLogo.addMouseListener(controleur);
+		this.btnAjoutSaisons.addMouseListener(controleur);
 	}
 
 	public void removeControleur(EquipeModificationControlleur controlleur) {

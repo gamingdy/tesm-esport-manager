@@ -94,7 +94,6 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	private boolean isEquipeInscriteSaisonActuelle(Equipe equipe) throws Exception {

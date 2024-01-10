@@ -2,6 +2,7 @@ import dao.Connexion;
 import dao.DBGeneration;
 import dao.DBSuppression;
 import dao.DaoAppartenance;
+import dao.DaoArbitre;
 import dao.DaoEquipe;
 import dao.DaoInscription;
 import dao.DaoJoueur;
@@ -13,6 +14,7 @@ import dao.DaoSaison;
 import dao.DaoTournoi;
 import dao.FactoryDAO;
 import modele.Appartenance;
+import modele.Arbitre;
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -56,6 +58,7 @@ public class ESporterManagerInitBDD {
 		DaoMatche daoMatche = new DaoMatche(c);
 		DaoPartie daoPartie = new DaoPartie(c);
 		DaoSaison daoSaison = new DaoSaison(c);
+		DaoArbitre daoArbitre = new DaoArbitre(c);
 		try {
 			daoNiveau.add(Niveau.LOCAL);
 			daoNiveau.add(Niveau.INTERNATIONAL);
@@ -114,7 +117,6 @@ public class ESporterManagerInitBDD {
 		Inscription inscription5 = new Inscription(saison, equipe5);
 
 		try {
-
 			daoEquipe.add(equipe);
 			daoEquipe.add(equipe1);
 			daoEquipe.add(equipe2);
@@ -196,13 +198,26 @@ public class ESporterManagerInitBDD {
 			matche1.setVainqueur(equipe2);
 			daoMatche.update(matche);
 
+
 			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
 			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
 
+		Arbitre arbitre = new Arbitre("arbitre", "arbitre", 1234567890);
+		Arbitre arbitre1 = new Arbitre("arbitre1", "arbitre1", 1234567891);
+		Arbitre arbitre2 = new Arbitre("arbitre2", "arbitre2", 1234567892);
+		try {
+			daoArbitre.add(arbitre);
+			daoArbitre.add(arbitre1);
+			daoArbitre.add(arbitre2);
 
+			List<Arbitre> arbitres = daoArbitre.getAll();
+			System.out.println(arbitres);
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
 	}
 
 	private static String randomUsername(String name) {
