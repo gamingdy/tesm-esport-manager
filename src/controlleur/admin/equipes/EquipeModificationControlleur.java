@@ -164,7 +164,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == this.vue.getLabelLogo() && this.editing) {
 			JLabel lableLogo = this.vue.getLabelLogo();
-			this.logo = FileChooser.createPopup(this.logo, lableLogo);
+			this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
 			this.logoChanged = true;
 		}
 

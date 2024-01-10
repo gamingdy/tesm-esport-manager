@@ -12,9 +12,9 @@ import java.io.IOException;
 
 public class FileChooser {
 
-	public static BufferedImage createPopup(BufferedImage logo, JLabel labelLogo) {
+	public static BufferedImage createPopup(BufferedImage logo, JLabel labelLogo, String descriptionExtension, String extension) {
 		JFileChooser chooser = new JFileChooser();
-		chooser.setFileFilter(new FileNameExtensionFilter("JPG Images", "jpg"));
+		chooser.setFileFilter(new FileNameExtensionFilter(descriptionExtension, extension));
 		int returnVal = chooser.showOpenDialog(null);
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {

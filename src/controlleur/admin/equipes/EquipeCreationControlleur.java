@@ -179,7 +179,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		}
 		if (e.getSource() == vue.getLabelLogo()) {
 			JLabel lableLogo = this.vue.getLabelLogo();
-			this.logo = FileChooser.createPopup(this.logo, lableLogo);
+			this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
 		}
 	}
 
