@@ -128,8 +128,7 @@ public class VueAdminEquipesDetails extends JPanel {
 				panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
 				if (isSelected) {
 					panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
-				}
-				else {
+				} else {
 					panel.setForeground(CustomColor.BLANC);
 				}
 				return panel;
@@ -293,7 +292,6 @@ public class VueAdminEquipesDetails extends JPanel {
 		boutonValider.setForeground(CustomColor.BLANC);
 		boutonValider.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonValider);
-		setControleur(new EquipeModificationControlleur(this));
 	}
 
 	/**

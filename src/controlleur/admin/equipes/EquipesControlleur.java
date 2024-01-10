@@ -4,6 +4,7 @@ import vue.Page;
 import vue.admin.equipes.VueAdminEquipes;
 import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.admin.equipes.details.VueAdminEquipesDetails;
+import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
 
 public class EquipesControlleur {
@@ -23,6 +24,7 @@ public class EquipesControlleur {
 		vueAdminEquipesListe.setControleur(equipesListeControlleur);
 		VueAdminEquipesDetails vueAdminEquipesDetails = new VueAdminEquipesDetails();
 		this.equipeModificationControlleur = new EquipeModificationControlleur(vueAdminEquipesDetails);
+		vueAdminEquipesDetails.setControleur(equipeModificationControlleur);
 
 		vue.addPage(vueAdminEquipesCreation, Page.EQUIPES_CREATION);
 		vue.addPage(vueAdminEquipesListe, Page.EQUIPES_LISTE);
@@ -38,8 +40,8 @@ public class EquipesControlleur {
 		this.vue.setPage(id);
 	}
 
-	public void update(Page id, String nomEquipe, boolean editing) {
-		this.equipeModificationControlleur.init(nomEquipe, editing);
+	public void update(Page id, CaseEquipe caseEquipe, boolean editing) {
+		this.equipeModificationControlleur.init(caseEquipe, editing);
 		this.vue.setPage(id);
 	}
 

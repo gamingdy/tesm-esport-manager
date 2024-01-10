@@ -207,9 +207,9 @@ public class DaoMatche implements Dao<Matche, Integer> {
 
 	public List<Matche> getMatchByEquipe(Equipe equipe) throws FausseDateException, MemeEquipeException, SQLException, Exception {
 		try (PreparedStatement getMatchByEquipe = connexion.getConnection().prepareStatement(
-				"SELECT *"
-						+ "FROM Matche"
-						+ "WHERE Nom_Equipe1 = ?"
+				"SELECT * "
+						+ "FROM Matche "
+						+ "WHERE Nom_Equipe1 = ? "
 						+ "OR Nom_Equipe2 = ?")) {
 			getMatchByEquipe.setString(1, equipe.getNom());
 			getMatchByEquipe.setString(2, equipe.getNom());

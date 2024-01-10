@@ -70,6 +70,7 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			new JFramePopup("Suppression echoué", "L'equipe  ne peut pas etre supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 		}
 	}

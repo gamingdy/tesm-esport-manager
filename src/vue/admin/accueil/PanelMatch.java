@@ -22,7 +22,7 @@ public class PanelMatch extends JPanel {
 	private JPanel panelBot;
 
 	public PanelMatch(String date, ImageIcon img1, String nomEquipe1, ImageIcon trophee1, ImageIcon img2, String nomEquipe2, ImageIcon trophee2) {
-
+		this.setBackground(CustomColor.BACKGROUND_MAIN);
 		JLabel labelDate = new JLabel(date);
 		labelDate.setHorizontalAlignment(JLabel.CENTER);
 		labelDate.setFont(MaFont.getFontTitre4());
@@ -32,6 +32,7 @@ public class PanelMatch extends JPanel {
 
 		panelBot = new JPanel();
 		add(panelBot, BorderLayout.CENTER);
+		panelBot.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelBot.setLayout(new GridLayout(1, 0, 0, 0));
 		panelBot.setBorder(new LineBorder(CustomColor.ROSE_CONTOURS));
 
@@ -120,9 +121,10 @@ public class PanelMatch extends JPanel {
 
 		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		panelEquipeUn.setOpaque(false);
-		panelBot.setOpaque(false);
-		panelEquipeDeux.setOpaque(false);
+		panelEquipeUn.setBackground(CustomColor.BACKGROUND_MAIN);
+		setBackground(CustomColor.BACKGROUND_MAIN);
+		panelBot.setBackground(CustomColor.BACKGROUND_MAIN);
+		panelEquipeDeux.setBackground(CustomColor.BACKGROUND_MAIN);
 	}
 
 	@Override
