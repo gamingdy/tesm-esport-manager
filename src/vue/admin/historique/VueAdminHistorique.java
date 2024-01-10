@@ -19,19 +19,19 @@ public class VueAdminHistorique extends JPanel {
 	/**
 	 * Integer
 	 */
-	private ComboBoxModel<Integer> modelSaisons;
+	private DefaultComboBoxModel<Integer> modelSaisons;
 	private JTable tableEquipes;
 	/**
 	 * World rank | Equipe (CaseEquipe) | Points
 	 */
-	private TableModel modelEquipes;
+	private DefaultTableModel modelEquipes;
 	private JTable tableTournois;
-	private TableModel modelTournois;
+	private DefaultTableModel modelTournois;
 	private JTable tableMatch;
 	/**
 	 * CaseEquipe1 | Points | CaseEquipe2 | Points
 	 */
-	private TableModel modelMatch;
+	private DefaultTableModel modelMatch;
 	
 	public VueAdminHistorique() {
 		setOpaque(false);
@@ -137,25 +137,25 @@ public class VueAdminHistorique extends JPanel {
 	/**
 	 * @return the modelSaisons
 	 */
-	public ComboBoxModel<Integer> getModelSaisons() {
+	public DefaultComboBoxModel<Integer> getModelSaisons() {
 		return modelSaisons;
 	}
 	/**
 	 * @return the modelEquipes
 	 */
-	public TableModel getModelEquipes() {
+	public DefaultTableModel getModelEquipes() {
 		return modelEquipes;
 	}
 	/**
 	 * @return the modelTournois
 	 */
-	public TableModel getModelTournois() {
+	public DefaultTableModel getModelTournois() {
 		return modelTournois;
 	}
 	/**
 	 * @return the modelMatch
 	 */
-	public TableModel getModelMatch() {
+	public DefaultTableModel getModelMatch() {
 		return modelMatch;
 	}
 
