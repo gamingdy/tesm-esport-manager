@@ -6,6 +6,7 @@ import vue.admin.VueAdmin;
 import vue.admin.accueil.VueAccueil;
 import vue.admin.arbitres.VueAdminArbitres;
 import vue.admin.equipes.VueAdminEquipes;
+import vue.admin.historique.VueAdminHistorique;
 import vue.admin.main.BoutonMenu;
 import vue.admin.main.MenuNavBar;
 import vue.admin.tournois.VueAdminTournois;
@@ -18,7 +19,7 @@ import java.awt.event.MouseListener;
 import java.util.Objects;
 
 enum ETAT {
-	ACCUEIL, ARBITRES, EQUIPES, TOURNOIS
+	ACCUEIL, ARBITRES, EQUIPES, TOURNOIS, HISTORIQUE
 }
 
 public class AdminControlleur implements ActionListener, MouseListener {
@@ -75,6 +76,10 @@ public class AdminControlleur implements ActionListener, MouseListener {
 
 				this.vue.addPage(new VueAdminTournois(), Page.TOURNOIS);
 				this.vue.setPage(Page.TOURNOIS);
+			} else if (Objects.equals(boutonSelection.getText(), BoutonNavBar.SAISON_PRECEDENTES.getNom())) {
+				this.etat = ETAT.HISTORIQUE;
+				this.vue.addPage(new VueAdminHistorique(), Page.SAISON_PRECEDENTES);
+				this.vue.setPage(Page.SAISON_PRECEDENTES);
 			}
 		}
 	}
