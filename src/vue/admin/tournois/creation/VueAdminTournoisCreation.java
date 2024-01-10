@@ -164,7 +164,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		champDateDebut.add(textfieldDateDebut);
 		GridBagConstraints gbcDateDebut = new GridBagConstraints();
 		gbcDateDebut.fill = GridBagConstraints.BOTH;
-		gbcDateDebut.insets = new Insets(0,0,0,0);
+		gbcDateDebut.insets = new Insets(0, 0, 0, 0);
 		gbcDateDebut.gridx = 0;
 		gbcDateDebut.gridy = 2;
 		gbcDateDebut.weightx = 1F / 4F;
@@ -197,7 +197,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		gbcDateFin.weightx = 1F / 4F;
 		gbcDateFin.weighty = 1F / 5F;
 		panelTop.add(champDateFin, gbcDateFin);
-		
+
 		panelArbitres = new JPanel();
 		panelArbitres.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelArbitres.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
@@ -230,7 +230,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		btnAjoutArbitres.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutArbitres.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
 		btnAjoutArbitres.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		
+
 		GridBagConstraints gbcAjout = new GridBagConstraints();
 		gbcAjout.fill = GridBagConstraints.HORIZONTAL;
 		gbcAjout.gridx = 1;
@@ -298,7 +298,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		btnAjoutEquipes.setHorizontalTextPosition(JLabel.TRAILING);
 		btnAjoutEquipes.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
 		btnAjoutEquipes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		
+
 		panelEquipes.add(btnAjoutEquipes, gbcAjout);
 
 		modelEquipes = new DefaultListModel<JLabel>();
@@ -324,7 +324,7 @@ public class VueAdminTournoisCreation extends JPanel {
 			}
 
 		});
-		
+
 		panelEquipes.add(le, gbcJ);
 
 
@@ -365,6 +365,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.btnAjoutEquipes.addMouseListener(controleur);
+		this.btnAjoutArbitres.addMouseListener(controleur);
 	}
 
 
@@ -373,19 +374,25 @@ public class VueAdminTournoisCreation extends JPanel {
 		this.comboboxNiveaux.setSelectedItem(null);
 		this.textfieldDateDebut.setText("");
 		this.textfieldDateFin.setText("");
+		this.getBtnAjoutEquipes().setVisible(true);
+		this.getBtnAjoutArbitres().setVisible(true);
 		resetEquipes();
-		
+		resetArbitres();
 	}
 
 	private void resetEquipes() {
-		modelEquipes.set(1,new JLabel());
-		modelEquipes.set(2,new JLabel());
-		modelEquipes.set(3,new JLabel());
-		modelEquipes.set(4,new JLabel());
-		modelEquipes.set(5,new JLabel());
-		modelEquipes.set(6,new JLabel());
-		modelEquipes.set(7,new JLabel());
-		modelEquipes.set(0,new JLabel());
+		modelEquipes.set(1, new JLabel());
+		modelEquipes.set(2, new JLabel());
+		modelEquipes.set(3, new JLabel());
+		modelEquipes.set(4, new JLabel());
+		modelEquipes.set(5, new JLabel());
+		modelEquipes.set(6, new JLabel());
+		modelEquipes.set(7, new JLabel());
+		modelEquipes.set(0, new JLabel());
+	}
+
+	private void resetArbitres() {
+		modelArbitres.removeAllElements();
 	}
 
 	public String getNomEquipe() {
@@ -413,29 +420,31 @@ public class VueAdminTournoisCreation extends JPanel {
 		equipe.setFont(MaFont.getFontTitre3());
 		equipe.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 2, 0, CustomColor.ROSE_CONTOURS),
-				BorderFactory.createEmptyBorder(10,0,10,0)));
+				BorderFactory.createEmptyBorder(10, 0, 10, 0)));
 		this.modelEquipes.set(i, equipe);
 	}
-	
+
 	/**
 	 * Set le nom d'un arbitre
 	 *
 	 * @param nom nom de l'arbitre
-	 * @param i   indice du joueur dans le tableau ==> <strong>0 à infini</strong> mais que les 4 premiers affichés
 	 */
-	public void addArbitre(String nom, ImageIcon logo) {
+	public void addArbitre(String nom) {
 		JLabel arbitre = new JLabel();
-		if (nom != null && logo != null) {
+		if (nom != null) {
 			arbitre.setText(nom);
-			arbitre.setIcon(Vue.resize(logo, 30, 30));
 		}
 		arbitre.setForeground(CustomColor.BLANC);
 		arbitre.setFont(MaFont.getFontTitre3());
-		this.modelEquipes.addElement(arbitre);
+		this.modelArbitres.addElement(arbitre);
 	}
 
 	public JButton getBoutonValider() {
 		return this.boutonValider;
+	}
+
+	public JLabel getBoutonArbitres() {
+		return this.btnAjoutArbitres;
 	}
 
 	public String getTextfieldNom() {

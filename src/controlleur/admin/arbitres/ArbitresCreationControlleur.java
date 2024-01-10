@@ -11,6 +11,7 @@ import vue.admin.equipes.creation.VueAdminEquipesCreation;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
 import vue.common.JFramePopup;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -104,20 +105,22 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == vue.getBoutonAjoutTournois()) {
-			try {
+			if (listeTournoiComboBox.isEmpty()) {
+				new JFramePopup("Erreur", "Il n'y a plus de tournois disponibles", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+			} else {
+				try {
 
-				this.popupTournoi = new PopupTournoi("Choisissez le tournoi attribué à l'arbitre", listeTournoiComboBox, () -> {
-					this.addTournois(popupTournoi.getSaisie());
+					this.popupTournoi = new PopupTournoi("Choisissez le tournoi attribué à l'arbitre", listeTournoiComboBox, () -> {
+						this.addTournois(popupTournoi.getSaisie());
 
-					this.listeTournoiChoisi.add(popupTournoi.getSaisie());
-					this.listeTournoiComboBox.remove(popupTournoi.getSaisie());
-					if (listeTournoiComboBox.isEmpty()) {
-						this.vue.getBoutonAjoutTournois().setVisible(false);
-					}
-					ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION);
-				});
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
+						this.listeTournoiChoisi.add(popupTournoi.getSaisie());
+						this.listeTournoiComboBox.remove(popupTournoi.getSaisie());
+
+						ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION);
+					});
+				} catch (Exception ex) {
+					throw new RuntimeException(ex);
+				}
 			}
 		}
 	}

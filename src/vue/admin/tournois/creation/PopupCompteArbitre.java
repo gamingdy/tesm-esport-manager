@@ -1,39 +1,39 @@
 package vue.admin.tournois.creation;
 
+import vue.admin.equipes.creation.PopupPseudo;
+import vue.common.CustomColor;
+import vue.common.MaFont;
+
+import javax.swing.*;
+import java.awt.*;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.List;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JButton;
-import javax.swing.ListCellRenderer;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.DefaultComboBoxModel;
-
-import modele.Arbitre;
 
 import vue.common.CustomColor;
-import vue.common.CustomComboBox;
 import vue.common.MaFont;
 
+public class PopupCompteArbitre extends JFrame {
 
-public class PopupArbitres extends JFrame {
-
-	private CustomComboBox<Arbitre> c;
+	private JTextField tf;
 
 	public interface ActionHandler {
 		void handleAction();
 	}
 
-	public PopupArbitres(String title, List<Arbitre> arbitres, ActionHandler actionHandler) {
+	public PopupCompteArbitre(String title, ActionHandler actionHandler, String nomTournoi) {
 		super(title);
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -42,7 +42,7 @@ public class PopupArbitres extends JFrame {
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
 		setIconImage(icon.getImage());
 
-		JPanel panel = createPanel(actionHandler, arbitres);
+		JPanel panel = createPanel(actionHandler, nomTournoi);
 		add(panel);
 
 		pack();
@@ -50,45 +50,27 @@ public class PopupArbitres extends JFrame {
 		setVisible(true);
 	}
 
-	private JPanel createPanel(ActionHandler actionHandler, List<Arbitre> arbitres) {
+	public JPanel createPanel(ActionHandler actionHandler, String nomTournoi) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
 
-		JLabel label = new JLabel("Saisir un arbitre :");
+		JLabel label = new JLabel("Le login pour les arbitres : " + nomTournoi);
 		label.setForeground(Color.white);
 		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 		panel.add(label, BorderLayout.NORTH);
 
+		tf = new JTextField(25);
+		tf.setForeground(CustomColor.BLANC);
+		tf.setBackground(CustomColor.BACKGROUND_MENU);
+		tf.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		tf.setFont(MaFont.getFontTitre4());
+		tf.setCaretColor(CustomColor.BLANC);
 
-		DefaultComboBoxModel<Arbitre> model = new DefaultComboBoxModel<Arbitre>();
-		arbitres.forEach(model::addElement);
-
-		c = new CustomComboBox<Arbitre>(model);
-		c.setRenderer(new ListCellRenderer<Arbitre>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Arbitre> list, Arbitre value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel panel;
-				if (value != null) {
-					panel = new JLabel(value.getNom() + " " + value.getPrenom());
-				} else {
-					panel = new JLabel("");
-				}
-				panel.setOpaque(true);
-				panel.setForeground(CustomColor.BLANC);
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				panel.setFont(MaFont.getFontTitre1());
-				if (isSelected) {
-					panel.setForeground(CustomColor.ROSE_CONTOURS);
-				}
-				return panel;
-			}
-		});
-		panel.add(c, BorderLayout.CENTER);
+		panel.add(tf, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
@@ -97,7 +79,7 @@ public class PopupArbitres extends JFrame {
 		closeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		closeButton.setFont(MaFont.getFontTitre4());
 		closeButton.setForeground(CustomColor.BLANC);
-		closeButton.setBackground(CustomColor.BACKGROUND_MENU);
+		closeButton.setBackground(CustomColor.TRANSPARENT);
 		closeButton.setOpaque(false);
 		closeButton.setFocusable(false);
 		closeButton.addActionListener(e -> dispose());
@@ -107,7 +89,7 @@ public class PopupArbitres extends JFrame {
 		okButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		okButton.setFont(MaFont.getFontTitre4());
 		okButton.setForeground(CustomColor.BLANC);
-		okButton.setBackground(CustomColor.BACKGROUND_MAIN);
+		okButton.setBackground(CustomColor.TRANSPARENT);
 		okButton.setOpaque(false);
 		okButton.setFocusable(false);
 		okButton.addActionListener(e -> {
@@ -123,7 +105,8 @@ public class PopupArbitres extends JFrame {
 		return panel;
 	}
 
-	public Arbitre getSaisie() {
-		return (Arbitre) c.getSelectedItem();
+	public String getSaisie() {
+		return tf.getText();
 	}
 }
+
