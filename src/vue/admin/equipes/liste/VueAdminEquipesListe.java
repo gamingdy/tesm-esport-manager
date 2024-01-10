@@ -141,6 +141,10 @@ public class VueAdminEquipesListe extends JPanel {
 		}
 		nbCases = 0;
 	}
+	
+	public void supprimerCase(int i) {
+		list.remove(i);
+	}
 
 	public JButton getBoutonAjouter() {
 		return this.boutonAjouter;
