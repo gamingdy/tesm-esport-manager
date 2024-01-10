@@ -23,6 +23,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -232,15 +233,22 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelSaisons.add(labelSaisons, gbcLabelSaisons);
 
 		btnAjoutSaisons = new JLabel("Ajouter à la saison actuelle");
+		btnAjoutSaisons.setHorizontalAlignment(JLabel.CENTER);
 		btnAjoutSaisons.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createEmptyBorder(20, 0, 0, 20),
-				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2)));
-		btnAjoutSaisons.setHorizontalTextPosition(JLabel.TRAILING);
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(5,10,5,10)));
 		btnAjoutSaisons.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAjoutSaisons.setFont(MaFont.getFontTitre3());
 		btnAjoutSaisons.setForeground(CustomColor.BLANC);
+		
+		GridBagConstraints gbcAjoutSaison = new GridBagConstraints();
+		gbcAjoutSaison.fill = GridBagConstraints.NONE;
+		gbcAjoutSaison.insets = new Insets(0,0,25,0);
+		gbcAjoutSaison.gridx = 0;
+		gbcAjoutSaison.gridy = 2;
+		
 
-		panelSaisons.add(btnAjoutSaisons, gbcAjout);
+		panelSaisons.add(btnAjoutSaisons, gbcAjoutSaison);
 
 		modelSaisons = new DefaultListModel<String>();
 
