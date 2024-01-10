@@ -4,7 +4,10 @@ import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoInscription;
 import dao.DaoJoueur;
+import dao.DaoSaison;
+import modele.CustomDate;
 import modele.Equipe;
+import modele.Inscription;
 import modele.Joueur;
 import modele.Pays;
 import modele.Saison;
@@ -29,6 +32,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,8 +43,10 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	private DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
 	private DaoInscription daoInscription;
+	private DaoSaison daoSaison;
 	private boolean editing;
 	private boolean logoChanged;
+	private boolean saisonDefined;
 	private BufferedImage logo;
 	private CaseEquipe caseEquipe;
 
@@ -50,7 +56,9 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		this.daoEquipe = new DaoEquipe(connexion);
 		this.daoJoueur = new DaoJoueur(connexion);
 		this.daoInscription = new DaoInscription(connexion);
+		this.daoSaison = new DaoSaison(connexion);
 		this.logoChanged = false;
+		this.saisonDefined = false;
 	}
 
 	@Override
@@ -64,6 +72,9 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			Pays pays = Pays.trouverPaysParNom(nom_pays);
 			Equipe equipe = new Equipe(this.vue.getChampNom().getText(), pays);
 			addEquipe(equipe);
+			if (this.saisonDefined) {
+				addEquipeSaison(equipe);
+			}
 			updateCase(equipe);
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 
@@ -75,6 +86,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	public void reset() {
 		this.logoChanged = false;
 		this.logo = null;
+		this.saisonDefined = false;
 	}
 
 	private void updateCase(Equipe equipe) {
@@ -96,6 +108,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		this.editing = newEditing;
 		String nomEquipe = caseEquipe.getNom();
 		this.caseEquipe = caseEquipe;
+
 		try {
 			Optional<Equipe> find_equipe = this.daoEquipe.getById(nomEquipe);
 			if (!find_equipe.isPresent()) {
@@ -110,6 +123,9 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			ImageIcon logo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
 
 			List<Saison> saisons = this.daoInscription.getSaisonByEquipe(equipe.getNom());
+			if (!saisons.isEmpty()) {
+				this.saisonDefined = true;
+			}
 			List<Integer> lst_saison = saisons.stream().map(Saison::getAnnee).collect(Collectors.toList());
 
 			this.vue.setNom(equipe.getNom());
@@ -143,7 +159,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	private void setEditing(boolean editing) {
 		this.editing = editing;
-		this.vue.getbtnAjoutSaisons().setVisible(editing);
+		this.vue.getbtnAjoutSaisons().setVisible(editing && !this.saisonDefined);
 
 		CustomComboBox<Pays> ref = this.vue.getComboboxPays();
 		ref.setActif(editing);
@@ -166,8 +182,11 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			JLabel lableLogo = this.vue.getLabelLogo();
 			this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
 			this.logoChanged = true;
+		} else if (e.getSource() == this.vue.getbtnAjoutSaisons()) {
+			this.saisonDefined = true;
+			this.vue.addSaison(CustomDate.now().getAnnee());
+			this.vue.getbtnAjoutSaisons().setVisible(false);
 		}
-
 	}
 
 	public void addEquipe(Equipe equipeInserer) {
@@ -185,6 +204,21 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			ImageIO.write(this.logo, "jpg", outputfile);
 		} catch (Exception e) {
 			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+		}
+	}
+
+	public void addEquipeSaison(Equipe equipeInserer) {
+		try {
+			addEquipe(equipeInserer);
+			Saison saison = daoSaison.getLastSaison();
+			Inscription inscription = new Inscription(saison, equipeInserer);
+			daoInscription.add(inscription);
+		} catch (SQLException e) {
+			new JFramePopup("Erreur", "Erreur d'insertion", () -> {
+			});
+		} catch (Exception e) {
+			new JFramePopup("Erreur", "Erreur d'insertion dans la saison", () -> {
+			});
 		}
 	}
 
