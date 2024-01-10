@@ -155,7 +155,7 @@ public class VueAdminHistorique extends JPanel {
 	/**
 	 * @return the modelMatch
 	 */
-	public DefaultTableModel getModelMatch() {
+	public TableModel getModelMatch() {
 		return modelMatch;
 	}
 
