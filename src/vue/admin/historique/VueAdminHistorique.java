@@ -102,6 +102,7 @@ public class VueAdminHistorique extends JPanel {
 		JScrollPane spEquipes = new JScrollPane(tableEquipes);
 		spEquipes.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 		spEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
+		spEquipes.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
 		add(spEquipes,gbcEquipes);
 		
 		modelTournois = new DefaultTableModel(null,new String[] {"Tournoi","Date","Points"});
@@ -129,6 +130,7 @@ public class VueAdminHistorique extends JPanel {
 		JScrollPane spTournois = new JScrollPane(tableTournois);
 		spTournois.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 		spTournois.setBackground(CustomColor.BACKGROUND_MAIN);
+		spTournois.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
 		add(spTournois,gbcTournois);
 		
 		modelMatch = new DefaultTableModel(null,new String[] {"Date","Equipe 1","Score","Equipe 2"});
@@ -155,6 +157,7 @@ public class VueAdminHistorique extends JPanel {
 		JScrollPane spMatch = new JScrollPane(tableMatch);
 		spMatch.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 		spMatch.setBackground(CustomColor.BACKGROUND_MAIN);
+		spMatch.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
 		add(spMatch,gbcMatch);
 		
 		
