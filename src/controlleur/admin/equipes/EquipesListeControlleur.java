@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EquipesListeControlleur implements ActionListener, ControlleurObserver {
 	private VueAdminEquipesListe vue;
@@ -39,6 +38,8 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	private Etat etat;
 	private List<CaseEquipe> listeCase;
 	private List<Equipe> listeEquipe;
+	private List<CaseEquipe> listeCaseSaison;
+	private List<Equipe> listeEquipeSaison;
 
 	public EquipesListeControlleur(VueAdminEquipesListe newVue) {
 		this.vue = newVue;
@@ -48,6 +49,8 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		this.daoSaison = new DaoSaison(c);
 		this.daoInscription = new DaoInscription(c);
 		this.etat = Etat.TOUTES;
+		this.listeCaseSaison = new ArrayList<>();
+		this.listeEquipeSaison = new ArrayList<>();
 		this.update();
 	}
 
@@ -100,38 +103,91 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		try {
 			saison = daoSaison.getLastSaison();
 			List<Equipe> liste = new ArrayList<>();
+			List<Equipe> listeEquipeSaisonDiff = new ArrayList<>();
 			if (etat == Etat.TOUTES) {
 				liste = daoEquipe.getAll();
+				listeEquipeSaisonDiff = getDifference(getEquipeSaion(saison.getAnnee()), this.listeEquipeSaison);
 			} else {
-
 				try {
-					liste = daoInscription.getEquipeBySaison(saison.getAnnee());
+					liste = getEquipeSaion(saison.getAnnee());
+					listeEquipeSaisonDiff = getDifference(liste, this.listeEquipeSaison);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
+
+
 			if (this.listeCase == null) {
 				this.listeEquipe = liste;
-				this.listeCase = convertListToCase(this.listeEquipe);
+				this.listeEquipeSaison.addAll(listeEquipeSaisonDiff);
+				List<Equipe> listeEquipeHorsSaison = getDifference(this.listeEquipe, this.listeEquipeSaison);
+				List<CaseEquipe> listeCaseHorsSaison = convertListToCase(listeEquipeHorsSaison);
+				this.listeCaseSaison = convertListToCase(this.listeEquipeSaison);
+				this.listeCase = new ArrayList<>();
+				this.listeCase.addAll(this.listeCaseSaison);
+				this.listeCase.addAll(listeCaseHorsSaison);
 				this.vue.addAll(this.listeCase);
 			} else if (etat == Etat.SAISON_ACTUELLE) {
 				this.listeEquipe = liste;
-
-				this.listeCase = convertListToCase(this.listeEquipe);
+				List<CaseEquipe> listeCaseDiff = convertListToCase(listeEquipeSaisonDiff);
+				this.listeCaseSaison.addAll(listeCaseDiff);
 				this.vue.resetGrille();
-				this.vue.addAll(this.listeCase);
+				this.vue.addAll(this.listeCaseSaison);
 			} else {
-				List<Equipe> differences = liste.stream()
-						.filter(element -> !this.listeEquipe.contains(element))
-						.collect(Collectors.toList());
-				List<CaseEquipe> differencesCase = convertListToCase(differences);
-				this.listeCase.addAll(differencesCase);
+				List<Equipe> differences = getDifference(liste, this.listeEquipe);
+				List<Equipe> nouveauDansSaison = getDifference(listeEquipeSaisonDiff, this.listeEquipeSaison);
+				List<Equipe> horsSaison = getDifference(differences, nouveauDansSaison);
+
+
+				this.listeEquipeSaison.addAll(nouveauDansSaison);
+				List<CaseEquipe> caseHorsSaison = convertListToCase(horsSaison);
+				List<CaseEquipe> caseSaison = convertListToCase(nouveauDansSaison);
+				List<CaseEquipe> nouvelleCase = new ArrayList<>();
+				nouvelleCase.addAll(caseHorsSaison);
+				if (!differences.isEmpty()) {
+					nouvelleCase.addAll(caseSaison);
+				}
+				this.listeCase.addAll(nouvelleCase);
+				this.listeCaseSaison.addAll(caseSaison);
 				this.listeEquipe.addAll(differences);
-				this.vue.addAll(differencesCase);
+
+				this.vue.addAll(nouvelleCase);
 			}
 
 		} catch (Exception e) {
 		}
 	}
+
+	private List<Equipe> getDifference(List<Equipe> liste1, List<Equipe> liste2) {
+		List<Equipe> liste = new ArrayList<>();
+		for (Equipe e : liste1) {
+			if (!liste2.contains(e)) {
+				liste.add(e);
+			}
+		}
+		return liste;
+	}
+	
+	private List<Equipe> estDans(List<Equipe> liste1, List<Equipe> liste2) {
+		List<Equipe> liste = new ArrayList<>();
+		for (Equipe e : liste1) {
+			if (liste2.contains(e)) {
+				liste.add(e);
+			}
+		}
+		return liste;
+	}
+
+	private List<Equipe> getEquipeSaion(int annee) {
+		List<Equipe> liste = new ArrayList<>();
+		try {
+			List<Equipe> inscriptions = daoInscription.getEquipeBySaison(annee);
+			return inscriptions;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return liste;
+	}
+
 }
