@@ -179,9 +179,12 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == this.vue.getLabelLogo() && this.editing) {
-			JLabel lableLogo = this.vue.getLabelLogo();
-			this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
-			this.logoChanged = true;
+			JLabel labelLogo = this.vue.getLabelLogo();
+			this.logo = FileChooser.createPopup(this.logo, labelLogo, "JPG Images", "jpg");
+			if (this.logo != null) {
+				this.logoChanged = true;
+			}
+
 		} else if (e.getSource() == this.vue.getbtnAjoutSaisons()) {
 			this.saisonDefined = true;
 			this.vue.addSaison(CustomDate.now().getAnnee());

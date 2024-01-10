@@ -168,7 +168,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		}
 		return liste;
 	}
-	
+
 	private List<Equipe> estDans(List<Equipe> liste1, List<Equipe> liste2) {
 		List<Equipe> liste = new ArrayList<>();
 		for (Equipe e : liste1) {
