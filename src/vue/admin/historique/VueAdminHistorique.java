@@ -117,7 +117,6 @@ public class VueAdminHistorique extends JPanel {
 		tableTournois.setBackground(CustomColor.BACKGROUND_MAIN);
 		tableTournois.setForeground(CustomColor.ROSE_CONTOURS);
 		tableTournois.setFont(MaFont.getFontTitre3());
-		tableTournois.setRowHeight(70);
 		tableTournois.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		JTableHeader headerTournois = new JTableHeader(tableTournois.getColumnModel());
 		headerTournois.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -142,12 +141,10 @@ public class VueAdminHistorique extends JPanel {
 		add(spTournois, gbcTournois);
 
 		modelMatch = new DefaultTableModel(null, new String[]{"Date", "Equipe 1", "Score", "Equipe 2"});
-
 		tableMatch = new JTable(modelMatch);
 		tableMatch.setBackground(CustomColor.BACKGROUND_MAIN);
 		tableMatch.setForeground(CustomColor.ROSE_CONTOURS);
 		tableMatch.setFont(MaFont.getFontTitre3());
-		tableMatch.setRowHeight(70);
 		tableMatch.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		JTableHeader headerMatch = new JTableHeader(tableMatch.getColumnModel());
 		headerMatch.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -170,7 +167,6 @@ public class VueAdminHistorique extends JPanel {
 		spMatch.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		add(spMatch, gbcMatch);
 
-		add(tableMatch, gbcMatch);
 		setControleur(new HistoriqueControlleur(this));
 	}
 
