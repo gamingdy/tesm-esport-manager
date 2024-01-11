@@ -12,6 +12,7 @@ import javax.swing.table.TableCellRenderer;
 import controlleur.admin.historique.HistoriqueControlleur;
 import vue.common.CustomColor;
 import vue.common.CustomComboBox;
+import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
 
 public class VueAdminHistorique extends JPanel {
@@ -107,6 +108,7 @@ public class VueAdminHistorique extends JPanel {
 		spEquipes.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 		spEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
 		spEquipes.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
+		spEquipes.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		add(spEquipes, gbcEquipes);
 
 		modelTournois = new DefaultTableModel(null, new String[]{"Tournoi", "Date", "Points"});
@@ -136,6 +138,7 @@ public class VueAdminHistorique extends JPanel {
 		spTournois.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 		spTournois.setBackground(CustomColor.BACKGROUND_MAIN);
 		spTournois.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
+		spTournois.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		add(spTournois, gbcTournois);
 
 		modelMatch = new DefaultTableModel(null, new String[]{"Date", "Equipe 1", "Score", "Equipe 2"});
@@ -152,7 +155,7 @@ public class VueAdminHistorique extends JPanel {
 		headerMatch.setFont(MaFont.getFontTitre2());
 		tableMatch.setTableHeader(headerMatch);
 		tableMatch.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer());
-		tableMatch.getColumnModel().getColumn(1).setCellRenderer(new SimpleRenderer());
+		tableMatch.getColumnModel().getColumn(1).setCellRenderer(new EquipeRenderer());
 		tableMatch.getColumnModel().getColumn(2).setCellRenderer(new SimpleRenderer());
 		tableMatch.getColumnModel().getColumn(3).setCellRenderer(new EquipeRenderer());
 		GridBagConstraints gbcMatch = new GridBagConstraints();
@@ -164,6 +167,7 @@ public class VueAdminHistorique extends JPanel {
 		spMatch.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 		spMatch.setBackground(CustomColor.BACKGROUND_MAIN);
 		spMatch.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
+		spMatch.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		add(spMatch, gbcMatch);
 
 		add(tableMatch, gbcMatch);
