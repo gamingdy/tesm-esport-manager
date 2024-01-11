@@ -200,7 +200,12 @@ public class VueAdminHistorique extends JPanel {
 	public DefaultTableModel getModelMatch() {
 		return modelMatch;
 	}
-
+	public JTable getTableEquipes(){
+		return tableEquipes;
+	}
+	public JTable getTableTournois(){
+		return tableTournois;
+	}
 	public static class CaseEquipe {
 		private Icon logo;
 		private String nom;
@@ -294,6 +299,9 @@ public class VueAdminHistorique extends JPanel {
 	}
 
 	public void setControleur(HistoriqueControlleur controlleur) {
+
 		this.comboBoxSaison.addItemListener(controlleur);
+		this.tableEquipes.getSelectionModel().addListSelectionListener(controlleur);
+		this.tableTournois.getSelectionModel().addListSelectionListener(controlleur);
 	}
 }
