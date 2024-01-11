@@ -49,6 +49,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		this.daoSaison = new DaoSaison(c);
 		this.daoInscription = new DaoInscription(c);
 		this.etat = Etat.TOUTES;
+		this.listeEquipe = new ArrayList<>();
 		this.listeCaseSaison = new ArrayList<>();
 		this.listeEquipeSaison = new ArrayList<>();
 		this.update();
@@ -103,9 +104,14 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		try {
 			saison = daoSaison.getLastSaison();
 			List<Equipe> liste = new ArrayList<>();
+
 			List<Equipe> listeEquipeSaisonDiff = new ArrayList<>();
 			if (etat == Etat.TOUTES) {
 				liste = daoEquipe.getAll();
+				if (liste.size() < this.listeEquipe.size()) {
+					List<Equipe> caseSupprimer = getDifference(this.listeEquipe, liste);
+					supprimerCaseEquipe(caseSupprimer);
+				}
 				listeEquipeSaisonDiff = getDifference(getEquipeSaion(saison.getAnnee()), this.listeEquipeSaison);
 			} else {
 				try {
@@ -116,7 +122,6 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 					e.printStackTrace();
 				}
 			}
-
 
 			if (this.listeCase == null) {
 				this.listeEquipe = liste;
@@ -157,6 +162,41 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 
 		} catch (Exception e) {
 		}
+	}
+
+	private void supprimerCaseEquipe(List<Equipe> listeEquipeSupprimer) {
+		System.out.println("ui");
+		List<CaseEquipe> listeCaseSupprimer = new ArrayList<>();
+		for (CaseEquipe e : this.listeCase) {
+			for (Equipe eq : listeEquipeSupprimer) {
+				if (e.getNom().equals(eq.getNom())) {
+					listeCaseSupprimer.add(e);
+				}
+			}
+		}
+		System.out.println("puttte");
+		this.listeCase.removeAll(listeCaseSupprimer);
+		this.vue.resetGrille();
+		System.out.println("ui");
+		this.vue.addAll(this.listeCase);
+		this.vue.revalidate();
+		this.vue.repaint();
+	}
+
+	private void supprimerCaseSaison(List<Equipe> listeEquipeSupprimer) {
+		List<CaseEquipe> listeCaseSupprimer = new ArrayList<>();
+		for (CaseEquipe e : this.listeCaseSaison) {
+			for (Equipe eq : listeEquipeSupprimer) {
+				if (e.getNom().equals(eq.getNom())) {
+					listeCaseSupprimer.add(e);
+				}
+			}
+		}
+		this.listeCaseSaison.removeAll(listeCaseSupprimer);
+		this.vue.resetGrille();
+		this.vue.addAll(this.listeCaseSaison);
+		this.vue.revalidate();
+		this.vue.repaint();
 	}
 
 	private List<Equipe> getDifference(List<Equipe> liste1, List<Equipe> liste2) {
