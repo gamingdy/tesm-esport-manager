@@ -31,7 +31,7 @@ public class VueAdminHistorique extends JPanel {
 	private DefaultTableModel modelTournois;
 	private JTable tableMatch;
 	/**
-	 * CaseEquipe1 | Points | CaseEquipe2 | Points
+	 * Date | CaseEquipe1 | Points ("points1 - points 2") | CaseEquipe2
 	 */
 	private DefaultTableModel modelMatch;
 
