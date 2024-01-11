@@ -78,8 +78,10 @@ public class VueAdminHistorique extends JPanel {
 		headerEquipes.setForeground(CustomColor.BLANC);
 		headerEquipes.setFont(MaFont.getFontTitre2());
 		tableEquipes.setTableHeader(headerEquipes);
-		tableEquipes.getColumnModel().getColumn(0).setPreferredWidth(80);
-		tableEquipes.getColumnModel().getColumn(2).setMinWidth(50);
+		tableEquipes.getColumnModel().getColumn(0).setMaxWidth(130);
+		tableEquipes.getColumnModel().getColumn(0).setPreferredWidth(130);
+		tableEquipes.getColumnModel().getColumn(2).setMaxWidth(75);
+		tableEquipes.getColumnModel().getColumn(2).setPreferredWidth(75);
 		tableEquipes.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer());
 		tableEquipes.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer() {
 			@Override
@@ -145,6 +147,7 @@ public class VueAdminHistorique extends JPanel {
 		tableMatch.setBackground(CustomColor.BACKGROUND_MAIN);
 		tableMatch.setForeground(CustomColor.ROSE_CONTOURS);
 		tableMatch.setFont(MaFont.getFontTitre3());
+		tableMatch.setRowHeight(70);
 		tableMatch.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		JTableHeader headerMatch = new JTableHeader(tableMatch.getColumnModel());
 		headerMatch.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -261,10 +264,10 @@ public class VueAdminHistorique extends JPanel {
 	private class SimpleRenderer implements TableCellRenderer {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			JLabel label = new JLabel("" + value);
+			JLabel label = new JLabel("" + value, SwingConstants.CENTER);
 			label.setFont(MaFont.getFontTitre3());
 			label.setForeground(CustomColor.BLANC);
-			label.setHorizontalTextPosition(JLabel.CENTER);
+			label.setHorizontalTextPosition(JLabel.CENTER);	
 			if (isSelected || hasFocus) {
 				label.setOpaque(true);
 				label.setBackground(CustomColor.BACKGROUND_MENU.brighter());
