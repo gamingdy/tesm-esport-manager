@@ -105,7 +105,7 @@ public class MaFont {
 	public static Font getFontPetitCorps() {
 		Font laFont = getFont("Corps");
 		if (laFont == null) {
-			laFont = maFont.deriveFont(12F);
+			laFont = maFont.deriveFont(14F);
 			mesFonts.put("Corps", laFont);
 		}
 		return laFont;

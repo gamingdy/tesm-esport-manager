@@ -10,6 +10,7 @@ import javax.swing.table.TableCellRenderer;
 
 
 import controlleur.admin.historique.HistoriqueControlleur;
+import modele.Pays;
 import vue.common.CustomColor;
 import vue.common.CustomComboBox;
 import vue.common.CustomScrollBarUI;
@@ -64,6 +65,26 @@ public class VueAdminHistorique extends JPanel {
 		comboBoxSaison = new CustomComboBox<>(modelSaisons);
 		comboBoxSaison.setForeground(CustomColor.BLANC);
 		comboBoxSaison.setFont(MaFont.getFontTitre1());
+		comboBoxSaison.setRenderer(new javax.swing.ListCellRenderer<Integer>() {
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Integer> list, Integer value, int index,
+														  boolean isSelected, boolean cellHasFocus) {
+				JLabel panel = new JLabel();
+				panel.setOpaque(true);
+				panel.setText(""+value);
+				panel.setBackground(CustomColor.BACKGROUND_MAIN);
+				panel.setFocusable(false);
+				panel.setFont(MaFont.getFontTitre4());
+				panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
+				if (isSelected) {
+					panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
+				}
+				else {
+					panel.setForeground(CustomColor.BLANC);
+				}
+				return panel;
+			}
+		});
 		panelSaisons.add(comboBoxSaison);
 		
 		modelEquipes = new DefaultTableModel(null, new String[] {"World Rank", "Équipe", "Points"});
@@ -154,10 +175,10 @@ public class VueAdminHistorique extends JPanel {
 		headerMatch.setForeground(CustomColor.BLANC);
 		headerMatch.setFont(MaFont.getFontTitre2());
 		tableMatch.setTableHeader(headerMatch);
-		tableMatch.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer().smaller());
-		tableMatch.getColumnModel().getColumn(1).setCellRenderer(new SimpleRenderer().smaller());
-		tableMatch.getColumnModel().getColumn(2).setCellRenderer(new SimpleRenderer().smaller());
-		tableMatch.getColumnModel().getColumn(3).setCellRenderer(new SimpleRenderer().smaller());
+		tableMatch.getColumnModel().getColumn(0).setCellRenderer((new SimpleRenderer()).smaller());
+		tableMatch.getColumnModel().getColumn(1).setCellRenderer((new SimpleRenderer()).smaller());
+		tableMatch.getColumnModel().getColumn(2).setCellRenderer((new SimpleRenderer()).smaller());
+		tableMatch.getColumnModel().getColumn(3).setCellRenderer((new SimpleRenderer()).smaller());
 		GridBagConstraints gbcMatch = new GridBagConstraints();
 		gbcMatch.insets = new Insets(0, 50, 0, 0);
 		gbcMatch.gridx = 1;
@@ -250,11 +271,14 @@ public class VueAdminHistorique extends JPanel {
 	}
 
 	private class SimpleRenderer implements TableCellRenderer {
-		private JLabel label;
+		private JLabel label = new JLabel("", SwingConstants.CENTER);
+		
+		public SimpleRenderer() {
+			label.setFont(MaFont.getFontTitre3());
+		}
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			label = new JLabel("" + value, SwingConstants.CENTER);
-			label.setFont(MaFont.getFontTitre3());
+			label.setText("" + value);
 			label.setForeground(CustomColor.BLANC);
 			label.setHorizontalTextPosition(JLabel.CENTER);	
 			if (isSelected || hasFocus) {
@@ -265,7 +289,7 @@ public class VueAdminHistorique extends JPanel {
 		}
 		public SimpleRenderer smaller() {
 			if (this.label != null) {
-				label.setFont(MaFont.getFontTitre5());
+				label.setFont(MaFont.getFontPetitCorps());
 			}
 			return this;
 		}
