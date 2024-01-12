@@ -221,6 +221,25 @@ public class DaoMatche implements Dao<Matche, Integer> {
 		}
 	}
 	
+	public List<Matche> getMatchByEquipeForTournoi(Equipe equipe,Tournoi tournoi) throws FausseDateException, MemeEquipeException, SQLException, Exception {
+		try (PreparedStatement getMatchByEquipeForTournoi = connexion.getConnection().prepareStatement(
+				"SELECT * "
+						+ "FROM Matche "
+						+ "WHERE (Nom_Equipe1 = ? "
+						+ "OR Nom_Equipe2 = ?) "
+						+ "AND Nom_tournoi = ? "
+						+ "AND Annee = ? ")) {
+			getMatchByEquipeForTournoi.setString(1, equipe.getNom());
+			getMatchByEquipeForTournoi.setString(2, equipe.getNom());
+			getMatchByEquipeForTournoi.setString(3, tournoi.getNom());
+			getMatchByEquipeForTournoi.setInt(4, tournoi.getSaison().getAnnee());
+			ResultSet resultat = getMatchByEquipeForTournoi.executeQuery();
+			List<Matche> sortie = new LinkedList<>();
+			generateListMatche(resultat, sortie);
+			return sortie;
+		}
+	}
+	
 	public List<Matche> getMatchBySaison(Saison saison) throws FausseDateException, MemeEquipeException, Exception {
 		try (PreparedStatement getMatchByEquipe = connexion.getConnection().prepareStatement(
 				"SELECT * "
