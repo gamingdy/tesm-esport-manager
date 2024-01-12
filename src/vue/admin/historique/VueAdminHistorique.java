@@ -87,7 +87,10 @@ public class VueAdminHistorique extends JPanel {
 		});
 		panelSaisons.add(comboBoxSaison);
 		
-		modelEquipes = new DefaultTableModel(null, new String[] {"World Rank", "Équipe", "Points"});
+		modelEquipes = new DefaultTableModel(null, new String[] {"World Rank", "Équipe", "Points"}) {
+			@Override
+			public boolean isCellEditable(int row, int col) { return false;}
+		};
 		tableEquipes = new JTable(modelEquipes);
 		tableEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
 		tableEquipes.setForeground(CustomColor.ROSE_CONTOURS);
@@ -134,13 +137,17 @@ public class VueAdminHistorique extends JPanel {
 		spEquipes.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		add(spEquipes, gbcEquipes);
 
-		modelTournois = new DefaultTableModel(null, new String[]{"Tournoi", "Date", "Points"});
+		modelTournois = new DefaultTableModel(null, new String[]{"Tournoi", "Date", "Points"}){
+			@Override
+			public boolean isCellEditable(int row, int col) { return false;}
+		};
 
 		tableTournois = new JTable(modelTournois);
 		tableTournois.setBackground(CustomColor.BACKGROUND_MAIN);
 		tableTournois.setForeground(CustomColor.ROSE_CONTOURS);
 		tableTournois.setFont(MaFont.getFontTitre3());
 		tableTournois.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		tableTournois.setRowHeight(30);
 		JTableHeader headerTournois = new JTableHeader(tableTournois.getColumnModel());
 		headerTournois.setBackground(CustomColor.BACKGROUND_MAIN);
 		headerTournois.setForeground(CustomColor.BLANC);
@@ -163,12 +170,15 @@ public class VueAdminHistorique extends JPanel {
 		spTournois.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		add(spTournois, gbcTournois);
 
-		modelMatch = new DefaultTableModel(null, new String[]{"Date", "Equipe 1", "Score", "Equipe 2"});
+		modelMatch = new DefaultTableModel(null, new String[]{"Date", "Equipe 1", "Score", "Equipe 2"}){
+			@Override
+			public boolean isCellEditable(int row, int col) { return false;}
+		};
 		tableMatch = new JTable(modelMatch);
 		tableMatch.setBackground(CustomColor.BACKGROUND_MAIN);
 		tableMatch.setForeground(CustomColor.ROSE_CONTOURS);
 		tableMatch.setFont(MaFont.getFontTitre3());
-		tableMatch.setRowHeight(70);
+		tableMatch.setRowHeight(30);
 		tableMatch.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		JTableHeader headerMatch = new JTableHeader(tableMatch.getColumnModel());
 		headerMatch.setBackground(CustomColor.BACKGROUND_MAIN);
@@ -271,16 +281,16 @@ public class VueAdminHistorique extends JPanel {
 	}
 
 	private class SimpleRenderer implements TableCellRenderer {
-		private JLabel label = new JLabel("", SwingConstants.CENTER);
-		
+		private Font font;
 		public SimpleRenderer() {
-			label.setFont(MaFont.getFontTitre3());
+			font = MaFont.getFontTitre3();
 		}
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			label.setText("" + value);
+			JLabel label = new JLabel(""+value, SwingConstants.CENTER);
 			label.setForeground(CustomColor.BLANC);
 			label.setHorizontalTextPosition(JLabel.CENTER);	
+			label.setFont(font);
 			if (isSelected || hasFocus) {
 				label.setOpaque(true);
 				label.setBackground(CustomColor.BACKGROUND_MENU.brighter());
@@ -288,9 +298,7 @@ public class VueAdminHistorique extends JPanel {
 			return label;
 		}
 		public SimpleRenderer smaller() {
-			if (this.label != null) {
-				label.setFont(MaFont.getFontPetitCorps());
-			}
+			font = MaFont.getFontPetitCorps();
 			return this;
 		}
 	}
