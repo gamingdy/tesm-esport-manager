@@ -1,10 +1,29 @@
 package controlleur.admin.tournois;
 
-import controlleur.admin.arbitres.ArbitresObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoAppartenance;
+import dao.DaoArbitrage;
+import dao.DaoArbitre;
+import dao.DaoEquipe;
+import dao.DaoInscription;
+import dao.DaoMatche;
+import dao.DaoPoule;
+import dao.DaoSaison;
+import dao.DaoTournoi;
 import exceptions.FausseDateException;
 import exceptions.MemeEquipeException;
-import modele.*;
+import modele.Appartenance;
+import modele.Arbitrage;
+import modele.Arbitre;
+import modele.Categorie;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Matche;
+import modele.Niveau;
+import modele.Poule;
+import modele.Saison;
+import modele.Tournoi;
 import vue.Page;
 import vue.admin.tournois.creation.PopupArbitres;
 import vue.admin.tournois.creation.PopupCompteArbitre;
@@ -12,18 +31,16 @@ import vue.admin.tournois.creation.PopupEquipe;
 import vue.admin.tournois.creation.VueAdminTournoisCreation;
 import vue.common.JFramePopup;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class TournoiCréationControlleur implements ActionListener, MouseListener {
 	private VueAdminTournoisCreation vue;
@@ -60,10 +77,10 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		daoInscription = new DaoInscription(c);
 		daoArbitrage = new DaoArbitrage(c);
 		daoArbitre = new DaoArbitre(c);
-		daoMatche=new DaoMatche(c);
+		daoMatche = new DaoMatche(c);
 		motdePasse = "";
 		arbitreListChoisi = new ArrayList<>();
-		listeEquipeChoisi=new ArrayList<>();
+		listeEquipeChoisi = new ArrayList<>();
 		try {
 			saison = daoSaison.getLastSaison();
 			listeEquipe = daoInscription.getEquipeBySaison(saison.getAnnee());
@@ -178,7 +195,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			Appartenance appartenance = new Appartenance(e, poule);
 			daoAppartenance.add(appartenance);
 		}
-		creationAutomatiqueMatches(listeEquipe,tournoi);
+		creationAutomatiqueMatches(listeEquipe, tournoi);
 
 
 	}
@@ -278,21 +295,21 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public void mouseExited(MouseEvent e) {
 
 	}
-	private void creationAutomatiqueMatches(List<Equipe> listeEquipe,Tournoi tournoi) {
-		List<Matche> matcheList=new ArrayList<>();
-		CustomDate dateDebut=tournoi.getDebut();
+
+	private void creationAutomatiqueMatches(List<Equipe> listeEquipe, Tournoi tournoi) {
+		CustomDate dateDebut = tournoi.getDebut();
 		CustomDate dateFin = tournoi.getFin();
-		int nbDay = CustomDate.dureeEnJour(dateDebut,dateFin);
+		int nbDay = CustomDate.dureeEnJour(dateDebut, dateFin);
 		if (nbDay > 1) {
-			nbDay -=1;
+			nbDay -= 1;
 		}
-		System.out.println("Total equipe "+listeEquipe.size());
-		int nbMatches=0;
-		for(int i=0;i<listeEquipe.size();i++){
-			nbMatches+=i;
+
+		int nbMatches = 0;
+		for (int i = 0; i < listeEquipe.size(); i++) {
+			nbMatches += i;
 		}
-		int matchParJour=nbMatches/nbDay;
-		int reste=nbMatches%nbDay;
+		int matchParJour = nbMatches / nbDay;
+		int reste = nbMatches % nbDay;
 
 		CustomDate dateActuel = dateDebut;
 		int currentDay = 1;
@@ -302,42 +319,36 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			for (int j = i + 1; j < listeEquipe.size(); j++) {
 				Equipe equipe1 = listeEquipe.get(i);
 				Equipe equipe2 = listeEquipe.get(j);
-				try{
-					Matche matche = new Matche(1,dateActuel,Categorie.POULE,equipe1,equipe2,tournoi);
+				try {
+					Matche matche = new Matche(1, dateActuel, Categorie.POULE, equipe1, equipe2, tournoi);
 					matcheOfDay.add(matche);
-					if (matcheOfDay.size() >= matchParJour){
-						if (currentDay == nbDay){
-							if (matcheOfDay.size()== matchParJour+reste){
+					if (matcheOfDay.size() >= matchParJour) {
+						if (currentDay == nbDay) {
+							if (matcheOfDay.size() == matchParJour + reste) {
 								all_match.addAll(matcheOfDay);
 								matcheOfDay.clear();
-								dateActuel.plusOne();
+								dateActuel = dateActuel.plusOne();
 								currentDay += 1;
 							}
-						}else{
+						} else {
 							all_match.addAll(matcheOfDay);
 							matcheOfDay.clear();
-							dateActuel.plusOne();
+							dateActuel = dateActuel.plusOne();
 							currentDay += 1;
 						}
 					}
-				}catch (FausseDateException| MemeEquipeException e){
+				} catch (FausseDateException | MemeEquipeException e) {
 					e.printStackTrace();
 				}
 
 			}
 
 		}
-		System.out.println("Nb days "+ nbDay);
 
-		System.out.println("Nb match  "+nbMatches);
-		System.out.println("Nb match day"+matchParJour);
-		System.out.println("Reste " + reste);
-		System.out.println("nb match " + all_match.size());
-
-		for(Matche matche:all_match){
+		for (Matche matche : all_match) {
 			try {
 				daoMatche.add(matche);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

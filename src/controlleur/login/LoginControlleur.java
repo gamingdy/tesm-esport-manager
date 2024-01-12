@@ -87,7 +87,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		if (login.equals(admin.getUsername()) && mdp.equals(admin.getHashMdp())) {
 			return this.admin;
 		}
-		if (this.arbitre != null&&login.equals(arbitre.getUsername())&&mdp.equals(arbitre.getHashMdp())) {
+		if (this.arbitre != null && login.equals(arbitre.getUsername()) && mdp.equals(arbitre.getHashMdp())) {
 			return this.arbitre;
 		}
 

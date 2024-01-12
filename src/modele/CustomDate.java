@@ -221,17 +221,19 @@ public class CustomDate implements Comparable<CustomDate> {
 
 	}
 
-	public LocalDateTime getDate(){
+	public LocalDateTime getDate() {
 		return this.date;
 	}
-	public void plusOne(){
-		this.date = this.date.plusDays(1);
+
+	public CustomDate plusOne() {
+		LocalDateTime newDate = this.date.plusDays(1);
+		return new CustomDate(Timestamp.valueOf(newDate));
 	}
 
-	public static int dureeEnJour(CustomDate date, CustomDate date2){
-		if (date.estAvant(date2)){
-			long diff = ChronoUnit.DAYS.between(date.getDate(),date2.getDate());
-			return (int)diff;
+	public static int dureeEnJour(CustomDate date, CustomDate date2) {
+		if (date.estAvant(date2)) {
+			long diff = ChronoUnit.DAYS.between(date.getDate(), date2.getDate());
+			return (int) diff;
 		}
 		return -1;
 
