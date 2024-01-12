@@ -321,7 +321,6 @@ public class VueAdminHistorique extends JPanel {
 	}
 
 	public void setControleur(HistoriqueControlleur controlleur) {
-
 		this.comboBoxSaison.addItemListener(controlleur);
 		this.tableEquipes.getSelectionModel().addListSelectionListener(controlleur);
 		this.tableTournois.getSelectionModel().addListSelectionListener(controlleur);

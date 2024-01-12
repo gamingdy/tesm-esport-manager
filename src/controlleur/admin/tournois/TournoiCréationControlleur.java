@@ -1,9 +1,29 @@
 package controlleur.admin.tournois;
 
-import controlleur.admin.arbitres.ArbitresObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoAppartenance;
+import dao.DaoArbitrage;
+import dao.DaoArbitre;
+import dao.DaoEquipe;
+import dao.DaoInscription;
+import dao.DaoMatche;
+import dao.DaoPoule;
+import dao.DaoSaison;
+import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import modele.*;
+import exceptions.MemeEquipeException;
+import modele.Appartenance;
+import modele.Arbitrage;
+import modele.Arbitre;
+import modele.Categorie;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Matche;
+import modele.Niveau;
+import modele.Poule;
+import modele.Saison;
+import modele.Tournoi;
 import vue.Page;
 import vue.admin.tournois.creation.PopupArbitres;
 import vue.admin.tournois.creation.PopupCompteArbitre;
@@ -11,18 +31,16 @@ import vue.admin.tournois.creation.PopupEquipe;
 import vue.admin.tournois.creation.VueAdminTournoisCreation;
 import vue.common.JFramePopup;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class TournoiCréationControlleur implements ActionListener, MouseListener {
 	private VueAdminTournoisCreation vue;
@@ -37,10 +55,11 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private Connexion c;
 	private int nbEquipes = 0;
 	private List<Equipe> listeEquipe;
+	private List<Equipe> listeEquipeChoisi;
 	private List<Arbitre> arbitreList;
 	private List<Arbitre> arbitreListChoisi;
 	private DaoArbitre daoArbitre;
-
+	private DaoMatche daoMatche;
 	private PopupEquipe popupAjoutEquipe;
 	private PopupCompteArbitre popupCompteArbitre;
 	private PopupArbitres popupArbitres;
@@ -58,8 +77,10 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		daoInscription = new DaoInscription(c);
 		daoArbitrage = new DaoArbitrage(c);
 		daoArbitre = new DaoArbitre(c);
+		daoMatche = new DaoMatche(c);
 		motdePasse = "";
 		arbitreListChoisi = new ArrayList<>();
+		listeEquipeChoisi = new ArrayList<>();
 		try {
 			saison = daoSaison.getLastSaison();
 			listeEquipe = daoInscription.getEquipeBySaison(saison.getAnnee());
@@ -77,7 +98,6 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			String nom = vue.getTextfieldNom().trim();
 			String dateDebutString = vue.getTextfieldDateDebut().trim();
 			String dateFinString = vue.getTextfieldDateFin().trim();
-			List<String> tabloEquipes = vue.getEquipes();
 			Niveau niveau = vue.getNiveau();
 			//Gestion des Champs vides
 			if (nom.isEmpty()) {
@@ -102,35 +122,20 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 					} else if (saison.getAnnee() != dateDebut.getAnnee() || saison.getAnnee() != dateFin.getAnnee()) {
 						new JFramePopup("Erreur", "L'année doit etre : " + saison.getAnnee(), () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 					} else {
-						/*popupCompteArbitre = new PopupCompteArbitre("Compte Arbitre", () ->
+						popupCompteArbitre = new PopupCompteArbitre("Compte Arbitre", () ->
 						{
 							TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
 							addMotDePasse();
-						}, nom);*/
-						Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, motdePasse));
-						if (isTournoiMemeNomExistant(tournoiInserer)) {
-							new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-						} else if (isTournoiMemeDateExistant(tournoiInserer)) {
-							new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-						} else {
-							daoTournoi.add(tournoiInserer);
-							initEquipes(tournoiInserer, listeEquipe);
-							if (!arbitreListChoisi.isEmpty()) {
-								for (Arbitre arbitre : arbitreListChoisi) {
-									Arbitrage arbitrage = new Arbitrage(arbitre, tournoiInserer);
-									daoArbitrage.add(arbitrage);
-								}
-							}
-							new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-							resetChamps();
-						}
+							try {
+								Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, motdePasse));
+								tentativeAjoutTournoiBDD(tournoiInserer);
+							}catch(FausseDateException fd){
+								fd.printStackTrace();
+							} 
+						}, nom);
 					}
-
-
 				} catch (DateTimeException dateTimeException) {
 					new JFramePopup("Erreur", "Le bon format est dd/mm/yyyy", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-				} catch (FausseDateException ex) {
-					throw new RuntimeException(ex);
 				} catch (Exception ext) {
 					ext.printStackTrace();
 					throw new RuntimeException(ext);
@@ -190,14 +195,37 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			Appartenance appartenance = new Appartenance(e, poule);
 			daoAppartenance.add(appartenance);
 		}
+		creationAutomatiqueMatches(listeEquipe, tournoi);
 
 
 	}
-
+	private void tentativeAjoutTournoiBDD(Tournoi tournoi){
+		try{
+		if (isTournoiMemeNomExistant(tournoi)) {
+			new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+		} else if (isTournoiMemeDateExistant(tournoi)) {
+			new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+		} else {
+			daoTournoi.add(tournoi);
+			initEquipes(tournoi,listeEquipeChoisi);
+			if (!arbitreListChoisi.isEmpty()) {
+				for (Arbitre arbitre : arbitreListChoisi) {
+					Arbitrage arbitrage = new Arbitrage(arbitre, tournoi);
+					daoArbitrage.add(arbitrage);
+				}
+			}
+			new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+			resetChamps();
+		}}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	public void resetChamps() {
 		this.arbitreListChoisi.clear();
 		try {
 			this.listeEquipe = daoEquipe.getAll();
+			this.listeEquipeChoisi.clear();
 			this.arbitreList = daoArbitre.getAll();
 			this.vue.getBtnAjoutArbitres().setVisible(true);
 
@@ -226,7 +254,9 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			List<String> lst_equipes = this.vue.getEquipes();
 			if (!lst_equipes.contains(nomEquipe)) {
 				this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
+				this.listeEquipeChoisi.add(equipe);
 				this.nbEquipes++;
+
 			}
 			this.listeEquipe.remove(equipe);
 		}
@@ -264,5 +294,63 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	@Override
 	public void mouseExited(MouseEvent e) {
 
+	}
+
+	private void creationAutomatiqueMatches(List<Equipe> listeEquipe, Tournoi tournoi) {
+		CustomDate dateDebut = tournoi.getDebut();
+		CustomDate dateFin = tournoi.getFin();
+		int nbDay = CustomDate.dureeEnJour(dateDebut, dateFin);
+		if (nbDay > 1) {
+			nbDay -= 1;
+		}
+
+		int nbMatches = 0;
+		for (int i = 0; i < listeEquipe.size(); i++) {
+			nbMatches += i;
+		}
+		int matchParJour = nbMatches / nbDay;
+		int reste = nbMatches % nbDay;
+
+		CustomDate dateActuel = dateDebut;
+		int currentDay = 1;
+		List<Matche> all_match = new ArrayList<>();
+		List<Matche> matcheOfDay = new ArrayList<>();
+		for (int i = 0; i < listeEquipe.size() - 1; i++) {
+			for (int j = i + 1; j < listeEquipe.size(); j++) {
+				Equipe equipe1 = listeEquipe.get(i);
+				Equipe equipe2 = listeEquipe.get(j);
+				try {
+					Matche matche = new Matche(1, dateActuel, Categorie.POULE, equipe1, equipe2, tournoi);
+					matcheOfDay.add(matche);
+					if (matcheOfDay.size() >= matchParJour) {
+						if (currentDay == nbDay) {
+							if (matcheOfDay.size() == matchParJour + reste) {
+								all_match.addAll(matcheOfDay);
+								matcheOfDay.clear();
+								dateActuel = dateActuel.plusOne();
+								currentDay += 1;
+							}
+						} else {
+							all_match.addAll(matcheOfDay);
+							matcheOfDay.clear();
+							dateActuel = dateActuel.plusOne();
+							currentDay += 1;
+						}
+					}
+				} catch (FausseDateException | MemeEquipeException e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+
+		for (Matche matche : all_match) {
+			try {
+				daoMatche.add(matche);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

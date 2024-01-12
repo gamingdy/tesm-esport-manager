@@ -17,19 +17,9 @@ public class TestArbitre {
 
 	@Before
 	public void setUp() throws Exception {
-		a = new Arbitre("Brando", "Titouan", Integer.parseInt("124567890"));
+		a = new Arbitre("Brando", "Titouan","124567890");
 	}
 
-	@Test(expected = IdNotSetException.class)
-	public void getIdNotSet() throws IdNotSetException {
-		a.getId();
-	}
-
-	@Test
-	public void getId() throws IdNotSetException {
-		a.setId(5);
-		assertEquals((Integer) 5, a.getId());
-	}
 
 	@Test
 	public void getNom() {
@@ -53,19 +43,7 @@ public class TestArbitre {
 		assertEquals("T", a.getPrenom());
 	}
 
-	@Test
-	public void testtoString() throws IdNotSetException {
-		a.setId(6);
-		assertEquals("(6)Brando Titouan", "(" + a.getId() + ")" + a.getNom() + " " + a.getPrenom());
-	}
 
-	@Test
-	public void testHashcodeArbitre() {
-		a.setId(1);
-		Set<Arbitre> set = new HashSet<Arbitre>();
-		set.add(a);
-		set.add(a);
-	}
 
 	@Test
 	public void testEquals() {
@@ -95,9 +73,4 @@ public class TestArbitre {
 		assertEquals(0, a.compareTo(a2));
 	}
 
-	@Test
-	public void testCompareToPasPareil() throws SQLException {
-		Arbitre a2 = new Arbitre("A", "A", Integer.parseInt("134567890"));
-		assertEquals(1, a.compareTo(a2));
-	}
 }

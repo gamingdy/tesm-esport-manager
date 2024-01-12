@@ -24,7 +24,7 @@ public class TestArbitrage {
 		debut = new CustomDate(2022, 10, 10);
 		fin = new CustomDate(2022, 10, 22);
 		tournoi = new Tournoi(new Saison(2022), "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("1234", "1234"));
-		arbitre = new Arbitre("Armand", "Simon", Integer.parseInt("123456790"));
+		arbitre = new Arbitre("Armand", "Simon","123456790");
 		arbitrage = new Arbitrage(arbitre, tournoi);
 	}
 

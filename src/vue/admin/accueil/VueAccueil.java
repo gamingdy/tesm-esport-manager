@@ -188,6 +188,7 @@ public class VueAccueil extends JPanel {
 		gbcScrollPaneMatchs.gridy = 1;
 		panelMatchs.add(scrollPaneMatch, gbcScrollPaneMatchs);
 		scrollPaneMatch.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		scrollPaneMatch.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
 		scrollPaneMatch.setOpaque(false);
 		scrollPaneMatch.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
