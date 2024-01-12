@@ -195,7 +195,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				FactoryDAO.getDaoPoule(connexion).delete(p.getTournoi().getSaison().getAnnee(),p.getTournoi().getNom(),p.getLibelle());
 			}
 			for(Arbitre a : arbitres) {
-				FactoryDAO.getDaoArbitrage(connexion).delete(a.getId(),value[0],value[1]);
+				FactoryDAO.getDaoArbitrage(connexion).delete(a.getNom(),a.getPrenom(),a.getNumeroTelephone(),value[0],value[1]);
 			}
 			return delete.execute();
 		}
@@ -340,64 +340,6 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 		}
 	}
 	
-	
-	/**
-	 * Récoupère tous les matchs d'une poule à partir d'un objet poule
-	 * @param poule
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Matche> getMatchesByPoule(Poule poule) throws Exception {
-		//Création des DAO utilisées
-		DaoAppartenance daoappartenance = new DaoAppartenance(connexion);
-		DaoMatche daomatche = new DaoMatche(connexion);
-		
-		//Récupérations des équipes de la poule
-		List<Equipe> equipes = daoappartenance.getEquipeByPoule(poule.getTournoi().getNom(),poule.getTournoi().getSaison().getAnnee(),poule.getLibelle());
-		
-		//Récupération des matchs du tournoi duquel appartient la poule si ce sont des matchs de catégorie "poule"
-		List<Matche> matches = daomatche.getMatchesByTournoiFromCategorie(poule.getTournoi(), Categorie.POULE);
-		
-		//Création de la liste de sortie
-		List<Matche> sortie = new ArrayList<>();
-		
-		//Boucle qui vérifie que si l'équipe que l'on observe est référencée comme Equipe 1 ou Equipe 2 du match que l'on observe, alors ce match fait partie de la poule
-		for(Equipe e : equipes) {
-			for(Matche m : matches) {
-				if (m.getEquipe1().equals(e) || m.getEquipe2().equals(e)) {
-					sortie.add(m);
-				}
-			}
-		}
-		
-		//On renvoie la liste des matchs de la poule passée en paramètre
-		return sortie;
-	}
-	
-	/**
-	 * Récoupère tous les matchs d'une poule à partir d'un objet poule
-	 * @param poule
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Matche> getMatchesByEquipe(Appartenance a) throws Exception {
-		
-		//Récupération des matchs du tournoi duquel appartient la poule si ce sont des matchs de catégorie "poule"
-		List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchesByTournoiFromCategorie(a.getPoule().getTournoi(), Categorie.POULE);
-		
-		//Création de la liste de sortie
-		List<Matche> sortie = new ArrayList<>();
-		
-		//Boucle qui vérifie que si l'équipe que l'on observe est référencée comme Equipe 1 ou Equipe 2 du match que l'on observe, alors ce match fait partie de la poule
-		for(Matche m : matches) {
-			if (m.getEquipe1().equals(a.getEquipe()) || m.getEquipe2().equals(a.getEquipe())) {
-				sortie.add(m);
-			}
-		}
-		
-		//On renvoie la liste des matchs de la poule passée en paramètre
-		return sortie;
-	}
 	
 	@Override
 	public String visualizeTable() throws Exception {

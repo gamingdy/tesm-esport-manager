@@ -23,7 +23,7 @@ public class TestDaoEquipe extends TestDao {
 	public void testInsert() throws Exception {
 		FactoryDAO.getDaoEquipe(getC()).add(equipe);
 		FactoryDAO.getDaoEquipe(getC()).add(equipe2);
-		for(int i = 0;i<30;i++) {
+		for(int i = 0;i<50;i++) {
 			FactoryDAO.getDaoEquipe(getC()).add(ekip.get(i));
 		}
 		
@@ -56,7 +56,7 @@ public class TestDaoEquipe extends TestDao {
 	public void setup() throws Exception {
 		equipe = new Equipe("Bienveillance",Pays.REPUBLIQUE_DEMOCRATIQUE_DU_CONGO);
 		equipe2 = new Equipe("Bonheur",Pays.REPUBLIQUE_DU_CONGO);
-		for(int i = 0;i<30;i++) {
+		for(int i = 0;i<50;i++) {
 			ekip.add(new Equipe(super.randomUsername("NomDequipeSuperCool"),Pays.values()[i]));
 		}
 		

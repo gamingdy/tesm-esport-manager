@@ -120,7 +120,7 @@ public class DaoSaison implements Dao<Saison, Integer> {
 				FactoryDAO.getDaoInscription(connexion).delete(value[0],e.getNom());
 			}
 			for(Arbitre a : arbitres) {
-				FactoryDAO.getDaoSelection(connexion).delete(a.getId(),value[0]);
+				FactoryDAO.getDaoSelection(connexion).delete(a.getNom(),a.getPrenom(),a.getNumeroTelephone(),value[0]);
 			}
 			
 			return delete.execute();

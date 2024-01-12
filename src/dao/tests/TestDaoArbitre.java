@@ -12,6 +12,8 @@ import modele.Arbitre;
 public class TestDaoArbitre extends TestDao{
 	
 	private Arbitre a;
+	private Arbitre b;
+	private Arbitre c;
 
 	public TestDaoArbitre() throws SQLException {
 		super();
@@ -20,6 +22,8 @@ public class TestDaoArbitre extends TestDao{
 	
 	public void testInsert() throws Exception {
 		FactoryDAO.getDaoAbritre(super.getC()).add(a);
+		FactoryDAO.getDaoAbritre(super.getC()).add(b);
+		FactoryDAO.getDaoAbritre(super.getC()).add(c);
 		System.out.println(FactoryDAO.getDaoAbritre(getC()).visualizeTable());
 	}
 	
@@ -48,7 +52,8 @@ public class TestDaoArbitre extends TestDao{
 
 	@Override
 	public void setup() throws SQLException {
-		a = new Arbitre("Brando","Titouan",0606060606);
-		
+		a = new Arbitre("Brando","Titouan","0606060606");
+		b = new Arbitre("Pelletier","Alex","0230423423");
+		c = new Arbitre("AAAAAAAAA","bbbbbbbbbbbbb","0345546546");
 	}
 }

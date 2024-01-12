@@ -33,7 +33,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 		String createTableSql = "CREATE TABLE Selection("
 				+ "Nom VARCHAR(50), "
 				+ "Prenom VARCHAR(50), "
-				+ "Telephone INT, "
+				+ "Telephone VARCHAR(50), "
 				+ "Annee INT, "
 				+ "PRIMARY KEY(Nom, Prenom, Telephone, Annee), "
 				+ "FOREIGN KEY(Nom,Prenom,Telephone) REFERENCES Arbitre(Nom,Prenom,Telephone), "
@@ -70,7 +70,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 			Selection selection = null;
 			while(resultat.next()) {
 				selection = new Selection(
-						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getInt("Telephone")).get(),
+						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getString("Telephone")).get(),
 						daosaison.getById(resultat.getInt("Annee")).get());
 				sortie.add(selection);
 			}
@@ -93,7 +93,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 			Selection selection = null;
 			if(resultat.next()) {
 				selection = new Selection(
-						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getInt("Telephone")).get(),
+						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getString("Telephone")).get(),
 						daosaison.getById(resultat.getInt("Annee")).get());
 				
 			}
@@ -110,7 +110,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 				"INSERT INTO Selection(Nom,Prenom,Telephone,Annee) values (?,?,?,?)")) {
 			add.setString(1,value.getArbitre().getNom());
 			add.setString(2,value.getArbitre().getPrenom());
-			add.setInt(3,value.getArbitre().getNumeroTelephone());
+			add.setString(3,value.getArbitre().getNumeroTelephone());
 			add.setInt(4, value.getSaison().getAnnee());
 			return add.execute();
 		}
@@ -126,7 +126,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 
 	/**
 	 * Supprime à partir de la clé primaire, l'association d'un arbitre et d'une saison
-	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER), Annee (INTEGER) 
+	 * Les paramètres sont placés dans cet ordre : Nom (STRING), Prenom (STRING), Telephone (INTEGER), Annee (INTEGER) 
 	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
@@ -134,7 +134,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 				"DELETE FROM Selection where Nom = ? AND Prenom = ? AND Telephone = ? AND Annee = ?")){
 			delete.setString(1,(String) value[0]);
 			delete.setString(2,(String) value[1]);
-			delete.setInt(3,(Integer) value[2]);
+			delete.setString(3,(String) value[2]);
 			delete.setInt(4,(Integer)value[3]);
 			return delete.execute();
 		}
@@ -154,7 +154,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 			ResultSet resultat = getArbitreBySaison.executeQuery();
 			List<Arbitre> sortie = new ArrayList<>();
 			while(resultat.next()) {
-				sortie.add(daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getInt("Telephone")).get());
+				sortie.add(daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getString("Telephone")).get());
 			}
 			return sortie;
 		}
@@ -163,7 +163,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 
 	/**
 	 * Renvoie tous les saison d'un arbitre
-	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER)
+	 * Les paramètres sont placés dans cet ordre : Nom Arbitre (STRING) , Prenom Arbitre (STRING) , Telephone (STRING)
 	 * @param value
 	 * @return
 	 * @throws Exception
@@ -173,7 +173,7 @@ public class DaoSelection implements Dao<Selection,Object>{
 				"SELECT * FROM Selection WHERE Nom = ? AND Prenom = ? AND Telephone = ?")) {
 			getSaisonByArbitre.setString(1,(String) value[0]);
 			getSaisonByArbitre.setString(2,(String) value[1]);
-			getSaisonByArbitre.setInt(3,(Integer) value[2]);
+			getSaisonByArbitre.setString(3,(String) value[2]);
 			ResultSet resultat = getSaisonByArbitre.executeQuery();
 			List<Saison> sortie = new ArrayList<>();
 			while(resultat.next()) {

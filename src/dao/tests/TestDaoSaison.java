@@ -45,7 +45,7 @@ public class TestDaoSaison extends TestDao {
 
 	@Override
 	public void setup() throws Exception {
-		for(int i = 0; i<10 ; i++ ) {
+		for(int i = 0; i<11 ; i++ ) {
 			saisons.add(new Saison(2014+i));
 		}
 		

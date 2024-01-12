@@ -75,10 +75,12 @@ public class TestDaoTournoi extends TestDao {
 		t.forEach(x -> System.out.println(x.toString()));
 	}
 	
+
+	
 	public static void main(String[] args) throws Exception {
 		TestDaoTournoi x = new TestDaoTournoi();
 		x.setup();
-		//x.testInsert();
+		x.testInsert();
 		x.testDelete();
 		x.testUpdate();
 		x.testGetCompteArbitreByTournoi();

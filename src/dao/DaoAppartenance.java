@@ -101,8 +101,9 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 			getById.setString(1, (String) id[0]);
 			getById.setInt(2, (Integer) id[1]);
 			getById.setString(3, (String) id[2]);
-			getById.setString(3, (String) id[2]);
-
+			Character c = (Character)id[3];
+			String libelle = c.toString();
+			getById.setString(4, libelle);
 			ResultSet resultat = getById.executeQuery();
 			Appartenance appartenance = null;
 			appartenance = findAppartenance(resultat, appartenance);
@@ -155,26 +156,28 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 			delete.setString(1, (String) value[0]);
 			delete.setInt(2, (Integer) value[1]);
 			delete.setString(3, (String) value[2]);
-			delete.setString(4, (String) value[3]);
-
+			Character c = (Character)value[3];
+			String libelle = c.toString();
+			delete.setString(4, libelle);
+			
 			return delete.execute();
 		}
 	}
 
 	/**
-	 * Renvoie toutes les équipes d'une poule pour un tournoi donné
-	 * Les paramètres sont placés dans cet ordre : Nom_tournoi (STRING), Annee (INTEGER) , Libelle (STRING)
-	 *
+	 * Renvoie toutes les équipes d'une poule pour une poule donnée
 	 * @param value
 	 * @return
 	 * @throws Exception
 	 */
 	public List<Equipe> getEquipeByPoule(Object... value) throws Exception {
-		try (PreparedStatement getAll = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Tournoi = ? AND Annee = ? AND Libelle = ?")) {
-			getAll.setString(1, (String) value[0]);
-			getAll.setInt(2, (Integer) value[1]);
-			getAll.setString(3, (String) value[2]);
-			ResultSet resultat = getAll.executeQuery();
+		try(PreparedStatement getEquipeByPoule = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Tournoi = ? AND Annee = ? AND Libelle = ?")){
+			getEquipeByPoule.setString(1,(String)value[0]);
+			getEquipeByPoule.setInt(2,(Integer)value[1]);
+			Character c = (Character)value[2];
+			String libelle = c.toString();
+			getEquipeByPoule.setString(3, libelle);
+			ResultSet resultat = getEquipeByPoule.executeQuery();
 			List<Equipe> sortie = new ArrayList<>();
 			while (resultat.next()) {
 				Equipe equipe = daoequipe.getById(resultat.getString("Nom_Equipe")).get();
@@ -207,18 +210,15 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 	}
 
 	/**
-	 * Renvoie toutes les poules pour une équipe pour un tournoi donné
-	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING), Nom_tournoi (STRING) , Annee (INTEGER)
-	 *
+	 * Renvoie toutes les poules pour une équipe 
+	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING), 
 	 * @param value
 	 * @return
 	 * @throws Exception
 	 */
 	public List<Poule> getPouleByEquipe(Object... value) throws Exception {
-		try (PreparedStatement getEquipeByPoule = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ? AND Nom_Tournoi = ? AND Annee = ?")) {
-			getEquipeByPoule.setString(1, (String) value[0]);
-			getEquipeByPoule.setString(2, (String) value[1]);
-			getEquipeByPoule.setInt(3, (Integer) value[2]);
+		try(PreparedStatement getEquipeByPoule = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ?")){
+			getEquipeByPoule.setString(1, (String)value[0]);
 			ResultSet resultat = getEquipeByPoule.executeQuery();
 			List<Poule> sortie = new ArrayList<>();
 			while (resultat.next()) {
@@ -237,12 +237,14 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 	 * @throws Exception
 	 */
 	public List<Tournoi> getTournoiByEquipe(Object... value) throws Exception {
-		try (PreparedStatement getTournoiByEquipe = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ?")) {
-			getTournoiByEquipe.setString(1, (String) value[0]);
+		try(PreparedStatement getTournoiByEquipe = connexion.getConnection().prepareStatement("SELECT DISTINCT * FROM Appartenance where Nom_Equipe = ?")){
+			getTournoiByEquipe.setString(1, (String)value[0]);
 			ResultSet resultat = getTournoiByEquipe.executeQuery();
 			List<Tournoi> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				sortie.add(daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
+			while(resultat.next()) {
+					sortie.add(daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")).get());
+				
+				
 			}
 			return sortie;
 		}
@@ -257,7 +259,8 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 	 * @throws Exception
 	 */
 	public List<Tournoi> getTournoiByEquipeForSaison(Inscription inscription) throws Exception {
-		try (PreparedStatement getTournoiByEquipeForSaison = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ? AND Annee = ?")) {
+		try(PreparedStatement getTournoiByEquipeForSaison = connexion.getConnection().prepareStatement(""
+				+ "SELECT * FROM Appartenance where Nom_Equipe = ? AND Annee = ?")){
 			getTournoiByEquipeForSaison.setString(1, inscription.getEquipe().getNom());
 			getTournoiByEquipeForSaison.setInt(2, inscription.getSaison().getAnnee());
 			ResultSet resultat = getTournoiByEquipeForSaison.executeQuery();

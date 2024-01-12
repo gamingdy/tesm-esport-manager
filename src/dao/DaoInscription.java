@@ -123,7 +123,7 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	public boolean update(Inscription value) throws Exception {
 		try (PreparedStatement update = connexion.getConnection().prepareStatement(
 				"UPDATE Inscription SET "
-						+ "World_Rank = ?,"
+						+ "World_Rank = ? "
 						+ "WHERE Nom_Equipe = ? AND Annee = ?")) {
 			update.setInt(1, value.getWorldRank());
 			update.setString(2, value.getEquipe().getNom());

@@ -7,6 +7,7 @@ import modele.CustomDate;
 import modele.Equipe;
 import modele.Matche;
 import modele.Partie;
+import modele.Saison;
 import modele.Tournoi;
 
 import java.sql.PreparedStatement;
@@ -213,6 +214,19 @@ public class DaoMatche implements Dao<Matche, Integer> {
 						+ "OR Nom_Equipe2 = ?")) {
 			getMatchByEquipe.setString(1, equipe.getNom());
 			getMatchByEquipe.setString(2, equipe.getNom());
+			ResultSet resultat = getMatchByEquipe.executeQuery();
+			List<Matche> sortie = new LinkedList<>();
+			generateListMatche(resultat, sortie);
+			return sortie;
+		}
+	}
+	
+	public List<Matche> getMatchBySaison(Saison saison) throws FausseDateException, MemeEquipeException, Exception {
+		try (PreparedStatement getMatchByEquipe = connexion.getConnection().prepareStatement(
+				"SELECT * "
+						+ "FROM Matche "
+						+ "WHERE Annee = ? ")) {
+			getMatchByEquipe.setInt(1, saison.getAnnee());
 			ResultSet resultat = getMatchByEquipe.executeQuery();
 			List<Matche> sortie = new LinkedList<>();
 			generateListMatche(resultat, sortie);
