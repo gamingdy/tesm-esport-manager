@@ -23,6 +23,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -128,8 +129,7 @@ public class VueAdminEquipesDetails extends JPanel {
 				panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
 				if (isSelected) {
 					panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
-				}
-				else {
+				} else {
 					panel.setForeground(CustomColor.BLANC);
 				}
 				return panel;
@@ -233,15 +233,22 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelSaisons.add(labelSaisons, gbcLabelSaisons);
 
 		btnAjoutSaisons = new JLabel("Ajouter à la saison actuelle");
+		btnAjoutSaisons.setHorizontalAlignment(JLabel.CENTER);
 		btnAjoutSaisons.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createEmptyBorder(20, 0, 0, 20),
-				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2)));
-		btnAjoutSaisons.setHorizontalTextPosition(JLabel.TRAILING);
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
+				BorderFactory.createEmptyBorder(5,10,5,10)));
 		btnAjoutSaisons.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAjoutSaisons.setFont(MaFont.getFontTitre3());
 		btnAjoutSaisons.setForeground(CustomColor.BLANC);
+		
+		GridBagConstraints gbcAjoutSaison = new GridBagConstraints();
+		gbcAjoutSaison.fill = GridBagConstraints.NONE;
+		gbcAjoutSaison.insets = new Insets(0,0,25,0);
+		gbcAjoutSaison.gridx = 0;
+		gbcAjoutSaison.gridy = 2;
+		
 
-		panelSaisons.add(btnAjoutSaisons, gbcAjout);
+		panelSaisons.add(btnAjoutSaisons, gbcAjoutSaison);
 
 		modelSaisons = new DefaultListModel<String>();
 
@@ -293,7 +300,6 @@ public class VueAdminEquipesDetails extends JPanel {
 		boutonValider.setForeground(CustomColor.BLANC);
 		boutonValider.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelBot.add(boutonValider);
-		setControleur(new EquipeModificationControlleur(this));
 	}
 
 	/**
@@ -306,6 +312,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.labelLogo.addMouseListener(controleur);
+		this.btnAjoutSaisons.addMouseListener(controleur);
 	}
 
 	public void removeControleur(EquipeModificationControlleur controlleur) {

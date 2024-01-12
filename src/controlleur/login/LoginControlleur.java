@@ -67,7 +67,10 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 						}
 					} else {
 						if (compteActuel instanceof CompteArbitre) {
-							JOptionPane.showMessageDialog(vue, "Bienvenue en tant qu'Arbitre");
+
+							obs.notifyVue(Page.ARBITRE);
+							this.vue.clearField();
+
 						}
 						if (compteActuel == this.admin) {
 							obs.notifyVue(Page.ACCUEIL_ADMIN);
@@ -84,8 +87,8 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		if (login.equals(admin.getUsername()) && mdp.equals(admin.getHashMdp())) {
 			return this.admin;
 		}
-		if (this.arbitre != null) {
-
+		if (this.arbitre != null&&login.equals(arbitre.getUsername())&&mdp.equals(arbitre.getHashMdp())) {
+			return this.arbitre;
 		}
 
 		return null;

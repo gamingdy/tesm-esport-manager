@@ -11,3 +11,4 @@ assets/logo-equipes/*.jpg
 *.iml
 *.jar
 *.json
+~$BurndownChartSAE.xlsx

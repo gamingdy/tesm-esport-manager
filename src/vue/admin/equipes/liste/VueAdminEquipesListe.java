@@ -2,6 +2,7 @@ package vue.admin.equipes.liste;
 
 
 import controlleur.admin.equipes.EquipesListeControlleur;
+import controlleur.admin.historique.HistoriqueControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
@@ -14,7 +15,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.List;
 
 public class VueAdminEquipesListe extends JPanel {
@@ -115,6 +122,7 @@ public class VueAdminEquipesListe extends JPanel {
 		gbcBtnAjt.weightx = 0.15F;
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
+
 	}
 
 	public void add(CaseEquipe c) {
@@ -126,11 +134,16 @@ public class VueAdminEquipesListe extends JPanel {
 		nbCases += 1;
 	}
 
+	public void setEquipe(List<CaseEquipe> c) {
+		list.removeAll();
+		nbCases = 0;
+		this.addAll(c);
+	}
 
 	public void addAll(List<CaseEquipe> c) {
 		c.stream().forEach(this::add);
 	}
-	
+
 	public void resetGrille() {
 		list.removeAll();
 		JPanel j;
@@ -140,6 +153,10 @@ public class VueAdminEquipesListe extends JPanel {
 			list.add(j);
 		}
 		nbCases = 0;
+	}
+
+	public void supprimerCase(int i) {
+		list.remove(i);
 	}
 
 	public JButton getBoutonAjouter() {

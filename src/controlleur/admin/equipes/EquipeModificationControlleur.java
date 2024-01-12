@@ -4,14 +4,19 @@ import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoInscription;
 import dao.DaoJoueur;
+import dao.DaoSaison;
+import modele.CustomDate;
 import modele.Equipe;
+import modele.Inscription;
 import modele.Joueur;
 import modele.Pays;
 import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.details.VueAdminEquipesDetails;
+import vue.admin.equipes.liste.CaseEquipe;
 import vue.common.CustomComboBox;
 import vue.common.FileChooser;
+import vue.common.JFramePopup;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -26,7 +31,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,8 +43,12 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 	private DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
 	private DaoInscription daoInscription;
+	private DaoSaison daoSaison;
 	private boolean editing;
+	private boolean logoChanged;
+	private boolean saisonDefined;
 	private BufferedImage logo;
+	private CaseEquipe caseEquipe;
 
 	public EquipeModificationControlleur(VueAdminEquipesDetails vue) {
 		this.vue = vue;
@@ -44,25 +56,59 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		this.daoEquipe = new DaoEquipe(connexion);
 		this.daoJoueur = new DaoJoueur(connexion);
 		this.daoInscription = new DaoInscription(connexion);
-
+		this.daoSaison = new DaoSaison(connexion);
+		this.logoChanged = false;
+		this.saisonDefined = false;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vue.getBoutonAnnuler()) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
+			this.reset();
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Valider")) {
 			passerEnNonEditing();
+			String nom_pays = Objects.requireNonNull(this.vue.getComboboxPays().getSelectedItem()).toString();
+			Pays pays = Pays.trouverPaysParNom(nom_pays);
+			Equipe equipe = new Equipe(this.vue.getChampNom().getText(), pays);
+			addEquipe(equipe);
+			if (this.saisonDefined) {
+				addEquipeSaison(equipe);
+			}
+			updateCase(equipe);
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Modifier")) {
 			passerEnEditing();
 		}
+	}
+
+	public void reset() {
+		this.logoChanged = false;
+		this.logo = null;
+		this.saisonDefined = false;
+	}
+
+	private void updateCase(Equipe equipe) {
+		try {
+			Image img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
+			ImageIcon icon = new ImageIcon(img);
+			Image imgPays = ImageIO.read(new File("assets/country-flags/png100px/" + equipe.getPays().getCode() + ".png"));
+			ImageIcon iconPays = new ImageIcon(imgPays);
+			this.caseEquipe.setLogo(icon);
+			this.caseEquipe.setPays(iconPays);
+			this.caseEquipe.updatePanel();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 	}
 
-	public void init(String nomEquipe, boolean newEditing) {
+	public void init(CaseEquipe caseEquipe, boolean newEditing) {
 		this.editing = newEditing;
+		String nomEquipe = caseEquipe.getNom();
+		this.caseEquipe = caseEquipe;
+
 		try {
 			Optional<Equipe> find_equipe = this.daoEquipe.getById(nomEquipe);
 			if (!find_equipe.isPresent()) {
@@ -77,6 +123,9 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			ImageIcon logo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
 
 			List<Saison> saisons = this.daoInscription.getSaisonByEquipe(equipe.getNom());
+			if (!saisons.isEmpty()) {
+				this.saisonDefined = true;
+			}
 			List<Integer> lst_saison = saisons.stream().map(Saison::getAnnee).collect(Collectors.toList());
 
 			this.vue.setNom(equipe.getNom());
@@ -110,7 +159,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	private void setEditing(boolean editing) {
 		this.editing = editing;
-		this.vue.getbtnAjoutSaisons().setVisible(editing);
+		this.vue.getbtnAjoutSaisons().setVisible(editing && !this.saisonDefined);
 
 		CustomComboBox<Pays> ref = this.vue.getComboboxPays();
 		ref.setActif(editing);
@@ -125,35 +174,71 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == this.vue.getLabelLogo() && this.editing) {
-			JLabel lableLogo = this.vue.getLabelLogo();
-			this.logo = FileChooser.createPopup(this.logo, lableLogo);
-		}
+			JLabel labelLogo = this.vue.getLabelLogo();
+			this.logo = FileChooser.createPopup(this.logo, labelLogo, "JPG Images", "jpg");
+			if (this.logo != null) {
+				this.logoChanged = true;
+			}
 
+		} else if (e.getSource() == this.vue.getbtnAjoutSaisons()) {
+			this.saisonDefined = true;
+			this.vue.addSaison(CustomDate.now().getAnnee());
+			this.vue.getbtnAjoutSaisons().setVisible(false);
+		}
 	}
+
+	public void addEquipe(Equipe equipeInserer) {
+		try {
+			this.daoEquipe.update(equipeInserer);
+			if (!this.logoChanged) {
+				return;
+			}
+			String filename = "assets/logo-equipes/" + equipeInserer.getNom() + ".jpg";
+			File outputfile = new File(filename);
+			if (outputfile.exists()) {
+				outputfile.delete();
+				outputfile = new File(filename);
+			}
+			ImageIO.write(this.logo, "jpg", outputfile);
+		} catch (Exception e) {
+			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+		}
+	}
+
+	public void addEquipeSaison(Equipe equipeInserer) {
+		try {
+			addEquipe(equipeInserer);
+			Saison saison = daoSaison.getLastSaison();
+			Inscription inscription = new Inscription(saison, equipeInserer);
+			daoInscription.add(inscription);
+		} catch (SQLException e) {
+			new JFramePopup("Erreur", "Erreur d'insertion", () -> {
+			});
+		} catch (Exception e) {
+			new JFramePopup("Erreur", "Erreur d'insertion dans la saison", () -> {
+			});
+		}
+	}
+
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-
 	}
 }

@@ -33,7 +33,7 @@ public class PopupArbitres extends JFrame {
 		void handleAction();
 	}
 
-	public PopupArbitres(String title, List<Arbitre> equipes, ActionHandler actionHandler) {
+	public PopupArbitres(String title, List<Arbitre> arbitres, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -42,7 +42,7 @@ public class PopupArbitres extends JFrame {
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
 		setIconImage(icon.getImage());
 
-		JPanel panel = createPanel(actionHandler, equipes);
+		JPanel panel = createPanel(actionHandler, arbitres);
 		add(panel);
 
 		pack();
@@ -50,12 +50,12 @@ public class PopupArbitres extends JFrame {
 		setVisible(true);
 	}
 
-	private JPanel createPanel(ActionHandler actionHandler, List<Arbitre> equipes) {
+	private JPanel createPanel(ActionHandler actionHandler, List<Arbitre> arbitres) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
 
-		JLabel label = new JLabel("Saisir l'équipe :");
+		JLabel label = new JLabel("Saisir un arbitre :");
 		label.setForeground(Color.white);
 		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
@@ -63,18 +63,29 @@ public class PopupArbitres extends JFrame {
 
 
 		DefaultComboBoxModel<Arbitre> model = new DefaultComboBoxModel<Arbitre>();
-		equipes.forEach(model::addElement);
+		arbitres.forEach(model::addElement);
 
 		c = new CustomComboBox<Arbitre>(model);
 		c.setRenderer(new ListCellRenderer<Arbitre>() {
 
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Arbitre> list, Arbitre value, int index,
-					boolean isSelected, boolean cellHasFocus) {
+														  boolean isSelected, boolean cellHasFocus) {
+				JLabel panel;
 				if (value != null) {
-				return new JLabel(value.getNom() + " " + value.getPrenom());
+					panel = new JLabel(value.getNom() + " " + value.getPrenom());
+				} else {
+					panel = new JLabel("");
 				}
-				return new JLabel("");
+				panel.setOpaque(true);
+				panel.setForeground(CustomColor.BLANC);
+				panel.setBackground(CustomColor.BACKGROUND_MAIN);
+				panel.setFocusable(false);
+				panel.setFont(MaFont.getFontTitre1());
+				if (isSelected) {
+					panel.setForeground(CustomColor.ROSE_CONTOURS);
+				}
+				return panel;
 			}
 		});
 		panel.add(c, BorderLayout.CENTER);
@@ -86,7 +97,7 @@ public class PopupArbitres extends JFrame {
 		closeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		closeButton.setFont(MaFont.getFontTitre4());
 		closeButton.setForeground(CustomColor.BLANC);
-		closeButton.setBackground(CustomColor.TRANSPARENT);
+		closeButton.setBackground(CustomColor.BACKGROUND_MENU);
 		closeButton.setOpaque(false);
 		closeButton.setFocusable(false);
 		closeButton.addActionListener(e -> dispose());
@@ -96,7 +107,7 @@ public class PopupArbitres extends JFrame {
 		okButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		okButton.setFont(MaFont.getFontTitre4());
 		okButton.setForeground(CustomColor.BLANC);
-		okButton.setBackground(CustomColor.TRANSPARENT);
+		okButton.setBackground(CustomColor.BACKGROUND_MAIN);
 		okButton.setOpaque(false);
 		okButton.setFocusable(false);
 		okButton.addActionListener(e -> {

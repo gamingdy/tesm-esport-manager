@@ -93,7 +93,7 @@ public class AccueilControlleur implements ControlleurObserver {
 				String nomEquipe2 = liste.get(i).getEquipe2().getNom();
 				ImageIcon imageEquipe1 = new ImageIcon("assets/logo-equipes/" + nomEquipe1 + ".jpg");
 				ImageIcon imageEquipe2 = new ImageIcon("assets/logo-equipes/" + nomEquipe2 + ".jpg");
-				String dateHeure = liste.get(i).getDateDebutMatche().toString();
+				String dateHeure = liste.get(i).getDateDebutMatche().toString().substring(6);
 				LigneMatche ligneMatche = new LigneMatche(dateHeure, imageEquipe1, nomEquipe1, tropheeGagnant, imageEquipe2, nomEquipe2, tropheePerdant);
 				listeMatchesR.addElement(ligneMatche);
 			}
