@@ -264,7 +264,9 @@ public class VueAdminHistorique extends JPanel {
 			return label;
 		}
 		public SimpleRenderer smaller() {
-			label.setFont(MaFont.getFontTitre5());
+			if (this.label != null) {
+				label.setFont(MaFont.getFontTitre5());
+			}
 			return this;
 		}
 	}
