@@ -105,35 +105,20 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 					} else if (saison.getAnnee() != dateDebut.getAnnee() || saison.getAnnee() != dateFin.getAnnee()) {
 						new JFramePopup("Erreur", "L'année doit etre : " + saison.getAnnee(), () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 					} else {
-						/*popupCompteArbitre = new PopupCompteArbitre("Compte Arbitre", () ->
+						popupCompteArbitre = new PopupCompteArbitre("Compte Arbitre", () ->
 						{
 							TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
 							addMotDePasse();
-						}, nom);*/
-						Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, motdePasse));
-						if (isTournoiMemeNomExistant(tournoiInserer)) {
-							new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-						} else if (isTournoiMemeDateExistant(tournoiInserer)) {
-							new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-						} else {
-							daoTournoi.add(tournoiInserer);
-							initEquipes(tournoiInserer,listeEquipeChoisi);
-							if (!arbitreListChoisi.isEmpty()) {
-								for (Arbitre arbitre : arbitreListChoisi) {
-									Arbitrage arbitrage = new Arbitrage(arbitre, tournoiInserer);
-									daoArbitrage.add(arbitrage);
-								}
-							}
-							new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-							resetChamps();
-						}
+							try {
+								Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, motdePasse));
+								tentativeAjoutTournoiBDD(tournoiInserer);
+							}catch(FausseDateException fd){
+								fd.printStackTrace();
+							} 
+						}, nom);
 					}
-
-
 				} catch (DateTimeException dateTimeException) {
 					new JFramePopup("Erreur", "Le bon format est dd/mm/yyyy", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-				} catch (FausseDateException ex) {
-					throw new RuntimeException(ex);
 				} catch (Exception ext) {
 					ext.printStackTrace();
 					throw new RuntimeException(ext);
@@ -197,7 +182,28 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 
 
 	}
-
+	private void tentativeAjoutTournoiBDD(Tournoi tournoi){
+		try{
+		if (isTournoiMemeNomExistant(tournoi)) {
+			new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+		} else if (isTournoiMemeDateExistant(tournoi)) {
+			new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+		} else {
+			daoTournoi.add(tournoi);
+			initEquipes(tournoi,listeEquipeChoisi);
+			if (!arbitreListChoisi.isEmpty()) {
+				for (Arbitre arbitre : arbitreListChoisi) {
+					Arbitrage arbitrage = new Arbitrage(arbitre, tournoi);
+					daoArbitrage.add(arbitrage);
+				}
+			}
+			new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+			resetChamps();
+		}}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	public void resetChamps() {
 		this.arbitreListChoisi.clear();
 		try {
