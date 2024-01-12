@@ -29,7 +29,7 @@ public class DaoArbitre implements Dao<Arbitre,Object> {
 		String createTableSql = "CREATE TABLE Arbitre("
 				+"Nom VARCHAR(50),"
 				+"Prenom VARCHAR(50),"
-				+"Telephone INT,"
+				+"Telephone VARCHAR(50),"
 				+"PRIMARY KEY(Nom,Prenom,Telephone))";
 
 		try(Statement createTable= connexion.getConnection().createStatement()){
@@ -63,7 +63,7 @@ public class DaoArbitre implements Dao<Arbitre,Object> {
 				Arbitre arbitre = new Arbitre(
 						resultat.getString("Nom"),
 						resultat.getString("Prenom"),
-						resultat.getInt("Telephone"));
+						resultat.getString("Telephone"));
 				sortie.add(arbitre);
 			}
 			return sortie;
@@ -72,21 +72,21 @@ public class DaoArbitre implements Dao<Arbitre,Object> {
 
 	/**
 	 * renvoie un arbitre précis
-	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER)
+	 * Les paramètres sont placés dans cet ordre : Nom Arbitre (STRING) , Prenom Arbitre (STRING) , Telephone (STRING)
 	 */
 	@Override
 	public Optional<Arbitre> getById(Object... id) throws Exception {
 		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Arbitre WHERE Nom = ? AND Prenom = ? AND Telephone = ? ")){
 			getById.setString(1, (String) id[0]);
 			getById.setString(2, (String) id[1]);
-			getById.setInt(3, (Integer) id[2]);
+			getById.setString(3, (String) id[2]);
 			ResultSet resultat = getById.executeQuery();
 			Arbitre arbitre = null;
 			if (resultat.next()) {
 				arbitre = new Arbitre(
 						resultat.getString("Nom"),
 						resultat.getString("Prenom"),
-						resultat.getInt("Telephone"));
+						resultat.getString("Telephone"));
 			}
 			return Optional.ofNullable(arbitre);
 			
@@ -102,7 +102,7 @@ public class DaoArbitre implements Dao<Arbitre,Object> {
 				"INSERT INTO Arbitre(Nom,Prenom,Telephone) values (?,?,?)")){
 			add.setString(1, value.getNom());
 			add.setString(2, value.getPrenom());
-			add.setInt(3, value.getNumeroTelephone());
+			add.setString(3, value.getNumeroTelephone());
 			return add.execute();
 		}
 	}
@@ -117,7 +117,7 @@ public class DaoArbitre implements Dao<Arbitre,Object> {
 
 	/**
 	 * Supprime un arbitre de la table arbitre
-	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER)
+	 * Les paramètres sont placés dans cet ordre : Nom Arbitre (STRING) , Prenom Arbitre (STRING) , Telephone (STRING)
 	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
@@ -125,7 +125,7 @@ public class DaoArbitre implements Dao<Arbitre,Object> {
 				"DELETE FROM Arbitre WHERE Nom = ? AND Prenom = ? AND Telephone = ? ")){
 			delete.setString(1, (String) value[0]);
 			delete.setString(2, (String) value[1]);
-			delete.setInt(3, (Integer) value[2]);
+			delete.setString(3, (String) value[2]);
 			List<Saison> saisons = FactoryDAO.getDaoSelection(connexion).getSaisonByArbitre(value[0]);
 			List<Tournoi> tournois = FactoryDAO.getDaoArbitrage(connexion).getTournoiByArbitre(value[0]);
 			for(Saison s : saisons) {

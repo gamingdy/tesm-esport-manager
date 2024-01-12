@@ -36,7 +36,7 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 				+ "Nom_tournoi VARCHAR(50),"
 				+ "Nom VARCHAR(50), "
 				+ "Prenom VARCHAR(50), "
-				+ "Telephone INT,"
+				+ "Telephone VARCHAR(50),"
 				+ "PRIMARY KEY(Annee, Nom_tournoi, Nom,Prenom,Telephone),"
 				+ "FOREIGN KEY(Annee, Nom_tournoi) REFERENCES Tournoi(Annee, Nom_tournoi),"
 				+ "FOREIGN KEY(Nom,Prenom,Telephone) REFERENCES Arbitre(Nom,Prenom,Telephone))";
@@ -71,7 +71,7 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 			List<Arbitrage> sortie = new ArrayList<>();
 			while (resultat.next()) {
 				Arbitrage arbitrage = new Arbitrage(
-						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getInt("Telephone")).get(),
+						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getString("Telephone")).get(),
 						daotournoi.getById(resultat.getInt("Annee"),
 								resultat.getString("Nom_Tournoi")
 						).get());
@@ -83,21 +83,21 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 
 	/**
 	 * Renvoie une association précise d'un tournoi et d'un arbitre
-	 * Les paramètres sont placés dans cet ordre : Nom (STRING), Prenom (STRING), Telephone (INTEGER), Annee (INTEGER), Nom_tournoi (STRING)
+	 * Les paramètres sont placés dans cet ordre : Nom (STRING), Prenom (STRING), Telephone (STRING), Annee (INTEGER), Nom_tournoi (STRING)
 	 */
 	@Override
 	public Optional<Arbitrage> getById(Object... id) throws Exception {
 		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Arbitrage WHERE Nom = ? AND Prenom = ? AND Telephone = ? AND Annee = ? AND Nom_tournoi = ?")) {
 			getById.setString(1, (String) id[0]);
 			getById.setString(2, (String) id[1]);
-			getById.setInt(3, (Integer) id[2]);
+			getById.setString(3, (String) id[2]);
 			getById.setInt(4, (Integer) id[3]);
 			getById.setString(5, (String) id[4]);
 			ResultSet resultat = getById.executeQuery();
 			Arbitrage arbitrage = null;
 			if (resultat.next()) {
 				arbitrage = new Arbitrage(
-						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getInt("Telephone")).get(),
+						daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getString("Telephone")).get(),
 						daotournoi.getById(
 								resultat.getInt("Annee"),
 								resultat.getString("Nom_Tournoi")).get());
@@ -116,7 +116,7 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 				"INSERT INTO Arbitrage(Nom,Prenom,Telephone,Annee,Nom_Tournoi) values (?,?,?,?,?)")) {
 			add.setString(1,value.getArbitre().getNom());
 			add.setString(2,value.getArbitre().getPrenom());
-			add.setInt(3,value.getArbitre().getNumeroTelephone());
+			add.setString(3,value.getArbitre().getNumeroTelephone());
 			add.setInt(4, value.getTournoi().getSaison().getAnnee());
 			add.setString(5, value.getTournoi().getNom());
 			;
@@ -135,7 +135,7 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 
 	/**
 	 * Supprime une association d'un tournoi et d'un arbitre
-	 * Les paramètres sont placés dans cet ordre : Id_Arbitre (INTEGER), Annee (INTEGER), Nom_tournoi (STRING)
+	 * Les paramètres sont placés dans cet ordre : Nom Arbitre (STRING) , Prenom Arbitre (STRING) , Telephone (STRING) , Annee (INTEGER), Nom_tournoi (STRING)
 	 */
 	@Override
 	public boolean delete(Object... value) throws Exception {
@@ -143,7 +143,7 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 				"DELETE FROM Arbitrage where Nom = ? AND Prenom = ?  AND Telephone = ? AND Annee = ? AND Nom_tournoi = ?")) {
 			delete.setString(1,(String) value[0]);
 			delete.setString(2,(String) value[1]);
-			delete.setInt(3,(Integer) value[2]);
+			delete.setString(3,(String) value[2]);
 			delete.setInt(4,(Integer) value[3]);
 			delete.setString(5,(String) value[4]);
 
@@ -166,7 +166,7 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 			ResultSet resultat = getArbitreByTournoi.executeQuery();
 			List<Arbitre> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				sortie.add(daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getInt("Telephone")).get());
+				sortie.add(daoarbitre.getById(resultat.getString("Nom"),resultat.getString("Prenom"),resultat.getString("Telephone")).get());
 			}
 			return sortie;
 		}
@@ -174,7 +174,7 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 
 	/**
 	 * Renvoie tous les tournois pour un arbitre
-	 * Les paramètres sont placés dans cet ordre : Nom (STRING), Prenom (STRING), Telephone (INTEGER)
+	 * Les paramètres sont placés dans cet ordre : Nom (STRING), Prenom (STRING), Telephone (STRING)
 	 *
 	 * @param value
 	 * @return
@@ -184,11 +184,11 @@ public class DaoArbitrage implements Dao<Arbitrage, Object> {
 		try (PreparedStatement getTournoiByArbitre = connexion.getConnection().prepareStatement("SELECT * FROM Arbitrage where Nom = ? AND Prenom = ?  AND Telephone = ?")) {
 			getTournoiByArbitre.setString(1,(String) value[0]);
 			getTournoiByArbitre.setString(2,(String) value[1]);
-			getTournoiByArbitre.setInt(3,(Integer) value[2]);
+			getTournoiByArbitre.setString(3,(String) value[2]);
 			ResultSet resultat = getTournoiByArbitre.executeQuery();
 			List<Tournoi> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				sortie.add(daotournoi.getById(resultat.getString("Nom_tournoi"), resultat.getInt("Annee")).get());
+				sortie.add(daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")).get());
 			}
 			return sortie;
 		}
