@@ -1,5 +1,6 @@
 package controlleur;
 
+import vue.arbitre.VueArbitrePoule;
 import vue.Page;
 import vue.Vue;
 import vue.admin.VueAdmin;
@@ -16,9 +17,11 @@ public class VueControlleur {
 		observer.setVue(this);
 		VueLogin vueLogin = new VueLogin();
 		VueAdmin vueAdmin = new VueAdmin();
+		VueArbitrePoule vueArbitre = new VueArbitrePoule();
 		vueLogin.attachObserver(this.observer);
 		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
 		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
+		this.vue.addPage(vueArbitre, Page.ARBITRE.getNom());
 		this.vue.setPage(Page.ACCUEIL_ADMIN);
 	}
 
