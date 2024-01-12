@@ -39,6 +39,11 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	private Optional<Equipe> equipeChoisie;
 	private Optional<Tournoi> tournoiChoisi;
 	private Saison anneeChoisie;
+	private Etat etat;
+	
+	private enum Etat {
+		EQUIPES, TOURNOIS;
+	}
 
 	public HistoriqueControlleur(VueAdminHistorique newVue) {
 		this.vue = newVue;
@@ -230,9 +235,10 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				VueAdminHistorique.CaseEquipe caseObjet = (VueAdminHistorique.CaseEquipe) tableEquipe.getValueAt(tableEquipe.getSelectedRow(), 1);
 				try {
 					equipeChoisie = daoEquipe.getById(caseObjet.getNom());
+					if (etat == null) { etat = Etat.EQUIPES;};
 					if (equipeChoisie.isPresent()) {
 						updateMatches(equipeChoisie,Optional.empty());
-						updateTournoi(equipeChoisie, anneeChoisie.getAnnee());
+						if (etat == Etat.EQUIPES) {updateTournoi(equipeChoisie, anneeChoisie.getAnnee());}
 					}
 				} catch (Exception exception) {
 					exception.printStackTrace();
@@ -243,7 +249,8 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					String nomTournoi = (String) tableTournoi.getValueAt(tableTournoi.getSelectedRow(), 0);
 					try {
 						tournoiChoisi = daoTournoi.getById(anneeChoisie.getAnnee(), nomTournoi);
-						updateEquipe(anneeChoisie.getAnnee());
+						if (etat == null) { etat = Etat.TOURNOIS;};
+						if (etat == Etat.TOURNOIS) {updateEquipe(anneeChoisie.getAnnee());}
 						updateMatches(equipeChoisie, tournoiChoisi);
 					} catch (Exception ex) {
 						throw new RuntimeException(ex);
