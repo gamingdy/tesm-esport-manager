@@ -169,4 +169,12 @@ public class CaseEquipe extends JPanel {
 		this.pays = pays;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof CaseEquipe) {
+			CaseEquipe c = (CaseEquipe) o;
+			return c.getNom().equals(this.getNom());
+		}
+		return false;
+	}
 }
