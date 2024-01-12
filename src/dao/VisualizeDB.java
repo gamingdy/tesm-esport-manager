@@ -35,7 +35,7 @@ public class VisualizeDB {
 		DaoSelection daoselection = new DaoSelection(c);
 		DaoTournoi daotournoi = new DaoTournoi(c);
 		
-		/*System.out.println("_______________Appartenance_______________________");
+		System.out.println("_______________Appartenance_______________________");
 		System.out.println("\n");
 		List<Appartenance> l = daoappartenance.getAll();
 		l.stream().forEach(x -> System.out.println(x.toString()));
@@ -52,7 +52,7 @@ public class VisualizeDB {
 		List<Arbitre> l2 = daoarbitre.getAll();
 		l2.stream().forEach(x -> System.out.println(x.toString()));
 		System.out.println("\n\n\n");
-		*/
+		
 		System.out.println("_______________Equipe_____________________________");
 		System.out.println("\n");
 		List<Equipe> l3 = daoequipe.getAll();
