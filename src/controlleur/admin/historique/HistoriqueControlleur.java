@@ -84,7 +84,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			Image img = ImageIO.read(new File("assets/logo-equipes/" + e.getNom() + ".jpg"));
 			ImageIcon icon = new ImageIcon(img);
 			ImageIcon iconResized = Vue.resize(icon, 70, 70);
-			VueAdminHistorique.CaseEquipe caseEquipe = new VueAdminHistorique.CaseEquipe(iconResized, e.getNom(), false);
+			VueAdminHistorique.CaseEquipe caseEquipe = new VueAdminHistorique.CaseEquipe(iconResized, e.getNom());
 			return caseEquipe;
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
@@ -126,10 +126,8 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		for (Matche m : matcheList) {
 			Equipe equipe1 = m.getEquipe1();
 			Equipe equipe2 = m.getEquipe2();
-			VueAdminHistorique.CaseEquipe case1 = constructCaseEquipe(equipe1);
-			VueAdminHistorique.CaseEquipe case2 = constructCaseEquipe(equipe2);
 			CustomDate dateMatche = m.getDateDebutMatche();
-			Object[] ligne = new Object[]{dateMatche.toString().substring(6), case1, "0 - 0", case2};
+			Object[] ligne = new Object[]{dateMatche.toString().substring(6), equipe1.getNom(), "0 - 0", equipe2.getNom()};
 			resultat.add(ligne);
 		}
 		return resultat;
