@@ -3,6 +3,7 @@ package controlleur.admin.tournois;
 import controlleur.admin.arbitres.ArbitresObserver;
 import dao.*;
 import exceptions.FausseDateException;
+import exceptions.MemeEquipeException;
 import modele.*;
 import vue.Page;
 import vue.admin.tournois.creation.PopupArbitres;
@@ -37,10 +38,11 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private Connexion c;
 	private int nbEquipes = 0;
 	private List<Equipe> listeEquipe;
+	private List<Equipe> listeEquipeChoisi;
 	private List<Arbitre> arbitreList;
 	private List<Arbitre> arbitreListChoisi;
 	private DaoArbitre daoArbitre;
-
+	private DaoMatche daoMatche;
 	private PopupEquipe popupAjoutEquipe;
 	private PopupCompteArbitre popupCompteArbitre;
 	private PopupArbitres popupArbitres;
@@ -58,8 +60,10 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		daoInscription = new DaoInscription(c);
 		daoArbitrage = new DaoArbitrage(c);
 		daoArbitre = new DaoArbitre(c);
+		daoMatche=new DaoMatche(c);
 		motdePasse = "";
 		arbitreListChoisi = new ArrayList<>();
+		listeEquipeChoisi=new ArrayList<>();
 		try {
 			saison = daoSaison.getLastSaison();
 			listeEquipe = daoInscription.getEquipeBySaison(saison.getAnnee());
@@ -77,7 +81,6 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			String nom = vue.getTextfieldNom().trim();
 			String dateDebutString = vue.getTextfieldDateDebut().trim();
 			String dateFinString = vue.getTextfieldDateFin().trim();
-			List<String> tabloEquipes = vue.getEquipes();
 			Niveau niveau = vue.getNiveau();
 			//Gestion des Champs vides
 			if (nom.isEmpty()) {
@@ -114,7 +117,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 							new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 						} else {
 							daoTournoi.add(tournoiInserer);
-							initEquipes(tournoiInserer, listeEquipe);
+							initEquipes(tournoiInserer,listeEquipeChoisi);
 							if (!arbitreListChoisi.isEmpty()) {
 								for (Arbitre arbitre : arbitreListChoisi) {
 									Arbitrage arbitrage = new Arbitrage(arbitre, tournoiInserer);
@@ -190,6 +193,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			Appartenance appartenance = new Appartenance(e, poule);
 			daoAppartenance.add(appartenance);
 		}
+		creationAutomatiqueMatches(listeEquipe,tournoi);
 
 
 	}
@@ -198,6 +202,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		this.arbitreListChoisi.clear();
 		try {
 			this.listeEquipe = daoEquipe.getAll();
+			this.listeEquipeChoisi.clear();
 			this.arbitreList = daoArbitre.getAll();
 			this.vue.getBtnAjoutArbitres().setVisible(true);
 
@@ -226,7 +231,9 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			List<String> lst_equipes = this.vue.getEquipes();
 			if (!lst_equipes.contains(nomEquipe)) {
 				this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
+				this.listeEquipeChoisi.add(equipe);
 				this.nbEquipes++;
+
 			}
 			this.listeEquipe.remove(equipe);
 		}
@@ -264,5 +271,69 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	@Override
 	public void mouseExited(MouseEvent e) {
 
+	}
+	private void creationAutomatiqueMatches(List<Equipe> listeEquipe,Tournoi tournoi) {
+		List<Matche> matcheList=new ArrayList<>();
+		CustomDate dateDebut=tournoi.getDebut();
+		CustomDate dateFin = tournoi.getFin();
+		int nbDay = CustomDate.dureeEnJour(dateDebut,dateFin);
+		if (nbDay > 1) {
+			nbDay -=1;
+		}
+		System.out.println("Total equipe "+listeEquipe.size());
+		int nbMatches=0;
+		for(int i=0;i<listeEquipe.size();i++){
+			nbMatches+=i;
+		}
+		int matchParJour=nbMatches/nbDay;
+		int reste=nbMatches%nbDay;
+
+		CustomDate dateActuel = dateDebut;
+		int currentDay = 1;
+		List<Matche> all_match = new ArrayList<>();
+		List<Matche> matcheOfDay = new ArrayList<>();
+		for (int i = 0; i < listeEquipe.size() - 1; i++) {
+			for (int j = i + 1; j < listeEquipe.size(); j++) {
+				Equipe equipe1 = listeEquipe.get(i);
+				Equipe equipe2 = listeEquipe.get(j);
+				try{
+					Matche matche = new Matche(1,dateActuel,Categorie.POULE,equipe1,equipe2,tournoi);
+					matcheOfDay.add(matche);
+					if (matcheOfDay.size() >= matchParJour){
+						if (currentDay == nbDay){
+							if (matcheOfDay.size()== matchParJour+reste){
+								all_match.addAll(matcheOfDay);
+								matcheOfDay.clear();
+								dateActuel.plusOne();
+								currentDay += 1;
+							}
+						}else{
+							all_match.addAll(matcheOfDay);
+							matcheOfDay.clear();
+							dateActuel.plusOne();
+							currentDay += 1;
+						}
+					}
+				}catch (FausseDateException| MemeEquipeException e){
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+		System.out.println("Nb days "+ nbDay);
+
+		System.out.println("Nb match  "+nbMatches);
+		System.out.println("Nb match day"+matchParJour);
+		System.out.println("Reste " + reste);
+		System.out.println("nb match " + all_match.size());
+
+		for(Matche matche:all_match){
+			try {
+				daoMatche.add(matche);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
