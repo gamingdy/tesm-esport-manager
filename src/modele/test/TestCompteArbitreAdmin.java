@@ -18,7 +18,7 @@ public class TestCompteArbitreAdmin {
 
 	@Before
 	public void setUp() throws Exception {
-		a = new Arbitre("Michel", "Jean", Integer.parseInt("1234567890"));
+		a = new Arbitre("Michel", "Jean", "1234567890");
 		CustomDate d1 = new CustomDate(2022, 11, 13);
 		CustomDate d2 = new CustomDate(2022, 10, 10);
 		s = new Saison(2022);

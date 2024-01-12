@@ -61,7 +61,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			} else if (!isDigit(telephone)) {
 				new JFramePopup("Erreur", "Le telephone ne doit pas contenir des caractères", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 			} else {
-				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, Integer.parseInt(telephone));
+				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, telephone);
 				;
 				try {
 					daoArbitre.add(arbitre);

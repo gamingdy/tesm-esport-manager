@@ -30,10 +30,8 @@ public class TestSaison {
 	@Before
 	public void setUp() throws Exception {
 		s1 = new Saison(2022);
-		a1 = new Arbitre("Gikapa", "Christian", Integer.parseInt("12347890"));
-		a1.setId(42);
-		a2 = new Arbitre("Brando", "Titouan", Integer.parseInt("12367890"));
-		a2.setId(2);
+		a1 = new Arbitre("Gikapa", "Christian","12347890");
+		a2 = new Arbitre("Brando", "Titouan", "12367890");
 		debut = new CustomDate(2022, 10, 20);
 		fin = new CustomDate(2022, 10, 25);
 		compteArbitre = new CompteArbitre("adminRLCS", "dsqd");

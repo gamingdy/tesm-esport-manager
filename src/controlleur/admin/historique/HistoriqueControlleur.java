@@ -1,11 +1,7 @@
 package controlleur.admin.historique;
 
 import dao.*;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Inscription;
-import modele.Matche;
-import modele.Tournoi;
+import modele.*;
 import vue.Vue;
 import vue.admin.historique.VueAdminHistorique;
 
@@ -50,6 +46,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		this.daoTournoi = new DaoTournoi(c);
 		this.daoEquipe=new DaoEquipe(c);
 		this.daoAppartenance = new DaoAppartenance(c);
+		this.equipeChoisie=Optional.empty();
 		try {
 			saisonListAnnees = daoSaison.getAll().stream().map(saison -> saison.getAnnee()).collect(Collectors.toList());
 			anneeChoisie = CustomDate.now().getAnnee();
@@ -141,7 +138,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			}else{*/
 				/*matcheList = daoMatche.getMatchByTournoi();*/
 				if(!equipe.isPresent()){
-					matcheList=daoMatche.getMatchByTournoi();
+					//matcheList=daoMatche.getMatchByTournoi();
 				}else{
 					matcheList = daoMatche.getMatchByEquipe(equipe.get());
 					DefaultTableModel tableMatches = this.vue.getModelMatch();
@@ -164,19 +161,26 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private void updateTournoi(Optional<Equipe> equipe, Integer annee) {
 		try {
-			Equipe equipe2 = equipe.get();
-			Optional<Inscription> inscription = daoInscription.getById(annee, equipe2.getNom());
-			if (!inscription.isPresent()) {
-				return;
-			}
-			tournoiList = daoAppartenance.getTournoiByEquipeForSaison(inscription.get());
+			Saison saison= daoSaison.getById(annee).get();
 			DefaultTableModel tableTournois = this.vue.getModelTournois();
+			Optional<Inscription> inscription=Optional.empty();
 			if (tableTournois.getRowCount() > 0) {
 				for (int i = tableTournois.getRowCount() - 1; i > -1; i--) {
 					tableTournois.removeRow(i);
 				}
 			}
-			List<Object[]> lignes = constructArrayFromTournoi(tournoiList, inscription.get());
+			if(!equipe.isPresent()){
+				tournoiList=daoTournoi.getTournoiBySaison(saison);
+			}else {
+				Equipe equipe2 = equipe.get();
+				inscription = daoInscription.getById(annee, equipe2.getNom());
+				if (!inscription.isPresent()) {
+					return;
+				}
+				tournoiList = daoAppartenance.getTournoiByEquipeForSaison(inscription.get());
+			}
+			//construction du tableau de tournoi qui se fait dans tous les cas
+			List<Object[]> lignes = constructArrayFromTournoi(tournoiList, inscription);
 			for (Object[] ligne : lignes) {
 				tableTournois.addRow(ligne);
 			}
@@ -185,12 +189,21 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		}
 	}
 
-	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois,Inscription inscription) {
+	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois,Optional<Inscription> inscription) {
 		List<Object[]> resultat = new ArrayList<>();
-		for (Tournoi t : listeTournois) {
-			CustomDate dateDebut = t.getDebut();
-			Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), inscription.getWorldRank()};
-			resultat.add(ligne);
+		if(inscription.isPresent()) {
+			for (Tournoi t : listeTournois) {
+				CustomDate dateDebut = t.getDebut();
+				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), inscription.get().getWorldRank()};
+				resultat.add(ligne);
+			}
+			return resultat;
+		}else{
+			for (Tournoi t : listeTournois) {
+				CustomDate dateDebut = t.getDebut();
+				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6),0};
+				resultat.add(ligne);
+			}
 		}
 		return resultat;
 	}
