@@ -154,10 +154,10 @@ public class VueAdminHistorique extends JPanel {
 		headerMatch.setForeground(CustomColor.BLANC);
 		headerMatch.setFont(MaFont.getFontTitre2());
 		tableMatch.setTableHeader(headerMatch);
-		tableMatch.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer());
-		tableMatch.getColumnModel().getColumn(1).setCellRenderer(new SimpleRenderer());
-		tableMatch.getColumnModel().getColumn(2).setCellRenderer(new SimpleRenderer());
-		tableMatch.getColumnModel().getColumn(3).setCellRenderer(new SimpleRenderer());
+		tableMatch.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer().smaller());
+		tableMatch.getColumnModel().getColumn(1).setCellRenderer(new SimpleRenderer().smaller());
+		tableMatch.getColumnModel().getColumn(2).setCellRenderer(new SimpleRenderer().smaller());
+		tableMatch.getColumnModel().getColumn(3).setCellRenderer(new SimpleRenderer().smaller());
 		GridBagConstraints gbcMatch = new GridBagConstraints();
 		gbcMatch.insets = new Insets(0, 50, 0, 0);
 		gbcMatch.gridx = 1;
@@ -250,9 +250,10 @@ public class VueAdminHistorique extends JPanel {
 	}
 
 	private class SimpleRenderer implements TableCellRenderer {
+		private JLabel label;
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			JLabel label = new JLabel("" + value, SwingConstants.CENTER);
+			label = new JLabel("" + value, SwingConstants.CENTER);
 			label.setFont(MaFont.getFontTitre3());
 			label.setForeground(CustomColor.BLANC);
 			label.setHorizontalTextPosition(JLabel.CENTER);	
@@ -261,6 +262,10 @@ public class VueAdminHistorique extends JPanel {
 				label.setBackground(CustomColor.BACKGROUND_MENU.brighter());
 			}
 			return label;
+		}
+		public SimpleRenderer smaller() {
+			label.setFont(MaFont.getFontTitre5());
+			return this;
 		}
 	}
 
