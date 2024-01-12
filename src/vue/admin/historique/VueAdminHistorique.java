@@ -31,7 +31,7 @@ public class VueAdminHistorique extends JPanel {
 	private DefaultTableModel modelTournois;
 	private JTable tableMatch;
 	/**
-	 * Date | CaseEquipe1 | Points ("points1 - points 2") | CaseEquipe2
+	 * Date | Nom Équipe | Points ("points1 - points 2") | Nom Équipe
 	 */
 	private DefaultTableModel modelMatch;
 
@@ -155,9 +155,9 @@ public class VueAdminHistorique extends JPanel {
 		headerMatch.setFont(MaFont.getFontTitre2());
 		tableMatch.setTableHeader(headerMatch);
 		tableMatch.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer());
-		tableMatch.getColumnModel().getColumn(1).setCellRenderer(new EquipeRenderer());
+		tableMatch.getColumnModel().getColumn(1).setCellRenderer(new SimpleRenderer());
 		tableMatch.getColumnModel().getColumn(2).setCellRenderer(new SimpleRenderer());
-		tableMatch.getColumnModel().getColumn(3).setCellRenderer(new EquipeRenderer());
+		tableMatch.getColumnModel().getColumn(3).setCellRenderer(new SimpleRenderer());
 		GridBagConstraints gbcMatch = new GridBagConstraints();
 		gbcMatch.insets = new Insets(0, 50, 0, 0);
 		gbcMatch.gridx = 1;
@@ -169,7 +169,7 @@ public class VueAdminHistorique extends JPanel {
 		spMatch.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
 		spMatch.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		add(spMatch, gbcMatch);
-
+		
 		setControleur(new HistoriqueControlleur(this));
 	}
 
@@ -209,17 +209,15 @@ public class VueAdminHistorique extends JPanel {
 	public static class CaseEquipe {
 		private Icon logo;
 		private String nom;
-		private boolean aDroite;
 
 		/**
 		 * @param logo
 		 * @param nom
 		 * @param aDroite
 		 */
-		public CaseEquipe(Icon logo, String nom, boolean aDroite) {
+		public CaseEquipe(Icon logo, String nom ) {
 			this.logo = logo;
 			this.nom = nom;
-			this.aDroite = aDroite;
 		}
 
 		/**
@@ -249,21 +247,6 @@ public class VueAdminHistorique extends JPanel {
 		public void setNom(String nom) {
 			this.nom = nom;
 		}
-
-		/**
-		 * @return the aDroite
-		 */
-		public boolean isaDroite() {
-			return aDroite;
-		}
-
-		/**
-		 * @param aDroite the aDroite to set
-		 */
-		public void setaDroite(boolean aDroite) {
-			this.aDroite = aDroite;
-
-		}
 	}
 
 	private class SimpleRenderer implements TableCellRenderer {
@@ -285,11 +268,11 @@ public class VueAdminHistorique extends JPanel {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			CaseEquipe equipe = (CaseEquipe) value;
-			JLabel label = new JLabel(equipe.getNom());
+			JLabel label = new JLabel(equipe.getNom(),SwingConstants.CENTER);
 			label.setIcon(equipe.getLogo());
 			label.setFont(MaFont.getFontTitre3());
 			label.setForeground(CustomColor.BLANC);
-			label.setHorizontalTextPosition(equipe.aDroite ? JLabel.LEFT : JLabel.RIGHT);
+//			label.setHorizontalTextPosition(equipe.aDroite ? JLabel.LEFT : JLabel.RIGHT);
 			if (isSelected || hasFocus) {
 				label.setOpaque(true);
 				label.setBackground(CustomColor.BACKGROUND_MENU.brighter());
