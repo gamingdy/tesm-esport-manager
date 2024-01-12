@@ -10,7 +10,7 @@ import modele.Tournoi;
 public class TestDaoPoule extends TestDao {
 
 	private List<Poule> poules = new LinkedList<>();
-	private Tournoi tournoi;
+	private List<Tournoi> tournois = new LinkedList<>();
 	
 	public TestDaoPoule() throws Exception {
 		super();
@@ -48,10 +48,13 @@ public class TestDaoPoule extends TestDao {
 
 	@Override
 	public void setup() throws Exception {
-		this.tournoi = FactoryDAO.getDaoTournoi(getC()).getById(2023,"zzzz").get();
-		for(int i=0; i<8; i++) {
-			poules.add(new Poule(tournoi,(char)(65+i)));
+		this.tournois = FactoryDAO.getDaoTournoi(getC()).getAll();
+		for(Tournoi t : tournois) {
+			for(int i=0; i<8; i++) {
+				poules.add(new Poule(t,(char)(65+i)));
+			}
 		}
+		
 		
 	}
 

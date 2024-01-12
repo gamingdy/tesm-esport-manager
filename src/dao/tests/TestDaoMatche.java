@@ -57,6 +57,22 @@ public class TestDaoMatche extends TestDao {
 		m.forEach(x -> System.out.println(x.toString()));
 	}
 	
+	public void testGetMatchByEquipe()throws Exception {
+		List<Equipe> e = FactoryDAO.getDaoEquipe(getC()).getAll();
+		List<Matche> m = new LinkedList<>();
+		for(Equipe eq : e) {
+			FactoryDAO.getDaoMatche(getC()).getMatchByEquipe(eq).stream().forEach(x -> m.add(x));
+		}
+		m.forEach(x -> System.out.println(x.toString()));
+	}
+	
+	public void testGetMatchBySaison() throws Exception {
+		List<Matche> m = FactoryDAO.getDaoMatche(getC()).getMatchBySaison(t.getSaison());
+		m.forEach(x -> System.out.println(x.toString()));
+	}
+	
+	
+	
 	public static void main(String[] args) throws Exception {
 		TestDaoMatche x = new TestDaoMatche();
 		x.setup();
@@ -67,6 +83,8 @@ public class TestDaoMatche extends TestDao {
 		x.testGetMatchByTournoi();
 		System.out.println("_______________GetMatchByTournoiFromCategorie_________________");
 		x.testGetMatchByTournoiFromCategorie();
+		System.out.println("_______________GetMatchBySaison_________________");
+		x.testGetMatchBySaison();
 	}
 
 	@Override
