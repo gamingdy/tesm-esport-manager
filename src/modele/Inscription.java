@@ -40,11 +40,6 @@ public class Inscription {
 	public void setWorldRank(Integer worldRank) {
 		this.worldRank = worldRank;
 	}
-	
-	@Override
-	public String toString() {
-		return "Inscription [nom=" + equipe + ", annee=" + saison + "]";
-	}
 
 	@Override
 	public int hashCode() {
@@ -61,6 +56,11 @@ public class Inscription {
 			return false;
 		Inscription other = (Inscription) obj;
 		return Objects.equals(equipe, other.equipe) && Objects.equals(saison, other.saison);
+	}
+
+	@Override
+	public String toString() {
+		return "Inscription [equipe=" + equipe + ", saison=" + saison + ", worldRank=" + worldRank + "]";
 	}
 
 	

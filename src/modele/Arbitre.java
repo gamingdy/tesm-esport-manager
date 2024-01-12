@@ -1,18 +1,17 @@
 package modele;
 
 import java.util.Objects;
-import exceptions.IdNotSetException;
 
 public class Arbitre implements Comparable<Arbitre> {
-	private Integer id;
+	
 	private String nom;
 	private String prenom;
-	private Integer numeroTelephone;
+	private String numeroTelephone;
 	
-	public Arbitre(String nom, String prenom, Integer numeroTelephone) {
+	public Arbitre(String nom, String prenom, String numeroTelephone) {
 		this.nom = nom;
 		this.prenom = prenom;
-		this.numeroTelephone = numeroTelephone;
+		this.numeroTelephone=numeroTelephone;
 	}
 
 	public String getNom() {
@@ -33,24 +32,6 @@ public class Arbitre implements Comparable<Arbitre> {
 		}
 	}
 
-	
-
-	public Integer getId() throws IdNotSetException {
-		if (this.id == null) {
-			throw new IdNotSetException("le id de l'objet n'est pas set");
-		}
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Arbitre [id=" + id + ", nom=" + nom + ", prenom=" + prenom + "]";
-	}
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
@@ -59,11 +40,18 @@ public class Arbitre implements Comparable<Arbitre> {
 		this.prenom = prenom;
 	}
 
-	public Integer getNumeroTelephone() {
+	
+
+	@Override
+	public String toString() {
+		return "Arbitre [nom=" + nom + ", prenom=" + prenom + ", numeroTelephone=" + numeroTelephone + "]";
+	}
+
+	public String getNumeroTelephone() {
 		return numeroTelephone;
 	}
 
-	public void setNumeroTelephone(Integer numeroTelephone) {
+	public void setNumeroTelephone(String numeroTelephone) {
 		this.numeroTelephone = numeroTelephone;
 	}
 

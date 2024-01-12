@@ -53,6 +53,11 @@ public class Selection {
 		Selection other = (Selection) obj;
 		return Objects.equals(arbitre, other.arbitre) && Objects.equals(saison, other.saison);
 	}
+
+	@Override
+	public String toString() {
+		return "Selection [arbitre=" + arbitre + ", saison=" + saison + "]";
+	}
 	
 
 	
