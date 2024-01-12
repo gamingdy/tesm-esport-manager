@@ -9,10 +9,6 @@ public class GenerationDataTest {
 	
 	public static void main(String[] args) throws Exception {
 		 final Object lock = new Object(); // Un objet pour servir de verrou
-
-	        
-
-	        
 	        Thread thread2 = new Thread(new Runnable() {
 	            @Override
 	            public void run() {
@@ -29,6 +25,7 @@ public class GenerationDataTest {
 	                		
 	                        m.setup();
 	                		m.testInsert();
+	                		m.testUpdate();
 	                		
 	                		pa.setup();
 	                		pa.testInsert();
