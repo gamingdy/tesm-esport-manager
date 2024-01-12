@@ -21,7 +21,7 @@ public abstract class VueArbitre extends JPanel {
 
 	public VueArbitre() {
 		GridBagLayout gbl = new GridBagLayout();
-		gbl.rowWeights = new double[] {0.1,0.75,0.15};
+		gbl.rowWeights = new double[] {0,0.85,0.15};
 		gbl.columnWeights = new double[] {0.5,0.5};
 		setLayout(gbl);
 
@@ -50,6 +50,10 @@ public abstract class VueArbitre extends JPanel {
 		boutonDeconnexion.setForeground(CustomColor.BLANC);
 		boutonDeconnexion.setFocusPainted(false);
 		boutonDeconnexion.setBackground(CustomColor.BACKGROUND_MENU);
+		boutonDeconnexion.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
+		boutonDeconnexion.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3),
+				BorderFactory.createEmptyBorder(10,10,10,10)));
 		add(boutonDeconnexion, gbcBoutonDeconnexion);
 
 		GridBagConstraints gbcBoutonAction = new GridBagConstraints();
@@ -61,6 +65,9 @@ public abstract class VueArbitre extends JPanel {
 		boutonAction.setForeground(CustomColor.BLANC);
 		boutonAction.setFocusPainted(false);
 		boutonAction.setBackground(CustomColor.BACKGROUND_MENU);
+		boutonAction.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3),
+				BorderFactory.createEmptyBorder(10,10,10,10)));
 		add(boutonAction, gbcBoutonAction);
 	}
 	
