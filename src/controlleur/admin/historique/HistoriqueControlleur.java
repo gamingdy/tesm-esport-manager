@@ -1,11 +1,7 @@
 package controlleur.admin.historique;
 
 import dao.*;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Inscription;
-import modele.Matche;
-import modele.Tournoi;
+import modele.*;
 import vue.Vue;
 import vue.admin.historique.VueAdminHistorique;
 
@@ -14,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.html.Option;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -49,6 +46,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		this.daoTournoi = new DaoTournoi(c);
 		this.daoEquipe=new DaoEquipe(c);
 		this.daoAppartenance = new DaoAppartenance(c);
+		this.equipeChoisie=Optional.empty();
 		try {
 			saisonListAnnees = daoSaison.getAll().stream().map(saison -> saison.getAnnee()).collect(Collectors.toList());
 			anneeChoisie = CustomDate.now().getAnnee();
@@ -59,9 +57,8 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			}
 			Integer saisonAnnee = saisonListAnnees.get(0);
 			updateEquipe(saisonAnnee);
-			updateMatches(equipeList.get(0),Optional.empty());
-			updateTournoi(equipeList.get(0), saisonAnnee);
-
+			updateMatches(Optional.empty(),Optional.empty());
+			updateTournoi(Optional.empty(), saisonAnnee);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,6 +68,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			Integer saisonAnnee = (Integer) e.getItem();
+			System.out.println(saisonAnnee);
 			try {
 				updateEquipe(saisonAnnee);
 			} catch (Exception ex) {
@@ -133,43 +131,56 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		return resultat;
 	}
 
-	private void updateMatches(Equipe equipe,Optional<Tournoi> tournoi) {
+	private void updateMatches(Optional<Equipe> equipe,Optional<Tournoi> tournoi) {
 		try {
 			/*if(!tournoi.isPresent()) {
 
 			}else{*/
 				/*matcheList = daoMatche.getMatchByTournoi();*/
-				matcheList = daoMatche.getMatchByEquipe(equipe);
-				DefaultTableModel tableMatches = this.vue.getModelMatch();
-				if (tableMatches.getRowCount() > 0) {
-					for (int i = tableMatches.getRowCount() - 1; i > -1; i--) {
-						tableMatches.removeRow(i);
+				if(!equipe.isPresent()){
+					//matcheList=daoMatche.getMatchByTournoi();
+				}else{
+					matcheList = daoMatche.getMatchByEquipe(equipe.get());
+					DefaultTableModel tableMatches = this.vue.getModelMatch();
+					if (tableMatches.getRowCount() > 0) {
+						for (int i = tableMatches.getRowCount() - 1; i > -1; i--) {
+							tableMatches.removeRow(i);
+						}
+					}
+					List<Object[]> lignes = constructObjectArrayMatch(matcheList);
+					for (Object[] ligne : lignes) {
+						tableMatches.addRow(ligne);
 					}
 				}
-				List<Object[]> lignes = constructObjectArrayMatch(matcheList);
-				for (Object[] ligne : lignes) {
-					tableMatches.addRow(ligne);
-				}
+
 			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void updateTournoi(Equipe equipe, Integer annee) {
+	private void updateTournoi(Optional<Equipe> equipe, Integer annee) {
 		try {
-			Optional<Inscription> inscription = daoInscription.getById(annee, equipe.getNom());
-			if (!inscription.isPresent()) {
-				return;
-			}
-			tournoiList = daoAppartenance.getTournoiByEquipeForSaison(inscription.get());
+			Saison saison= daoSaison.getById(annee).get();
 			DefaultTableModel tableTournois = this.vue.getModelTournois();
+			Optional<Inscription> inscription=Optional.empty();
 			if (tableTournois.getRowCount() > 0) {
 				for (int i = tableTournois.getRowCount() - 1; i > -1; i--) {
 					tableTournois.removeRow(i);
 				}
 			}
-			List<Object[]> lignes = constructArrayFromTournoi(tournoiList);
+			if(!equipe.isPresent()){
+				tournoiList=daoTournoi.getTournoiBySaison(saison);
+			}else {
+				Equipe equipe2 = equipe.get();
+				inscription = daoInscription.getById(annee, equipe2.getNom());
+				if (!inscription.isPresent()) {
+					return;
+				}
+				tournoiList = daoAppartenance.getTournoiByEquipeForSaison(inscription.get());
+			}
+			//construction du tableau de tournoi qui se fait dans tous les cas
+			List<Object[]> lignes = constructArrayFromTournoi(tournoiList, inscription);
 			for (Object[] ligne : lignes) {
 				tableTournois.addRow(ligne);
 			}
@@ -178,12 +189,21 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		}
 	}
 
-	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois) {
+	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois,Optional<Inscription> inscription) {
 		List<Object[]> resultat = new ArrayList<>();
-		for (Tournoi t : listeTournois) {
-			CustomDate dateDebut = t.getDebut();
-			Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), "0"};
-			resultat.add(ligne);
+		if(inscription.isPresent()) {
+			for (Tournoi t : listeTournois) {
+				CustomDate dateDebut = t.getDebut();
+				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), inscription.get().getWorldRank()};
+				resultat.add(ligne);
+			}
+			return resultat;
+		}else{
+			for (Tournoi t : listeTournois) {
+				CustomDate dateDebut = t.getDebut();
+				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6),0};
+				resultat.add(ligne);
+			}
 		}
 		return resultat;
 	}
@@ -199,8 +219,8 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				try {
 					equipeChoisie = daoEquipe.getById(caseObjet.getNom());
 					if (equipeChoisie.isPresent()) {
-						updateMatches(equipeChoisie.get(),Optional.empty());
-						updateTournoi(equipeChoisie.get(), anneeChoisie);
+						updateMatches(equipeChoisie,Optional.empty());
+						updateTournoi(equipeChoisie, anneeChoisie);
 					}
 				} catch (Exception exception) {
 					exception.printStackTrace();

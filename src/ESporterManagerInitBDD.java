@@ -205,9 +205,9 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 
-		Arbitre arbitre = new Arbitre("arbitre", "arbitre", 1234567890);
-		Arbitre arbitre1 = new Arbitre("arbitre1", "arbitre1", 1234567891);
-		Arbitre arbitre2 = new Arbitre("arbitre2", "arbitre2", 1234567892);
+		Arbitre arbitre = new Arbitre("arbitre", "arbitre", "1234567890");
+		Arbitre arbitre1 = new Arbitre("arbitre1", "arbitre1", "1234567891");
+		Arbitre arbitre2 = new Arbitre("arbitre2", "arbitre2", "1234567892");
 		try {
 			daoArbitre.add(arbitre);
 			daoArbitre.add(arbitre1);
