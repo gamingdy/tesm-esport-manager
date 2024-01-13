@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
+import controlleur.arbitre.ArbitreControlleur;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
@@ -58,8 +59,11 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcListe.weightx = 1;
 		gbcListe.weighty = 0.8;
 		main.add(sp,gbcListe);
+		ArbitreControlleur arbitreControlleur=new ArbitreControlleur(this);
 		
-		
+	}
+	public DefaultListModel<CaseMatch> getModelMatches(){
+		return this.model;
 	}
 	
 	private class MatchRenderer extends JPanel implements ListCellRenderer<CaseMatch>{
@@ -114,7 +118,7 @@ public class VueArbitrePoule extends VueArbitre{
 			GridBagConstraints gbcEquipe2 = new GridBagConstraints();
 			gbcEquipe2.gridy = 1;
 			add(equipe2,gbcEquipe2);
-			
+
 		}
 		@Override
 		public Component getListCellRendererComponent(JList<? extends CaseMatch> list, CaseMatch value, int index,
