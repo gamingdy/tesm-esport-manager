@@ -100,7 +100,6 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	private void updateEquipe(Integer saison) {
 		try {
 			if(tournoiChoisi.isPresent()){
-				System.out.println("pute");
 				equipeList=daoAppartenance.getEquipeByTournoi(tournoiChoisi.get().getNom(),saison);
 			}else {
 				equipeList = daoInscription.getEquipeBySaison(saison);
@@ -156,7 +155,6 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					matcheList = daoMatche.getMatchByEquipe(equipe.get());
 				}
 				else if(equipe.isPresent()&&tournoi.isPresent()){
-					System.out.println("UPDATE EQUIPE ET TOURNOI");
 					matcheList=daoMatche.getMatchByEquipeForTournoi(equipe.get(),tournoi.get());
 				}
 					DefaultTableModel tableMatches = this.vue.getModelMatch();
