@@ -33,13 +33,6 @@ public abstract class VueArbitre extends JPanel {
 		titre.setForeground(CustomColor.BLANC);
 		add(titre, gbcTitre);
 		
-		initMain();
-		GridBagConstraints gbcMain = new GridBagConstraints();
-		gbcMain.insets = new Insets(0,50,0,50);
-		gbcMain.gridy = 1;
-		gbcMain.gridwidth = 2;
-		gbcMain.fill = GridBagConstraints.BOTH;
-		add(main, gbcMain);
 		
 		GridBagConstraints gbcBoutonDeconnexion = new GridBagConstraints();
 		gbcBoutonDeconnexion.gridy = 2;
@@ -69,6 +62,15 @@ public abstract class VueArbitre extends JPanel {
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3),
 				BorderFactory.createEmptyBorder(10,10,10,10)));
 		add(boutonAction, gbcBoutonAction);
+		
+
+		initMain();
+		GridBagConstraints gbcMain = new GridBagConstraints();
+		gbcMain.insets = new Insets(0,50,0,50);
+		gbcMain.gridy = 1;
+		gbcMain.gridwidth = 2;
+		gbcMain.fill = GridBagConstraints.BOTH;
+		add(main, gbcMain);
 	}
 	
 	protected void initMain() {
