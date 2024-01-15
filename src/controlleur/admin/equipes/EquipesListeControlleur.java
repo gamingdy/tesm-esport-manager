@@ -174,7 +174,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		List<CaseEquipe> listeCaseSupprimer = new ArrayList<>();
 		List<Equipe> listeEquipeSaisonSupprimer = new ArrayList<>();
 		List<CaseEquipe> listeCaseSaisonSupprimer = new ArrayList<>();
-		System.out.println("avant boucle " + this.listeCase.size());
+
 		for (CaseEquipe e : this.listeCase) {
 			for (Equipe eq : listeEquipeSupprimer) {
 				if (e.getNom().equals(eq.getNom())) {
@@ -186,7 +186,6 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 				}
 			}
 		}
-		System.out.println("après boucle " + this.listeCase.size());
 		this.listeCase.removeAll(listeCaseSupprimer);
 		this.listeEquipe.removeAll(listeEquipeSupprimer);
 		this.listeCaseSaison.removeAll(listeCaseSaisonSupprimer);
@@ -194,8 +193,6 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 
 		this.vue.resetGrille();
 		this.vue.revalidate();
-		this.vue.repaint();
-		System.out.println(this.listeCase.size());
 		this.vue.addAll(this.listeCase);
 	}
 
@@ -204,16 +201,6 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		List<Equipe> liste = new ArrayList<>();
 		for (Equipe e : liste1) {
 			if (!liste2.contains(e)) {
-				liste.add(e);
-			}
-		}
-		return liste;
-	}
-
-	private List<Equipe> estDans(List<Equipe> liste1, List<Equipe> liste2) {
-		List<Equipe> liste = new ArrayList<>();
-		for (Equipe e : liste1) {
-			if (liste2.contains(e)) {
 				liste.add(e);
 			}
 		}

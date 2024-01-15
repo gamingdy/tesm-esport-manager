@@ -61,7 +61,7 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcListe.weightx = 1;
 		gbcListe.weighty = 0.8;
 		main.add(sp,gbcListe);
-		
+
 		this.boutonAction.setText("Clôturer la poule");
 		ArbitreControlleur arbitreControlleur=new ArbitreControlleur(this);
 		

@@ -92,24 +92,22 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
 	private boolean isEquipeInscriteSaisonActuelle(Equipe equipe) throws Exception {
 		saison = daoSaison.getLastSaison();
-		System.out.println("Last saison : " + saison.getAnnee());
+
 		List<Saison> listeSaison = daoInscription.getSaisonByEquipe(equipe.getNom());
-		System.out.println("NB saison : " + listeSaison.size());
+
 		return listeSaison.contains(saison);
 	}
 
 	private boolean isEquipeDansTournoiSaisonActuelle(Equipe equipe) throws SQLException, Exception {
 		saison = daoSaison.getLastSaison();
-		System.out.println("Last saison tournoi : " + saison.getAnnee());
 		Inscription inscription = new Inscription(saison, equipe);
 		List<Tournoi> listeTournoisJoue = daoAppartenance.getTournoiByEquipeForSaison(inscription);
-		System.out.println("NB tournois joue : " + listeTournoisJoue.size());
 		return !listeTournoisJoue.isEmpty();
 	}
 

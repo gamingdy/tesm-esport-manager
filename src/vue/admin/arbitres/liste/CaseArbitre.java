@@ -18,15 +18,21 @@ public class CaseArbitre {
 
 	private String nom;
 	private String prenom;
+	private String numero;
+	public String getNumero() {
+		return numero;
+	}
+
 	/**
 	 * @param nom
 	 * @param joueurs
 	 * @param logo    le logo de l'équipe
 	 * @param pays    l'icone du drapeau du pays
 	 */
-	public CaseArbitre(String nom, String prenom) {
+	public CaseArbitre(String nom, String prenom, String numero) {
 		this.nom = nom;
 		this.prenom = prenom;
+		this.numero = numero;
 	}
 
 	/**

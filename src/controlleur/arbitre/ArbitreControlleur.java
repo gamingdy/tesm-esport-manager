@@ -31,7 +31,7 @@ public class ArbitreControlleur {
 				CaseMatch caseMatche=convertMatchToCaseMatch(m);
 				tablo.addElement(caseMatche);
 			}
-			System.out.println("Case matche ajoutés nb de cases :"+tablo.size());
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}
