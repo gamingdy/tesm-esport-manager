@@ -122,10 +122,19 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private List<Object[]> constructObjectArrayEquipe(List<Equipe> listEquipe) {
 		List<Object[]> resultat = new ArrayList<>();
+
 		for (Equipe e : listEquipe) {
-			VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
-			Object[] ligne = new Object[]{0, caseEquipe, 0};
-			resultat.add(ligne);
+			try {
+				Optional<Inscription> inscription = daoInscription.getById(anneeChoisie.getAnnee(), e.getNom());
+				if(inscription.isPresent()){
+					VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
+					Object[] ligne = new Object[]{inscription.get().getWorldRank(), caseEquipe, 0};
+					resultat.add(ligne);
+				}
+
+			}catch(Exception exc){
+				exc.printStackTrace();
+			}
 		}
 
 		return resultat;
@@ -222,7 +231,15 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		}
 		return resultat;
 	}
+	private int calculDesPointsTotal(Equipe e){
+		// a implementer
 
+		return 0;
+	}
+	private int calculDesPointsUnTournoi(Equipe e, Tournoi t){
+		// a implementer
+		return 0;
+	}
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		JTable tableEquipe = this.vue.getTableEquipes();

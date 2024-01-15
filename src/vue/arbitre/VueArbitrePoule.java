@@ -7,23 +7,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import controlleur.arbitre.ArbitreControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
 
 public class VueArbitrePoule extends VueArbitre{
 
@@ -98,7 +88,7 @@ public class VueArbitrePoule extends VueArbitre{
 		main.add(spParties,gbcListeParties);
 
 		this.boutonAction.setText("Clôturer la poule");
-		ArbitreControlleur arbitreControlleur=new ArbitreControlleur(this);
+		setControleur(new ArbitreControlleur(this));
 		
 	}
 	public void afficherParties() {
@@ -109,7 +99,18 @@ public class VueArbitrePoule extends VueArbitre{
 	public DefaultListModel<CaseMatch> getModelMatches(){
 		return this.modelMatch;
 	}
-	
+	public void setControleur(ArbitreControlleur controlleur){
+		this.liste.addListSelectionListener(controlleur);
+		boutonDeconnexion.addActionListener(controlleur);
+	}
+	public JButton getBoutonAnnuler(){
+		return boutonDeconnexion;
+	}
+
+	public JList<CaseMatch> getTableMatche() {
+		return this.liste;
+	}
+
 	private class MatchRenderer extends JPanel implements ListCellRenderer<CaseMatch>{
 
 		private JLabel date;

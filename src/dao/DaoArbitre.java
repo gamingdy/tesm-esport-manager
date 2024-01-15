@@ -126,13 +126,13 @@ public class DaoArbitre implements Dao<Arbitre,Object> {
 			delete.setString(1, (String) value[0]);
 			delete.setString(2, (String) value[1]);
 			delete.setString(3, (String) value[2]);
-			List<Saison> saisons = FactoryDAO.getDaoSelection(connexion).getSaisonByArbitre(value[0]);
-			List<Tournoi> tournois = FactoryDAO.getDaoArbitrage(connexion).getTournoiByArbitre(value[0]);
+			List<Saison> saisons = FactoryDAO.getDaoSelection(connexion).getSaisonByArbitre(value[0],value[1],value[2]);
+			List<Tournoi> tournois = FactoryDAO.getDaoArbitrage(connexion).getTournoiByArbitre(value[0],value[1],value[2]);
 			for(Saison s : saisons) {
-				FactoryDAO.getDaoSelection(connexion).delete(value[0],s.getAnnee());
+				FactoryDAO.getDaoSelection(connexion).delete(value[0],value[1],value[2],s.getAnnee());
 			}
 			for(Tournoi t : tournois) {
-				FactoryDAO.getDaoArbitrage(connexion).delete(value[0],t.getSaison().getAnnee(),t.getNom());
+				FactoryDAO.getDaoArbitrage(connexion).delete(value[0],value[1],value[2],t.getSaison().getAnnee(),t.getNom());
 			}
 			return delete.execute();
 		}

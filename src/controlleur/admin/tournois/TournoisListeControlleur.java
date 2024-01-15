@@ -43,7 +43,6 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 				supprimerTournoiAffichage(caseSupprimer);
 			}
 			else if (this.listeCase == null) {
-				System.out.println("test null");
 				this.listeTournois = liste;
 				this.listeCase = convertListToCase(this.listeTournois);
 				this.vue.addAll(this.listeCase);
