@@ -115,8 +115,8 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 			ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
 			CasePartie casePartie=null;
 			try{
-				casePartie=new CasePartie(dateMatche,imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2,p.getMatche().getId());
-			}catch(IdNotSetException id){
+				casePartie=new CasePartie(imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2);
+			}catch(Exception id){
 				id.printStackTrace();
 			}
 
