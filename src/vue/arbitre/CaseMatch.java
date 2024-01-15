@@ -4,15 +4,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class CaseMatch {
+public class CaseMatch extends CasePartie{
 
 	private String date;
-	private ImageIcon logoGauche;
-	private String nomGauche;
-	private ImageIcon imageBoutonGauche;
-	private ImageIcon logoDroite;
-	private String nomDroite;
-	private ImageIcon imageBoutonDroite;
 	private int idMatche;
 	
 	/**
@@ -23,13 +17,8 @@ public class CaseMatch {
 	 * @param nomDroite
 	 */
 	public CaseMatch(String date, ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon logoDroite, String nomDroite, ImageIcon imageDroite,int idMatche) {
+		super(logoGauche,nomGauche,imageGauche,logoDroite,nomDroite,imageDroite);
 		this.date = date;
-		this.logoGauche = logoGauche;
-		this.nomGauche = nomGauche;
-		this.logoDroite = logoDroite;
-		this.nomDroite = nomDroite;
-		this.imageBoutonGauche = imageGauche;
-		this.imageBoutonDroite = imageDroite;
 		this.idMatche=idMatche;
 	}
 	public int getIdMatche(){
@@ -40,41 +29,5 @@ public class CaseMatch {
 	}
 	public void setDate(String date) {
 		this.date = date;
-	}
-	public ImageIcon getLogoGauche() {
-		return logoGauche;
-	}
-	public void setLogoGauche(ImageIcon logoGauche) {
-		this.logoGauche = logoGauche;
-	}
-	public String getNomGauche() {
-		return nomGauche;
-	}
-	public void setNomGauche(String nomGauche) {
-		this.nomGauche = nomGauche;
-	}
-	public ImageIcon getImageBoutonGauche() {
-		return imageBoutonGauche;
-	}
-	public void setImageBoutonGauche(ImageIcon imageBoutonGauche) {
-		this.imageBoutonGauche = imageBoutonGauche;
-	}
-	public ImageIcon getLogoDroite() {
-		return logoDroite;
-	}
-	public void setLogoDroite(ImageIcon logoDroite) {
-		this.logoDroite = logoDroite;
-	}
-	public String getNomDroite() {
-		return nomDroite;
-	}
-	public void setNomDroite(String nomDroite) {
-		this.nomDroite = nomDroite;
-	}
-	public ImageIcon getImageBoutonDroite() {
-		return imageBoutonDroite;
-	}
-	public void setImageBoutonDroite(ImageIcon imageBoutonDroite) {
-		this.imageBoutonDroite = imageBoutonDroite;
 	}
 }
