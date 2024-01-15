@@ -69,7 +69,7 @@ public class VueArbitrePoule extends VueArbitre{
 		
 		modelPartie = new DefaultListModel<>();
 		listeParties = new JList<CasePartie>(modelPartie);
-		listeParties.setFixedCellHeight(100);
+		listeParties.setFixedCellHeight(130);
 		listeParties.setOpaque(false);
 		listeParties.setCellRenderer(new MatchRenderer());
 		spParties = new JScrollPane(listeParties);
@@ -93,13 +93,16 @@ public class VueArbitrePoule extends VueArbitre{
 		setControleur(new ArbitreControlleur(this));
 		
 	}
-	public void afficherParties() {
-		spParties.setVisible(true);
-		labelTitreParties.setVisible(true);
+	public void afficherParties(boolean b) {
+		spParties.setVisible(b);
+		labelTitreParties.setVisible(b);
 	}
 	
 	public DefaultListModel<CaseMatch> getModelMatches(){
 		return this.modelMatch;
+	}
+	public DefaultListModel<CasePartie> getModelPartie(){
+		return this.modelPartie;
 	}
 	public void setControleur(ArbitreControlleur controlleur){
 		this.liste.addListSelectionListener(controlleur);

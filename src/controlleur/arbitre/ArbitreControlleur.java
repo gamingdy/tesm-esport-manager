@@ -5,13 +5,18 @@ import controlleur.admin.arbitres.ArbitresCreationControlleur;
 import dao.Connexion;
 import dao.Dao;
 import dao.DaoMatche;
+import dao.DaoPartie;
+import exceptions.IdNotSetException;
 import modele.CustomDate;
 import modele.Matche;
+import modele.Partie;
+import org.apache.poi.ss.formula.functions.Match;
 import vue.Page;
 import vue.Vue;
 import vue.admin.VueAdmin;
 import vue.admin.historique.VueAdminHistorique;
 import vue.arbitre.CaseMatch;
+import vue.arbitre.CasePartie;
 import vue.arbitre.VueArbitre;
 import vue.arbitre.VueArbitrePoule;
 import vue.common.FileChooser;
@@ -24,17 +29,21 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
+import java.util.Optional;
 
 public class ArbitreControlleur implements ListSelectionListener, ActionListener {
 	private VueArbitrePoule vue;
 	private List<Matche> matcheList;
 	private DaoMatche daoMatche;
+	private DaoPartie daoPartie;
 	public ArbitreControlleur(VueArbitrePoule vueArbitre){
 		this.vue=vueArbitre;
 		Connexion c = Connexion.getConnexion();
 		this.daoMatche=new DaoMatche(c);
+		this.daoPartie=new DaoPartie(c);
 		try{
 			matcheList=daoMatche.getAll();
 			DefaultListModel<CaseMatch> tablo=this.vue.getModelMatches();
@@ -54,17 +63,60 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		ImageIcon imageEquipe2 = new ImageIcon("assets/logo-equipes/" + matche.getEquipe2().getNom() + ".jpg");
 		ImageIcon tropheeGagnant = new ImageIcon("assets/trophéePerdant.png");
 		ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
-		CaseMatch resultat=new CaseMatch(dateMatche,imageEquipe1,matche.getEquipe1().getNom(),tropheePerdant,tropheeGagnant,matche.getEquipe2().getNom(),imageEquipe2);
+		CaseMatch resultat=null;
+		try {
+			resultat = new CaseMatch(dateMatche, imageEquipe1, matche.getEquipe1().getNom(), tropheePerdant, tropheeGagnant, matche.getEquipe2().getNom(), imageEquipe2, matche.getId());
+		}catch (IdNotSetException e){
+			e.printStackTrace();
+		}
 		return resultat;
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		JList<CaseMatch> listeMatches=this.vue.getTableMatche();
+		JList<CasePartie> listePartie=this.vue.getTableParties();
+		DefaultListModel<CasePartie> tabloPartie=this.vue.getModelPartie();
 		if (e.getValueIsAdjusting()){
-				CaseMatch caseMatch=listeMatches.getSelectedValue();
+			CaseMatch caseMatch=listeMatches.getSelectedValue();
+			System.out.println(caseMatch);
+			Optional<Matche> matcheSelectionne= null;
+			try {
+				matcheSelectionne = daoMatche.getById(caseMatch.getIdMatche());
+				if(matcheSelectionne.isPresent()) {
+					List<Partie> parties = this.daoPartie.getPartieByMatche(matcheSelectionne.get());
+					System.out.println("NB PARTIES "+parties.size());
+					List<CasePartie> partieCases=constructCasesParties(parties);
+					for(CasePartie caseP:partieCases){
+						tabloPartie.addElement(caseP);
+						this.vue.afficherParties(true);
+						System.out.println("Case partie ajoutée ");
+					}
+				}
+			} catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
 		}
 
+	}
+	private List<CasePartie> constructCasesParties(List<Partie> parties){
+		List<CasePartie> resultat=new ArrayList<>();
+		for(Partie p:parties){
+			String dateMatche=p.getMatche().getDateDebutMatche().toString().substring(6);
+			ImageIcon imageEquipe1 = new ImageIcon("assets/logo-equipes/" + p.getMatche().getEquipe1().getNom() + ".jpg");
+			ImageIcon imageEquipe2 = new ImageIcon("assets/logo-equipes/" + p.getMatche().getEquipe2().getNom() + ".jpg");
+			ImageIcon tropheeGagnant = new ImageIcon("assets/trophéePerdant.png");
+			ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
+			CasePartie casePartie=null;
+			try{
+				casePartie=new CasePartie(dateMatche,imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2,p.getMatche().getId());
+			}catch(IdNotSetException id){
+				id.printStackTrace();
+			}
+
+			resultat.add(casePartie);
+		}
+		return resultat;
 	}
 	public void setVainqueurEquipe1Affichage(CaseMatch caseMatch){
 		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéeGagnant.png"));
@@ -84,6 +136,23 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		if(e.getSource()==this.vue.getBoutonAnnuler()){
 			new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> {
 				VueObserver.getInstance().notifyVue(Page.LOGIN);
+			});
+		}
+	}
+	private boolean isAllMatcheClosed(){
+		for(Matche m:matcheList){
+			if(m.getVainqueur()==null){
+				return false;
+			}
+		}
+		return true;
+	}
+	private void closePoule(){
+		if(isAllMatcheClosed()){
+			
+		}else{
+			new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () -> {
+				VueObserver.getInstance().notifyVue(Page.ARBITRE);
 			});
 		}
 	}

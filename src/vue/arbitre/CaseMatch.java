@@ -13,6 +13,7 @@ public class CaseMatch {
 	private ImageIcon logoDroite;
 	private String nomDroite;
 	private ImageIcon imageBoutonDroite;
+	private int idMatche;
 	
 	/**
 	 * @param date
@@ -21,7 +22,7 @@ public class CaseMatch {
 	 * @param logoDroite
 	 * @param nomDroite
 	 */
-	public CaseMatch(String date, ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon logoDroite, String nomDroite, ImageIcon imageDroite) {
+	public CaseMatch(String date, ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon logoDroite, String nomDroite, ImageIcon imageDroite,int idMatche) {
 		this.date = date;
 		this.logoGauche = logoGauche;
 		this.nomGauche = nomGauche;
@@ -29,6 +30,10 @@ public class CaseMatch {
 		this.nomDroite = nomDroite;
 		this.imageBoutonGauche = imageGauche;
 		this.imageBoutonDroite = imageDroite;
+		this.idMatche=idMatche;
+	}
+	public int getIdMatche(){
+		return this.idMatche;
 	}
 	public String getDate() {
 		return date;
