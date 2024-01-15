@@ -3,6 +3,7 @@ package vue.arbitre;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 
@@ -14,6 +15,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
 import controlleur.arbitre.ArbitreControlleur;
+import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
@@ -30,12 +32,10 @@ public class VueArbitrePoule extends VueArbitre{
 	public void initMain() {
 		super.initMain();
 		main.setLayout(new GridBagLayout());
-		main.setBorder(BorderFactory.createLineBorder(java.awt.Color.green));
 		
 		JLabel labelTitre = new JLabel("Liste des matchs",SwingConstants.LEADING);
 		labelTitre.setForeground(CustomColor.BLANC);
 		labelTitre.setFont(MaFont.getFontTitre1());
-		labelTitre.setBorder(BorderFactory.createLineBorder(java.awt.Color.blue));
 		GridBagConstraints gbcTitre = new GridBagConstraints();
 		gbcTitre.insets = new Insets(25,25,0,0);
 		gbcTitre.fill = GridBagConstraints.HORIZONTAL;
@@ -44,6 +44,8 @@ public class VueArbitrePoule extends VueArbitre{
 		
 		model = new DefaultListModel<>();
 		JList<CaseMatch> liste = new JList<CaseMatch>(model);
+		liste.setFixedCellWidth(500);
+		liste.setFixedCellHeight(135);
 		liste.setOpaque(false);
 		liste.setCellRenderer(new MatchRenderer());
 		JScrollPane sp = new JScrollPane(liste);
@@ -59,6 +61,8 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcListe.weightx = 1;
 		gbcListe.weighty = 0.8;
 		main.add(sp,gbcListe);
+		
+		this.boutonAction.setText("Clôturer la poule");
 		ArbitreControlleur arbitreControlleur=new ArbitreControlleur(this);
 		
 	}
@@ -77,6 +81,7 @@ public class VueArbitrePoule extends VueArbitre{
 		private JButton image2;
 		public MatchRenderer() {
 			super();
+			setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
 			setLayout(new GridBagLayout());
 			setOpaque(false);
 			date = new JLabel();
@@ -87,9 +92,19 @@ public class VueArbitrePoule extends VueArbitre{
 			gbcDate.insets = new Insets(0,0,10,0);
 			add(date,gbcDate);
 			
-			JPanel equipe1 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+			JPanel panelE = new JPanel(new GridBagLayout());
+			panelE.setOpaque(false);
+			GridBagConstraints gbcEquipe = new GridBagConstraints();
+			gbcEquipe.fill = GridBagConstraints.BOTH;
+			gbcEquipe.weightx = 1;
+			gbcEquipe.weighty = 1;
+			gbcEquipe.gridy = 1;
+			add(panelE,gbcEquipe);
+			JPanel equipe1 = new JPanel(new FlowLayout(FlowLayout.RIGHT,20,0));
 			equipe1.setOpaque(false);
-			equipe1.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1));
+			equipe1.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1),
+					BorderFactory.createEmptyBorder(10,30,10,15)));
 			logoEquipe1 = new JLabel();
 			equipe1.add(logoEquipe1);
 			nomEquipe1 = new JLabel();
@@ -101,13 +116,18 @@ public class VueArbitrePoule extends VueArbitre{
 			image1.setBorder(null);
 			image1.setFocusPainted(false);
 			equipe1.add(image1);
+			equipe1.setPreferredSize(new Dimension(1,1));
 			GridBagConstraints gbcEquipe1 = new GridBagConstraints();
-			gbcEquipe1.gridy = 1;
-			add(equipe1,gbcEquipe1);
+			gbcEquipe1.fill = GridBagConstraints.BOTH;
+			gbcEquipe1.weightx = 0.50;
+			gbcEquipe1.weighty = 1;
+			panelE.add(equipe1,gbcEquipe1);
 			
-			JPanel equipe2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+			JPanel equipe2 = new JPanel(new FlowLayout(FlowLayout.LEFT,20,0));
 			equipe2.setOpaque(false);
-			equipe2.setBorder(BorderFactory.createMatteBorder(1,0,1,1,CustomColor.ROSE_CONTOURS));
+			equipe2.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createMatteBorder(1,0,1,1,CustomColor.ROSE_CONTOURS),
+					BorderFactory.createEmptyBorder(10,15,10,30)));		
 			logoEquipe2 = new JLabel();
 			equipe2.add(logoEquipe2);
 			nomEquipe2 = new JLabel();
@@ -119,21 +139,25 @@ public class VueArbitrePoule extends VueArbitre{
 			image2.setBorder(null);
 			image2.setFocusPainted(false);
 			equipe2.add(image2);
+			equipe2.setPreferredSize(new Dimension(1,1));
 			GridBagConstraints gbcEquipe2 = new GridBagConstraints();
-			gbcEquipe2.gridy = 1;
-			add(equipe2,gbcEquipe2);
+			gbcEquipe2.fill = GridBagConstraints.BOTH;
+			gbcEquipe2.gridx = 1;
+			gbcEquipe2.weightx = 0.5;
+			gbcEquipe2.weighty = 1;
+			panelE.add(equipe2,gbcEquipe2);
 
 		}
 		@Override
 		public Component getListCellRendererComponent(JList<? extends CaseMatch> list, CaseMatch value, int index,
 				boolean isSelected, boolean cellHasFocus) {
 			date.setText(value.getDate());
-			logoEquipe1.setIcon(value.getLogoGauche());
+			logoEquipe1.setIcon(Vue.resize(value.getLogoGauche(),50,50));
 			nomEquipe1.setText(value.getNomGauche());
-			image1.setIcon(value.getImageBoutonGauche());
-			logoEquipe2.setIcon(value.getLogoDroite());
+			image1.setIcon(Vue.resize(value.getImageBoutonGauche(),50,50));
+			logoEquipe2.setIcon(Vue.resize(value.getLogoDroite(),50,50));
 			nomEquipe2.setText(value.getNomDroite());
-			image2.setIcon(value.getImageBoutonDroite());
+			image2.setIcon(Vue.resize(value.getImageBoutonDroite(),50,50));
 			return this;
 		}
 		
