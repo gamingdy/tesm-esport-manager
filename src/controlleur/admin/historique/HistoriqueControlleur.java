@@ -1,6 +1,8 @@
 package controlleur.admin.historique;
 
 import dao.*;
+import exceptions.FausseDateException;
+import exceptions.MemeEquipeException;
 import modele.*;
 import vue.Vue;
 import vue.admin.historique.VueAdminHistorique;
@@ -16,6 +18,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +38,12 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	private List<Tournoi> tournoiList;
 	private Optional<Equipe> equipeChoisie;
 	private Optional<Tournoi> tournoiChoisi;
-	private Integer anneeChoisie;
+	private Saison anneeChoisie;
+	private Etat etat;
+	
+	private enum Etat {
+		EQUIPES, TOURNOIS;
+	}
 
 	public HistoriqueControlleur(VueAdminHistorique newVue) {
 		this.vue = newVue;
@@ -49,13 +57,14 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		this.equipeChoisie=Optional.empty();
 		try {
 			saisonListAnnees = daoSaison.getAll().stream().map(saison -> saison.getAnnee()).collect(Collectors.toList());
-			anneeChoisie = CustomDate.now().getAnnee();
+			anneeChoisie = daoSaison.getLastSaison();
+			tournoiChoisi=Optional.empty();
 			//saisonListAnnees.remove(anneeSaisonActuelle);
 			DefaultComboBoxModel<Integer> comboBoxModel = this.vue.getModelSaisons();
 			for (Integer a : saisonListAnnees) {
 				comboBoxModel.addElement(a);
 			}
-			Integer saisonAnnee = saisonListAnnees.get(0);
+			Integer saisonAnnee = anneeChoisie.getAnnee();
 			updateEquipe(saisonAnnee);
 			updateMatches(Optional.empty(),Optional.empty());
 			updateTournoi(Optional.empty(), saisonAnnee);
@@ -68,7 +77,6 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			Integer saisonAnnee = (Integer) e.getItem();
-			System.out.println(saisonAnnee);
 			try {
 				updateEquipe(saisonAnnee);
 			} catch (Exception ex) {
@@ -91,7 +99,12 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private void updateEquipe(Integer saison) {
 		try {
-			equipeList = daoInscription.getEquipeBySaison(saison);
+			if(tournoiChoisi.isPresent()){
+				System.out.println("pute");
+				equipeList=daoAppartenance.getEquipeByTournoi(tournoiChoisi.get().getNom(),saison);
+			}else {
+				equipeList = daoInscription.getEquipeBySaison(saison);
+			}
 			DefaultTableModel table = this.vue.getModelEquipes();
 			List<Object[]> liste = constructObjectArrayEquipe(equipeList);
 			if (table.getRowCount() > 0) {
@@ -133,14 +146,19 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private void updateMatches(Optional<Equipe> equipe,Optional<Tournoi> tournoi) {
 		try {
-			/*if(!tournoi.isPresent()) {
-
-			}else{*/
-				/*matcheList = daoMatche.getMatchByTournoi();*/
-				if(!equipe.isPresent()){
-					//matcheList=daoMatche.getMatchByTournoi();
-				}else{
+				if(!equipe.isPresent()&&!tournoi.isPresent()){
+					matcheList=daoMatche.getMatchBySaison(anneeChoisie);
+				}
+				else if(!equipe.isPresent()&&tournoi.isPresent()){
+					matcheList=daoMatche.getMatchByTournoi(anneeChoisie.getAnnee(),tournoi.get().getNom());
+				}
+				else if(equipe.isPresent()&&!tournoi.isPresent()) {
 					matcheList = daoMatche.getMatchByEquipe(equipe.get());
+				}
+				else if(equipe.isPresent()&&tournoi.isPresent()){
+					System.out.println("UPDATE EQUIPE ET TOURNOI");
+					matcheList=daoMatche.getMatchByEquipeForTournoi(equipe.get(),tournoi.get());
+				}
 					DefaultTableModel tableMatches = this.vue.getModelMatch();
 					if (tableMatches.getRowCount() > 0) {
 						for (int i = tableMatches.getRowCount() - 1; i > -1; i--) {
@@ -151,7 +169,6 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					for (Object[] ligne : lignes) {
 						tableMatches.addRow(ligne);
 					}
-				}
 
 			//}
 		} catch (Exception e) {
@@ -159,7 +176,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		}
 	}
 
-	private void updateTournoi(Optional<Equipe> equipe, Integer annee) {
+		private void updateTournoi(Optional<Equipe> equipe, Integer annee) {
 		try {
 			Saison saison= daoSaison.getById(annee).get();
 			DefaultTableModel tableTournois = this.vue.getModelTournois();
@@ -218,9 +235,10 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				VueAdminHistorique.CaseEquipe caseObjet = (VueAdminHistorique.CaseEquipe) tableEquipe.getValueAt(tableEquipe.getSelectedRow(), 1);
 				try {
 					equipeChoisie = daoEquipe.getById(caseObjet.getNom());
+					if (etat == null) { etat = Etat.EQUIPES;};
 					if (equipeChoisie.isPresent()) {
 						updateMatches(equipeChoisie,Optional.empty());
-						updateTournoi(equipeChoisie, anneeChoisie);
+						if (etat == Etat.EQUIPES) {updateTournoi(equipeChoisie, anneeChoisie.getAnnee());}
 					}
 				} catch (Exception exception) {
 					exception.printStackTrace();
@@ -228,17 +246,15 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			}
 
 			if (tableTournoi.getSelectedRow() > -1 && e.getSource() == tableTournoi.getSelectionModel()) {
-				if (equipeChoisie.isPresent()) {
-					String nomTournoi =(String) tableTournoi.getValueAt(tableTournoi.getSelectedRow(), 0);
+					String nomTournoi = (String) tableTournoi.getValueAt(tableTournoi.getSelectedRow(), 0);
 					try {
-						tournoiChoisi=daoTournoi.getById(anneeChoisie,nomTournoi);
-						if(tournoiChoisi.isPresent()){
-
-						}
+						tournoiChoisi = daoTournoi.getById(anneeChoisie.getAnnee(), nomTournoi);
+						if (etat == null) { etat = Etat.TOURNOIS;};
+						if (etat == Etat.TOURNOIS) {updateEquipe(anneeChoisie.getAnnee());}
+						updateMatches(equipeChoisie, tournoiChoisi);
 					} catch (Exception ex) {
 						throw new RuntimeException(ex);
 					}
-				}
 			}
 		}
 	}

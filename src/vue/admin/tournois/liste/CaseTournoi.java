@@ -104,30 +104,30 @@ public class CaseTournoi {
 	}
 
 	/**
-	 * @return les joueurs
+	 * @return la date de début
 	 */
-	public String getJoueurs() {
+	public String getDateDebut() {
 		return dateDebut;
 	}
 
 	/**
-	 * @param joueurs the joueurs to set
+	 * @param dateDebut la date de début
 	 */
-	public void setJoueurs(String joueurs) {
-		this.dateDebut = joueurs;
+	public void setDateDebut(String dateDebut) {
+		this.dateDebut = dateDebut;
 	}
 
 	/**
-	 * @return le logo
+	 * @return la date de fin
 	 */
-	public String getLogo() {
+	public String getDateFin() {
 		return dateFin;
 	}
 
 	/**
-	 * @param logo the logo to set
+	 * @param dateFin la date de fin
 	 */
-	public void setLogo(String logo) {
-		this.dateFin = logo;
+	public void setDateFin(String dateFin) {
+		this.dateFin = dateFin;
 	}
 }

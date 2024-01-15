@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class ArbitresCreationControlleur implements ActionListener, MouseListener {
 	private VueAdminArbitresCreation vue;
@@ -62,17 +63,23 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 				new JFramePopup("Erreur", "Le telephone ne doit pas contenir des caractères", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 			} else {
 				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, telephone);
-				;
-				try {
-					daoArbitre.add(arbitre);
-					if (!listeTournoiChoisi.isEmpty()) {
-						addTournoisBdd(listeTournoiChoisi, arbitre);
-					}
-					new JFramePopup("Succès", "Arbitre ajouté", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
+				//Verifier si l'arbitre existe deja
+				if(isArbitreDejaExistant(arbitre)){
+					new JFramePopup("Erreur", "L'arbitre existe deja", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 					resetChamps();
-				} catch (Exception exceptionInsertion) {
-					exceptionInsertion.printStackTrace();
-					new JFramePopup("Erreur", "Erreur d'insertion", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+				}else {
+					;
+					try {
+						daoArbitre.add(arbitre);
+						if (!listeTournoiChoisi.isEmpty()) {
+							addTournoisBdd(listeTournoiChoisi, arbitre);
+						}
+						new JFramePopup("Succès", "Arbitre ajouté", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
+						resetChamps();
+					} catch (Exception exceptionInsertion) {
+						exceptionInsertion.printStackTrace();
+						new JFramePopup("Erreur", "Erreur d'insertion", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+					}
 				}
 			}
 
@@ -139,7 +146,15 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			return false;
 		}
 	}
-
+	private boolean isArbitreDejaExistant(Arbitre arbitre){
+		try {
+			Optional<Arbitre> arbitreOptional = daoArbitre.getById(arbitre.getNom(),arbitre.getPrenom(),arbitre.getNumeroTelephone());
+			return arbitreOptional.isPresent();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	public void addTournoisBdd(List<Tournoi> listeTournoi, Arbitre arbitre) {
 		for (Tournoi tournoi : listeTournoi) {
 			Arbitrage arbitrage = new Arbitrage(arbitre, tournoi);
