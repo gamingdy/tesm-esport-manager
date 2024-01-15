@@ -37,6 +37,8 @@ import java.util.Optional;
 public class ArbitreControlleur implements ListSelectionListener, ActionListener {
 	private VueArbitrePoule vue;
 	private List<Matche> matcheList;
+	private List<Partie> partiesList;
+	private List<CasePartie> partieCaseList;
 	private DaoMatche daoMatche;
 	private DaoPartie daoPartie;
 	public ArbitreControlleur(VueArbitrePoule vueArbitre){
@@ -44,9 +46,13 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		Connexion c = Connexion.getConnexion();
 		this.daoMatche=new DaoMatche(c);
 		this.daoPartie=new DaoPartie(c);
+		partiesList=new ArrayList<>();
+		partieCaseList=new ArrayList<>();
+
 		try{
 			matcheList=daoMatche.getAll();
 			DefaultListModel<CaseMatch> tablo=this.vue.getModelMatches();
+
 			for(Matche m:matcheList){
 				CaseMatch caseMatche=convertMatchToCaseMatch(m);
 				tablo.addElement(caseMatche);
@@ -74,20 +80,21 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+		partieCaseList.clear();
+		partiesList.clear();
 		JList<CaseMatch> listeMatches=this.vue.getTableMatche();
-		JList<CasePartie> listePartie=this.vue.getTableParties();
 		DefaultListModel<CasePartie> tabloPartie=this.vue.getModelPartie();
+
 		if (e.getValueIsAdjusting()){
 			CaseMatch caseMatch=listeMatches.getSelectedValue();
-			System.out.println(caseMatch);
+			tabloPartie.removeAllElements();
 			Optional<Matche> matcheSelectionne= null;
 			try {
 				matcheSelectionne = daoMatche.getById(caseMatch.getIdMatche());
 				if(matcheSelectionne.isPresent()) {
-					List<Partie> parties = this.daoPartie.getPartieByMatche(matcheSelectionne.get());
-					System.out.println("NB PARTIES "+parties.size());
-					List<CasePartie> partieCases=constructCasesParties(parties);
-					for(CasePartie caseP:partieCases){
+					partiesList = this.daoPartie.getPartieByMatche(matcheSelectionne.get());
+					partieCaseList=constructCasesParties(partiesList);
+					for(CasePartie caseP:partieCaseList){
 						tabloPartie.addElement(caseP);
 						this.vue.afficherParties(true);
 						System.out.println("Case partie ajoutée ");
