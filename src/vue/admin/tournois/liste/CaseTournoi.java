@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controlleur.admin.equipes.EquipeSuppresionControlleur;
+import controlleur.admin.tournois.TournoiSuppressionControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
@@ -85,7 +87,7 @@ public class CaseTournoi {
 		gbcDelete.weightx = 0.2F;
 		gbcDelete.weighty = 0.2F;
 		panelItem.add(labelDelete, gbcDelete);
-
+		labelDelete.addMouseListener(new TournoiSuppressionControlleur(this));
 		return panelItem;
 	}
 

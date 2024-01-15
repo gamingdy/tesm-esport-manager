@@ -4,9 +4,11 @@ import controlleur.ControlleurObserver;
 import dao.Connexion;
 import dao.DaoTournoi;
 import modele.Arbitre;
+import modele.Equipe;
 import modele.Tournoi;
 import vue.Page;
 import vue.admin.arbitres.liste.CaseArbitre;
+import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
 import vue.common.JFramePopup;
@@ -28,6 +30,7 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 		this.vue = newVue;
 		this.c = Connexion.getConnexion();
 		daoTournoi = new DaoTournoi(c);
+		this.listeTournois = new ArrayList<>();
 		this.update();
 	}
 
@@ -35,15 +38,17 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 	public void update() {
 		try {
 			List<Tournoi> liste = daoTournoi.getAll();
-
-			if (this.listeCase == null) {
+			if (liste.size() < this.listeTournois.size()) {
+				List<Tournoi> caseSupprimer = getDifference(this.listeTournois, liste);
+				supprimerTournoiAffichage(caseSupprimer);
+			}
+			else if (this.listeCase == null) {
+				System.out.println("test null");
 				this.listeTournois = liste;
 				this.listeCase = convertListToCase(this.listeTournois);
 				this.vue.addAll(this.listeCase);
 			} else {
-				List<Tournoi> differences = liste.stream()
-						.filter(element -> !this.listeTournois.contains(element))
-						.collect(Collectors.toList());
+				List<Tournoi> differences = getDifference(liste,listeTournois);
 				List<CaseTournoi> differencesCase = convertListToCase(differences);
 				this.listeCase.addAll(differencesCase);
 				this.listeTournois.addAll(differences);
@@ -72,18 +77,31 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 		}
 	}
 
-	public void supprimerTournoi(Tournoi tournoi) {
-		if (tournoi.isEstEncours()) {
-			new JFramePopup("Erreur de suppression", "Le tournoi est en cours", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-		} else {
-			try {
-				daoTournoi.delete(tournoi.getNom());
-				new JFramePopup("Tournoi supprimé", "Le tournoi a été bien supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-				this.update();
-			} catch (Exception e) {
-				new JFramePopup("Erreur de suppression", "Le tournoi n'a pas pu être supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-			}
 
+	private void supprimerTournoiAffichage(List<Tournoi> listeTournoisSupprime) {
+		List<CaseTournoi> listeCaseSupprimer = new ArrayList<>();
+
+		for (CaseTournoi e : this.listeCase) {
+			for (Tournoi eq : listeTournoisSupprime) {
+				if (e.getNom().equals(eq.getNom())) {
+					listeCaseSupprimer.add(e);
+				}
+			}
 		}
+		this.listeCase.removeAll(listeCaseSupprimer);
+		this.listeTournois.removeAll(listeTournoisSupprime);
+
+		this.vue.resetGrille();
+		this.vue.revalidate();
+		this.vue.addAll(this.listeCase);
+	}
+	private List<Tournoi> getDifference(List<Tournoi> liste1, List<Tournoi> liste2) {
+		List<Tournoi> liste = new ArrayList<>();
+		for (Tournoi e : liste1) {
+			if (!liste2.contains(e)) {
+				liste.add(e);
+			}
+		}
+		return liste;
 	}
 }
