@@ -97,7 +97,6 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 					for(CasePartie caseP:partieCaseList){
 						tabloPartie.addElement(caseP);
 						this.vue.afficherParties(true);
-						System.out.println("Case partie ajoutée ");
 					}
 				}
 			} catch (Exception ex) {
