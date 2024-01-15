@@ -27,7 +27,10 @@ import javax.swing.JButton;
 
 public class VueArbitrePoule extends VueArbitre{
 
-	private DefaultListModel<CaseMatch> model;
+	private DefaultListModel<CaseMatch> modelMatch;
+	private DefaultListModel<CaseMatch> modelPartie;
+	private JLabel labelTitreParties;
+	private JScrollPane spParties;
 	@Override
 	public void initMain() {
 		super.initMain();
@@ -42,8 +45,8 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcTitre.weightx = 0;
 		main.add(labelTitre,gbcTitre);
 		
-		model = new DefaultListModel<>();
-		JList<CaseMatch> liste = new JList<CaseMatch>(model);
+		modelMatch = new DefaultListModel<>();
+		JList<CaseMatch> liste = new JList<CaseMatch>(modelMatch);
 		liste.setFixedCellWidth(500);
 		liste.setFixedCellHeight(135);
 		liste.setOpaque(false);
@@ -55,19 +58,56 @@ public class VueArbitrePoule extends VueArbitre{
 		sp.setBorder(null);
 		
 		GridBagConstraints gbcListe = new GridBagConstraints();
-		gbcListe.insets = new Insets(25,25,0,0);
+		gbcListe.insets = new Insets(25,25,25,25);
 		gbcListe.fill = GridBagConstraints.BOTH;
 		gbcListe.gridy = 1;
-		gbcListe.weightx = 1;
+		gbcListe.weightx = 0.6;
 		gbcListe.weighty = 0.8;
 		main.add(sp,gbcListe);
+		
+		labelTitreParties = new JLabel("Parties",SwingConstants.LEADING);
+		labelTitreParties.setVisible(false);
+		labelTitreParties.setForeground(CustomColor.BLANC);
+		labelTitreParties.setFont(MaFont.getFontTitre1());
+		GridBagConstraints gbcTitrePartie = new GridBagConstraints();
+		gbcTitrePartie.insets = new Insets(25,25,0,0);
+		gbcTitrePartie.fill = GridBagConstraints.HORIZONTAL;
+		gbcTitrePartie.weightx = 0;
+		main.add(labelTitreParties,gbcTitrePartie);
+		
+		modelPartie = new DefaultListModel<>();
+		JList<CaseMatch> listeParties = new JList<CaseMatch>(modelPartie);
+		listeParties.setFixedCellHeight(100);
+		listeParties.setOpaque(false);
+		listeParties.setCellRenderer(new MatchRenderer());
+		spParties = new JScrollPane(listeParties);
+		spParties.setVisible(false);
+		spParties.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,1));
+		spParties.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
+		spParties.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+		spParties.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
+		spParties.setBorder(null);
+		
+		GridBagConstraints gbcListeParties = new GridBagConstraints();
+		gbcListeParties.insets = new Insets(25,25,25,25);
+		gbcListeParties.fill = GridBagConstraints.BOTH;
+		gbcListeParties.gridx = 1;
+		gbcListeParties.gridy = 1;
+		gbcListeParties.weightx = 0.4;
+		gbcListeParties.weighty = 0.8;
+		main.add(spParties,gbcListeParties);
 
 		this.boutonAction.setText("Clôturer la poule");
 		ArbitreControlleur arbitreControlleur=new ArbitreControlleur(this);
 		
 	}
+	public void afficherParties() {
+		spParties.setVisible(true);
+		labelTitreParties.setVisible(true);
+	}
+	
 	public DefaultListModel<CaseMatch> getModelMatches(){
-		return this.model;
+		return this.modelMatch;
 	}
 	
 	private class MatchRenderer extends JPanel implements ListCellRenderer<CaseMatch>{
