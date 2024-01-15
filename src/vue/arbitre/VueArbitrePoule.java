@@ -54,7 +54,7 @@ public class VueArbitrePoule extends VueArbitre{
 		
 		GridBagConstraints gbcListe = new GridBagConstraints();
 		gbcListe.insets = new Insets(25,25,0,0);
-		gbcListe.fill = GridBagConstraints.HORIZONTAL;
+		gbcListe.fill = GridBagConstraints.BOTH;
 		gbcListe.gridy = 1;
 		gbcListe.weightx = 1;
 		gbcListe.weighty = 0.8;
@@ -93,6 +93,8 @@ public class VueArbitrePoule extends VueArbitre{
 			logoEquipe1 = new JLabel();
 			equipe1.add(logoEquipe1);
 			nomEquipe1 = new JLabel();
+			nomEquipe1.setFont(MaFont.getFontTitre3());
+			nomEquipe1.setForeground(CustomColor.BLANC);
 			equipe1.add(nomEquipe1);
 			image1 = new JButton();
 			image1.setContentAreaFilled(false);
@@ -105,10 +107,12 @@ public class VueArbitrePoule extends VueArbitre{
 			
 			JPanel equipe2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 			equipe2.setOpaque(false);
-			equipe2.setBorder(BorderFactory.createMatteBorder(1,1,1,0,CustomColor.ROSE_CONTOURS));
+			equipe2.setBorder(BorderFactory.createMatteBorder(1,0,1,1,CustomColor.ROSE_CONTOURS));
 			logoEquipe2 = new JLabel();
 			equipe2.add(logoEquipe2);
 			nomEquipe2 = new JLabel();
+			nomEquipe2.setFont(MaFont.getFontTitre3());
+			nomEquipe2.setForeground(CustomColor.BLANC);
 			equipe2.add(nomEquipe2);
 			image2 = new JButton();
 			image2.setContentAreaFilled(false);
