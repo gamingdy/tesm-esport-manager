@@ -18,9 +18,11 @@ import vue.common.MaFont;
 public class VueArbitrePoule extends VueArbitre{
 
 	private DefaultListModel<CaseMatch> modelMatch;
-	private DefaultListModel<CaseMatch> modelPartie;
+	private DefaultListModel<CasePartie> modelPartie;
 	private JLabel labelTitreParties;
 	private JScrollPane spParties;
+	private JList<CaseMatch> liste;
+	private JList<CasePartie> listeParties;
 	@Override
 	public void initMain() {
 		super.initMain();
@@ -36,7 +38,7 @@ public class VueArbitrePoule extends VueArbitre{
 		main.add(labelTitre,gbcTitre);
 		
 		modelMatch = new DefaultListModel<>();
-		JList<CaseMatch> liste = new JList<CaseMatch>(modelMatch);
+		liste = new JList<CaseMatch>(modelMatch);
 		liste.setFixedCellWidth(500);
 		liste.setFixedCellHeight(135);
 		liste.setOpaque(false);
@@ -66,7 +68,7 @@ public class VueArbitrePoule extends VueArbitre{
 		main.add(labelTitreParties,gbcTitrePartie);
 		
 		modelPartie = new DefaultListModel<>();
-		JList<CaseMatch> listeParties = new JList<CaseMatch>(modelPartie);
+		listeParties = new JList<CasePartie>(modelPartie);
 		listeParties.setFixedCellHeight(100);
 		listeParties.setOpaque(false);
 		listeParties.setCellRenderer(new MatchRenderer());
@@ -109,6 +111,10 @@ public class VueArbitrePoule extends VueArbitre{
 
 	public JList<CaseMatch> getTableMatche() {
 		return this.liste;
+	}
+
+	public JList<CasePartie> getTableParties() {
+		return this.listeParties;
 	}
 
 	private class MatchRenderer extends JPanel implements ListCellRenderer<CaseMatch>{
