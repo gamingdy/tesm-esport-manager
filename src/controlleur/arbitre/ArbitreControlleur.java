@@ -6,11 +6,14 @@ import dao.Dao;
 import dao.DaoMatche;
 import modele.CustomDate;
 import modele.Matche;
+import vue.Vue;
 import vue.arbitre.CaseMatch;
 import vue.arbitre.VueArbitre;
 import vue.arbitre.VueArbitrePoule;
+import vue.common.FileChooser;
 
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class ArbitreControlleur {
