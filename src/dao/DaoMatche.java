@@ -5,6 +5,7 @@ import exceptions.MemeEquipeException;
 import modele.Categorie;
 import modele.CustomDate;
 import modele.Equipe;
+import modele.Inscription;
 import modele.Matche;
 import modele.Partie;
 import modele.Saison;
@@ -247,6 +248,23 @@ public class DaoMatche implements Dao<Matche, Integer> {
 						+ "WHERE Annee = ? ")) {
 			getMatchByEquipe.setInt(1, saison.getAnnee());
 			ResultSet resultat = getMatchByEquipe.executeQuery();
+			List<Matche> sortie = new LinkedList<>();
+			generateListMatche(resultat, sortie);
+			return sortie;
+		}
+	}
+	
+	public List<Matche> getMatchByEquipeForSaison(Inscription inscription) throws FausseDateException, MemeEquipeException, Exception {
+		try (PreparedStatement getMatchByEquipeForSaison = connexion.getConnection().prepareStatement(
+				"SELECT * "
+						+ "FROM Matche "
+						+ "WHERE Annee = ? "
+						+ "AND (Nom_Equipe1 = ? "
+						+ "OR Nom_Equipe2 = ?)")) {
+			getMatchByEquipeForSaison.setInt(1, inscription.getSaison().getAnnee());
+			getMatchByEquipeForSaison.setString(2, inscription.getEquipe().getNom());
+			getMatchByEquipeForSaison.setString(3, inscription.getEquipe().getNom());
+			ResultSet resultat = getMatchByEquipeForSaison.executeQuery();
 			List<Matche> sortie = new LinkedList<>();
 			generateListMatche(resultat, sortie);
 			return sortie;
