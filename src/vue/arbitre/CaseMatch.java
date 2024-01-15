@@ -1,17 +1,18 @@
 package vue.arbitre;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class CaseMatch {
 
 	private String date;
-	private Icon logoGauche;
+	private ImageIcon logoGauche;
 	private String nomGauche;
-	private Icon imageBoutonGauche;
-	private Icon logoDroite;
+	private ImageIcon imageBoutonGauche;
+	private ImageIcon logoDroite;
 	private String nomDroite;
-	private Icon imageBoutonDroite;
+	private ImageIcon imageBoutonDroite;
 	
 	/**
 	 * @param date
@@ -20,7 +21,7 @@ public class CaseMatch {
 	 * @param logoDroite
 	 * @param nomDroite
 	 */
-	public CaseMatch(String date, Icon logoGauche, String nomGauche, Icon imageGauche, Icon logoDroite, String nomDroite, Icon imageDroite) {
+	public CaseMatch(String date, ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon logoDroite, String nomDroite, ImageIcon imageDroite) {
 		this.date = date;
 		this.logoGauche = logoGauche;
 		this.nomGauche = nomGauche;
@@ -35,10 +36,10 @@ public class CaseMatch {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public Icon getLogoGauche() {
+	public ImageIcon getLogoGauche() {
 		return logoGauche;
 	}
-	public void setLogoGauche(Icon logoGauche) {
+	public void setLogoGauche(ImageIcon logoGauche) {
 		this.logoGauche = logoGauche;
 	}
 	public String getNomGauche() {
@@ -47,16 +48,16 @@ public class CaseMatch {
 	public void setNomGauche(String nomGauche) {
 		this.nomGauche = nomGauche;
 	}
-	public Icon getImageBoutonGauche() {
+	public ImageIcon getImageBoutonGauche() {
 		return imageBoutonGauche;
 	}
-	public void setImageBoutonGauche(Icon imageBoutonGauche) {
+	public void setImageBoutonGauche(ImageIcon imageBoutonGauche) {
 		this.imageBoutonGauche = imageBoutonGauche;
 	}
-	public Icon getLogoDroite() {
+	public ImageIcon getLogoDroite() {
 		return logoDroite;
 	}
-	public void setLogoDroite(Icon logoDroite) {
+	public void setLogoDroite(ImageIcon logoDroite) {
 		this.logoDroite = logoDroite;
 	}
 	public String getNomDroite() {
@@ -65,10 +66,10 @@ public class CaseMatch {
 	public void setNomDroite(String nomDroite) {
 		this.nomDroite = nomDroite;
 	}
-	public Icon getImageBoutonDroite() {
+	public ImageIcon getImageBoutonDroite() {
 		return imageBoutonDroite;
 	}
-	public void setImageBoutonDroite(Icon imageBoutonDroite) {
+	public void setImageBoutonDroite(ImageIcon imageBoutonDroite) {
 		this.imageBoutonDroite = imageBoutonDroite;
 	}
 }

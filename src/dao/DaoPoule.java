@@ -132,7 +132,9 @@ public class DaoPoule implements Dao<Poule, Object> {
 				"DELETE FROM Poule where Annee = ? AND Nom_tournoi = ? AND Libelle = ?")) {
 			delete.setInt(1, (Integer) value[0]);
 			delete.setString(2, (String) value[1]);
-			delete.setString(3, (String) value[2]);
+			Character c = (Character)value[2];
+			String libelle = c.toString();
+			delete.setString(3, libelle);
 			List<Equipe> equipes = FactoryDAO.getDaoAppartenance(connexion).getEquipeByPoule(value[1], value[0], value[2]);
 			for (Equipe e : equipes) {
 				FactoryDAO.getDaoAppartenance(connexion).delete(
