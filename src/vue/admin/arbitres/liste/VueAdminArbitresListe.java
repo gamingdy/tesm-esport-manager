@@ -127,4 +127,14 @@ public class VueAdminArbitresListe extends JPanel {
 		this.boutonAjouter.addActionListener(controleur);
 	}
 
+	public void resetGrille() {
+		list.removeAll();
+		JPanel j;
+		for (int i = 0; i < 4; i++) {
+			j = new JPanel();
+			j.setOpaque(false);
+			list.add(j);
+		}
+		nbCases = 0;
+	}
 }

@@ -11,6 +11,7 @@ import vue.Page;
 import vue.admin.arbitres.liste.CaseArbitre;
 import vue.admin.arbitres.liste.VueAdminArbitresListe;
 import vue.admin.equipes.liste.CaseEquipe;
+import vue.admin.tournois.liste.CaseTournoi;
 import vue.common.JFramePopup;
 
 import javax.naming.ldap.Control;
@@ -36,21 +37,24 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 		daoArbitre = new DaoArbitre(c);
 		daoArbitrage = new DaoArbitrage(c);
 		daoSaison = new DaoSaison(c);
+		this.arbitreList = new ArrayList<>();
 		this.update();
 	}
 
+	@Override
 	public void update() {
 		try {
 			List<Arbitre> liste = daoArbitre.getAll();
-
-			if (this.listeCase == null) {
+			if (liste.size() < this.arbitreList.size()) {
+				List<Arbitre> caseSupprimer = getDifference(this.arbitreList, liste);
+				supprimerTournoiAffichage(caseSupprimer);
+			}
+			else if (this.listeCase == null) {
 				this.arbitreList = liste;
 				this.listeCase = convertToCaseArbitre(this.arbitreList);
 				this.vue.addAll(this.listeCase);
 			} else {
-				List<Arbitre> differences = liste.stream()
-						.filter(element -> !this.arbitreList.contains(element))
-						.collect(Collectors.toList());
+				List<Arbitre> differences = getDifference(liste,arbitreList);
 				List<CaseArbitre> differencesCase = convertToCaseArbitre(differences);
 				this.listeCase.addAll(differencesCase);
 				this.arbitreList.addAll(differences);
@@ -62,35 +66,13 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 
 	}
 
+
 	public List<CaseArbitre> convertToCaseArbitre(List<Arbitre> liste) {
 		List<CaseArbitre> listeRes = new ArrayList<>();
 		for (Arbitre arbitre : liste) {
-			listeRes.add(new CaseArbitre(arbitre.getNom(), arbitre.getPrenom()));
+			listeRes.add(new CaseArbitre(arbitre.getNom(), arbitre.getPrenom(),arbitre.getNumeroTelephone()));
 		}
 		return listeRes;
-	}
-
-	public void supprimerArbitre(Arbitre arbitre) {
-		try {
-			if (isArbitreArbitrageSaisonActuelle(arbitre)) {
-				new JFramePopup("Erreur", "L'arbitre est attribué aux tournois dans la saison actuelle", () -> EquipesObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
-			} else {
-				/*daoArbitre.delete(arbitre.getId());*/
-			}
-		} catch (Exception e) {
-
-		}
-	}
-
-	private boolean isArbitreArbitrageSaisonActuelle(Arbitre arbitre) throws Exception {
-		Saison saison = daoSaison.getLastSaison();
-		List<Tournoi> tournois = daoArbitrage.getTournoiByArbitre();
-		for (Tournoi t : tournois) {
-			if (t.getSaison() == saison) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
@@ -98,5 +80,31 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 		if (e.getSource() == vue.getBoutonAjouter()) {
 			ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION);
 		}
+	}
+	private List<Arbitre> getDifference(List<Arbitre> liste1, List<Arbitre> liste2) {
+		List<Arbitre> liste = new ArrayList<>();
+		for (Arbitre e : liste1) {
+			if (!liste2.contains(e)) {
+				liste.add(e);
+			}
+		}
+		return liste;
+	}
+	private void supprimerTournoiAffichage(List<Arbitre> listeTournoisSupprime) {
+		List<CaseArbitre> listeCaseSupprimer = new ArrayList<>();
+
+		for (CaseArbitre e : this.listeCase) {
+			for (Arbitre eq : listeTournoisSupprime) {
+				if (e.getNom().equals(eq.getNom())) {
+					listeCaseSupprimer.add(e);
+				}
+			}
+		}
+		this.listeCase.removeAll(listeCaseSupprimer);
+		this.arbitreList.removeAll(listeTournoisSupprime);
+
+		this.vue.resetGrille();
+		this.vue.revalidate();
+		this.vue.addAll(this.listeCase);
 	}
 }

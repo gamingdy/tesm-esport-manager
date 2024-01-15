@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import controlleur.admin.arbitres.ArbitreSuppressionControlleur;
+import controlleur.admin.tournois.TournoiSuppressionControlleur;
 import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
@@ -88,7 +90,7 @@ public class CaseArbitre {
 		gbcDelete.gridx = 2;
 		gbcDelete.gridy = 1;
 		panelItem.add(labelDelete, gbcDelete);
-
+		labelDelete.addMouseListener(new ArbitreSuppressionControlleur(this));
 		return panelItem;
 	}
 
