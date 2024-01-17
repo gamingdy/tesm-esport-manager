@@ -206,9 +206,11 @@ public class VueArbitrePoule extends VueArbitre{
 			logoEquipe1.setIcon(Vue.resize(value.getLogoGauche(),50,50));
 			nomEquipe1.setText(value.getNomGauche());
 			image1.setIcon(Vue.resize(value.getImageBoutonGauche(),50,50));
+			image1.addActionListener(value.getAlGauche());
 			logoEquipe2.setIcon(Vue.resize(value.getLogoDroite(),50,50));
 			nomEquipe2.setText(value.getNomDroite());
 			image2.setIcon(Vue.resize(value.getImageBoutonDroite(),50,50));
+			
 			return this;
 		}
 		
@@ -258,18 +260,18 @@ public class VueArbitrePoule extends VueArbitre{
 			
 			JPanel equipe2 = new JPanel(new FlowLayout(FlowLayout.LEFT,10,5));
 			equipe2.setOpaque(false);
-			equipe2.setBorder(BorderFactory.createMatteBorder(1,0,1,1,CustomColor.ROSE_CONTOURS));		
-			logoEquipe2 = new JLabel();
-			equipe2.add(logoEquipe2);
-			nomEquipe2 = new JLabel();
-			nomEquipe2.setFont(MaFont.getFontTitre4());
-			nomEquipe2.setForeground(CustomColor.BLANC);
-			equipe2.add(nomEquipe2);
+			equipe2.setBorder(BorderFactory.createMatteBorder(1,0,1,1,CustomColor.ROSE_CONTOURS));	
 			image2 = new JButton();
 			image2.setContentAreaFilled(false);
 			image2.setBorder(null);
 			image2.setFocusPainted(false);
-			equipe2.add(image2);
+			equipe2.add(image2);	
+			nomEquipe2 = new JLabel();
+			nomEquipe2.setFont(MaFont.getFontTitre4());
+			nomEquipe2.setForeground(CustomColor.BLANC);
+			equipe2.add(nomEquipe2);
+			logoEquipe2 = new JLabel();
+			equipe2.add(logoEquipe2);
 			equipe2.setPreferredSize(new Dimension(1,1));
 			GridBagConstraints gbcEquipe2 = new GridBagConstraints();
 			gbcEquipe2.fill = GridBagConstraints.BOTH;
@@ -285,9 +287,11 @@ public class VueArbitrePoule extends VueArbitre{
 			logoEquipe1.setIcon(Vue.resize(value.getLogoGauche(),40,40));
 			nomEquipe1.setText(value.getNomGauche());
 			image1.setIcon(Vue.resize(value.getImageBoutonGauche(),40,40));
+			image1.addActionListener(value.getAlGauche());
 			logoEquipe2.setIcon(Vue.resize(value.getLogoDroite(),40,40));
 			nomEquipe2.setText(value.getNomDroite());
 			image2.setIcon(Vue.resize(value.getImageBoutonDroite(),40,40));
+			image1.addActionListener(value.getAlDroite());
 			return this;
 		}
 		

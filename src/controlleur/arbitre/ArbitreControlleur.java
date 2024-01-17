@@ -71,7 +71,7 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
 		CaseMatch resultat=null;
 		try {
-			resultat = new CaseMatch(dateMatche, imageEquipe1, matche.getEquipe1().getNom(), tropheePerdant, tropheeGagnant, matche.getEquipe2().getNom(), imageEquipe2, matche.getId());
+			resultat = new CaseMatch(dateMatche, imageEquipe1, matche.getEquipe1().getNom(), tropheePerdant, tropheeGagnant, matche.getEquipe2().getNom(), imageEquipe2, matche.getId(),null,null);
 		}catch (IdNotSetException e){
 			e.printStackTrace();
 		}
@@ -115,7 +115,7 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 			ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
 			CasePartie casePartie=null;
 			try{
-				casePartie=new CasePartie(imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2);
+				casePartie=new CasePartie(imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2,null,null);
 			}catch(Exception id){
 				id.printStackTrace();
 			}
