@@ -38,6 +38,7 @@ public class CasePartie extends JPanel{
 	 * @param nomDroite
 	 */
 	public CasePartie(ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon imageDroite, String nomDroite, ImageIcon logoDroite) {
+
 		super();
 		this.logoGauche = logoGauche;
 		this.nomGauche = nomGauche;
@@ -99,7 +100,6 @@ public class CasePartie extends JPanel{
 		setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
 		setLayout(new GridBagLayout());
 		setOpaque(false);
-
 		JPanel panelE = new JPanel(new GridBagLayout());
 		panelE.setOpaque(false);
 		GridBagConstraints gbcEquipe = new GridBagConstraints();

@@ -134,7 +134,7 @@ public class VueAdminEquipesListe extends JPanel {
 		nbCases += 1;
 	}
 
-	public void setEquipe(List<CaseEquipe> c) {
+	public void setEquipes(List<CaseEquipe> c) {
 		list.removeAll();
 		nbCases = 0;
 		this.addAll(c);

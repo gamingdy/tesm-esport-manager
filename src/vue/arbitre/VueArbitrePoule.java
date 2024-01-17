@@ -78,6 +78,8 @@ public class VueArbitrePoule extends VueArbitre{
 
 		listeParties = new JPanel();
 		listeParties.setBackground(CustomColor.BACKGROUND_MAIN);
+
+
 		listeParties.setLayout(new BoxLayout(listeParties,BoxLayout.Y_AXIS));
 		spParties = new JScrollPane(listeParties);
 		spParties.setVisible(false);
