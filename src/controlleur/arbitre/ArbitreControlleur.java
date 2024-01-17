@@ -90,15 +90,8 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 			Optional<Matche> matcheSelectionne= null;
 			try {
 				matcheSelectionne = daoMatche.getById(caseMatch.getIdMatche());
-				this.vue.resetListeParties();
 				if(matcheSelectionne.isPresent()) {
 					System.out.println("ui");
-					partiesList = this.daoPartie.getPartieByMatche(matcheSelectionne.get());
-					partieCaseList=constructCasesParties(partiesList);
-					for(CasePartie caseP:partieCaseList){
-						this.vue.addPartie(caseP);
-						this.vue.afficherParties(true);
-					}
 				}
 			} catch (Exception ex) {
 				throw new RuntimeException(ex);
@@ -106,6 +99,7 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		}
 
 	}
+	/*
 	private List<CasePartie> constructCasesParties(List<Partie> parties){
 		List<CasePartie> resultat=new ArrayList<>();
 		for(Partie p:parties){
@@ -126,7 +120,7 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 			resultat.add(casePartie);
 		}
 		return resultat;
-	}
+	}*/
 	public void setVainqueurEquipe1Affichage(CaseMatch caseMatch){
 		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéeGagnant.png"));
 		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéePerdant.png"));

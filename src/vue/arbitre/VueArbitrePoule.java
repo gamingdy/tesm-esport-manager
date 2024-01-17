@@ -66,38 +66,6 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcListe.weighty = 0.8;
 		main.add(sp,gbcListe);
 
-		labelTitreParties = new JLabel("Parties",SwingConstants.LEADING);
-		labelTitreParties.setVisible(false);
-		labelTitreParties.setForeground(CustomColor.BLANC);
-		labelTitreParties.setFont(MaFont.getFontTitre1());
-		GridBagConstraints gbcTitrePartie = new GridBagConstraints();
-		gbcTitrePartie.insets = new Insets(25,25,0,0);
-		gbcTitrePartie.fill = GridBagConstraints.HORIZONTAL;
-		gbcTitrePartie.weightx = 0;
-		main.add(labelTitreParties,gbcTitrePartie);
-
-		listeParties = new JPanel();
-		listeParties.setBackground(CustomColor.BACKGROUND_MAIN);
-
-
-		listeParties.setLayout(new BoxLayout(listeParties,BoxLayout.Y_AXIS));
-		spParties = new JScrollPane(listeParties);
-		spParties.setVisible(false);
-		spParties.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,1));
-		spParties.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
-		spParties.getVerticalScrollBar().setUI(new CustomScrollBarUI());
-		spParties.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
-		spParties.setBorder(null);
-
-		GridBagConstraints gbcListeParties = new GridBagConstraints();
-		gbcListeParties.insets = new Insets(25,25,25,25);
-		gbcListeParties.fill = GridBagConstraints.BOTH;
-		gbcListeParties.gridx = 1;
-		gbcListeParties.gridy = 1;
-		gbcListeParties.weightx = 0.4;
-		gbcListeParties.weighty = 0.8;
-		main.add(spParties,gbcListeParties);
-
 		this.boutonAction.setText("Clôturer la poule");
 		setControleur(new ArbitreControlleur(this));
 
