@@ -36,7 +36,6 @@ public class CaseMatch extends CasePartie{
 		super(logoGauche,nomGauche,imageGauche,imageDroite,nomDroite,logoDroite, alGauche, alDroite);
 		this.date = date;
 		this.idMatche=idMatche;
-		panel = new JPanel();
 	}
 	public int getIdMatche(){
 		return this.idMatche;
@@ -49,6 +48,7 @@ public class CaseMatch extends CasePartie{
 	}
 
 	public JComponent getPanel() {
+		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
 		panel.setLayout(new GridBagLayout());
 		panel.setOpaque(false);

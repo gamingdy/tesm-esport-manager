@@ -39,7 +39,6 @@ public class CasePartie{
 	 * @param nomDroite
 	 */
 	public CasePartie(ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon imageDroite, String nomDroite, ImageIcon logoDroite, ActionListener alGauche, ActionListener alDroite) {
-		panel = new JPanel();
 		this.logoGauche = logoGauche;
 		this.nomGauche = nomGauche;
 		this.logoDroite = logoDroite;
@@ -99,6 +98,7 @@ public class CasePartie{
 	}
 	
 	public JComponent getPanel() {
+		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
 		panel.setLayout(new GridBagLayout());
 		panel.setOpaque(false);
