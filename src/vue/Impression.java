@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Impression extends JPanel implements Printable {
@@ -29,20 +28,20 @@ public class Impression extends JPanel implements Printable {
         this.createRapport();
     }
 
-    private void createRapport(){
-        this.textLines = new ArrayList<>();
-        String titre="Tournoi : "+this.nomTournoi;
-        String sousTitre ="Rapport de classement du "+this.date;
+    private void createRapport() {
+        String titre = "Tournoi : " + this.nomTournoi;
+        String sousTitre = "Rapport de classement du " + this.date;
+        textLines = new ArrayList<>();
         textLines.add(titre);
         textLines.add(sousTitre);
         textLines.add("\n\n");
-        String[] ClassementLine;
-        for(int i = 0; i < equipes.size(); i++){
-            ClassementLine = new String[3];
-            ClassementLine[0] = "Equipe "+equipes.get(i).getNom();
-            ClassementLine[1] = "Points "+points.get(i);
-            ClassementLine[2] = "Classement "+(i+1);
-            textLines.addAll(Arrays.asList(ClassementLine));
+
+        // Table headers
+        textLines.add(String.format("%-20s%-10s%-15s", "Equipe", "Points", "Classement"));
+
+        for (int i = 0; i < equipes.size(); i++) {
+            textLines.add(String.format("%-20s%-10s%-15s",
+                    equipes.get(i).getNom(), String.valueOf(points.get(i)), String.valueOf(i + 1)));
         }
         textLines.add("\n\n");
     }
@@ -74,22 +73,3 @@ public class Impression extends JPanel implements Printable {
         return PAGE_EXISTS;
     }
 }
-
-/*btnImprimer.addActionListener(new ActionListener() {
-
-    public void actionPerformed(ActionEvent e) {
-        PrinterJob job = PrinterJob.getPrinterJob();
-        // Définit son contenu à imprimer
-        job.setPrintable(new vue.Impression(equipes, point, nomTournoi, Date.now().toString()));
-        // Affiche une boîte de choix d'imprimante
-        if (job.printDialog()){
-            try {
-                // Effectue l'impression
-                job.print();
-            } catch (PrinterException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-    }
-});*/
