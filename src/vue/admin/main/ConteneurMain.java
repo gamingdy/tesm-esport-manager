@@ -1,11 +1,10 @@
 package vue.admin.main;
 
-import java.awt.CardLayout;
-import java.awt.Component;
+import vue.Page;
 
 import javax.swing.JPanel;
-
-import vue.Page;
+import java.awt.CardLayout;
+import java.awt.Component;
 
 
 @SuppressWarnings("serial")

@@ -1,13 +1,14 @@
 package vue.admin.accueil;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import controlleur.admin.accueil.AccueilControlleur;
+import vue.common.CustomColor;
+import vue.common.CustomScrollBarUI;
+import vue.common.MaFont;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -15,13 +16,10 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-
-import controlleur.admin.accueil.AccueilControlleur;
-import vue.common.CustomColor;
-import vue.common.CustomScrollBarUI;
-import vue.common.MaFont;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 public class VueAccueil extends JPanel {
 
@@ -83,14 +81,14 @@ public class VueAccueil extends JPanel {
 		gbcLabelTitreClassement.gridx = 0;
 		gbcLabelTitreClassement.gridy = 0;
 		panelClassement.add(labelTitreClassement, gbcLabelTitreClassement);
-		
+
 		boutonImprimer = new JButton(new ImageIcon("assets/imprimante.png"));
 		boutonImprimer.setFocusPainted(false);
 		boutonImprimer.setContentAreaFilled(false);
 		boutonImprimer.setBorder(null);
 		GridBagConstraints gbcBoutonImprimert = new GridBagConstraints();
 		gbcBoutonImprimert.fill = GridBagConstraints.BOTH;
-		gbcBoutonImprimert.insets = new Insets(0,0,0,5);
+		gbcBoutonImprimert.insets = new Insets(0, 0, 0, 5);
 		gbcBoutonImprimert.gridx = 1;
 		gbcBoutonImprimert.gridy = 0;
 		panelClassement.add(boutonImprimer, gbcBoutonImprimert);
@@ -219,12 +217,7 @@ public class VueAccueil extends JPanel {
 		gbcLabelTitreMatch.gridy = 0;
 		panelMatchs.add(labelTitreMatch, gbcLabelTitreMatch);
 		panelMatchs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		try {
-			this.controlleur = new AccueilControlleur(this);
-			setControlleur(this.controlleur);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+
 	}
 
 	public VueAccueil() {
@@ -239,15 +232,23 @@ public class VueAccueil extends JPanel {
 
 		this.listeTournois.setModel(tournois);
 	}
-	public void setControlleur(AccueilControlleur controlleur){
+
+	public void setControlleur(AccueilControlleur controlleur) {
+		this.controlleur = controlleur;
 		this.boutonImprimer.addActionListener(controlleur);
 	}
+
 	public void setListeMatches(DefaultListModel<LigneMatche> matches) {
 		this.listeMatches.setModel(matches);
 	}
-	
+
 	public JButton getBoutonImprimer() {
 		return this.boutonImprimer;
+	}
+
+
+	public void updateControlleur() {
+		this.controlleur.update();
 	}
 
 }

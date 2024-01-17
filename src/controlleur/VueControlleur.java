@@ -1,9 +1,9 @@
 package controlleur;
 
-import vue.arbitre.VueArbitrePoule;
 import vue.Page;
 import vue.Vue;
 import vue.admin.VueAdmin;
+import vue.arbitre.VueArbitrePoule;
 import vue.common.TitleBar;
 import vue.login.VueLogin;
 

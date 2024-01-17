@@ -2,17 +2,27 @@ package controlleur.admin.accueil;
 
 import controlleur.ControlleurObserver;
 import controlleur.VueObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoEquipe;
+import dao.DaoMatche;
+import dao.DaoSaison;
+import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import modele.*;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Matche;
+import modele.Saison;
+import modele.Tournoi;
+import vue.Impression;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;
 import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.VueAccueil;
-import vue.Impression;
 import vue.common.JFramePopup;
 
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
@@ -22,10 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.*;
-import javax.swing.text.html.Option;
-
-public class AccueilControlleur implements ControlleurObserver , ActionListener {
+public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	private VueAccueil vue;
 	private DefaultListModel<LigneTournoi> listeTournoi;
 	private List<Equipe> equipes;
@@ -37,19 +44,18 @@ public class AccueilControlleur implements ControlleurObserver , ActionListener 
 	private DaoMatche daoMatche;
 	private Connexion c = Connexion.getConnexion();
 
-	public AccueilControlleur(VueAccueil newVue) throws Exception {
+	public AccueilControlleur(VueAccueil newVue) {
 		vue = newVue;
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
 		daoEquipe = new DaoEquipe(c);
-		equipes=new ArrayList<>();
+		equipes = new ArrayList<>();
 		this.update();
 	}
 
 	@Override
 	public void update() {
-
 		mettreAjourListeTournoi();
 		mettreAjourListeClassement();
 		mettreAjourListeMatches();
@@ -120,14 +126,14 @@ public class AccueilControlleur implements ControlleurObserver , ActionListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==this.vue.getBoutonImprimer()){
-			try{
+		if (e.getSource() == this.vue.getBoutonImprimer()) {
+			try {
 				Optional<Tournoi> tournoi = daoTournoi.getTournoiActuel();
-				if(tournoi.isPresent()){
-					String nom=tournoi.get().getNom();
-					impression(equipes,nom);
-				}else{
-					new JFramePopup("Erreur","Il n'y a pas de tournoi actuellement",()-> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
+				if (tournoi.isPresent()) {
+					String nom = tournoi.get().getNom();
+					impression(equipes, nom);
+				} else {
+					new JFramePopup("Erreur", "Il n'y a pas de tournoi actuellement", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 				}
 			} catch (SQLException ex) {
 				throw new RuntimeException(ex);
@@ -137,20 +143,21 @@ public class AccueilControlleur implements ControlleurObserver , ActionListener 
 
 		}
 	}
-	private void impression(List<Equipe> equipes,String nomTournoi){
+
+	private void impression(List<Equipe> equipes, String nomTournoi) {
 		PrinterJob job = PrinterJob.getPrinterJob();
-		List<Integer> point=new ArrayList<>();
-		for(Equipe e:equipes){
+		List<Integer> point = new ArrayList<>();
+		for (Equipe e : equipes) {
 			point.add(e.getPoint());
 		}
 		// Définit son contenu à imprimer
 		job.setPrintable(new Impression(equipes, point, nomTournoi, CustomDate.now().toString()));
 		// Affiche une boîte de choix d'imprimante
-		if (job.printDialog()){
+		if (job.printDialog()) {
 			try {
 				// Effectue l'impression
 				job.print();
-			} catch ( PrinterException ex) {
+			} catch (PrinterException ex) {
 				ex.printStackTrace();
 			}
 		}
