@@ -20,7 +20,6 @@ import vue.common.MaFont;
 public class VueArbitrePoule extends VueArbitre{
 
 	private DefaultListModel<CaseMatch> modelMatch;
-	private DefaultListModel<CasePartie> modelPartie;
 	private JLabel labelTitreParties;
 	private JScrollPane spParties;
 	private JList<CaseMatch> liste;
@@ -77,7 +76,9 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcTitrePartie.weightx = 0;
 		main.add(labelTitreParties,gbcTitrePartie);
 		
-		listeParties = new JPanel(new BoxLayout(this, BoxLayout.Y_AXIS));
+		listeParties = new JPanel();
+		listeParties.setOpaque(false);
+		listeParties.setLayout(new BoxLayout(listeParties,BoxLayout.Y_AXIS));
 		spParties = new JScrollPane(listeParties);
 		spParties.setVisible(false);
 		spParties.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,1));
@@ -123,7 +124,7 @@ public class VueArbitrePoule extends VueArbitre{
 		listeParties.add(c);
 	}
 
-	public void setPartiess(List<CasePartie> c) {
+	public void setParties(List<CasePartie> c) {
 		listeParties.removeAll();
 		this.addAllParties(c);
 	}
