@@ -1,6 +1,7 @@
 package vue.arbitre;
 
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
 import java.awt.Component;
@@ -37,7 +38,7 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcTitre.weightx = 0;
 		main.add(labelTitre,gbcTitre);
 
-		liste = new JPanel();
+		liste = new JPanel(new GridLayout(0,1,15,15));
 		liste.setOpaque(false);
 		JScrollPane sp = new JScrollPane(liste);
 		sp.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
