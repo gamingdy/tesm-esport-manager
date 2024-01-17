@@ -2,6 +2,7 @@ package vue.arbitre;
 
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -11,6 +12,7 @@ import javax.swing.*;
 
 import controlleur.arbitre.ArbitreControlleur;
 import vue.Vue;
+import vue.admin.equipes.liste.CaseEquipe;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
@@ -22,7 +24,7 @@ public class VueArbitrePoule extends VueArbitre{
 	private JLabel labelTitreParties;
 	private JScrollPane spParties;
 	private JList<CaseMatch> liste;
-	private JList<CasePartie> listeParties;
+	private JPanel listeParties;
 	@Override
 	public void initMain() {
 		super.initMain();
@@ -75,19 +77,7 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcTitrePartie.weightx = 0;
 		main.add(labelTitreParties,gbcTitrePartie);
 		
-		modelPartie = new DefaultListModel<>();
-		listeParties = new JList<CasePartie>(modelPartie);
-		listeParties.setFixedCellHeight(70);
-		listeParties.setOpaque(false);
-		listeParties.setCellRenderer(new ListCellRenderer<CasePartie>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends CasePartie> list, CasePartie value, int index,
-					boolean isSelected, boolean cellHasFocus) {
-				return value.getPanel();
-			}
-			
-		});
+		listeParties = new JPanel(new BoxLayout(this, BoxLayout.Y_AXIS));
 		spParties = new JScrollPane(listeParties);
 		spParties.setVisible(false);
 		spParties.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS,1));
@@ -117,9 +107,6 @@ public class VueArbitrePoule extends VueArbitre{
 	public DefaultListModel<CaseMatch> getModelMatches(){
 		return this.modelMatch;
 	}
-	public DefaultListModel<CasePartie> getModelPartie(){
-		return this.modelPartie;
-	}
 	public void setControleur(ArbitreControlleur controlleur){
 		this.liste.addListSelectionListener(controlleur);
 		boutonDeconnexion.addActionListener(controlleur);
@@ -131,8 +118,32 @@ public class VueArbitrePoule extends VueArbitre{
 	public JList<CaseMatch> getTableMatche() {
 		return this.liste;
 	}
-
-	public JList<CasePartie> getTableParties() {
-		return this.listeParties;
+	
+	public void add(CaseEquipe c) {
+		listeParties.add(c);
 	}
+
+	public void setEquipes(List<CaseEquipe> c) {
+		listeParties.removeAll();
+		this.addAll(c);
+	}
+
+	public void addAll(List<CaseEquipe> c) {
+		c.stream().forEach(this::add);
+	}
+
+	public void resetGrille() {
+		listeParties.removeAll();
+		JPanel j;
+		for (int i = 0; i < 4; i++) {
+			j = new JPanel();
+			j.setOpaque(false);
+			listeParties.add(j);
+		}
+	}
+
+	public void supprimerCase(int i) {
+		listeParties.remove(i);
+	}
+
 }

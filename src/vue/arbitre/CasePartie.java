@@ -20,7 +20,7 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-public class CasePartie{
+public class CasePartie extends JPanel{
 
 	private ImageIcon logoGauche;
 	private String nomGauche;
@@ -30,7 +30,6 @@ public class CasePartie{
 	private ImageIcon imageBoutonDroite;
 	private ActionListener alGauche;
 	private ActionListener alDroite;
-	private JPanel panel;
 	/**
 	 * @param date
 	 * @param logoGauche
@@ -39,6 +38,7 @@ public class CasePartie{
 	 * @param nomDroite
 	 */
 	public CasePartie(ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon imageDroite, String nomDroite, ImageIcon logoDroite, ActionListener alGauche, ActionListener alDroite) {
+		super();
 		this.logoGauche = logoGauche;
 		this.nomGauche = nomGauche;
 		this.logoDroite = logoDroite;
@@ -98,10 +98,9 @@ public class CasePartie{
 	}
 	
 	public JComponent getPanel() {
-		panel = new JPanel();
-		panel.setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
-		panel.setLayout(new GridBagLayout());
-		panel.setOpaque(false);
+		setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
+		setLayout(new GridBagLayout());
+		setOpaque(false);
 		
 		JPanel panelE = new JPanel(new GridBagLayout());
 		panelE.setOpaque(false);
@@ -110,7 +109,7 @@ public class CasePartie{
 		gbcEquipe.weightx = 1;
 		gbcEquipe.weighty = 1;
 		gbcEquipe.gridy = 1;
-		panel.add(panelE,gbcEquipe);
+		add(panelE,gbcEquipe);
 		JPanel equipe1 = new JPanel(new FlowLayout(FlowLayout.RIGHT,10,5));
 		equipe1.setOpaque(false);
 		equipe1.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1));
@@ -161,6 +160,6 @@ public class CasePartie{
 		nomEquipe2.setText(this.getNomDroite());
 		image2.setIcon(Vue.resize(this.getImageBoutonDroite(),40,40));
 		image1.addActionListener(this.getAlDroite());
-		return panel;
+		return this;
 	}
 }
