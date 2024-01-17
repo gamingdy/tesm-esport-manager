@@ -9,7 +9,6 @@ import modele.Matche;
 import modele.Partie;
 import vue.Page;
 import vue.arbitre.CaseMatch;
-import vue.arbitre.CasePartie;
 import vue.arbitre.VueArbitrePoule;
 import vue.common.JFramePopup;
 
@@ -25,7 +24,6 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 	private VueArbitrePoule vue;
 	private List<Matche> matcheList;
 	private List<Partie> partiesList;
-	private List<CasePartie> partieCaseList;
 	private DaoMatche daoMatche;
 	private DaoPartie daoPartie;
 
@@ -35,7 +33,6 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		this.daoMatche = new DaoMatche(c);
 		this.daoPartie = new DaoPartie(c);
 		partiesList = new ArrayList<>();
-		partieCaseList = new ArrayList<>();
 
 		try {
 			matcheList = daoMatche.getAll();
@@ -70,7 +67,6 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		partieCaseList.clear();
 		partiesList.clear();
 		/*²
 		JList<CaseMatch> listeMatches = this.vue.getTableMatche();
@@ -103,8 +99,7 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 			CasePartie casePartie=null;
 			try{
 				casePartie=new CasePartie(imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2);
-				casePartie.setAlDroite(new PartieControlleur(casePartie));
-				casePartie.setAlGauche(new PartieControlleur(casePartie));
+
 			}catch(Exception id){
 				id.printStackTrace();
 			}
@@ -114,18 +109,18 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		return resultat;
 	}*/
 	public void setVainqueurEquipe1Affichage(CaseMatch caseMatch) {
-		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéeGagnant.png"));
-		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéePerdant.png"));
+		caseMatch.setLogoDroite(new ImageIcon("assets/trophéeGagnant.png"));
+		caseMatch.setLogoDroite(new ImageIcon("assets/trophéePerdant.png"));
 	}
 
 	public void setVainqueurEquipe2Affichage(CaseMatch caseMatch) {
-		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéePerdant.png"));
-		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéeGagnant.png"));
+		caseMatch.setLogoDroite(new ImageIcon("assets/trophéePerdant.png"));
+		caseMatch.setLogoDroite(new ImageIcon("assets/trophéeGagnant.png"));
 	}
 
 	public void unsetVainqueurs(CaseMatch caseMatch) {
-		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéePerdant.png"));
-		caseMatch.setImageBoutonDroite(new ImageIcon("assets/trophéePerdant.png"));
+		caseMatch.setLogoDroite(new ImageIcon("assets/trophéePerdant.png"));
+		caseMatch.setLogoDroite(new ImageIcon("assets/trophéePerdant.png"));
 	}
 
 	@Override
