@@ -119,20 +119,20 @@ public class VueArbitrePoule extends VueArbitre{
 		return this.liste;
 	}
 	
-	public void add(CaseEquipe c) {
+	public void addPartie(CasePartie c) {
 		listeParties.add(c);
 	}
 
-	public void setEquipes(List<CaseEquipe> c) {
+	public void setPartiess(List<CasePartie> c) {
 		listeParties.removeAll();
-		this.addAll(c);
+		this.addAllParties(c);
 	}
 
-	public void addAll(List<CaseEquipe> c) {
-		c.stream().forEach(this::add);
+	public void addAllParties(List<CasePartie> c) {
+		c.stream().forEach(this::addPartie);
 	}
 
-	public void resetGrille() {
+	public void resetListeParties() {
 		listeParties.removeAll();
 		JPanel j;
 		for (int i = 0; i < 4; i++) {
@@ -142,7 +142,7 @@ public class VueArbitrePoule extends VueArbitre{
 		}
 	}
 
-	public void supprimerCase(int i) {
+	public void supprimerCasePartie(int i) {
 		listeParties.remove(i);
 	}
 
