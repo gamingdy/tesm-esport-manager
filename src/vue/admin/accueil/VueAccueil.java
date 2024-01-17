@@ -7,6 +7,7 @@ import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -14,6 +15,8 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 import controlleur.admin.accueil.AccueilControlleur;
 import vue.common.CustomColor;
@@ -30,6 +33,8 @@ public class VueAccueil extends JPanel {
 
 	private JList<LigneEquipe> listeEquipes;
 	private AccueilControlleur controlleur;
+
+	private JButton boutonImprimer;
 
 	/**
 	 * Create the panel.
@@ -78,6 +83,17 @@ public class VueAccueil extends JPanel {
 		gbcLabelTitreClassement.gridx = 0;
 		gbcLabelTitreClassement.gridy = 0;
 		panelClassement.add(labelTitreClassement, gbcLabelTitreClassement);
+		
+		boutonImprimer = new JButton(new ImageIcon("assets/imprimante.png"));
+		boutonImprimer.setFocusPainted(false);
+		boutonImprimer.setContentAreaFilled(false);
+		boutonImprimer.setBorder(null);
+		GridBagConstraints gbcBoutonImprimert = new GridBagConstraints();
+		gbcBoutonImprimert.fill = GridBagConstraints.BOTH;
+		gbcBoutonImprimert.insets = new Insets(0,0,0,5);
+		gbcBoutonImprimert.gridx = 1;
+		gbcBoutonImprimert.gridy = 0;
+		panelClassement.add(boutonImprimer, gbcBoutonImprimert);
 
 		listeEquipes = new JList<>(equipes);
 		listeEquipes.setCellRenderer(new EquipeCellRenderer());
@@ -225,6 +241,10 @@ public class VueAccueil extends JPanel {
 
 	public void setListeMatches(DefaultListModel<LigneMatche> matches) {
 		this.listeMatches.setModel(matches);
+	}
+	
+	public JButton getBoutonImprimer() {
+		return this.boutonImprimer;
 	}
 
 }
