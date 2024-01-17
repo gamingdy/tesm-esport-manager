@@ -38,8 +38,9 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcTitre.weightx = 0;
 		main.add(labelTitre,gbcTitre);
 
-		liste = new JPanel(new GridLayout(0,1,15,15));
-		liste.setOpaque(false);
+		liste = new JPanel();
+		liste.setLayout(new BoxLayout(liste,BoxLayout.Y_AXIS));
+		liste.setBackground(CustomColor.BACKGROUND_MAIN);
 		JScrollPane sp = new JScrollPane(liste);
 		sp.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
@@ -85,12 +86,6 @@ public class VueArbitrePoule extends VueArbitre{
 
 	public void resetListeMatchs() {
 		liste.removeAll();
-		JPanel j;
-		for (int i = 0; i < 4; i++) {
-			j = new JPanel();
-			j.setOpaque(false);
-			liste.add(j);
-		}
 	}
 
 	public void supprimerCaseMatch(int i) {
