@@ -19,10 +19,9 @@ import vue.common.MaFont;
 
 public class VueArbitrePoule extends VueArbitre{
 
-	private DefaultListModel<CaseMatch> modelMatch;
 	private JLabel labelTitreParties;
 	private JScrollPane spParties;
-	private JList<CaseMatch> liste;
+	private JPanel liste;
 	private JPanel listeParties;
 	@Override
 	public void initMain() {
@@ -38,20 +37,8 @@ public class VueArbitrePoule extends VueArbitre{
 		gbcTitre.weightx = 0;
 		main.add(labelTitre,gbcTitre);
 
-		modelMatch = new DefaultListModel<>();
-		liste = new JList<CaseMatch>(modelMatch);
-		liste.setFixedCellWidth(500);
-		liste.setFixedCellHeight(135);
+		liste = new JPanel();
 		liste.setOpaque(false);
-		liste.setCellRenderer(new ListCellRenderer<CaseMatch>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends CaseMatch> list, CaseMatch value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				return value.getPanel();
-			}
-
-		});
 		JScrollPane sp = new JScrollPane(liste);
 		sp.getViewport().setBackground(CustomColor.BACKGROUND_MAIN);
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
@@ -75,46 +62,38 @@ public class VueArbitrePoule extends VueArbitre{
 		labelTitreParties.setVisible(b);
 	}
 
-	public DefaultListModel<CaseMatch> getModelMatches(){
-		return this.modelMatch;
-	}
 	public void setControleur(ArbitreControlleur controlleur){
-		this.liste.addListSelectionListener(controlleur);
 		boutonDeconnexion.addActionListener(controlleur);
 	}
 	public JButton getBoutonAnnuler(){
 		return boutonDeconnexion;
 	}
 
-	public JList<CaseMatch> getTableMatche() {
-		return this.liste;
+	public void addMatch(CaseMatch c) {
+		liste.add(c);
 	}
 
-	public void addPartie(CasePartie c) {
-		listeParties.add(c);
+	public void setMatchs(List<CaseMatch> c) {
+		liste.removeAll();
+		this.addAllMatchs(c);
 	}
 
-	public void setParties(List<CasePartie> c) {
-		listeParties.removeAll();
-		this.addAllParties(c);
+	public void addAllMatchs(List<CaseMatch> c) {
+		c.stream().forEach(this::addMatch);
 	}
 
-	public void addAllParties(List<CasePartie> c) {
-		c.stream().forEach(this::addPartie);
-	}
-
-	public void resetListeParties() {
-		listeParties.removeAll();
+	public void resetListeMatchs() {
+		liste.removeAll();
 		JPanel j;
 		for (int i = 0; i < 4; i++) {
 			j = new JPanel();
 			j.setOpaque(false);
-			listeParties.add(j);
+			liste.add(j);
 		}
 	}
 
-	public void supprimerCasePartie(int i) {
-		listeParties.remove(i);
+	public void supprimerCaseMatch(int i) {
+		liste.remove(i);
 	}
 
 }

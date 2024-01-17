@@ -19,23 +19,95 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-public class CaseMatch extends CasePartie{
+public class CaseMatch extends JPanel{
 
 	private String date;
 	private int idMatche;
-	private JPanel panel;
+
+	private ImageIcon logoGauche;
+	private String nomGauche;
+	private ImageIcon imageBoutonGauche;
+	private ImageIcon logoDroite;
+	private String nomDroite;
+	private ImageIcon imageBoutonDroite;
+	private ActionListener alGauche;
+	private ActionListener alDroite;
 	
 	/**
 	 * @param date
+	 * @param idMatche
+	 * @param this
 	 * @param logoGauche
 	 * @param nomGauche
+	 * @param imageBoutonGauche
 	 * @param logoDroite
 	 * @param nomDroite
+	 * @param imageBoutonDroite
+	 * @param alGauche
+	 * @param alDroite
 	 */
-	public CaseMatch(String date, ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon imageDroite, String nomDroite, ImageIcon logoDroite, int idMatche, ActionListener alGauche, ActionListener alDroite) {
-		super(logoGauche,nomGauche,imageGauche,imageDroite,nomDroite,logoDroite);
+	public CaseMatch(String date, int idMatche, ImageIcon logoGauche, String nomGauche,
+			ImageIcon imageBoutonGauche, ImageIcon logoDroite, String nomDroite, ImageIcon imageBoutonDroite,
+			ActionListener alGauche, ActionListener alDroite) {
+		super();
 		this.date = date;
-		this.idMatche=idMatche;
+		this.idMatche = idMatche;
+		this.logoGauche = logoGauche;
+		this.nomGauche = nomGauche;
+		this.imageBoutonGauche = imageBoutonGauche;
+		this.logoDroite = logoDroite;
+		this.nomDroite = nomDroite;
+		this.imageBoutonDroite = imageBoutonDroite;
+		this.alGauche = alGauche;
+		this.alDroite = alDroite;
+	}
+	public ImageIcon getLogoGauche() {
+		return logoGauche;
+	}
+	public void setLogoGauche(ImageIcon logoGauche) {
+		this.logoGauche = logoGauche;
+	}
+	public String getNomGauche() {
+		return nomGauche;
+	}
+	public void setNomGauche(String nomGauche) {
+		this.nomGauche = nomGauche;
+	}
+	public ImageIcon getImageBoutonGauche() {
+		return imageBoutonGauche;
+	}
+	public void setImageBoutonGauche(ImageIcon imageBoutonGauche) {
+		this.imageBoutonGauche = imageBoutonGauche;
+	}
+	public ImageIcon getLogoDroite() {
+		return logoDroite;
+	}
+	public void setLogoDroite(ImageIcon logoDroite) {
+		this.logoDroite = logoDroite;
+	}
+	public String getNomDroite() {
+		return nomDroite;
+	}
+	public void setNomDroite(String nomDroite) {
+		this.nomDroite = nomDroite;
+	}
+	public ImageIcon getImageBoutonDroite() {
+		return imageBoutonDroite;
+	}
+	public void setImageBoutonDroite(ImageIcon imageBoutonDroite) {
+		this.imageBoutonDroite = imageBoutonDroite;
+	}
+	public ActionListener getAlDroite() {
+		return alDroite;
+	}
+	public void setAlDroite(ActionListener alDroite) {
+		this.alDroite = alDroite;
+	}
+	public ActionListener getAlGauche() {
+		return alGauche;
+	}
+	public void setAlGauche(ActionListener alGauche) {
+		this.alGauche = alGauche;
 	}
 	public int getIdMatche(){
 		return this.idMatche;
@@ -48,26 +120,25 @@ public class CaseMatch extends CasePartie{
 	}
 
 	public JComponent getPanel() {
-		panel = new JPanel();
-		panel.setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
-		panel.setLayout(new GridBagLayout());
-		panel.setOpaque(false);
-		JLabel panelDate = new JLabel();
-		panelDate.setFont(MaFont.getFontTitre3());
-		panelDate.setForeground(CustomColor.BLANC.darker());
+		this.setBorder(BorderFactory.createEmptyBorder(20,0,0,20));
+		this.setLayout(new GridBagLayout());
+		this.setOpaque(false);
+		JLabel thisDate = new JLabel();
+		thisDate.setFont(MaFont.getFontTitre3());
+		thisDate.setForeground(CustomColor.BLANC.darker());
 		GridBagConstraints gbcDate = new GridBagConstraints();
 		gbcDate.gridwidth = 2;
 		gbcDate.insets = new Insets(0,0,10,0);
-		panel.add(panelDate,gbcDate);
+		this.add(thisDate,gbcDate);
 		
-		JPanel panelE = new JPanel(new GridBagLayout());
-		panelE.setOpaque(false);
+		JPanel thisE = new JPanel(new GridBagLayout());
+		thisE.setOpaque(false);
 		GridBagConstraints gbcEquipe = new GridBagConstraints();
 		gbcEquipe.fill = GridBagConstraints.BOTH;
 		gbcEquipe.weightx = 1;
 		gbcEquipe.weighty = 1;
 		gbcEquipe.gridy = 1;
-		panel.add(panelE,gbcEquipe);
+		this.add(thisE,gbcEquipe);
 		JPanel equipe1 = new JPanel(new FlowLayout(FlowLayout.RIGHT,20,0));
 		equipe1.setOpaque(false);
 		equipe1.setBorder(BorderFactory.createCompoundBorder(
@@ -90,7 +161,7 @@ public class CaseMatch extends CasePartie{
 		gbcEquipe1.weightx = 0.50;
 		gbcEquipe1.weighty = 1;
 		gbcEquipe1.weighty = 1;
-		panelE.add(equipe1,gbcEquipe1);
+		thisE.add(equipe1,gbcEquipe1);
 		
 		JPanel equipe2 = new JPanel(new FlowLayout(FlowLayout.LEFT,20,0));
 		equipe2.setOpaque(false);
@@ -114,14 +185,14 @@ public class CaseMatch extends CasePartie{
 		gbcEquipe2.gridx = 1;
 		gbcEquipe2.weightx = 0.5;
 		gbcEquipe2.weighty = 1;
-		panelE.add(equipe2,gbcEquipe2);
-		panelDate.setText(getDate());
+		thisE.add(equipe2,gbcEquipe2);
+		thisDate.setText(getDate());
 		logoEquipe1.setIcon(Vue.resize(getLogoGauche(),50,50));
 		nomEquipe1.setText(getNomGauche());
 		image1.setIcon(Vue.resize(getImageBoutonGauche(),50,50));
 		logoEquipe2.setIcon(Vue.resize(getLogoDroite(),50,50));
 		nomEquipe2.setText(getNomDroite());
 		image2.setIcon(Vue.resize(getImageBoutonDroite(),50,50));
-		return panel;
+		return this;
 	}
 }
