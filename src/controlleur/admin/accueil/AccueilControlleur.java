@@ -1,21 +1,34 @@
 package controlleur.admin.accueil;
 
 import controlleur.ControlleurObserver;
+import controlleur.VueObserver;
 import dao.*;
+import exceptions.FausseDateException;
 import modele.*;
+import vue.Page;
 import vue.admin.accueil.LigneEquipe;
 import vue.admin.accueil.LigneMatche;
 import vue.admin.accueil.LigneTournoi;
 import vue.admin.accueil.VueAccueil;
+import vue.Impression;
+import vue.common.JFramePopup;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.*;
+import javax.swing.text.html.Option;
 
-public class AccueilControlleur implements ControlleurObserver {
+public class AccueilControlleur implements ControlleurObserver , ActionListener {
 	private VueAccueil vue;
 	private DefaultListModel<LigneTournoi> listeTournoi;
+	private List<Equipe> equipes;
 	private DefaultListModel<LigneEquipe> listeClassement;
 	private DefaultListModel<LigneMatche> listeMatchesR;
 	private DaoTournoi daoTournoi;
@@ -30,6 +43,7 @@ public class AccueilControlleur implements ControlleurObserver {
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
 		daoEquipe = new DaoEquipe(c);
+		equipes=new ArrayList<>();
 		this.update();
 	}
 
@@ -75,6 +89,7 @@ public class AccueilControlleur implements ControlleurObserver {
 				ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
 				LigneEquipe ligneEquipe = new LigneEquipe(i + 1, icone, nomEquipe, liste.get(i).getPoint());
 				listeClassement.addElement(ligneEquipe);
+				equipes.add(liste.get(i));
 			}
 			vue.setListeEquipes(listeClassement);
 		} catch (Exception e) {
@@ -100,6 +115,44 @@ public class AccueilControlleur implements ControlleurObserver {
 			vue.setListeMatches(listeMatchesR);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==this.vue.getBoutonImprimer()){
+			try{
+				Optional<Tournoi> tournoi = daoTournoi.getTournoiActuel();
+				if(tournoi.isPresent()){
+					String nom=tournoi.get().getNom();
+					impression(equipes,nom);
+				}else{
+					new JFramePopup("Erreur","Il n'y a pas de tournoi actuellement",()-> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
+				}
+			} catch (SQLException ex) {
+				throw new RuntimeException(ex);
+			} catch (FausseDateException ex) {
+				throw new RuntimeException(ex);
+			}
+
+		}
+	}
+	private void impression(List<Equipe> equipes,String nomTournoi){
+		PrinterJob job = PrinterJob.getPrinterJob();
+		List<Integer> point=new ArrayList<>();
+		for(Equipe e:equipes){
+			point.add(e.getPoint());
+		}
+		// Définit son contenu à imprimer
+		job.setPrintable(new Impression(equipes, point, nomTournoi, CustomDate.now().toString()));
+		// Affiche une boîte de choix d'imprimante
+		if (job.printDialog()){
+			try {
+				// Effectue l'impression
+				job.print();
+			} catch ( PrinterException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 }

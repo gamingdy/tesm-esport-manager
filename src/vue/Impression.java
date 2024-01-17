@@ -1,7 +1,8 @@
+package vue;
+
 import javax.swing.*;
 
 import modele.Equipe;
-import vue.Vue;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -18,20 +19,22 @@ public class Impression extends JPanel implements Printable {
     private List<Integer> points;
     private String nomTournoi;
     private List<String> textLines;
-    private String factureDate;
+    private String date;
 
-    public Impression(List<Equipe> equipes, List<Integer> point, String nomTournoi, String factureDate) {
+    public Impression(List<Equipe> equipes, List<Integer> point, String nomTournoi, String date) {
         this.equipes = equipes;
         this.points = point;
         this.nomTournoi = nomTournoi;
-        this.factureDate = factureDate;
+        this.date = date;
         this.createRapport();
     }
 
     private void createRapport(){
         this.textLines = new ArrayList<>();
-        String titre ="Rapport de classement du "+this.factureDate;
+        String titre="Tournoi : "+this.nomTournoi;
+        String sousTitre ="Rapport de classement du "+this.date;
         textLines.add(titre);
+        textLines.add(sousTitre);
         textLines.add("\n\n");
         String[] ClassementLine;
         for(int i = 0; i < equipes.size(); i++){
@@ -77,7 +80,7 @@ public class Impression extends JPanel implements Printable {
     public void actionPerformed(ActionEvent e) {
         PrinterJob job = PrinterJob.getPrinterJob();
         // Définit son contenu à imprimer
-        job.setPrintable(new Impression(equipes, point, nomTournoi, factureDate));
+        job.setPrintable(new vue.Impression(equipes, point, nomTournoi, Date.now().toString()));
         // Affiche une boîte de choix d'imprimante
         if (job.printDialog()){
             try {

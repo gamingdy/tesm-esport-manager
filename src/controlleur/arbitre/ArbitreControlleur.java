@@ -83,19 +83,20 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		partieCaseList.clear();
 		partiesList.clear();
 		JList<CaseMatch> listeMatches=this.vue.getTableMatche();
-		DefaultListModel<CasePartie> tabloPartie=this.vue.getModelPartie();
+
 
 		if (e.getValueIsAdjusting()){
 			CaseMatch caseMatch=listeMatches.getSelectedValue();
-			tabloPartie.removeAllElements();
 			Optional<Matche> matcheSelectionne= null;
 			try {
 				matcheSelectionne = daoMatche.getById(caseMatch.getIdMatche());
+				this.vue.resetListeParties();
 				if(matcheSelectionne.isPresent()) {
+					System.out.println("ui");
 					partiesList = this.daoPartie.getPartieByMatche(matcheSelectionne.get());
 					partieCaseList=constructCasesParties(partiesList);
 					for(CasePartie caseP:partieCaseList){
-						tabloPartie.addElement(caseP);
+						this.vue.addPartie(caseP);
 						this.vue.afficherParties(true);
 					}
 				}
@@ -115,7 +116,9 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 			ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
 			CasePartie casePartie=null;
 			try{
-				casePartie=new CasePartie(imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2,null,null);
+				casePartie=new CasePartie(imageEquipe1,p.getMatche().getEquipe1().getNom(),tropheePerdant,tropheePerdant,p.getMatche().getEquipe2().getNom(),imageEquipe2);
+				casePartie.setAlDroite(new PartieControlleur(casePartie));
+				casePartie.setAlGauche(new PartieControlleur(casePartie));
 			}catch(Exception id){
 				id.printStackTrace();
 			}

@@ -33,7 +33,7 @@ public class CaseMatch extends CasePartie{
 	 * @param nomDroite
 	 */
 	public CaseMatch(String date, ImageIcon logoGauche, String nomGauche, ImageIcon imageGauche, ImageIcon imageDroite, String nomDroite, ImageIcon logoDroite, int idMatche, ActionListener alGauche, ActionListener alDroite) {
-		super(logoGauche,nomGauche,imageGauche,imageDroite,nomDroite,logoDroite, alGauche, alDroite);
+		super(logoGauche,nomGauche,imageGauche,imageDroite,nomDroite,logoDroite);
 		this.date = date;
 		this.idMatche=idMatche;
 	}
@@ -119,7 +119,6 @@ public class CaseMatch extends CasePartie{
 		logoEquipe1.setIcon(Vue.resize(getLogoGauche(),50,50));
 		nomEquipe1.setText(getNomGauche());
 		image1.setIcon(Vue.resize(getImageBoutonGauche(),50,50));
-		image1.addActionListener(getAlGauche());
 		logoEquipe2.setIcon(Vue.resize(getLogoDroite(),50,50));
 		nomEquipe2.setText(getNomDroite());
 		image2.setIcon(Vue.resize(getImageBoutonDroite(),50,50));

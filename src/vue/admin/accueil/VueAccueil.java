@@ -221,6 +221,7 @@ public class VueAccueil extends JPanel {
 		panelMatchs.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 1), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		try {
 			this.controlleur = new AccueilControlleur(this);
+			setControlleur(this.controlleur);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -238,7 +239,9 @@ public class VueAccueil extends JPanel {
 
 		this.listeTournois.setModel(tournois);
 	}
-
+	public void setControlleur(AccueilControlleur controlleur){
+		this.boutonImprimer.addActionListener(controlleur);
+	}
 	public void setListeMatches(DefaultListModel<LigneMatche> matches) {
 		this.listeMatches.setModel(matches);
 	}
