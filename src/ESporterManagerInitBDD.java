@@ -72,8 +72,10 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 		Saison saison = new Saison(2024);
+		Saison saison2=new Saison(2023);
 		try {
 			daoSaison.add(saison);
+			daoSaison.add(saison2);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -123,6 +125,12 @@ public class ESporterManagerInitBDD {
 		Inscription inscription3 = new Inscription(saison, equipe3);
 		Inscription inscription4 = new Inscription(saison, equipe4);
 		Inscription inscription5 = new Inscription(saison, equipe5);
+		Inscription inscription6 = new Inscription(saison2, equipe);
+		Inscription inscription7 = new Inscription(saison2, equipe1);
+		Inscription inscription8 = new Inscription(saison2, equipe2);
+		Inscription inscription9 = new Inscription(saison2, equipe3);
+		Inscription inscription10 = new Inscription(saison2, equipe4);
+		Inscription inscription11 = new Inscription(saison2, equipe5);
 
 		try {
 			daoEquipe.add(equipe);
@@ -141,6 +149,9 @@ public class ESporterManagerInitBDD {
 			daoInscription.add(inscription3);
 			daoInscription.add(inscription4);
 			daoInscription.add(inscription5);
+			daoInscription.add(inscription6);
+			daoInscription.add(inscription7);
+			daoInscription.add(inscription8);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}

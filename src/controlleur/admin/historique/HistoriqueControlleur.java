@@ -64,6 +64,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			for (Integer a : saisonListAnnees) {
 				comboBoxModel.addElement(a);
 			}
+			comboBoxModel.setSelectedItem(saisonListAnnees.get(saisonListAnnees.size()-1));
 			Integer saisonAnnee = anneeChoisie.getAnnee();
 			updateEquipe(saisonAnnee);
 			updateMatches(Optional.empty(),Optional.empty());
@@ -76,9 +77,12 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-			Integer saisonAnnee = (Integer) e.getItem();
+
 			try {
-				updateEquipe(saisonAnnee);
+				anneeChoisie = daoSaison.getById((Integer) e.getItem()).get();
+				updateEquipe(anneeChoisie.getAnnee());
+				updateMatches(Optional.empty(),Optional.empty());
+				updateTournoi(Optional.empty(),anneeChoisie.getAnnee());
 			} catch (Exception ex) {
 				throw new RuntimeException(ex);
 			}
