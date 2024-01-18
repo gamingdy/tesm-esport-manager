@@ -147,6 +147,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	private void impression(List<Equipe> equipes, String nomTournoi) {
 		PrinterJob job = PrinterJob.getPrinterJob();
 		List<Integer> point = new ArrayList<>();
+		bubbleSort(equipes);
 		for (Equipe e : equipes) {
 			point.add(e.getPoint());
 		}
@@ -159,6 +160,22 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				job.print();
 			} catch (PrinterException ex) {
 				ex.printStackTrace();
+			}
+		}
+	}
+
+	// Bubble sort algorithm
+	private void bubbleSort(List<Equipe> equipes) {
+		Equipe temp;
+		int n = equipes.size();
+		for (int i = 0; i < n - 1; i++) {
+			for (int j = 0; j < n - i - 1; j++) {
+				if (equipes.get(j).getPoint() > equipes.get(j + 1).getPoint()) {
+					// Swap elements
+					temp = equipes.get(j);
+					equipes.set(j, equipes.get(j + 1));
+					equipes.set(j + 1, temp);
+				}
 			}
 		}
 	}
