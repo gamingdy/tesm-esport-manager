@@ -58,7 +58,7 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
 		CaseMatch resultat = null;
 		try {
-			resultat = new CaseMatch(dateMatche, matche.getId(), imageEquipe1, matche.getEquipe1().getNom(), tropheePerdant, tropheeGagnant, matche.getEquipe2().getNom(), imageEquipe2, null, null);
+			resultat = new CaseMatch(dateMatche, matche.getId(), imageEquipe1, matche.getEquipe1().getNom(), matche.getEquipe2().getNom(), imageEquipe2, null, null);
 		} catch (IdNotSetException e) {
 			e.printStackTrace();
 		}
@@ -108,15 +108,7 @@ public class ArbitreControlleur implements ListSelectionListener, ActionListener
 		}
 		return resultat;
 	}*/
-	public void setVainqueurEquipe1Affichage(CaseMatch caseMatch) {
-		caseMatch.setLogoEquipe2(new ImageIcon("assets/trophéeGagnant.png"));
-		caseMatch.setLogoEquipe2(new ImageIcon("assets/trophéePerdant.png"));
-	}
 
-	public void setVainqueurEquipe2Affichage(CaseMatch caseMatch) {
-		caseMatch.setLogoEquipe2(new ImageIcon("assets/trophéePerdant.png"));
-		caseMatch.setLogoEquipe2(new ImageIcon("assets/trophéeGagnant.png"));
-	}
 
 	public void unsetVainqueurs(CaseMatch caseMatch) {
 		caseMatch.setLogoEquipe2(new ImageIcon("assets/trophéePerdant.png"));

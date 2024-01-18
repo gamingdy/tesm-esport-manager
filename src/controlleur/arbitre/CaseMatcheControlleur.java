@@ -19,9 +19,18 @@ public class CaseMatcheControlleur extends MouseAdapter {
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("CaseMatcheControlleur");
 		if (is_left) {
-			System.out.println("is_left");
+			//Matche matche=daoMatche
+			this.setVainqueurEquipe1Affichage();
 		} else {
-			System.out.println("is_right");
+			this.setVainqueurEquipe2Affichage();
 		}
+	}
+
+	public void setVainqueurEquipe1Affichage() {
+		this.caseMatch.setGagnant(1);
+	}
+
+	public void setVainqueurEquipe2Affichage() {
+		this.caseMatch.setGagnant(2);
 	}
 }
