@@ -19,13 +19,17 @@ import java.awt.event.ActionListener;
 
 public class CaseMatch extends JPanel {
 
+	private ImageIcon tropheeGagnant = Vue.resize(new ImageIcon("assets/trophéeGagnant.png"), 50, 50);
+	private ImageIcon tropheePerdant = Vue.resize(new ImageIcon("assets/trophéePerdant.png"), 50, 50);
 	private String date;
 	private int idMatche;
 
 	private ImageIcon logoEquipe1;
 	private String nomEquipe1;
 	private ImageIcon tropheGauche;
+	private JButton tropheeGaucheBTN;
 	private ImageIcon tropheDroite;
+	private JButton tropheeDroiteBTN;
 	private String nomEquipe2;
 	private ImageIcon logoEquipe2;
 	private ActionListener alGauche;
@@ -36,23 +40,20 @@ public class CaseMatch extends JPanel {
 	 * @param idMatche
 	 * @param logoGauche
 	 * @param nomGauche
-	 * @param tropheGauche
-	 * @param tropheeDroite
 	 * @param nomDroite
 	 * @param logoDroite
 	 * @param alGauche
 	 * @param alDroite
 	 */
-	public CaseMatch(String date, int idMatche, ImageIcon logoGauche, String nomGauche,
-					 ImageIcon tropheGauche, ImageIcon tropheeDroite, String nomDroite, ImageIcon logoDroite,
+	public CaseMatch(String date, int idMatche, ImageIcon logoGauche, String nomGauche, String nomDroite, ImageIcon logoDroite,
 					 ActionListener alGauche, ActionListener alDroite) {
 		super();
 		this.date = date;
 		this.idMatche = idMatche;
 		this.logoEquipe1 = logoGauche;
 		this.nomEquipe1 = nomGauche;
-		this.tropheGauche = tropheGauche;
-		this.tropheDroite = tropheeDroite;
+		this.tropheGauche = this.tropheePerdant;
+		this.tropheDroite = this.tropheePerdant;
 		this.nomEquipe2 = nomDroite;
 		this.logoEquipe2 = logoDroite;
 		this.alGauche = alGauche;
@@ -96,7 +97,7 @@ public class CaseMatch extends JPanel {
 		nomEquipe1Label.setText(getNomEquipe1());
 		equipe1.add(nomEquipe1Label);
 
-		JButton tropheeGaucheBTN = new JButton();
+		this.tropheeGaucheBTN = new JButton();
 		tropheeGaucheBTN.setContentAreaFilled(false);
 		tropheeGaucheBTN.setBorder(null);
 		tropheeGaucheBTN.setFocusPainted(false);
@@ -117,7 +118,7 @@ public class CaseMatch extends JPanel {
 				BorderFactory.createMatteBorder(1, 0, 1, 1, CustomColor.ROSE_CONTOURS),
 				BorderFactory.createEmptyBorder(10, 15, 10, 30)));
 
-		JButton tropheeDroiteBTN = new JButton();
+		tropheeDroiteBTN = new JButton();
 		tropheeDroiteBTN.setContentAreaFilled(false);
 		tropheeDroiteBTN.setBorder(null);
 		tropheeDroiteBTN.setFocusPainted(false);
@@ -164,17 +165,21 @@ public class CaseMatch extends JPanel {
 		return tropheGauche;
 	}
 
-	public void setTropheGauche(ImageIcon tropheGauche) {
-		this.tropheGauche = tropheGauche;
+
+	public void setGagnant(int numEquipe) {
+		if (numEquipe == 1) {
+			this.tropheeGaucheBTN.setIcon(this.tropheeGagnant);
+			this.tropheeDroiteBTN.setIcon(this.tropheePerdant);
+		} else {
+			this.tropheeGaucheBTN.setIcon(this.tropheePerdant);
+			this.tropheeDroiteBTN.setIcon(this.tropheeGagnant);
+		}
 	}
 
 	public ImageIcon getTropheDroite() {
 		return tropheDroite;
 	}
 
-	public void setTropheDroite(ImageIcon tropheDroite) {
-		this.tropheDroite = tropheDroite;
-	}
 
 	public String getNomEquipe2() {
 		return nomEquipe2;
