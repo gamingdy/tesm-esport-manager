@@ -106,9 +106,19 @@ public class ArbitreControlleur implements ActionListener {
 			new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> {
 				VueObserver.getInstance().notifyVue(Page.LOGIN);
 			});
-		} else if (e.getSource() == this.vue.getBoutonClosePoule()) {
+		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer la poule")) {
 			closePoule();
 			this.vue.setTexteBouton("Clôturer le tournoi");
+		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer le tournoi")) {
+			if (isAllMatcheClosed()){
+				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () -> {
+					VueObserver.getInstance().notifyVue(Page.LOGIN);
+				});
+			} else {
+				new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () -> {
+					VueObserver.getInstance().notifyVue(Page.ARBITRE);
+				});
+			}
 		}
 	}
 
