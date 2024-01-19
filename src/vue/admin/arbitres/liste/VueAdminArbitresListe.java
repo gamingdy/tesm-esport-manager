@@ -63,28 +63,20 @@ public class VueAdminArbitresListe extends JPanel {
 
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
-		JPanel panelRecherche = new JPanel();
-		((FlowLayout) panelRecherche.getLayout()).setHgap(10);
-		((FlowLayout) panelRecherche.getLayout()).setAlignment(FlowLayout.LEFT);
-		panelRecherche.add(new JLabel(Vue.resize(new ImageIcon("assets/recherche.png"), 45, 45)));
-		JTextField recherche = new JTextField();
-		panelRecherche.setBackground(CustomColor.BACKGROUND_MAIN);
-		panelRecherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3), BorderFactory.createEmptyBorder(10, 40, 10, 40)));
-		recherche.setColumns(25);
-		recherche.setBackground(CustomColor.BACKGROUND_MENU.brighter());
+		JLabel recherche = new JLabel("Liste des Arbitres",JLabel.CENTER);
+		recherche.setBackground(CustomColor.BACKGROUND_MAIN);
+		recherche.setOpaque(true);
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));
 		recherche.setForeground(CustomColor.BLANC);
-		recherche.setFont(MaFont.getFontTitre4());
-		recherche.setCaretColor(CustomColor.BLANC);
+		recherche.setFont(MaFont.getFontLabelConnexion());
 		GridBagConstraints gbcRecherche = new GridBagConstraints();
 		gbcRecherche.fill = GridBagConstraints.HORIZONTAL;
 		gbcRecherche.gridx = 0;
 		gbcRecherche.gridy = 0;
 		gbcRecherche.weightx = 0.6F;
 		gbcRecherche.weighty = 0.2F;
-		panelRecherche.add(recherche);
 
-		add(panelRecherche, gbcRecherche);
+		add(recherche, gbcRecherche);
 
 		boutonAjouter = new JButton("Ajouter");
 		boutonAjouter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

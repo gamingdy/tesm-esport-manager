@@ -1,5 +1,6 @@
 package vue.admin.tournois.liste;
 
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -39,6 +40,7 @@ public class CaseTournoi {
 	 */
 	public JPanel getPanel() {
 		JPanel panelItem = new JPanel(new GridBagLayout());
+		panelItem.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		panelItem.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelItem.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
@@ -68,16 +70,6 @@ public class CaseTournoi {
 		gbcDate.weighty = 0.5F;
 		gbcDate.gridwidth = GridBagConstraints.REMAINDER;
 		panelItem.add(labelDate, gbcDate);
-
-		JLabel labelModif = new JLabel(Vue.resize(new ImageIcon("assets/modif.png"), 30, 30));
-		labelModif.setHorizontalAlignment(JLabel.RIGHT);
-		GridBagConstraints gbcModif = new GridBagConstraints();
-		gbcModif.fill = GridBagConstraints.HORIZONTAL;
-		gbcModif.gridx = 1;
-		gbcModif.gridy = 2;
-		gbcModif.weightx = 0.6F;
-		gbcModif.weighty = 0.2F;
-		panelItem.add(labelModif, gbcModif);
 
 		JLabel labelDelete = new JLabel(Vue.resize(new ImageIcon("assets/delete.png"), 30, 30));
 		GridBagConstraints gbcDelete = new GridBagConstraints();

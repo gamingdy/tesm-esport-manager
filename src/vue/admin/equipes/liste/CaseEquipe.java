@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -39,6 +41,7 @@ public class CaseEquipe extends JPanel {
 		setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
 				BorderFactory.createEmptyBorder(20, 20, 20, 20)));
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 	}
 

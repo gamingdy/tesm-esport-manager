@@ -1,5 +1,6 @@
 package vue.admin.arbitres.liste;
 
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -44,6 +45,7 @@ public class CaseArbitre {
 	 */
 	public JPanel getPanel() {
 		JPanel panelItem = new JPanel(new GridBagLayout());
+		panelItem.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		panelItem.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelItem.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
@@ -72,17 +74,6 @@ public class CaseArbitre {
 		gbcNom.gridwidth = 2;
 		panelItem.add(nom, gbcNom);
 
-
-		JLabel labelModif = new JLabel(Vue.resize(new ImageIcon("assets/modif.png"), 30, 30));
-		labelModif.setHorizontalAlignment(JLabel.RIGHT);
-		labelModif.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-		GridBagConstraints gbcModif = new GridBagConstraints();
-		gbcModif.fill = GridBagConstraints.HORIZONTAL;
-		gbcModif.gridx = 1;
-		gbcModif.gridy = 1;
-		gbcModif.weightx = 1F;
-		gbcModif.weighty = 0.2F;
-		panelItem.add(labelModif, gbcModif);
 
 		JLabel labelDelete = new JLabel(Vue.resize(new ImageIcon("assets/delete.png"), 30, 30));
 		GridBagConstraints gbcDelete = new GridBagConstraints();
