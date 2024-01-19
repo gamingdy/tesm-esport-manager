@@ -10,6 +10,7 @@ import modele.Tournoi;
 import vue.Page;
 import vue.admin.equipes.details.VueAdminEquipesDetails;
 import vue.admin.equipes.liste.CaseEquipe;
+import vue.common.JFramePopup;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -39,7 +40,7 @@ public class EquipeCaseModificationControlleur extends MouseAdapter {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (this.estDansUnTournoiEnCours()) {
-			return;
+			new JFramePopup("Erreur","Impossible de modifier une equipe qui est dans un tournoi en cours",()->EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 		}
 
 		if (editing) {

@@ -48,12 +48,27 @@ public class ArbitreControlleur implements ActionListener {
 			if (tournoiActuel.isPresent()) {
 				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoiActuel.get().getDebut().getAnnee(), tournoiActuel.get().getNom());
 				this.vue.setTitre("Tournoi " +tournoiActuel.get().getNom() + " "+tournoiActuel.get().getDebut().getAnnee());
-				caseMatchList = new ArrayList<>();
-				for (Matche m : matcheList) {
-					List<Partie> partieList = daoPartie.getPartieByMatche(m);
-					m.setVainqueur(partieList.get(0).getVainqueur());
-					CaseMatch caseMatche = convertMatchToCaseMatch(m);
-					caseMatchList.add(caseMatche);
+				if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
+					
+					caseMatchList = new ArrayList<>();
+					for (Matche m : matcheList) {
+						if (m.getCategorie() != Categorie.POULE) {
+							List<Partie> partieList = daoPartie.getPartieByMatche(m);
+							m.setVainqueur(partieList.get(0).getVainqueur());
+							CaseMatch caseMatche = convertMatchToCaseMatch(m);
+							caseMatchList.add(caseMatche);
+							vue.setTexteBouton("Clôturer le tournoi");
+						}
+					}
+				}
+				else {
+					caseMatchList = new ArrayList<>();
+					for (Matche m : matcheList) {
+						List<Partie> partieList = daoPartie.getPartieByMatche(m);
+						m.setVainqueur(partieList.get(0).getVainqueur());
+						CaseMatch caseMatche = convertMatchToCaseMatch(m);
+						caseMatchList.add(caseMatche);
+					}
 				}
 				this.vue.addAllMatchs(caseMatchList);
 			}
@@ -128,10 +143,10 @@ public class ArbitreControlleur implements ActionListener {
 		if (isAllMatcheClosed()) {
 			try {
 				System.out.println("ui");
-				Matche matcheFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.POULE, finale.get(0), finale.get(1), this.tournoiActuel.get());
+				Matche matcheFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.FINALE, finale.get(0), finale.get(1), this.tournoiActuel.get());
 				Partie partieFinale = new Partie(matcheFinale, 1);
 
-				Matche matchePetiteFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.POULE, petiteFinale.get(0), petiteFinale.get(1), this.tournoiActuel.get());
+				Matche matchePetiteFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.PETITE_FINALE, petiteFinale.get(0), petiteFinale.get(1), this.tournoiActuel.get());
 				Partie partiePetiteFinale = new Partie(matchePetiteFinale, 1);
 
 				daoMatche.add(matcheFinale);

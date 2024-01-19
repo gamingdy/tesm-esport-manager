@@ -1,19 +1,8 @@
 package controlleur.admin.historique;
 
-import dao.Connexion;
-import dao.DaoAppartenance;
-import dao.DaoEquipe;
-import dao.DaoInscription;
-import dao.DaoMatche;
-import dao.DaoSaison;
-import dao.DaoTournoi;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Inscription;
-import modele.Matche;
-import modele.ModeleSaison;
-import modele.Saison;
-import modele.Tournoi;
+import dao.*;
+import exceptions.GagnantNonChoisiException;
+import modele.*;
 import vue.Vue;
 import vue.admin.historique.VueAdminHistorique;
 
@@ -41,6 +30,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	private DaoInscription daoInscription;
 	private DaoMatche daoMatche;
 	private DaoTournoi daoTournoi;
+	private DaoPartie daoPartie;
 	private DaoEquipe daoEquipe;
 	private DaoAppartenance daoAppartenance;
 
@@ -67,6 +57,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		this.daoEquipe = new DaoEquipe(c);
 		this.daoAppartenance = new DaoAppartenance(c);
 		this.equipeChoisie = Optional.empty();
+		this.daoPartie=new DaoPartie(c);
 		try {
 			saisonListAnnees = daoSaison.getAll().stream().map(saison -> saison.getAnnee()).collect(Collectors.toList());
 			anneeChoisie = daoSaison.getById(saisonListAnnees.get(saisonListAnnees.size() - 1)).get();
@@ -145,11 +136,11 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				Optional<Inscription> inscription = daoInscription.getById(anneeChoisie.getAnnee(), e.getNom());
 				if (inscription.isPresent()) {
 					VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
-					Object[] ligne = new Object[]{inscription.get().getWorldRank(), caseEquipe, 0};
+					Object[] ligne = new Object[]{inscription.get().getWorldRank(), caseEquipe, e.getPoint()};
 					resultat.add(ligne);
 				} else {
 					VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
-					Object[] ligne = new Object[]{1000, caseEquipe, 0};
+					Object[] ligne = new Object[]{1000, caseEquipe, 0.0};
 					resultat.add(ligne);
 				}
 
@@ -161,13 +152,27 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		return resultat;
 	}
 
-	private List<Object[]> constructObjectArrayMatch(List<Matche> matcheList) {
+	private List<Object[]> constructObjectArrayMatch(List<Matche> matcheList) throws Exception {
 		List<Object[]> resultat = new ArrayList<>();
 		for (Matche m : matcheList) {
 			Equipe equipe1 = m.getEquipe1();
 			Equipe equipe2 = m.getEquipe2();
 			CustomDate dateMatche = m.getDateDebutMatche();
-			Object[] ligne = new Object[]{dateMatche.toString().substring(6), equipe1.getNom(), "0 - 0", equipe2.getNom()};
+			List<Partie> partieList = daoPartie.getPartieByMatche(m);
+			m.setVainqueur(partieList.get(0).getVainqueur());
+			Equipe winner=m.getVainqueur();
+			int value1=0;
+			int value2=0;
+			if(winner!=null){
+			if(winner.equals(equipe1)){
+				value1=1;
+				value2=0;
+			}else{
+				value1=0;
+				value2=1;
+			}
+			}
+			Object[] ligne = new Object[]{dateMatche.toString().substring(6), equipe1.getNom(), value1+" - "+value2, equipe2.getNom()};
 			resultat.add(ligne);
 		}
 		return resultat;
@@ -203,6 +208,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private void updateTournoi(Optional<Equipe> equipe, Saison annee) {
 		try {
+			List<Object[]> lignes=new ArrayList<>();
 			Saison saison = annee;
 			DefaultTableModel tableTournois = this.vue.getModelTournois();
 			Optional<Inscription> inscription = Optional.empty();
@@ -211,18 +217,19 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					tableTournois.removeRow(i);
 				}
 			}
+
 			if (!equipe.isPresent()) {
 				tournoiList = daoTournoi.getTournoiBySaison(saison);
+				lignes = constructArrayFromTournoi(tournoiList, inscription);
 			} else {
 				Equipe equipe2 = equipe.get();
-				inscription = daoInscription.getById(annee, equipe2.getNom());
+				inscription = daoInscription.getById(annee.getAnnee(), equipe2.getNom());
 				if (!inscription.isPresent()) {
 					return;
 				}
 				tournoiList = daoAppartenance.getTournoiByEquipeForSaison(inscription.get());
+				lignes = constructArrayFromTournoi(tournoiList, inscription);
 			}
-			//construction du tableau de tournoi qui se fait dans tous les cas
-			List<Object[]> lignes = constructArrayFromTournoi(tournoiList, inscription);
 			for (Object[] ligne : lignes) {
 				tableTournois.addRow(ligne);
 			}
@@ -231,12 +238,21 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		}
 	}
 
-	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois, Optional<Inscription> inscription) {
+	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois, Optional<Inscription> inscription) throws Exception {
 		List<Object[]> resultat = new ArrayList<>();
+
 		if (inscription.isPresent()) {
 			for (Tournoi t : listeTournois) {
+				Set<Equipe> classementTournoi = ModeleTournoi.getClassement(t);
+				Equipe e=inscription.get().getEquipe();
+				Equipe selection=null;
+				for(Equipe eq:classementTournoi){
+					if(eq.equals(e)){
+						selection=eq;
+					}
+				}
 				CustomDate dateDebut = t.getDebut();
-				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), inscription.get().getWorldRank()};
+				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), selection.getPoint()};
 				resultat.add(ligne);
 			}
 			return resultat;
@@ -288,7 +304,6 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 			if (tableTournoi.getSelectedRow() > -1 && e.getSource() == tableTournoi.getSelectionModel()) {
 				String nomTournoi = (String) tableTournoi.getValueAt(tableTournoi.getSelectedRow(), 0);
-				System.out.println(nomTournoi);
 				try {
 					tournoiChoisi = daoTournoi.getById(anneeChoisie.getAnnee(), nomTournoi);
 					if (etat == null) {

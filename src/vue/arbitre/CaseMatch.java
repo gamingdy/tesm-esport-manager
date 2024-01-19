@@ -140,6 +140,9 @@ public class CaseMatch extends JPanel {
 		gbcEquipe2.weightx = 0.5;
 		gbcEquipe2.weighty = 1;
 		thisE.add(equipe2, gbcEquipe2);
+		
+
+		setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
 	}
 
 	public ImageIcon getLogoEquipe1() {

@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -75,11 +77,12 @@ public class VueArbitrePoule extends VueArbitre {
 	}
 
 	public void addMatch(CaseMatch c) {
+		System.out.println(liste.getComponentCount());
 		liste.add(c);
 	}
 
 	public void setMatchs(List<CaseMatch> c) {
-		liste.removeAll();
+		resetListeMatchs();
 		this.addAllMatchs(c);
 	}
 
@@ -98,5 +101,4 @@ public class VueArbitrePoule extends VueArbitre {
 	public JButton getBoutonClosePoule() {
 		return this.boutonAction;
 	}
-
 }
