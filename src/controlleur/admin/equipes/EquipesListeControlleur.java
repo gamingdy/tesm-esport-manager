@@ -118,6 +118,10 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 				try {
 					liste = getEquipeSaion(saison.getAnnee());
 					listeEquipeSaisonDiff = getDifference(liste, this.listeEquipeSaison);
+					if (liste.size() < this.listeEquipe.size()) {
+						List<Equipe> caseSupprimer = getDifference(this.listeEquipe, liste);
+						supprimerEquipe(caseSupprimer);
+					}
 
 				} catch (Exception e) {
 					e.printStackTrace();
