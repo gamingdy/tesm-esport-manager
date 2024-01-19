@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import modele.Arbitrage;
+import modele.Equipe;
 import modele.Matche;
 import modele.Partie;
 
@@ -72,6 +73,10 @@ public class DaoPartie implements Dao<Partie, Integer> {
 				Partie partie = new Partie(
 						daomatche.getById(resultat.getInt("Id_Match")).get(),
 						resultat.getInt("Id_Partie"));
+				Optional<Equipe> vainqueur = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getById(resultat.getString("Nom_Equipe"));
+				if (vainqueur.isPresent()) {
+					partie.setVainqueur(vainqueur.get());
+				}
 				sortie.add(partie);
 			}
 			return sortie;
@@ -96,8 +101,12 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			if (resultat.next()) {
 				partie = new Partie(
 						daomatche.getById(resultat.getInt("Id_Match")).get(),
-						resultat.getInt("Id_Partie"));
-				
+						resultat.getInt("Id_Partie")
+				);
+				Optional<Equipe> vainqueur = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getById(resultat.getString("Nom_Equipe"));
+				if (vainqueur.isPresent()) {
+					partie.setVainqueur(vainqueur.get());
+				}
 			}
 			return Optional.ofNullable(partie);
 		}
@@ -157,9 +166,14 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			ResultSet resultat = getPartieByMatche.executeQuery();
 			List<Partie> sortie = new LinkedList<>();
 			while(resultat.next()) {
-				sortie.add(new Partie(
+				Partie partie = new Partie(
 						FactoryDAO.getDaoMatche(connexion).getById(resultat.getInt("Id_Match")).get(),
-						resultat.getInt("Id_Partie")));
+						resultat.getInt("Id_Partie"));
+				Optional<Equipe> vainqueur = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getById(resultat.getString("Nom_Equipe"));
+				if (vainqueur.isPresent()) {
+					partie.setVainqueur(vainqueur.get());
+				}
+				sortie.add(partie);
 			}
 			return sortie;
 		}
