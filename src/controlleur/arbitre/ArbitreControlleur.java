@@ -108,6 +108,7 @@ public class ArbitreControlleur implements ActionListener {
 			});
 		} else if (e.getSource() == this.vue.getBoutonClosePoule()) {
 			closePoule();
+			this.vue.setTexteBouton("Clôturer le tournoi");
 		}
 	}
 
