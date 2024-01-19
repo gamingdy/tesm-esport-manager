@@ -2,9 +2,20 @@ package controlleur.admin.accueil;
 
 import controlleur.ControlleurObserver;
 import controlleur.VueObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoAppartenance;
+import dao.DaoEquipe;
+import dao.DaoMatche;
+import dao.DaoPartie;
+import dao.DaoSaison;
+import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import modele.*;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Matche;
+import modele.Partie;
+import modele.Saison;
+import modele.Tournoi;
 import vue.Impression;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
@@ -106,7 +117,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 		listeMatchesR = new DefaultListModel<LigneMatche>();
 		try {
 			List<Matche> liste = new ArrayList<>(daoMatche.getTenLastMatch());
-			for (Matche m: liste) {
+			for (Matche m : liste) {
 				List<Partie> partieList = daoPartie.getPartieByMatche(m);
 				m.setVainqueur(partieList.get(0).getVainqueur());
 				ImageIcon tropheeGagnant = new ImageIcon("assets/trophéeGagnant.png");
@@ -118,16 +129,16 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				String dateHeure = m.getDateDebutMatche().toString().substring(6);
 				ImageIcon trophee1;
 				ImageIcon trophee2;
-
-				if(m.getVainqueur().equals(m.getEquipe1())){
-					trophee1=tropheeGagnant;
-					trophee2=tropheePerdant;
-				}else{
-					trophee1=tropheePerdant;
-					trophee2=tropheeGagnant;
-				}if(m.getVainqueur()==null){
-					trophee1=tropheePerdant;
-					trophee2=tropheePerdant;
+				
+				if (m.getVainqueur() == null) {
+					trophee1 = tropheePerdant;
+					trophee2 = tropheePerdant;
+				} else if (m.getVainqueur().equals(m.getEquipe1())) {
+					trophee1 = tropheeGagnant;
+					trophee2 = tropheePerdant;
+				} else {
+					trophee1 = tropheePerdant;
+					trophee2 = tropheeGagnant;
 				}
 				LigneMatche ligneMatche = new LigneMatche(dateHeure, imageEquipe1, nomEquipe1, trophee1, imageEquipe2, nomEquipe2, trophee2);
 				listeMatchesR.addElement(ligneMatche);

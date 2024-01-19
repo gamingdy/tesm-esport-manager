@@ -79,4 +79,8 @@ public abstract class VueArbitre extends JPanel {
 		main.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
 		
 	}
+	
+	public void setTitre(String texte) {
+		titre.setText(texte);
+	}
 }

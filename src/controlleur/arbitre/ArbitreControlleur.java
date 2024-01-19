@@ -5,7 +5,10 @@ import dao.Connexion;
 import dao.DaoMatche;
 import dao.DaoPartie;
 import dao.DaoTournoi;
+import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
+import modele.Categorie;
 import modele.Equipe;
 import modele.Matche;
 import modele.ModeleTournoi;
@@ -56,7 +59,6 @@ public class ArbitreControlleur implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private CaseMatch convertMatchToCaseMatch(Matche matche) {
@@ -106,40 +108,46 @@ public class ArbitreControlleur implements ActionListener {
 		return true;
 	}
 
-	private void updateMatche(CaseMatch caseM) {
-		try {
-			if (caseM.getGagnant() != 0) {
-				Optional<Matche> matcheAUpdate = daoMatche.getById(caseM.getIdMatche());
-				if (matcheAUpdate.isPresent()) {
-					Equipe equipe1 = matcheAUpdate.get().getEquipe1();
-					Equipe equipe2 = matcheAUpdate.get().getEquipe2();
-					if (caseM.getGagnant() == 1) {
-						matcheAUpdate.get().setVainqueur(equipe1);
-					} else {
-						matcheAUpdate.get().setVainqueur(equipe2);
-					}
-					daoMatche.update(matcheAUpdate.get());
-				}
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	private void updateMatche(List<CaseMatch> caseM) {
+		this.vue.setMatchs(caseM);
+		this.vue.revalidate();
 	}
 
 	private void closePoule() {
+		List<Equipe> finale = new ArrayList<>();
+		List<Equipe> petiteFinale = new ArrayList<>();
 		try {
 			Set<Equipe> classementTournoi = ModeleTournoi.getClassement(tournoiActuel.get());
-			for (Equipe e : classementTournoi) {
-				System.out.println(e.getNom() + " " + e.getPoint());
-			}
 			List<List<Equipe>> phaseFinale = getPhaseFInale(classementTournoi);
+			finale.addAll(phaseFinale.get(0));
+			petiteFinale.addAll(phaseFinale.get(1));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		if (isAllMatcheClosed()) {
-			for (CaseMatch caseM : caseMatchList) {
-				updateMatche(caseM);
+			try {
+				System.out.println("ui");
+				Matche matcheFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.POULE, finale.get(0), finale.get(1), this.tournoiActuel.get());
+				Partie partieFinale = new Partie(matcheFinale, 1);
+
+				Matche matchePetiteFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.POULE, petiteFinale.get(0), petiteFinale.get(1), this.tournoiActuel.get());
+				Partie partiePetiteFinale = new Partie(matchePetiteFinale, 1);
+
+				daoMatche.add(matcheFinale);
+				daoPartie.add(partieFinale);
+				daoMatche.add(matchePetiteFinale);
+				daoPartie.add(partiePetiteFinale);
+				List<CaseMatch> caseMatchList = new ArrayList<>();
+				caseMatchList.add(convertMatchToCaseMatch(matcheFinale));
+				caseMatchList.add(convertMatchToCaseMatch(matchePetiteFinale));
+				updateMatche(caseMatchList);
+			} catch (FausseDateException | MemeEquipeException e) {
+				throw new RuntimeException(e);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
 			}
+
+
 		} else {
 			new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () -> {
 				VueObserver.getInstance().notifyVue(Page.ARBITRE);
