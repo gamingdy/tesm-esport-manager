@@ -16,7 +16,6 @@ public class Connexion {
 			DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
 			String urlConnexion = "jdbc:derby:TESM;create=true";
 			connection = DriverManager.getConnection(urlConnexion);
-			System.out.println("Connexion OK");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

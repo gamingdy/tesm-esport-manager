@@ -69,7 +69,6 @@ public class CaseMatcheControlleur extends MouseAdapter {
 
 	private Matche getMatche() {
 		try {
-			System.out.println(this.caseMatch.getIdMatche());
 			Optional<Matche> matche1 = daoMatche.getById(this.caseMatch.getIdMatche());
 			if (matche1.isPresent()) {
 				return matche1.get();

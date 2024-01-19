@@ -77,7 +77,6 @@ public class VueArbitrePoule extends VueArbitre {
 	}
 
 	public void addMatch(CaseMatch c) {
-		System.out.println(liste.getComponentCount());
 		liste.add(c);
 	}
 
