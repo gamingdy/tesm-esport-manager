@@ -7,6 +7,7 @@ import dao.DaoArbitre;
 import dao.DaoEquipe;
 import dao.DaoInscription;
 import dao.DaoMatche;
+import dao.DaoPartie;
 import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
@@ -21,6 +22,7 @@ import modele.CustomDate;
 import modele.Equipe;
 import modele.Matche;
 import modele.Niveau;
+import modele.Partie;
 import modele.Poule;
 import modele.Saison;
 import modele.Tournoi;
@@ -60,6 +62,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private List<Arbitre> arbitreListChoisi;
 	private DaoArbitre daoArbitre;
 	private DaoMatche daoMatche;
+	private DaoPartie daoPartie;
 	private PopupEquipe popupAjoutEquipe;
 	private PopupCompteArbitre popupCompteArbitre;
 	private PopupArbitres popupArbitres;
@@ -129,7 +132,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 							try {
 								Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, motdePasse));
 								tentativeAjoutTournoiBDD(tournoiInserer);
-							}catch(FausseDateException fd){
+							} catch (FausseDateException fd) {
 								fd.printStackTrace();
 							}
 						}, nom);
@@ -199,28 +202,30 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 
 
 	}
-	private void tentativeAjoutTournoiBDD(Tournoi tournoi){
-		try{
-		if (isTournoiMemeNomExistant(tournoi)) {
-			new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-		} else if (isTournoiMemeDateExistant(tournoi)) {
-			new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-		} else {
-			daoTournoi.add(tournoi);
-			initEquipes(tournoi,listeEquipeChoisi);
-			if (!arbitreListChoisi.isEmpty()) {
-				for (Arbitre arbitre : arbitreListChoisi) {
-					Arbitrage arbitrage = new Arbitrage(arbitre, tournoi);
-					daoArbitrage.add(arbitrage);
+
+	private void tentativeAjoutTournoiBDD(Tournoi tournoi) {
+		try {
+			if (isTournoiMemeNomExistant(tournoi)) {
+				new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+			} else if (isTournoiMemeDateExistant(tournoi)) {
+				new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+			} else {
+				daoTournoi.add(tournoi);
+				initEquipes(tournoi, listeEquipeChoisi);
+				if (!arbitreListChoisi.isEmpty()) {
+					for (Arbitre arbitre : arbitreListChoisi) {
+						Arbitrage arbitrage = new Arbitrage(arbitre, tournoi);
+						daoArbitrage.add(arbitrage);
+					}
 				}
+				new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+				resetChamps();
 			}
-			new JFramePopup("Succès", "Tournoi est crée", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-			resetChamps();
-		}}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	public void resetChamps() {
 		this.arbitreListChoisi.clear();
 		try {
@@ -340,14 +345,15 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 				} catch (FausseDateException | MemeEquipeException e) {
 					e.printStackTrace();
 				}
-
 			}
-
 		}
 
 		for (Matche matche : all_match) {
 			try {
 				daoMatche.add(matche);
+				Partie partie = new Partie(matche, 1);
+				daoPartie.add(partie);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

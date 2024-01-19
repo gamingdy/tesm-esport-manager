@@ -19,11 +19,10 @@ import java.awt.event.ActionListener;
 
 public class CaseMatch extends JPanel {
 
-	private ImageIcon tropheeGagnant = Vue.resize(new ImageIcon("assets/trophéeGagnant.png"), 50, 50);
-	private ImageIcon tropheePerdant = Vue.resize(new ImageIcon("assets/trophéePerdant.png"), 50, 50);
+	private static ImageIcon tropheeGagnant = Vue.resize(new ImageIcon("assets/trophéeGagnant.png"), 50, 50);
+	private static ImageIcon tropheePerdant = Vue.resize(new ImageIcon("assets/trophéePerdant.png"), 50, 50);
 	private String date;
 	private int idMatche;
-
 	private ImageIcon logoEquipe1;
 	private String nomEquipe1;
 	private ImageIcon tropheGauche;
@@ -44,11 +43,8 @@ public class CaseMatch extends JPanel {
 	 * @param nomGauche
 	 * @param nomDroite
 	 * @param logoDroite
-	 * @param alGauche
-	 * @param alDroite
 	 */
-	public CaseMatch(String date, int idMatche, ImageIcon logoGauche, String nomGauche, String nomDroite, ImageIcon logoDroite,
-					 ActionListener alGauche, ActionListener alDroite) {
+	public CaseMatch(String date, int idMatche, ImageIcon logoGauche, String nomGauche, String nomDroite, ImageIcon logoDroite) {
 		super();
 		this.date = date;
 		this.idMatche = idMatche;
@@ -58,8 +54,6 @@ public class CaseMatch extends JPanel {
 		this.tropheDroite = this.tropheePerdant;
 		this.nomEquipe2 = nomDroite;
 		this.logoEquipe2 = logoDroite;
-		this.alGauche = alGauche;
-		this.alDroite = alDroite;
 		this.numEquipeGagnante = 0;
 
 		this.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 20));
@@ -172,15 +166,15 @@ public class CaseMatch extends JPanel {
 	public void setGagnant(int numEquipe) {
 		this.numEquipeGagnante = numEquipe;
 		if (numEquipe == 1) {
-			this.tropheeGaucheBTN.setIcon(this.tropheeGagnant);
-			this.tropheeDroiteBTN.setIcon(this.tropheePerdant);
+			this.tropheeGaucheBTN.setIcon(tropheeGagnant);
+			this.tropheeDroiteBTN.setIcon(tropheePerdant);
 		} else {
-			this.tropheeGaucheBTN.setIcon(this.tropheePerdant);
-			this.tropheeDroiteBTN.setIcon(this.tropheeGagnant);
+			this.tropheeGaucheBTN.setIcon(tropheePerdant);
+			this.tropheeDroiteBTN.setIcon(tropheeGagnant);
 		}
 	}
 
-	public int getGagnant(){
+	public int getGagnant() {
 		return this.numEquipeGagnante;
 	}
 
