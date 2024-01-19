@@ -275,9 +275,9 @@ public class DaoMatche implements Dao<Matche, Integer> {
 		try(PreparedStatement getTenLastMatch = connexion.getConnection().prepareStatement(""
 				+ "SELECT * "
 				+ "FROM Matche "
-				+ "WHERE Date_Matche_Debut < CURDATE() "
-				+ "ORDER BY Date_Matche_Debut DESC"
-				+ "LIMIT 10")) {
+				+ "WHERE Date_Matche_Debut < CURRENT_DATE "
+				+ "ORDER BY Date_Matche_Debut DESC "
+				+ "fetch first 10 rows only")) {
 			List<Matche> sortie = new LinkedList<>();
 			ResultSet resultat = getTenLastMatch.executeQuery();
 			generateListMatche(resultat, sortie);

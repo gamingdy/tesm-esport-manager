@@ -2,18 +2,9 @@ package controlleur.admin.accueil;
 
 import controlleur.ControlleurObserver;
 import controlleur.VueObserver;
-import dao.Connexion;
-import dao.DaoAppartenance;
-import dao.DaoEquipe;
-import dao.DaoMatche;
-import dao.DaoSaison;
-import dao.DaoTournoi;
+import dao.*;
 import exceptions.FausseDateException;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Matche;
-import modele.Saison;
-import modele.Tournoi;
+import modele.*;
 import vue.Impression;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
@@ -44,6 +35,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	private DaoAppartenance daoAppartenance;
 	private DaoSaison daoSaison;
 	private DaoMatche daoMatche;
+	private DaoPartie daoPartie;
 	private Connexion c = Connexion.getConnexion();
 
 	public AccueilControlleur(VueAccueil newVue) {
@@ -53,6 +45,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 		daoMatche = new DaoMatche(c);
 		daoEquipe = new DaoEquipe(c);
 		daoAppartenance = new DaoAppartenance(c);
+		daoPartie = new DaoPartie(c);
 		equipes = new ArrayList<>();
 		this.update();
 	}
@@ -112,16 +105,31 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	public void mettreAjourListeMatches() {
 		listeMatchesR = new DefaultListModel<LigneMatche>();
 		try {
-			List<Matche> liste = new ArrayList<>(daoMatche.getAll());
-			for (int i = 0; i < liste.size(); i++) {
+			List<Matche> liste = new ArrayList<>(daoMatche.getTenLastMatch());
+			for (Matche m: liste) {
+				List<Partie> partieList = daoPartie.getPartieByMatche(m);
+				m.setVainqueur(partieList.get(0).getVainqueur());
 				ImageIcon tropheeGagnant = new ImageIcon("assets/trophéeGagnant.png");
 				ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
-				String nomEquipe1 = liste.get(i).getEquipe1().getNom();
-				String nomEquipe2 = liste.get(i).getEquipe2().getNom();
+				String nomEquipe1 = m.getEquipe1().getNom();
+				String nomEquipe2 = m.getEquipe2().getNom();
 				ImageIcon imageEquipe1 = new ImageIcon("assets/logo-equipes/" + nomEquipe1 + ".jpg");
 				ImageIcon imageEquipe2 = new ImageIcon("assets/logo-equipes/" + nomEquipe2 + ".jpg");
-				String dateHeure = liste.get(i).getDateDebutMatche().toString().substring(6);
-				LigneMatche ligneMatche = new LigneMatche(dateHeure, imageEquipe1, nomEquipe1, tropheeGagnant, imageEquipe2, nomEquipe2, tropheePerdant);
+				String dateHeure = m.getDateDebutMatche().toString().substring(6);
+				ImageIcon trophee1;
+				ImageIcon trophee2;
+
+				if(m.getVainqueur().equals(m.getEquipe1())){
+					trophee1=tropheeGagnant;
+					trophee2=tropheePerdant;
+				}else{
+					trophee1=tropheePerdant;
+					trophee2=tropheeGagnant;
+				}if(m.getVainqueur()==null){
+					trophee1=tropheePerdant;
+					trophee2=tropheePerdant;
+				}
+				LigneMatche ligneMatche = new LigneMatche(dateHeure, imageEquipe1, nomEquipe1, trophee1, imageEquipe2, nomEquipe2, trophee2);
 				listeMatchesR.addElement(ligneMatche);
 			}
 			vue.setListeMatches(listeMatchesR);
