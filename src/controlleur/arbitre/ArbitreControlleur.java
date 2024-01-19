@@ -8,6 +8,7 @@ import dao.DaoTournoi;
 import exceptions.IdNotSetException;
 import modele.Equipe;
 import modele.Matche;
+import modele.Partie;
 import modele.Tournoi;
 import vue.Page;
 import vue.arbitre.CaseMatch;
@@ -40,8 +41,11 @@ public class ArbitreControlleur implements ActionListener {
 			tournoiActuel = daoTournoi.getTournoiActuel();
 			if (tournoiActuel.isPresent()) {
 				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoiActuel.get().getDebut().getAnnee(), tournoiActuel.get().getNom());
+
 				caseMatchList = new ArrayList<>();
 				for (Matche m : matcheList) {
+					List<Partie> partieList = daoPartie.getPartieByMatche(m);
+					m.setVainqueur(partieList.get(0).getVainqueur());
 					CaseMatch caseMatche = convertMatchToCaseMatch(m);
 					caseMatchList.add(caseMatche);
 				}
@@ -60,6 +64,15 @@ public class ArbitreControlleur implements ActionListener {
 		CaseMatch resultat = null;
 		try {
 			resultat = new CaseMatch(dateMatche, matche.getId(), imageEquipe1, matche.getEquipe1().getNom(), matche.getEquipe2().getNom(), imageEquipe2);
+			Equipe vainqueur = matche.getVainqueur();
+
+			if (vainqueur != null) {
+				if (vainqueur.equals(matche.getEquipe1())) {
+					resultat.setGagnant(1);
+				} else {
+					resultat.setGagnant(2);
+				}
+			}
 		} catch (IdNotSetException e) {
 			e.printStackTrace();
 		}

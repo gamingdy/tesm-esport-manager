@@ -168,7 +168,7 @@ public class CaseMatch extends JPanel {
 		if (numEquipe == 1) {
 			this.tropheeGaucheBTN.setIcon(tropheeGagnant);
 			this.tropheeDroiteBTN.setIcon(tropheePerdant);
-		} else {
+		} else if (numEquipe == 2) {
 			this.tropheeGaucheBTN.setIcon(tropheePerdant);
 			this.tropheeDroiteBTN.setIcon(tropheeGagnant);
 		}
