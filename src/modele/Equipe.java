@@ -6,6 +6,7 @@ import exceptions.ExceptionPointsNegatifs;
 import exceptions.JoueurNonPresentException;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Equipe {
@@ -89,18 +90,28 @@ public class Equipe {
 		return point;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Equipe) {
-			Equipe e = (Equipe) o;
-			return this.getNom().equals(e.getNom());
-		}
-		return false;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "Equipe [nom=" + nom + ", point=" + point + ", pays=" + pays + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nom);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Equipe other = (Equipe) obj;
+		return Objects.equals(nom, other.nom);
 	}
 }
 
