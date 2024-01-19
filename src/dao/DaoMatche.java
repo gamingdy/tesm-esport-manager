@@ -270,6 +270,20 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			return sortie;
 		}
 	}
+	
+	public List<Matche> getTenLastMatch() throws FausseDateException, MemeEquipeException, Exception {
+		try(PreparedStatement getTenLastMatch = connexion.getConnection().prepareStatement(""
+				+ "SELECT * "
+				+ "FROM Matche "
+				+ "WHERE Date_Matche_Debut < CURDATE() "
+				+ "ORDER BY Date_Matche_Debut DESC"
+				+ "LIMIT 10")) {
+			List<Matche> sortie = new LinkedList<>();
+			ResultSet resultat = getTenLastMatch.executeQuery();
+			generateListMatche(resultat, sortie);
+			return sortie;
+		}
+	}
 
 
 	@Override
