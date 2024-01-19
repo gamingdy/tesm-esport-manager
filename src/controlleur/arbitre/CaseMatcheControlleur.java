@@ -26,6 +26,7 @@ public class CaseMatcheControlleur extends MouseAdapter {
 		this.is_left = is_left;
 		Connexion c = Connexion.getConnexion();
 		this.daoPartie = new DaoPartie(c);
+		this.daoMatche = new DaoMatche(c);
 	}
 
 	@Override
@@ -50,7 +51,7 @@ public class CaseMatcheControlleur extends MouseAdapter {
 			this.partie.setVainqueur(matche.getEquipe2());
 			this.setVainqueurEquipe2Affichage();
 		}
-		
+
 		try {
 			this.daoPartie.update(this.partie);
 		} catch (Exception ex) {
@@ -68,6 +69,7 @@ public class CaseMatcheControlleur extends MouseAdapter {
 
 	private Matche getMatche() {
 		try {
+			System.out.println(this.caseMatch.getIdMatche());
 			Optional<Matche> matche1 = daoMatche.getById(this.caseMatch.getIdMatche());
 			if (matche1.isPresent()) {
 				return matche1.get();
