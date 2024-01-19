@@ -22,11 +22,14 @@ public class ModeleTournoi {
 				Matche m = it.next();
 				List<Partie> partieList = FactoryDAO.getDaoPartie(Connexion.getConnexion()).getPartieByMatche(m);
 				m.setVainqueur(partieList.get(0).getVainqueur());
-				if (m.getVainqueur().equals(e)) {
-					e.setPoint(e.getPoint() + 3);
-				} else {
-					e.setPoint(e.getPoint() + 1);
+				if (m.getVainqueur() != null) {
+					if (m.getVainqueur().equals(e)) {
+						e.setPoint(e.getPoint() + 3);
+					} else {
+						e.setPoint(e.getPoint() + 1);
+					}
 				}
+
 			}
 			classement.add(e);
 		}
