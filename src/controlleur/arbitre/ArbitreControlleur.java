@@ -57,6 +57,7 @@ public class ArbitreControlleur implements ActionListener {
 							m.setVainqueur(partieList.get(0).getVainqueur());
 							CaseMatch caseMatche = convertMatchToCaseMatch(m);
 							caseMatchList.add(caseMatche);
+							vue.setTexteBouton("Clôturer le tournoi");
 						}
 					}
 				}

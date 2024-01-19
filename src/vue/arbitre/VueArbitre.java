@@ -83,4 +83,8 @@ public abstract class VueArbitre extends JPanel {
 	public void setTitre(String texte) {
 		titre.setText(texte);
 	}
+	
+	public void setTexteBouton(String texte) {
+		boutonAction.setText(texte);
+	}
 }
