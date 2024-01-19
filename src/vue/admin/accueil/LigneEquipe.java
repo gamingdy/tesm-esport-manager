@@ -7,7 +7,7 @@ public class LigneEquipe {
 	private int place;
 	private ImageIcon logo;
 	private String nom;
-	private int points;
+	private Float points;
 
 	/**
 	 * @param place  la place de l'équipe dans la saison précédente
@@ -16,7 +16,7 @@ public class LigneEquipe {
 	 * @param points le nombre de points de l'équipe dans la saison précédente
 	 * @return le paramètre LigneEquipe nécessaire pour une ligne d'équipe de la page d'accueil
 	 */
-	public LigneEquipe(int place, ImageIcon logo, String nom, int points) {
+	public LigneEquipe(int place, ImageIcon logo, String nom, Float points) {
 		this.place = place;
 		this.logo = logo;
 		this.nom = nom;
@@ -47,7 +47,7 @@ public class LigneEquipe {
 	/**
 	 * @return les points
 	 */
-	public int getPoints() {
+	public Float getPoints() {
 		return points;
 	}
 
