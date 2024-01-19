@@ -37,8 +37,8 @@ public class Matche {
 			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
 		}
 
-		if (nombreMaxParties < 1) {
-			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
+		if (Math.floorMod(nombreMaxParties, 2)==0) {
+			throw new IllegalArgumentException("Le nombre de parties doit être impair");
 		}
 
 		this.nombreMaxParties = nombreMaxParties;
