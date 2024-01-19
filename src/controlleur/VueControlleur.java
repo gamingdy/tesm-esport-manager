@@ -22,7 +22,7 @@ public class VueControlleur {
 		this.vue.addPage(vueAdmin, Page.ACCUEIL_ADMIN.getNom());
 		this.vue.addPage(vueLogin, Page.LOGIN.getNom());
 		this.vue.addPage(vueArbitre, Page.ARBITRE.getNom());
-		this.vue.setPage(Page.ACCUEIL_ADMIN);
+		this.vue.setPage(Page.LOGIN);
 	}
 
 	public void update(Page page) {

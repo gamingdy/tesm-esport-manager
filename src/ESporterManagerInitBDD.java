@@ -222,7 +222,6 @@ public class ESporterManagerInitBDD {
 			matche1.setVainqueur(equipe2);
 			daoMatche.update(matche);
 
-
 			System.out.println(FactoryDAO.getDaoMatche(c).visualizeTable());
 			System.out.println(FactoryDAO.getDaoPartie(c).visualizeTable());
 		} catch (SQLException e) {

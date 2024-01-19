@@ -8,6 +8,7 @@ import dao.DaoTournoi;
 import exceptions.IdNotSetException;
 import modele.Equipe;
 import modele.Matche;
+import modele.ModeleTournoi;
 import modele.Partie;
 import modele.Tournoi;
 import vue.Page;
@@ -21,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class ArbitreControlleur implements ActionListener {
 	private VueArbitrePoule vue;
@@ -122,10 +124,18 @@ public class ArbitreControlleur implements ActionListener {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	private void closePoule() {
+		try {
+			Set<Equipe> classementTournoi = ModeleTournoi.getClassement(tournoiActuel.get());
+			for (Equipe e : classementTournoi) {
+				System.out.println(e.getNom() + " " + e.getPoint());
+			}
+			List<List<Equipe>> phaseFinale = getPhaseFInale(classementTournoi);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		if (isAllMatcheClosed()) {
 			for (CaseMatch caseM : caseMatchList) {
 				updateMatche(caseM);
@@ -135,5 +145,29 @@ public class ArbitreControlleur implements ActionListener {
 				VueObserver.getInstance().notifyVue(Page.ARBITRE);
 			});
 		}
+	}
+
+	private List<List<Equipe>> getPhaseFInale(Set<Equipe> equipes) {
+		List<Equipe> qualifie = new ArrayList<>();
+		for (Equipe e : equipes) {
+			if (qualifie.size() < 4) {
+				qualifie.add(e);
+			} else {
+				break;
+			}
+		}
+		List<List<Equipe>> phaseFinale = new ArrayList<>();
+		List<Equipe> finale = new ArrayList<>();
+		finale.add(qualifie.get(0));
+		finale.add(qualifie.get(1));
+
+		List<Equipe> petiteFinale = new ArrayList<>();
+		petiteFinale.add(qualifie.get(2));
+		petiteFinale.add(qualifie.get(3));
+
+		phaseFinale.add(finale);
+		phaseFinale.add(petiteFinale);
+
+		return phaseFinale;
 	}
 }

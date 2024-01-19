@@ -67,6 +67,7 @@ public class VueArbitrePoule extends VueArbitre {
 
 	public void setControleur(ArbitreControlleur controlleur) {
 		boutonDeconnexion.addActionListener(controlleur);
+		boutonAction.addActionListener(controlleur);
 	}
 
 	public JButton getBoutonAnnuler() {
@@ -94,7 +95,7 @@ public class VueArbitrePoule extends VueArbitre {
 		liste.remove(i);
 	}
 
-	public JButton getBoutonClosePoule(){
+	public JButton getBoutonClosePoule() {
 		return this.boutonAction;
 	}
 
