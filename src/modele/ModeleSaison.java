@@ -16,7 +16,7 @@ public class ModeleSaison {
 		List<Equipe> allEquipe = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getAll();
 		//On défini le Set d'équipes de sortie qui est trié en fonction des points
 		Set<Equipe> classement = new TreeSet<>((e1, e2) -> {
-			return (int) (e1.getPoint() - e2.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint());
+			return (int) (e2.getPoint() - e1.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint());
 		});
 
 		//Pour chaque Equipe de la liste allEquipe définie plus tôt

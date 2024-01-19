@@ -13,7 +13,7 @@ public class ModeleTournoi {
 	public static Set<Equipe> getClassement(Tournoi tournoi) throws Exception {
 		List<Equipe> allEquipeTournoi = FactoryDAO.getDaoAppartenance(Connexion.getConnexion()).getEquipeByTournoi(tournoi.getNom(), tournoi.getSaison().getAnnee());
 		Set<Equipe> classement = new TreeSet<>((e1, e2) -> {
-			return (int) (e1.getPoint() - e2.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint());
+			return (int) (e2.getPoint() - e1.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint());
 		});
 		for (Equipe e : allEquipeTournoi) {
 			List<Matche> matchesEquipe = FactoryDAO.getDaoMatche(Connexion.getConnexion()).getMatchByEquipeForTournoi(e, tournoi);
