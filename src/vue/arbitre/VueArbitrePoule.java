@@ -94,4 +94,8 @@ public class VueArbitrePoule extends VueArbitre {
 		liste.remove(i);
 	}
 
+	public JButton getBoutonClosePoule(){
+		return this.boutonAction;
+	}
+
 }
