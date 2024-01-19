@@ -12,14 +12,14 @@ public class Equipe {
 
 	private String nom;
 	private Set<Joueur> equipe; //à voir si on laisse ou créer une classe association
-	private int point; //calculable donc pas dans le MCDi
+	private Float point; //calculable donc pas dans le MCDi
 	private Pays pays;
 
 
 	public Equipe(String nom, Pays pays) {
 		this.equipe = new LinkedHashSet<Joueur>();
 		this.nom = nom;
-		this.point = 0;
+		this.point = 0F;
 		this.pays = pays;
 	}
 
@@ -39,7 +39,7 @@ public class Equipe {
 		return this.nom;
 	}
 
-	public void setPoint(int point) throws ExceptionPointsNegatifs {
+	public void setPoint(Float point) throws ExceptionPointsNegatifs {
 		if (point < 0) {
 			throw new ExceptionPointsNegatifs("On ne peut pas mettre des points negatifs");
 		}
@@ -85,7 +85,7 @@ public class Equipe {
 		return this.equipe.size();
 	}
 
-	public int getPoint() {
+	public Float getPoint() {
 		return point;
 	}
 
