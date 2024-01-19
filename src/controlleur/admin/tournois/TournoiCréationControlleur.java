@@ -12,17 +12,13 @@ import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import exceptions.MemeEquipeException;
 import modele.Appartenance;
 import modele.Arbitrage;
 import modele.Arbitre;
-import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Equipe;
-import modele.Matche;
 import modele.Niveau;
-import modele.Partie;
 import modele.Poule;
 import modele.Saison;
 import modele.Tournoi;
@@ -31,6 +27,7 @@ import vue.admin.tournois.creation.PopupArbitres;
 import vue.admin.tournois.creation.PopupCompteArbitre;
 import vue.admin.tournois.creation.PopupEquipe;
 import vue.admin.tournois.creation.VueAdminTournoisCreation;
+import vue.common.Creator;
 import vue.common.JFramePopup;
 
 import javax.swing.ImageIcon;
@@ -198,7 +195,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			Appartenance appartenance = new Appartenance(e, poule);
 			daoAppartenance.add(appartenance);
 		}
-		creationAutomatiqueMatches(listeEquipe, tournoi);
+		Creator.creationAutomatiqueMatches(listeEquipe, tournoi);
 
 
 	}
@@ -301,62 +298,5 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 
 	}
 
-	private void creationAutomatiqueMatches(List<Equipe> listeEquipe, Tournoi tournoi) {
-		CustomDate dateDebut = tournoi.getDebut();
-		CustomDate dateFin = tournoi.getFin();
-		int nbDay = CustomDate.dureeEnJour(dateDebut, dateFin);
-		if (nbDay > 1) {
-			nbDay -= 1;
-		}
 
-		int nbMatches = 0;
-		for (int i = 0; i < listeEquipe.size(); i++) {
-			nbMatches += i;
-		}
-		int matchParJour = nbMatches / nbDay;
-		int reste = nbMatches % nbDay;
-
-		CustomDate dateActuel = dateDebut;
-		int currentDay = 1;
-		List<Matche> all_match = new ArrayList<>();
-		List<Matche> matcheOfDay = new ArrayList<>();
-		for (int i = 0; i < listeEquipe.size() - 1; i++) {
-			for (int j = i + 1; j < listeEquipe.size(); j++) {
-				Equipe equipe1 = listeEquipe.get(i);
-				Equipe equipe2 = listeEquipe.get(j);
-				try {
-					Matche matche = new Matche(1, dateActuel, Categorie.POULE, equipe1, equipe2, tournoi);
-					matcheOfDay.add(matche);
-					if (matcheOfDay.size() >= matchParJour) {
-						if (currentDay == nbDay) {
-							if (matcheOfDay.size() == matchParJour + reste) {
-								all_match.addAll(matcheOfDay);
-								matcheOfDay.clear();
-								dateActuel = dateActuel.plusOne();
-								currentDay += 1;
-							}
-						} else {
-							all_match.addAll(matcheOfDay);
-							matcheOfDay.clear();
-							dateActuel = dateActuel.plusOne();
-							currentDay += 1;
-						}
-					}
-				} catch (FausseDateException | MemeEquipeException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		for (Matche matche : all_match) {
-			try {
-				daoMatche.add(matche);
-				Partie partie = new Partie(matche, 1);
-				daoPartie.add(partie);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }

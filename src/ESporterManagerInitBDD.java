@@ -13,8 +13,6 @@ import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import dao.FactoryDAO;
-import exceptions.FausseDateException;
-import exceptions.MemeEquipeException;
 import modele.Appartenance;
 import modele.Arbitre;
 import modele.Categorie;
@@ -30,6 +28,7 @@ import modele.Pays;
 import modele.Poule;
 import modele.Saison;
 import modele.Tournoi;
+import vue.common.Creator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 		Saison saison = new Saison(2024);
-		Saison saison2=new Saison(2023);
+		Saison saison2 = new Saison(2023);
 		try {
 			daoSaison.add(saison);
 			daoSaison.add(saison2);
@@ -103,7 +102,7 @@ public class ESporterManagerInitBDD {
 
 		CustomDate debut = new CustomDate(2024, 12, 5);
 		CustomDate debut1 = new CustomDate(2024, 12, 7);
-		List<Equipe> equipeList=new ArrayList<>();
+		List<Equipe> equipeList = new ArrayList<>();
 		Equipe equipe = new Equipe("terros", Pays.FRANCE);
 		Equipe equipe1 = new Equipe("lion-rouge", Pays.FRANCE);
 
@@ -196,7 +195,7 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 
-		creationAutomatiqueMatches(equipeList,tournoi2);
+		Creator.creationAutomatiqueMatches(equipeList, tournoi2);
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
 		Matche matche1 = new Matche(1, debut1, Categorie.POULE, equipe2, equipe3, tournoi);
 		Partie partie1 = new Partie(matche, 1);
@@ -244,65 +243,7 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 	}
-	private static void creationAutomatiqueMatches(List<Equipe> listeEquipe, Tournoi tournoi) {
-		Connexion c = Connexion.getConnexion();
-		DaoMatche daoMatche = new DaoMatche(c);
-		CustomDate dateDebut = tournoi.getDebut();
-		CustomDate dateFin = tournoi.getFin();
-		int nbDay = CustomDate.dureeEnJour(dateDebut, dateFin);
-		if (nbDay > 1) {
-			nbDay -= 1;
-		}
 
-		int nbMatches = 0;
-		for (int i = 0; i < listeEquipe.size(); i++) {
-			nbMatches += i;
-		}
-		int matchParJour = nbMatches / nbDay;
-		int reste = nbMatches % nbDay;
-
-		CustomDate dateActuel = dateDebut;
-		int currentDay = 1;
-		List<Matche> all_match = new ArrayList<>();
-		List<Matche> matcheOfDay = new ArrayList<>();
-		for (int i = 0; i < listeEquipe.size() - 1; i++) {
-			for (int j = i + 1; j < listeEquipe.size(); j++) {
-				Equipe equipe1 = listeEquipe.get(i);
-				Equipe equipe2 = listeEquipe.get(j);
-				try {
-					Matche matche = new Matche(1, dateActuel, Categorie.POULE, equipe1, equipe2, tournoi);
-					matcheOfDay.add(matche);
-					if (matcheOfDay.size() >= matchParJour) {
-						if (currentDay == nbDay) {
-							if (matcheOfDay.size() == matchParJour + reste) {
-								all_match.addAll(matcheOfDay);
-								matcheOfDay.clear();
-								dateActuel = dateActuel.plusOne();
-								currentDay += 1;
-							}
-						} else {
-							all_match.addAll(matcheOfDay);
-							matcheOfDay.clear();
-							dateActuel = dateActuel.plusOne();
-							currentDay += 1;
-						}
-					}
-				} catch (FausseDateException | MemeEquipeException e) {
-					e.printStackTrace();
-				}
-
-			}
-
-		}
-
-		for (Matche matche : all_match) {
-			try {
-				daoMatche.add(matche);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	private static String randomUsername(String name) {
 		List<String> characters = Arrays.asList(name.split(""));
 		Collections.shuffle(characters);

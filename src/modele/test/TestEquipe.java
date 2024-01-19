@@ -11,6 +11,7 @@ import modele.Pays;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -115,13 +116,13 @@ public class TestEquipe {
 
 	@Test(expected = ExceptionPointsNegatifs.class)
 	public void testSetPointNegatif() throws ExceptionPointsNegatifs {
-		equipe1.setPoint(-1);
+		equipe1.setPoint((float) -1.0);
 	}
 
 	@Test
 	public void testSetGetPoint() throws ExceptionPointsNegatifs {
-		equipe1.setPoint(10);
-		assertEquals(10, equipe1.getPoint());
+		equipe1.setPoint(10.0f);
+		assertEquals(Optional.of(10.0f), equipe1.getPoint());
 	}
 
 	@Test

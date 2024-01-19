@@ -1,17 +1,16 @@
 package vue.admin.accueil;
 
-import java.awt.GridLayout;
+import vue.common.CustomColor;
+import vue.common.MaFont;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import vue.common.CustomColor;
-import vue.common.MaFont;
+import java.awt.GridLayout;
 
 @SuppressWarnings("serial")
 public class PanelEquipeClassement extends JPanel {
-	public PanelEquipeClassement(int place, ImageIcon imageIcon, String nom, int points) {
+	public PanelEquipeClassement(int place, ImageIcon imageIcon, String nom, Float points) {
 
 		setLayout(new GridLayout(1, 0, 0, 0));
 		setBackground(CustomColor.BACKGROUND_MAIN);
