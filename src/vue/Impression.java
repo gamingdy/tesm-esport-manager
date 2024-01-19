@@ -20,6 +20,12 @@ public class Impression extends JPanel implements Printable {
     private List<String> textLines;
     private String date;
 
+    // Définir ces variables pour être utilisées dans la méthode print
+    private int y;
+    private int start;
+    private int end;
+    private int tabSize;
+
     public Impression(List<Equipe> equipes, List<Integer> point, String nomTournoi, String date) {
         this.equipes = equipes;
         this.points = point;
@@ -29,25 +35,22 @@ public class Impression extends JPanel implements Printable {
     }
 
     private void createRapport() {
-        String titre = "Tournoi : " + this.nomTournoi;
-        String sousTitre = "Rapport de classement du " + this.date;
         textLines = new ArrayList<>();
-        textLines.add(titre);
-        textLines.add(sousTitre);
-        textLines.add("\n\n");
-
-        // Table headers
-        textLines.add(String.format("%-20s%-10s%-15s", "Equipe", "Points", "Classement"));
 
         for (int i = 0; i < equipes.size(); i++) {
-            textLines.add(String.format("%-20s%-10s%-15s",
-                    equipes.get(i).getNom(), String.valueOf(points.get(i)), String.valueOf(i + 1)));
+            String equipe = equipes.get(i).getNom();
+            String pointsStr = String.valueOf(points.get(i));
+            String classement = String.valueOf(i + 1);
+
+            // Ajuster dynamiquement la largeur des colonnes
+            textLines.add(String.format("%-30s%-15s%-20s", equipe, pointsStr, classement));
         }
-        textLines.add("\n\n");
     }
 
-    public int print( Graphics g, PageFormat pf, int pageIndex){
-        Font font = new Font("Serif", Font.PLAIN, 16);
+    public int print(Graphics g, PageFormat pf, int pageIndex) {
+        Font titleFont = new Font("Consolas", Font.BOLD, 16);
+        Font font = new Font("Consolas", Font.PLAIN, 12);
+        g.setFont(font);
         FontMetrics metrics = g.getFontMetrics(font);
         int lineHeight = metrics.getHeight();
         double pageHeight = pf.getImageableHeight();
@@ -61,15 +64,53 @@ public class Impression extends JPanel implements Printable {
         if (pageIndex > pageBreaks.length) {
             return NO_SUCH_PAGE;
         }
-        int y = 20;
 
+        y = 20;
 
-        int start = (pageIndex == 0) ? 0 : pageBreaks[pageIndex-1];
-        int end   = (pageIndex == pageBreaks.length) ? textLines.size() : pageBreaks[pageIndex];
-        for (int line=start; line<end; line++) {
+        // Dessiner le titre centré
+        String title = "Tournoi : " + this.nomTournoi;
+        g.setFont(titleFont);
+        FontMetrics titleMetrics = g.getFontMetrics(titleFont);
+        int titleWidth = titleMetrics.stringWidth(title);
+        int xTitle = (int) ((pf.getImageableWidth() - titleWidth) / 2);
+        g.drawString(title, xTitle, y);
+
+        // Dessiner le sous-titre
+        y += titleMetrics.getHeight();
+        String subTitle = "Rapport de classement du " + this.date;
+        g.setFont(font);
+        FontMetrics subTitleMetrics = g.getFontMetrics(font);
+        g.drawString(subTitle, 50, y);
+
+        y += subTitleMetrics.getHeight();
+        g.drawString("\n", 50, y);
+        y += subTitleMetrics.getHeight();
+        // Table headers en gras
+        Font headerFont = new Font("Consolas", Font.BOLD, 12); // Police en gras pour les titres du tableau
+        g.setFont(headerFont);
+        FontMetrics headerMetrics = g.getFontMetrics(headerFont);
+        int xHeader = 50;
+
+        String headerLine = String.format("%-30s%-15s%-20s", "Equipe", "Points", "Classement");
+        g.drawString(headerLine, xHeader, y);
+
+        y += headerMetrics.getHeight();
+        start = pageIndex * linesPerPage;
+        end = Math.min(start + linesPerPage, textLines.size());
+
+        // Dessiner le contenu du tableau
+        g.setFont(font);
+        tabSize = 8; // Ajustez la taille de l'onglet selon vos besoins
+        for (int line = start; line < end; line++) {
             y += lineHeight;
-            g.drawString(textLines.get(line), 50, y);
+            String[] parts = textLines.get(line).split("\t");
+            int x = 50;
+            for (String part : parts) {
+                g.drawString(part, x, y);
+                x += tabSize;
+            }
         }
+
         return PAGE_EXISTS;
     }
 }
