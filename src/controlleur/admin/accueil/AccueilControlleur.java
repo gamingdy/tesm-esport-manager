@@ -10,12 +10,7 @@ import dao.DaoPartie;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Matche;
-import modele.Partie;
-import modele.Saison;
-import modele.Tournoi;
+import modele.*;
 import vue.Impression;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
@@ -34,6 +29,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	private VueAccueil vue;
@@ -97,14 +93,17 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 		listeClassement = new DefaultListModel<LigneEquipe>();
 		try {
 			Optional<Tournoi> tournoiActuel = daoTournoi.getTournoiActuel();
+
 			if (tournoiActuel.isPresent()) {
-				List<Equipe> liste = new ArrayList<>(daoAppartenance.getEquipeByTournoi(tournoiActuel.get().getNom(), tournoiActuel.get().getDebut().getAnnee()));
-				for (int i = 0; i < liste.size(); i++) {
-					String nomEquipe = liste.get(i).getNom();
+				Set<Equipe> liste= ModeleTournoi.getClassement(tournoiActuel.get());
+				int i=0;
+				for (Equipe e:liste) {
+					String nomEquipe = e.getNom();
 					ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
-					LigneEquipe ligneEquipe = new LigneEquipe(i + 1, icone, nomEquipe, liste.get(i).getPoint());
+					LigneEquipe ligneEquipe = new LigneEquipe(i + 1, icone, nomEquipe, e.getPoint());
 					listeClassement.addElement(ligneEquipe);
-					equipes.add(liste.get(i));
+					equipes.add(e);
+					i++;
 				}
 				vue.setListeEquipes(listeClassement);
 			}

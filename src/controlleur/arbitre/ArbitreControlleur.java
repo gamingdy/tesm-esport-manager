@@ -44,9 +44,10 @@ public class ArbitreControlleur implements ActionListener {
 
 		try {
 			tournoiActuel = daoTournoi.getTournoiActuel();
+
 			if (tournoiActuel.isPresent()) {
 				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoiActuel.get().getDebut().getAnnee(), tournoiActuel.get().getNom());
-
+				this.vue.setTitre("Tournoi " +tournoiActuel.get().getNom() + " "+tournoiActuel.get().getDebut().getAnnee());
 				caseMatchList = new ArrayList<>();
 				for (Matche m : matcheList) {
 					List<Partie> partieList = daoPartie.getPartieByMatche(m);
