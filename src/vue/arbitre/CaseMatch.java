@@ -35,6 +35,8 @@ public class CaseMatch extends JPanel {
 	private ActionListener alGauche;
 	private ActionListener alDroite;
 
+	private int numEquipeGagnante;
+
 	/**
 	 * @param date
 	 * @param idMatche
@@ -58,6 +60,7 @@ public class CaseMatch extends JPanel {
 		this.logoEquipe2 = logoDroite;
 		this.alGauche = alGauche;
 		this.alDroite = alDroite;
+		this.numEquipeGagnante = 0;
 
 		this.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 20));
 		this.setLayout(new GridBagLayout());
@@ -167,6 +170,7 @@ public class CaseMatch extends JPanel {
 
 
 	public void setGagnant(int numEquipe) {
+		this.numEquipeGagnante = numEquipe;
 		if (numEquipe == 1) {
 			this.tropheeGaucheBTN.setIcon(this.tropheeGagnant);
 			this.tropheeDroiteBTN.setIcon(this.tropheePerdant);
@@ -174,6 +178,10 @@ public class CaseMatch extends JPanel {
 			this.tropheeGaucheBTN.setIcon(this.tropheePerdant);
 			this.tropheeDroiteBTN.setIcon(this.tropheeGagnant);
 		}
+	}
+
+	public int getGagnant(){
+		return this.numEquipeGagnante;
 	}
 
 	public ImageIcon getTropheDroite() {
