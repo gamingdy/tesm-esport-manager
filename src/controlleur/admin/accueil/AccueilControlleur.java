@@ -2,7 +2,12 @@ package controlleur.admin.accueil;
 
 import controlleur.ControlleurObserver;
 import controlleur.VueObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoAppartenance;
+import dao.DaoEquipe;
+import dao.DaoMatche;
+import dao.DaoSaison;
+import dao.DaoTournoi;
 import exceptions.FausseDateException;
 import modele.CustomDate;
 import modele.Equipe;
@@ -47,7 +52,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
 		daoEquipe = new DaoEquipe(c);
-		daoAppartenance=new DaoAppartenance(c);
+		daoAppartenance = new DaoAppartenance(c);
 		equipes = new ArrayList<>();
 		this.update();
 	}
@@ -87,9 +92,9 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	public void mettreAjourListeClassement() {
 		listeClassement = new DefaultListModel<LigneEquipe>();
 		try {
-			Optional<Tournoi> tournoiActuel=daoTournoi.getTournoiActuel();
-			if(tournoiActuel.isPresent()) {
-				List<Equipe> liste = new ArrayList<>(daoAppartenance.getEquipeByTournoi(tournoiActuel.get()));
+			Optional<Tournoi> tournoiActuel = daoTournoi.getTournoiActuel();
+			if (tournoiActuel.isPresent()) {
+				List<Equipe> liste = new ArrayList<>(daoAppartenance.getEquipeByTournoi(tournoiActuel.get().getNom(), tournoiActuel.get().getDebut().getAnnee()));
 				for (int i = 0; i < liste.size(); i++) {
 					String nomEquipe = liste.get(i).getNom();
 					ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
