@@ -58,7 +58,7 @@ public class VueLogin extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
 
-		JLabel labelTitre = new JLabel("Bienvenue sur Esporter Manager");
+		JLabel labelTitre = new JLabel("Bienvenue sur TESM: TESM E-Sporter Manager");
 		labelTitre.setFont(MaFont.getFontTitreConnexion());
 		labelTitre.setForeground(CustomColor.BLANC);
 		GridBagConstraints gbcLabelTitre = new GridBagConstraints();

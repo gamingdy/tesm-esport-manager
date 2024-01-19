@@ -152,7 +152,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 
 	private void impression(List<Equipe> equipes, String nomTournoi) {
 		PrinterJob job = PrinterJob.getPrinterJob();
-		List<Integer> point = new ArrayList<>();
+		List<Float> point = new ArrayList<>();
 		bubbleSort(equipes);
 		for (Equipe e : equipes) {
 			point.add(e.getPoint());

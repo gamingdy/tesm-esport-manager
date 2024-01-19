@@ -41,7 +41,7 @@ public class Partie {
 			case 2:
 				return this.matche.getEquipe2();
 			default:
-				throw new GagnantNonChoisiException("Le gagnant n'a pas été choisi");
+				return null;
 		}
 	}
 
