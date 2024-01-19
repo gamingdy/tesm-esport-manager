@@ -153,7 +153,6 @@ public class ArbitreControlleur implements ActionListener {
 		}
 		if (isAllMatcheClosed()) {
 			try {
-				System.out.println("ui");
 				Matche matcheFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.FINALE, finale.get(0), finale.get(1), this.tournoiActuel.get());
 				Partie partieFinale = new Partie(matcheFinale, 1);
 
@@ -165,9 +164,11 @@ public class ArbitreControlleur implements ActionListener {
 				daoMatche.add(matchePetiteFinale);
 				daoPartie.add(partiePetiteFinale);
 				List<CaseMatch> caseMatchList = new ArrayList<>();
+
 				caseMatchList.add(convertMatchToCaseMatch(matcheFinale));
 				caseMatchList.add(convertMatchToCaseMatch(matchePetiteFinale));
 				updateMatche(caseMatchList);
+				this.caseMatchList=caseMatchList;
 			} catch (FausseDateException | MemeEquipeException e) {
 				throw new RuntimeException(e);
 			} catch (Exception e) {
