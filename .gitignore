@@ -1,6 +1,15 @@
 .idea/
-
-/bin/
-
+.settings/
+.metadata/
+bin/
+out/
+TESM/
+derby.log
 .classpath
 .project
+assets/logo-equipes/*.jpg
+*.iml
+*.jar
+*.json
+~$BurndownChartSAE.xlsx
+~$TESM E-Sporter Manager.pptx
