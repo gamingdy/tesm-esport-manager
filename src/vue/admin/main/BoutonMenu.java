@@ -3,12 +3,11 @@ package vue.admin.main;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class BoutonMenu extends JButton {

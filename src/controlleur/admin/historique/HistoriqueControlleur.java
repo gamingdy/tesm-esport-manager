@@ -1,8 +1,22 @@
 package controlleur.admin.historique;
 
-import dao.*;
-import exceptions.GagnantNonChoisiException;
-import modele.*;
+import dao.Connexion;
+import dao.DaoAppartenance;
+import dao.DaoEquipe;
+import dao.DaoInscription;
+import dao.DaoMatche;
+import dao.DaoPartie;
+import dao.DaoSaison;
+import dao.DaoTournoi;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Inscription;
+import modele.Matche;
+import modele.ModeleSaison;
+import modele.ModeleTournoi;
+import modele.Partie;
+import modele.Saison;
+import modele.Tournoi;
 import vue.Vue;
 import vue.admin.historique.VueAdminHistorique;
 
@@ -57,7 +71,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		this.daoEquipe = new DaoEquipe(c);
 		this.daoAppartenance = new DaoAppartenance(c);
 		this.equipeChoisie = Optional.empty();
-		this.daoPartie=new DaoPartie(c);
+		this.daoPartie = new DaoPartie(c);
 		try {
 			saisonListAnnees = daoSaison.getAll().stream().map(saison -> saison.getAnnee()).collect(Collectors.toList());
 			anneeChoisie = daoSaison.getById(saisonListAnnees.get(saisonListAnnees.size() - 1)).get();
@@ -160,19 +174,19 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			CustomDate dateMatche = m.getDateDebutMatche();
 			List<Partie> partieList = daoPartie.getPartieByMatche(m);
 			m.setVainqueur(partieList.get(0).getVainqueur());
-			Equipe winner=m.getVainqueur();
-			int value1=0;
-			int value2=0;
-			if(winner!=null){
-			if(winner.equals(equipe1)){
-				value1=1;
-				value2=0;
-			}else{
-				value1=0;
-				value2=1;
+			Equipe winner = m.getVainqueur();
+			int value1 = 0;
+			int value2 = 0;
+			if (winner != null) {
+				if (winner.equals(equipe1)) {
+					value1 = 1;
+					value2 = 0;
+				} else {
+					value1 = 0;
+					value2 = 1;
+				}
 			}
-			}
-			Object[] ligne = new Object[]{dateMatche.toString().substring(6), equipe1.getNom(), value1+" - "+value2, equipe2.getNom()};
+			Object[] ligne = new Object[]{dateMatche.toString().substring(6), equipe1.getNom(), value1 + " - " + value2, equipe2.getNom()};
 			resultat.add(ligne);
 		}
 		return resultat;
@@ -208,7 +222,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private void updateTournoi(Optional<Equipe> equipe, Saison annee) {
 		try {
-			List<Object[]> lignes=new ArrayList<>();
+			List<Object[]> lignes = new ArrayList<>();
 			Saison saison = annee;
 			DefaultTableModel tableTournois = this.vue.getModelTournois();
 			Optional<Inscription> inscription = Optional.empty();
@@ -244,11 +258,11 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		if (inscription.isPresent()) {
 			for (Tournoi t : listeTournois) {
 				Set<Equipe> classementTournoi = ModeleTournoi.getClassement(t);
-				Equipe e=inscription.get().getEquipe();
-				Equipe selection=null;
-				for(Equipe eq:classementTournoi){
-					if(eq.equals(e)){
-						selection=eq;
+				Equipe e = inscription.get().getEquipe();
+				Equipe selection = null;
+				for (Equipe eq : classementTournoi) {
+					if (eq.equals(e)) {
+						selection = eq;
 					}
 				}
 				CustomDate dateDebut = t.getDebut();

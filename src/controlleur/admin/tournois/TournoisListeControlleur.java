@@ -3,21 +3,15 @@ package controlleur.admin.tournois;
 import controlleur.ControlleurObserver;
 import dao.Connexion;
 import dao.DaoTournoi;
-import modele.Arbitre;
-import modele.Equipe;
 import modele.Tournoi;
 import vue.Page;
-import vue.admin.arbitres.liste.CaseArbitre;
-import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
-import vue.common.JFramePopup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TournoisListeControlleur implements ActionListener, ControlleurObserver {
 	private VueAdminTournoisListe vue;
@@ -41,13 +35,12 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 			if (liste.size() < this.listeTournois.size()) {
 				List<Tournoi> caseSupprimer = getDifference(this.listeTournois, liste);
 				supprimerTournoiAffichage(caseSupprimer);
-			}
-			else if (this.listeCase == null) {
+			} else if (this.listeCase == null) {
 				this.listeTournois = liste;
 				this.listeCase = convertListToCase(this.listeTournois);
 				this.vue.addAll(this.listeCase);
 			} else {
-				List<Tournoi> differences = getDifference(liste,listeTournois);
+				List<Tournoi> differences = getDifference(liste, listeTournois);
 				List<CaseTournoi> differencesCase = convertListToCase(differences);
 				this.listeCase.addAll(differencesCase);
 				this.listeTournois.addAll(differences);
@@ -94,6 +87,7 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 		this.vue.revalidate();
 		this.vue.addAll(this.listeCase);
 	}
+
 	private List<Tournoi> getDifference(List<Tournoi> liste1, List<Tournoi> liste2) {
 		List<Tournoi> liste = new ArrayList<>();
 		for (Tournoi e : liste1) {

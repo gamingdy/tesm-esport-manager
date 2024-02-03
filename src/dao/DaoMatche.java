@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -221,8 +220,8 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			return sortie;
 		}
 	}
-	
-	public List<Matche> getMatchByEquipeForTournoi(Equipe equipe,Tournoi tournoi) throws FausseDateException, MemeEquipeException, SQLException, Exception {
+
+	public List<Matche> getMatchByEquipeForTournoi(Equipe equipe, Tournoi tournoi) throws FausseDateException, MemeEquipeException, SQLException, Exception {
 		try (PreparedStatement getMatchByEquipeForTournoi = connexion.getConnection().prepareStatement(
 				"SELECT * "
 						+ "FROM Matche "
@@ -240,7 +239,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			return sortie;
 		}
 	}
-	
+
 	public List<Matche> getMatchBySaison(Saison saison) throws FausseDateException, MemeEquipeException, Exception {
 		try (PreparedStatement getMatchByEquipe = connexion.getConnection().prepareStatement(
 				"SELECT * "
@@ -253,7 +252,7 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			return sortie;
 		}
 	}
-	
+
 	public List<Matche> getMatchByEquipeForSaison(Inscription inscription) throws FausseDateException, MemeEquipeException, Exception {
 		try (PreparedStatement getMatchByEquipeForSaison = connexion.getConnection().prepareStatement(
 				"SELECT * "
@@ -270,9 +269,9 @@ public class DaoMatche implements Dao<Matche, Integer> {
 			return sortie;
 		}
 	}
-	
+
 	public List<Matche> getTenLastMatch() throws FausseDateException, MemeEquipeException, Exception {
-		try(PreparedStatement getTenLastMatch = connexion.getConnection().prepareStatement(""
+		try (PreparedStatement getTenLastMatch = connexion.getConnection().prepareStatement(""
 				+ "SELECT * "
 				+ "FROM Matche "
 				+ "WHERE Date_Matche_Debut < CURRENT_DATE "
@@ -300,9 +299,9 @@ public class DaoMatche implements Dao<Matche, Integer> {
 	public Integer getLastId() throws SQLException {
 		try (PreparedStatement getLastId = connexion.getConnection().prepareStatement(
 				"SELECT Id_Match "
-               + "FROM Matche "
-               + "ORDER BY Id_Match DESC "
-               + "FETCH FIRST 1 ROW ONLY")) {
+						+ "FROM Matche "
+						+ "ORDER BY Id_Match DESC "
+						+ "FETCH FIRST 1 ROW ONLY")) {
 			ResultSet resultat = getLastId.executeQuery();
 			Integer sortie = null;
 			if (resultat.next()) {

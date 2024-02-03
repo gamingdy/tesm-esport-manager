@@ -1,13 +1,8 @@
 package modele.test;
 
-import exceptions.IdNotSetException;
 import modele.Arbitre;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -17,7 +12,7 @@ public class TestArbitre {
 
 	@Before
 	public void setUp() throws Exception {
-		a = new Arbitre("Brando", "Titouan","124567890");
+		a = new Arbitre("Brando", "Titouan", "124567890");
 	}
 
 
@@ -42,7 +37,6 @@ public class TestArbitre {
 		a.setPrenom("T");
 		assertEquals("T", a.getPrenom());
 	}
-
 
 
 	@Test

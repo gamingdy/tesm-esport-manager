@@ -1,32 +1,27 @@
 package vue.admin.tournois.creation;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.util.List;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JButton;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
-import javax.swing.DefaultComboBoxModel;
-
 import modele.Equipe;
-
-import javax.swing.JComboBox;
-
-import modele.Tournoi;
 import vue.common.CustomColor;
 import vue.common.CustomComboBox;
 import vue.common.MaFont;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.util.List;
 
 
 public class PopupEquipe extends JFrame {

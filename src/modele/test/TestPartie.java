@@ -1,10 +1,6 @@
 package modele.test;
 
 import exceptions.GagnantNonChoisiException;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -15,6 +11,8 @@ import modele.Partie;
 import modele.Pays;
 import modele.Saison;
 import modele.Tournoi;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 

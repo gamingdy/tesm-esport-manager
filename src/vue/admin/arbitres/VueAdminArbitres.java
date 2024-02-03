@@ -1,17 +1,11 @@
 package vue.admin.arbitres;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import controlleur.VueObserver;
 import controlleur.admin.arbitres.ArbitresControlleur;
-import controlleur.admin.arbitres.ArbitresListeControlleur;
-import controlleur.admin.tournois.TournoisControlleur;
 import vue.Page;
-import vue.common.CustomColor;
-import vue.common.MaFont;
 
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+import java.awt.Component;
 
 public class VueAdminArbitres extends JPanel {
 	private CardLayout cl;

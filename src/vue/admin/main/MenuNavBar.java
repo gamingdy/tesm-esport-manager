@@ -4,12 +4,11 @@ import controlleur.AdminControlleur;
 import vue.BoutonNavBar;
 import vue.common.CustomColor;
 
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.HashMap;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class MenuNavBar extends JPanel {
@@ -80,7 +79,7 @@ public class MenuNavBar extends JPanel {
 				.forEach(e -> {
 					if (e.getKey() == bouton.getText() && e.getKey() != BoutonNavBar.DECONNEXION.getNom()) {
 						e.getValue().selectionner();
-					} else if (e.getKey() != BoutonNavBar.DECONNEXION.getNom()){
+					} else if (e.getKey() != BoutonNavBar.DECONNEXION.getNom()) {
 						e.getValue().deselectionner();
 					}
 				});

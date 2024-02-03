@@ -1,8 +1,5 @@
 package modele.test;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import modele.Appartenance;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -11,6 +8,8 @@ import modele.Niveau;
 import modele.Pays;
 import modele.Poule;
 import modele.Tournoi;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 

@@ -10,7 +10,13 @@ import dao.DaoPartie;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
-import modele.*;
+import modele.CustomDate;
+import modele.Equipe;
+import modele.Matche;
+import modele.ModeleTournoi;
+import modele.Partie;
+import modele.Saison;
+import modele.Tournoi;
 import vue.Impression;
 import vue.Page;
 import vue.admin.accueil.LigneEquipe;
@@ -95,9 +101,9 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 			Optional<Tournoi> tournoiActuel = daoTournoi.getTournoiActuel();
 
 			if (tournoiActuel.isPresent()) {
-				Set<Equipe> liste= ModeleTournoi.getClassement(tournoiActuel.get());
-				int i=0;
-				for (Equipe e:liste) {
+				Set<Equipe> liste = ModeleTournoi.getClassement(tournoiActuel.get());
+				int i = 0;
+				for (Equipe e : liste) {
 					String nomEquipe = e.getNom();
 					ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
 					LigneEquipe ligneEquipe = new LigneEquipe(i + 1, icone, nomEquipe, e.getPoint());
@@ -128,7 +134,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				String dateHeure = m.getDateDebutMatche().toString().substring(6);
 				ImageIcon trophee1;
 				ImageIcon trophee2;
-				
+
 				if (m.getVainqueur() == null) {
 					trophee1 = tropheePerdant;
 					trophee2 = tropheePerdant;

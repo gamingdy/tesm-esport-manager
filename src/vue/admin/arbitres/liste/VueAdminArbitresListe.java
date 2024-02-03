@@ -2,18 +2,9 @@ package vue.admin.arbitres.liste;
 
 
 import controlleur.admin.arbitres.ArbitresListeControlleur;
-import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
-
-import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,7 +12,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.List;
 
 public class VueAdminArbitresListe extends JPanel {
 
@@ -40,7 +36,7 @@ public class VueAdminArbitresListe extends JPanel {
 		list = new JPanel(new GridLayout(0, 3, 15, 15));
 		list.setBackground(CustomColor.BACKGROUND_MAIN);
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-		
+
 		JPanel j;
 		for (int i = 0; i < 7; i++) {
 			j = new JPanel();
@@ -63,7 +59,7 @@ public class VueAdminArbitresListe extends JPanel {
 
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
-		JLabel recherche = new JLabel("Liste des Arbitres",JLabel.CENTER);
+		JLabel recherche = new JLabel("Liste des Arbitres", JLabel.CENTER);
 		recherche.setBackground(CustomColor.BACKGROUND_MAIN);
 		recherche.setOpaque(true);
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));
@@ -97,15 +93,15 @@ public class VueAdminArbitresListe extends JPanel {
 		gbcBtnAjt.weighty = 0.2F;
 		add(boutonAjouter, gbcBtnAjt);
 	}
-	
+
 	public void add(CaseArbitre c) {
 		if (nbCases < 7) {
 			list.remove(nbCases);
 		}
-		list.add(c.getPanel(),nbCases);
+		list.add(c.getPanel(), nbCases);
 		nbCases += 1;
 	}
-	
+
 
 	public void addAll(List<CaseArbitre> c) {
 		c.stream().forEach(this::add);

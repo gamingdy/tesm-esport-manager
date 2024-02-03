@@ -6,18 +6,6 @@ import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import java.util.List;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.FlowLayout;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -28,6 +16,17 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class VueAdminArbitresCreation extends JPanel {
 

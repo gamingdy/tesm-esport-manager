@@ -1,10 +1,9 @@
 package vue.admin.accueil;
 
-import java.awt.Component;
-
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import java.awt.Component;
 
 public class MatchCellRenderer implements ListCellRenderer<LigneMatche> {
 

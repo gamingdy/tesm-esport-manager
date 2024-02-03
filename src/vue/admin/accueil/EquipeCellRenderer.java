@@ -1,11 +1,10 @@
 package vue.admin.accueil;
 
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 
 
 public class EquipeCellRenderer implements ListCellRenderer<LigneEquipe> {

@@ -5,17 +5,14 @@ import vue.common.JPanelWithBackground;
 import vue.common.TitleBar;
 import vue.common.WindowResizer;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-
-import java.awt.Image;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-
-
+import java.awt.Image;
 import java.io.IOException;
 
 @SuppressWarnings("serial")

@@ -2,8 +2,6 @@ package vue.admin.equipes.liste;
 
 
 import controlleur.admin.equipes.EquipesListeControlleur;
-import controlleur.admin.historique.HistoriqueControlleur;
-import vue.Vue;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
@@ -14,10 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -66,7 +62,7 @@ public class VueAdminEquipesListe extends JPanel {
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
 
-		JLabel recherche = new JLabel("Liste des Équipes",JLabel.CENTER);
+		JLabel recherche = new JLabel("Liste des Équipes", JLabel.CENTER);
 		recherche.setBackground(CustomColor.BACKGROUND_MAIN);
 		recherche.setOpaque(true);
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));

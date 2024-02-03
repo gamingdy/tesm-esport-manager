@@ -1,18 +1,16 @@
 package dao;
 
+import modele.Equipe;
+import modele.Poule;
+import modele.Tournoi;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
-import modele.Appartenance;
-import modele.Equipe;
-import modele.Poule;
-import modele.Tournoi;
 
 public class DaoPoule implements Dao<Poule, Object> {
 
@@ -132,7 +130,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 				"DELETE FROM Poule where Annee = ? AND Nom_tournoi = ? AND Libelle = ?")) {
 			delete.setInt(1, (Integer) value[0]);
 			delete.setString(2, (String) value[1]);
-			Character c = (Character)value[2];
+			Character c = (Character) value[2];
 			String libelle = c.toString();
 			delete.setString(3, libelle);
 			List<Equipe> equipes = FactoryDAO.getDaoAppartenance(connexion).getEquipeByPoule(value[1], value[0], value[2]);
@@ -149,7 +147,7 @@ public class DaoPoule implements Dao<Poule, Object> {
 	}
 
 	public List<Poule> getPouleByTournoi(Tournoi tournoi) throws Exception {
-		try(PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
+		try (PreparedStatement getPouleByTournoi = connexion.getConnection().prepareStatement(""
 				+ "SELECT * "
 				+ "FROM Poule "
 				+ "WHERE Annee = ? "

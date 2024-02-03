@@ -1,21 +1,20 @@
 package dao.tests;
 
-import dao.Connexion;
 import dao.FactoryDAO;
 import modele.Niveau;
 
 public class TestDaoNiveau extends TestDao {
 
-	private Niveau[] niveaux; 
-	
+	private Niveau[] niveaux;
+
 	public TestDaoNiveau() {
 		super();
-		
+
 	}
 
 	@Override
 	public void testInsert() throws Exception {
-		for(Niveau n : niveaux) {
+		for (Niveau n : niveaux) {
 			FactoryDAO.getDaoNiveau(getC()).add(n);
 		}
 		System.out.println(FactoryDAO.getDaoNiveau(getC()).visualizeTable());
@@ -30,9 +29,9 @@ public class TestDaoNiveau extends TestDao {
 
 	@Override
 	public void testUpdate() throws Exception {
-		
+
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		TestDaoNiveau x = new TestDaoNiveau();
 		x.setup();
@@ -43,7 +42,7 @@ public class TestDaoNiveau extends TestDao {
 	@Override
 	public void setup() throws Exception {
 		niveaux = Niveau.values();
-		
+
 	}
 
 }

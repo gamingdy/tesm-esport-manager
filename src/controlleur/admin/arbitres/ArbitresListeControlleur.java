@@ -1,26 +1,19 @@
 package controlleur.admin.arbitres;
 
 import controlleur.ControlleurObserver;
-import controlleur.admin.equipes.EquipesObserver;
-import dao.*;
+import dao.Connexion;
+import dao.DaoArbitrage;
+import dao.DaoArbitre;
+import dao.DaoSaison;
 import modele.Arbitre;
-import modele.Equipe;
-import modele.Saison;
-import modele.Tournoi;
 import vue.Page;
 import vue.admin.arbitres.liste.CaseArbitre;
 import vue.admin.arbitres.liste.VueAdminArbitresListe;
-import vue.admin.equipes.liste.CaseEquipe;
-import vue.admin.tournois.liste.CaseTournoi;
-import vue.common.JFramePopup;
 
-import javax.naming.ldap.Control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ArbitresListeControlleur implements ControlleurObserver, ActionListener {
 	private VueAdminArbitresListe vue;
@@ -48,13 +41,12 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 			if (liste.size() < this.arbitreList.size()) {
 				List<Arbitre> caseSupprimer = getDifference(this.arbitreList, liste);
 				supprimerTournoiAffichage(caseSupprimer);
-			}
-			else if (this.listeCase == null) {
+			} else if (this.listeCase == null) {
 				this.arbitreList = liste;
 				this.listeCase = convertToCaseArbitre(this.arbitreList);
 				this.vue.addAll(this.listeCase);
 			} else {
-				List<Arbitre> differences = getDifference(liste,arbitreList);
+				List<Arbitre> differences = getDifference(liste, arbitreList);
 				List<CaseArbitre> differencesCase = convertToCaseArbitre(differences);
 				this.listeCase.addAll(differencesCase);
 				this.arbitreList.addAll(differences);
@@ -70,7 +62,7 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 	public List<CaseArbitre> convertToCaseArbitre(List<Arbitre> liste) {
 		List<CaseArbitre> listeRes = new ArrayList<>();
 		for (Arbitre arbitre : liste) {
-			listeRes.add(new CaseArbitre(arbitre.getNom(), arbitre.getPrenom(),arbitre.getNumeroTelephone()));
+			listeRes.add(new CaseArbitre(arbitre.getNom(), arbitre.getPrenom(), arbitre.getNumeroTelephone()));
 		}
 		return listeRes;
 	}
@@ -81,6 +73,7 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 			ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION);
 		}
 	}
+
 	private List<Arbitre> getDifference(List<Arbitre> liste1, List<Arbitre> liste2) {
 		List<Arbitre> liste = new ArrayList<>();
 		for (Arbitre e : liste1) {
@@ -90,6 +83,7 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 		}
 		return liste;
 	}
+
 	private void supprimerTournoiAffichage(List<Arbitre> listeTournoisSupprime) {
 		List<CaseArbitre> listeCaseSupprimer = new ArrayList<>();
 

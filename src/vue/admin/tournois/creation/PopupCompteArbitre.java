@@ -1,29 +1,21 @@
 package vue.admin.tournois.creation;
 
-import vue.admin.equipes.creation.PopupPseudo;
 import vue.common.CustomColor;
 import vue.common.MaFont;
-
-import javax.swing.*;
-import java.awt.*;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.BorderLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import vue.common.CustomColor;
-import vue.common.MaFont;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 public class PopupCompteArbitre extends JFrame {
 

@@ -6,8 +6,10 @@ import vue.admin.main.Main;
 import vue.admin.main.MenuNavBar;
 import vue.common.TitleBar;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class VueAdmin extends JPanel {

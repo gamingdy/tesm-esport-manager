@@ -1,23 +1,21 @@
 package vue.admin.equipes.creation;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 
 public class PopupPseudo extends JFrame {
@@ -61,10 +59,10 @@ public class PopupPseudo extends JFrame {
 		tf.setBackground(CustomColor.BACKGROUND_MENU);
 		tf.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
-				BorderFactory.createEmptyBorder(0,10,0,0)));
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		tf.setFont(MaFont.getFontTitre4());
 		tf.setCaretColor(CustomColor.BLANC);
-		
+
 		panel.add(tf, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();

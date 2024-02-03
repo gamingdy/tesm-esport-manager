@@ -2,20 +2,9 @@ package vue.admin.tournois.liste;
 
 
 import controlleur.admin.tournois.TournoisListeControlleur;
-import vue.Vue;
-import vue.admin.equipes.liste.CaseEquipe;
 import vue.common.CustomColor;
 import vue.common.CustomScrollBarUI;
 import vue.common.MaFont;
-
-import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -23,7 +12,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.List;
 
 public class VueAdminTournoisListe extends JPanel {
 
@@ -44,7 +38,7 @@ public class VueAdminTournoisListe extends JPanel {
 		list.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 		JPanel j;
-		for (int i = 0; i<6;i++) {
+		for (int i = 0; i < 6; i++) {
 			j = new JPanel();
 			j.setOpaque(false);
 			list.add(j);
@@ -65,7 +59,7 @@ public class VueAdminTournoisListe extends JPanel {
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
 
-		JLabel recherche = new JLabel("Liste des Tournois",JLabel.CENTER);
+		JLabel recherche = new JLabel("Liste des Tournois", JLabel.CENTER);
 		recherche.setBackground(CustomColor.BACKGROUND_MAIN);
 		recherche.setOpaque(true);
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));

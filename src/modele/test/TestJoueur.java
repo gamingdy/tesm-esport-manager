@@ -1,16 +1,15 @@
 package modele.test;
 
-import modele.Equipe;
-import modele.Joueur;
-import modele.Pays;
-import org.junit.Before;
-import org.junit.Test;
-
 import exceptions.EquipeCompleteException;
 import exceptions.EquipeVideException;
 import exceptions.IdNotSetException;
 import exceptions.JoueurException;
 import exceptions.JoueurNonPresentException;
+import modele.Equipe;
+import modele.Joueur;
+import modele.Pays;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,5 +1,15 @@
 package dao;
 
+import exceptions.FausseDateException;
+import modele.Arbitre;
+import modele.CompteArbitre;
+import modele.CustomDate;
+import modele.Matche;
+import modele.Niveau;
+import modele.Poule;
+import modele.Saison;
+import modele.Tournoi;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,19 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
-import exceptions.FausseDateException;
-import modele.Appartenance;
-import modele.Arbitre;
-import modele.Categorie;
-import modele.CompteArbitre;
-import modele.CustomDate;
-import modele.Equipe;
-import modele.Matche;
-import modele.Niveau;
-import modele.Poule;
-import modele.Saison;
-import modele.Tournoi;
 
 public class DaoTournoi implements Dao<Tournoi, Object> {
 
@@ -120,7 +117,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 								resultat.getString("Username_Compte_Arbitre"),
 								resultat.getString("Mot_De_Passe_Compte_Arbitre"))
 				);
-				
+
 			}
 			return Optional.ofNullable(tournoi);
 		}
@@ -185,17 +182,17 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 				"DELETE FROM Tournoi WHERE Annee = ? AND Nom_Tournoi = ?")) {
 			delete.setInt(1, (Integer) value[0]);
 			delete.setString(2, (String) value[1]);
-			List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchByTournoi(value[0],value[1]);
-			List<Poule> poules = FactoryDAO.getDaoPoule(connexion).getPouleByTournoi(FactoryDAO.getDaoTournoi(connexion).getById(value[0],value[1]).get());
-			List<Arbitre> arbitres = FactoryDAO.getDaoArbitrage(connexion).getArbitreByTournoi(value[1],value[0]);
-			for(Matche m : matches) {
+			List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchByTournoi(value[0], value[1]);
+			List<Poule> poules = FactoryDAO.getDaoPoule(connexion).getPouleByTournoi(FactoryDAO.getDaoTournoi(connexion).getById(value[0], value[1]).get());
+			List<Arbitre> arbitres = FactoryDAO.getDaoArbitrage(connexion).getArbitreByTournoi(value[1], value[0]);
+			for (Matche m : matches) {
 				FactoryDAO.getDaoMatche(connexion).delete(m.getId());
 			}
-			for(Poule p : poules) {
-				FactoryDAO.getDaoPoule(connexion).delete(p.getTournoi().getSaison().getAnnee(),p.getTournoi().getNom(),p.getLibelle());
+			for (Poule p : poules) {
+				FactoryDAO.getDaoPoule(connexion).delete(p.getTournoi().getSaison().getAnnee(), p.getTournoi().getNom(), p.getLibelle());
 			}
-			for(Arbitre a : arbitres) {
-				FactoryDAO.getDaoArbitrage(connexion).delete(a.getNom(),a.getPrenom(),a.getNumeroTelephone(),value[0],value[1]);
+			for (Arbitre a : arbitres) {
+				FactoryDAO.getDaoArbitrage(connexion).delete(a.getNom(), a.getPrenom(), a.getNumeroTelephone(), value[0], value[1]);
 			}
 			return delete.execute();
 		}
@@ -280,40 +277,40 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return sortie;
 		}
 	}
-	
+
 	public List<Tournoi> getTournoiByNiveau(Niveau niveau) throws FausseDateException, SQLException {
 		try (PreparedStatement getTournoiByNiveau = connexion.getConnection().prepareStatement(
 				"SELECT *"
-				+ "FROM Tournoi"
-				+ "WHERE Libelle_Niveau = ?")) {
+						+ "FROM Tournoi"
+						+ "WHERE Libelle_Niveau = ?")) {
 			getTournoiByNiveau.setString(1, niveau.name());
 			ResultSet resultat = getTournoiByNiveau.executeQuery();
 			List<Tournoi> sortie = new LinkedList<>();
-			while(resultat.next()) {
+			while (resultat.next()) {
 				sortie.add(new Tournoi(
-						new Saison(resultat.getInt("Annee")),
-						resultat.getString("Nom_Tournoi"),
-						new CustomDate(resultat.getTimestamp("Date_Debut")),
-						new CustomDate(resultat.getTimestamp("Date_Fin")),
-						Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
-						new CompteArbitre(
-								resultat.getString("Username_Compte_Arbitre"),
-								resultat.getString("Mot_De_Passe_Compte_Arbitre"))
-					)
+								new Saison(resultat.getInt("Annee")),
+								resultat.getString("Nom_Tournoi"),
+								new CustomDate(resultat.getTimestamp("Date_Debut")),
+								new CustomDate(resultat.getTimestamp("Date_Fin")),
+								Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()),
+								new CompteArbitre(
+										resultat.getString("Username_Compte_Arbitre"),
+										resultat.getString("Mot_De_Passe_Compte_Arbitre"))
+						)
 				);
-				
+
 			}
 			return sortie;
 		}
 	}
-	
+
 	public List<Tournoi> getTournoiBetweenDate(CustomDate dateAvant, CustomDate dateApres) throws Exception {
-		try(PreparedStatement getTournoiBetweenDate = connexion.getConnection().prepareStatement(
+		try (PreparedStatement getTournoiBetweenDate = connexion.getConnection().prepareStatement(
 				"SELECT * "
-				+ "FROM Tournoi "
-				+ "WHERE (Date_Debut BETWEEN ? AND ?) "
-				+ "OR (Date_Fin BETWEEN ? AND ?)"
-				+ "OR (Date_Debut > ? AND Date_Fin < ?)")) {
+						+ "FROM Tournoi "
+						+ "WHERE (Date_Debut BETWEEN ? AND ?) "
+						+ "OR (Date_Fin BETWEEN ? AND ?)"
+						+ "OR (Date_Debut > ? AND Date_Fin < ?)")) {
 			getTournoiBetweenDate.setTimestamp(1, dateAvant.toSQL());
 			getTournoiBetweenDate.setTimestamp(2, dateApres.toSQL());
 			getTournoiBetweenDate.setTimestamp(3, dateAvant.toSQL());
@@ -323,7 +320,7 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			ResultSet resultat = getTournoiBetweenDate.executeQuery();
 			List<Tournoi> sortie = new ArrayList<>();
 			Tournoi tournoi = null;
-			while(resultat.next()) {
+			while (resultat.next()) {
 				tournoi = new Tournoi(
 						new Saison(resultat.getInt("Annee")),
 						resultat.getString("Nom_Tournoi"),
@@ -339,16 +336,16 @@ public class DaoTournoi implements Dao<Tournoi, Object> {
 			return sortie;
 		}
 	}
-	
-	
+
+
 	@Override
 	public String visualizeTable() throws Exception {
 		String s = "_______________Tournoi_______________________" + "\n";
 		List<Tournoi> l = this.getAll();
-		for(Tournoi a : l) {
-			s+=a.toString()+"\n";
+		for (Tournoi a : l) {
+			s += a.toString() + "\n";
 		}
-		s+="\n\n\n";
+		s += "\n\n\n";
 		return s;
 	}
 

@@ -1,19 +1,19 @@
 package vue.arbitre;
 
+import vue.common.CustomColor;
+import vue.common.MaFont;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
-import vue.common.CustomColor;
-import vue.common.MaFont;
-
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 @SuppressWarnings("serial")
 public abstract class VueArbitre extends JPanel {
-	
+
 	protected JLabel titre;
 	protected JPanel main;
 	protected JButton boutonAction;
@@ -21,8 +21,8 @@ public abstract class VueArbitre extends JPanel {
 
 	public VueArbitre() {
 		GridBagLayout gbl = new GridBagLayout();
-		gbl.rowWeights = new double[] {0,0.85,0.15};
-		gbl.columnWeights = new double[] {0.5,0.5};
+		gbl.rowWeights = new double[]{0, 0.85, 0.15};
+		gbl.columnWeights = new double[]{0.5, 0.5};
 		setLayout(gbl);
 
 		GridBagConstraints gbcTitre = new GridBagConstraints();
@@ -32,8 +32,8 @@ public abstract class VueArbitre extends JPanel {
 		titre.setFont(MaFont.getFontMenu());
 		titre.setForeground(CustomColor.BLANC);
 		add(titre, gbcTitre);
-		
-		
+
+
 		GridBagConstraints gbcBoutonDeconnexion = new GridBagConstraints();
 		gbcBoutonDeconnexion.gridy = 2;
 		gbcBoutonDeconnexion.gridx = 0;
@@ -46,7 +46,7 @@ public abstract class VueArbitre extends JPanel {
 		boutonDeconnexion.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		boutonDeconnexion.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3),
-				BorderFactory.createEmptyBorder(10,10,10,10)));
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		add(boutonDeconnexion, gbcBoutonDeconnexion);
 
 		GridBagConstraints gbcBoutonAction = new GridBagConstraints();
@@ -60,30 +60,30 @@ public abstract class VueArbitre extends JPanel {
 		boutonAction.setBackground(CustomColor.BACKGROUND_MENU);
 		boutonAction.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3),
-				BorderFactory.createEmptyBorder(10,10,10,10)));
+				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		add(boutonAction, gbcBoutonAction);
-		
+
 
 		initMain();
 		GridBagConstraints gbcMain = new GridBagConstraints();
-		gbcMain.insets = new Insets(0,50,0,50);
+		gbcMain.insets = new Insets(0, 50, 0, 50);
 		gbcMain.gridy = 1;
 		gbcMain.gridwidth = 2;
 		gbcMain.fill = GridBagConstraints.BOTH;
 		add(main, gbcMain);
 	}
-	
+
 	protected void initMain() {
 		main = new JPanel();
 		main.setBackground(CustomColor.BACKGROUND_MAIN);
 		main.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
-		
+
 	}
-	
+
 	public void setTitre(String texte) {
 		titre.setText(texte);
 	}
-	
+
 	public void setTexteBouton(String texte) {
 		boutonAction.setText(texte);
 	}

@@ -1,16 +1,15 @@
 package vue.admin.accueil;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import vue.common.CustomColor;
+import vue.common.MaFont;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-
-import vue.common.CustomColor;
-import vue.common.MaFont;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 public class TournoiCellRenderer implements ListCellRenderer<LigneTournoi> {
 

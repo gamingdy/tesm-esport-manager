@@ -1,27 +1,25 @@
 package vue.admin.arbitres.liste;
 
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import controlleur.admin.arbitres.ArbitreSuppressionControlleur;
+import vue.Vue;
+import vue.common.CustomColor;
+import vue.common.MaFont;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-import controlleur.admin.arbitres.ArbitreSuppressionControlleur;
-import controlleur.admin.tournois.TournoiSuppressionControlleur;
-import vue.Vue;
-import vue.common.CustomColor;
-import vue.common.MaFont;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class CaseArbitre {
 
 	private String nom;
 	private String prenom;
 	private String numero;
+
 	public String getNumero() {
 		return numero;
 	}
@@ -58,10 +56,10 @@ public class CaseArbitre {
 		gbcIcone.gridy = 0;
 		gbcIcone.weighty = 0.8F;
 		panelItem.add(icone, gbcIcone);
-		
-		
-		JTextArea nom = new JTextArea(getNom()+" "+getPrenom());
-		nom.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
+
+
+		JTextArea nom = new JTextArea(getNom() + " " + getPrenom());
+		nom.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		nom.setLineWrap(true);
 		nom.setWrapStyleWord(true);
 		nom.setOpaque(false);

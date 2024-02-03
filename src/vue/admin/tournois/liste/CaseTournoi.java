@@ -1,19 +1,17 @@
 package vue.admin.tournois.liste;
 
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import controlleur.admin.tournois.TournoiSuppressionControlleur;
+import vue.Vue;
+import vue.common.CustomColor;
+import vue.common.MaFont;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import controlleur.admin.equipes.EquipeSuppresionControlleur;
-import controlleur.admin.tournois.TournoiSuppressionControlleur;
-import vue.Vue;
-import vue.common.CustomColor;
-import vue.common.MaFont;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class CaseTournoi {
 

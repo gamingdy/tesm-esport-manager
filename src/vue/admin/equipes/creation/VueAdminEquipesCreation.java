@@ -4,18 +4,8 @@ import controlleur.admin.equipes.EquipeCreationControlleur;
 import modele.Pays;
 import vue.Vue;
 import vue.common.CustomColor;
-import vue.common.MaFont;
 import vue.common.CustomComboBox;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.util.Arrays;
+import vue.common.MaFont;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -28,6 +18,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.util.Arrays;
 
 public class VueAdminEquipesCreation extends JPanel {
 
@@ -66,7 +64,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcPanelTop.gridx = 0;
 		gbcPanelTop.gridy = 0;
 		add(panelTop, gbcPanelTop);
-		GridLayout gl = new GridLayout(2,2,100,100);
+		GridLayout gl = new GridLayout(2, 2, 100, 100);
 		panelTop.setLayout(gl);
 
 		JPanel panelChamps = new JPanel();
@@ -112,8 +110,7 @@ public class VueAdminEquipesCreation extends JPanel {
 				if (value == null) {
 					if (index == -1) {
 						panel.setText("Choissez le pays de l'équipe");
-					}
-					else {
+					} else {
 						return new JLabel();
 					}
 				} else {
@@ -125,8 +122,7 @@ public class VueAdminEquipesCreation extends JPanel {
 				panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
 				if (isSelected) {
 					panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
-				}
-				else {
+				} else {
 					panel.setForeground(CustomColor.BLANC);
 				}
 				return panel;
@@ -140,7 +136,7 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		labelDrapeau = new JLabel();
 		this.setDrapeau("earth");
-		labelDrapeau.setMaximumSize(new Dimension(labelDrapeau.getIcon().getIconHeight(),labelDrapeau.getIcon().getIconWidth()));
+		labelDrapeau.setMaximumSize(new Dimension(labelDrapeau.getIcon().getIconHeight(), labelDrapeau.getIcon().getIconWidth()));
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
 //		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		labelDrapeau.setHorizontalAlignment(JLabel.CENTER);

@@ -1,12 +1,11 @@
 package vue.admin.tournois;
 
-import java.awt.CardLayout;
-import java.awt.Component;
-
-import javax.swing.JPanel;
-
 import controlleur.admin.tournois.TournoisControlleur;
 import vue.Page;
+
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+import java.awt.Component;
 
 public class VueAdminTournois extends JPanel {
 

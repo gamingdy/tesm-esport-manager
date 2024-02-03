@@ -1,5 +1,9 @@
 package dao;
 
+import modele.Equipe;
+import modele.Matche;
+import modele.Partie;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,11 +12,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
-import modele.Arbitrage;
-import modele.Equipe;
-import modele.Matche;
-import modele.Partie;
 
 public class DaoPartie implements Dao<Partie, Integer> {
 
@@ -156,16 +155,16 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			return delete.execute();
 		}
 	}
-	
+
 	public List<Partie> getPartieByMatche(Matche matche) throws IllegalArgumentException, SQLException, Exception {
 		try (PreparedStatement getPartieByMatche = connexion.getConnection().prepareStatement(
 				"SELECT * "
-				+ "FROM Partie "
-				+ "WHERE Id_Match = ?")) {
+						+ "FROM Partie "
+						+ "WHERE Id_Match = ?")) {
 			getPartieByMatche.setInt(1, matche.getId());
 			ResultSet resultat = getPartieByMatche.executeQuery();
 			List<Partie> sortie = new LinkedList<>();
-			while(resultat.next()) {
+			while (resultat.next()) {
 				Partie partie = new Partie(
 						FactoryDAO.getDaoMatche(connexion).getById(resultat.getInt("Id_Match")).get(),
 						resultat.getInt("Id_Partie"));
@@ -178,15 +177,15 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			return sortie;
 		}
 	}
-	
+
 	@Override
 	public String visualizeTable() throws Exception {
 		String s = "_______________Partie_______________________" + "\n";
 		List<Partie> l = this.getAll();
-		for(Partie a : l) {
-			s+=a.toString()+"\n";
+		for (Partie a : l) {
+			s += a.toString() + "\n";
 		}
-		s+="\n\n\n";
+		s += "\n\n\n";
 		return s;
 	}
 }

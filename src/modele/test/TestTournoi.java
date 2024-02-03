@@ -3,18 +3,17 @@ package modele.test;
 import exceptions.ExceptionDate;
 import exceptions.FausseDateException;
 import exceptions.MemeEquipeException;
-
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
 import modele.Saison;
 import modele.Tournoi;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TestTournoi {
 	private Tournoi tournoi;

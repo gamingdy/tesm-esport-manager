@@ -1,9 +1,5 @@
 package modele;
 
-import java.sql.SQLException;
-
-import dao.Connexion;
-import dao.FactoryDAO;
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
@@ -21,7 +17,6 @@ public class Matche {
 	private Saison saison;
 
 
-	
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
 				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
 
@@ -37,7 +32,7 @@ public class Matche {
 			throw new IllegalArgumentException("Le nombre de parties doit être supérieur à 0");
 		}
 
-		if (Math.floorMod(nombreMaxParties, 2)==0) {
+		if (Math.floorMod(nombreMaxParties, 2) == 0) {
 			throw new IllegalArgumentException("Le nombre de parties doit être impair");
 		}
 

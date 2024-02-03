@@ -1,24 +1,25 @@
 package controlleur.admin.arbitres;
 
-import controlleur.admin.tournois.TournoisObserver;
-import dao.*;
-import exceptions.FausseDateException;
-import modele.*;
+import dao.Connexion;
+import dao.DaoArbitrage;
+import dao.DaoArbitre;
+import dao.DaoSaison;
+import dao.DaoTournoi;
+import modele.Arbitrage;
+import modele.Arbitre;
+import modele.CustomDate;
+import modele.Saison;
+import modele.Tournoi;
 import vue.Page;
 import vue.admin.arbitres.creation.PopupTournoi;
 import vue.admin.arbitres.creation.VueAdminArbitresCreation;
-import vue.admin.equipes.creation.VueAdminEquipesCreation;
-import vue.admin.equipes.liste.VueAdminEquipesListe;
 import vue.common.JFramePopup;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,10 +65,10 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			} else {
 				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, telephone);
 				//Verifier si l'arbitre existe deja
-				if(isArbitreDejaExistant(arbitre)){
+				if (isArbitreDejaExistant(arbitre)) {
 					new JFramePopup("Erreur", "L'arbitre existe deja", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 					resetChamps();
-				}else {
+				} else {
 					;
 					try {
 						daoArbitre.add(arbitre);
@@ -146,15 +147,17 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			return false;
 		}
 	}
-	private boolean isArbitreDejaExistant(Arbitre arbitre){
+
+	private boolean isArbitreDejaExistant(Arbitre arbitre) {
 		try {
-			Optional<Arbitre> arbitreOptional = daoArbitre.getById(arbitre.getNom(),arbitre.getPrenom(),arbitre.getNumeroTelephone());
+			Optional<Arbitre> arbitreOptional = daoArbitre.getById(arbitre.getNom(), arbitre.getPrenom(), arbitre.getNumeroTelephone());
 			return arbitreOptional.isPresent();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
+
 	public void addTournoisBdd(List<Tournoi> listeTournoi, Arbitre arbitre) {
 		for (Tournoi tournoi : listeTournoi) {
 			Arbitrage arbitrage = new Arbitrage(arbitre, tournoi);
