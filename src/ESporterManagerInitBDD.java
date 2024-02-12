@@ -257,25 +257,6 @@ public class ESporterManagerInitBDD {
 		}
 
 		//Création Liste des équipes de chaque tournoi pour la création automatique des matches
-		List<Equipe> equipeListTournoi = new ArrayList<>();
-		equipeListTournoi.add(equipe);
-		equipeListTournoi.add(equipe1);
-		equipeListTournoi.add(equipe2);
-		equipeListTournoi.add(equipe3);
-		equipeListTournoi.add(equipe4);
-		equipeListTournoi.add(equipe5);
-		equipeListTournoi.add(equipe6);
-		equipeListTournoi.add(equipe7);
-		equipeListTournoi.add(equipe8);
-		equipeListTournoi.add(equipe9);
-
-		List<Equipe> equipeListTournoi2 = new ArrayList<>();
-		equipeListTournoi2.add(equipe);
-		equipeListTournoi2.add(equipe1);
-		equipeListTournoi2.add(equipe2);
-		equipeListTournoi2.add(equipe3);
-		equipeListTournoi2.add(equipe4);
-		equipeListTournoi2.add(equipe5);
 
 		List<Equipe> equipeListTournoi3 = new ArrayList<>();
 		equipeListTournoi3.add(equipe);
@@ -284,13 +265,16 @@ public class ESporterManagerInitBDD {
 		equipeListTournoi3.add(equipe3);
 		equipeListTournoi3.add(equipe4);
 
-		List<Equipe> equipeListTournoi4 = new ArrayList<>();
-		equipeListTournoi4.add(equipe);
-		equipeListTournoi4.add(equipe1);
-		equipeListTournoi4.add(equipe2);
-		equipeListTournoi4.add(equipe3);
-		equipeListTournoi4.add(equipe4);
-		equipeListTournoi4.add(equipe5);
+		List<Equipe> equipeListTournoi2 = equipeListTournoi3;
+		equipeListTournoi2.add(equipe5);
+
+		List<Equipe> equipeListTournoi4 = equipeListTournoi2;
+
+		List<Equipe> equipeListTournoi = equipeListTournoi2;
+		equipeListTournoi.add(equipe6);
+		equipeListTournoi.add(equipe7);
+		equipeListTournoi.add(equipe8);
+		equipeListTournoi.add(equipe9);
 
 		//Création automatique des matches
 		Creator.creationAutomatiqueMatches(equipeListTournoi, tournoi);

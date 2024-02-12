@@ -23,15 +23,19 @@ public class Creator {
 		DaoPartie daoPartie = new DaoPartie(connexion);
 		CustomDate dateDebut = tournoi.getDebut();
 		CustomDate dateFin = tournoi.getFin();
+
+		//Calcule la durée du tournoi, en enlevant le dernier jour dédié à la finale
 		int nbDay = CustomDate.dureeEnJour(dateDebut, dateFin);
 		if (nbDay > 1) {
 			nbDay -= 1;
 		}
 
+		//Calcule le nombre de matchs à jouer
 		int nbMatches = 0;
 		for (int i = 0; i < listeEquipe.size(); i++) {
 			nbMatches += i;
 		}
+		
 		int matchParJour = nbMatches / nbDay;
 		int reste = nbMatches % nbDay;
 
