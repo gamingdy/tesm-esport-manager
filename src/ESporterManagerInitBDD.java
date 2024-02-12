@@ -90,9 +90,20 @@ public class ESporterManagerInitBDD {
 		CustomDate debutTournoi2 = new CustomDate(2024, 1, 9);
 		CustomDate fin2 = new CustomDate(2024, 1, 30);
 		Tournoi tournoi2 = new Tournoi(saison, "RLRS", debutTournoi2, fin2, Niveau.LOCAL, new CompteArbitre("arbitre", "rlrs"));
+
+		CustomDate debutTournoi3 = new CustomDate(2023, 2, 1);
+		CustomDate fin3 = new CustomDate(2023, 2, 28);
+		Tournoi tournoi3 = new Tournoi(saison2, "Worlds", debutTournoi3, fin3, Niveau.LOCAL, new CompteArbitre("arbitre", "worlds"));
+
+		CustomDate debutTournoi4 = new CustomDate(2023, 3, 9);
+		CustomDate fin4 = new CustomDate(2023, 3, 30);
+		Tournoi tournoi4 = new Tournoi(saison2, "MeilleurTournoi", debutTournoi4, fin4, Niveau.LOCAL, new CompteArbitre("arbitre", "meilleurtournoi"));
+
 		try {
 			daoTournoi.add(tournoi);
 			daoTournoi.add(tournoi2);
+			daoTournoi.add(tournoi3);
+			daoTournoi.add(tournoi4);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -122,6 +133,18 @@ public class ESporterManagerInitBDD {
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
+
+		//Ajout joueurs dans équipes
+		initEquipe(equipe);
+		initEquipe(equipe1);
+		initEquipe(equipe2);
+		initEquipe(equipe3);
+		initEquipe(equipe4);
+		initEquipe(equipe5);
+		initEquipe(equipe6);
+		initEquipe(equipe7);
+		initEquipe(equipe8);
+		initEquipe(equipe9);
 
 		//Ajout équipes dans saisons
 		Inscription inscription = new Inscription(saison, equipe);
@@ -161,22 +184,16 @@ public class ESporterManagerInitBDD {
 			System.out.println(e.toString());
 		}
 
-		//Ajout joueurs dans équipes
-		initEquipe(equipe);
-		initEquipe(equipe1);
-		initEquipe(equipe2);
-		initEquipe(equipe3);
-		initEquipe(equipe4);
-		initEquipe(equipe5);
-		initEquipe(equipe6);
-		initEquipe(equipe7);
-		initEquipe(equipe8);
-		initEquipe(equipe9);
-
 		//Ajout poules
-		Poule poule = new Poule(tournoi2, 'A');
+		Poule poule = new Poule(tournoi, 'A');
+		Poule poule1 = new Poule(tournoi2, 'B');
+		Poule poule2 = new Poule(tournoi3, 'C');
+		Poule poule3 = new Poule(tournoi4, 'D');
 		try {
 			daoPoule.add(poule);
+			daoPoule.add(poule1);
+			daoPoule.add(poule2);
+			daoPoule.add(poule3);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
@@ -192,17 +209,22 @@ public class ESporterManagerInitBDD {
 		Appartenance appartenance7 = new Appartenance(equipe7, poule);
 		Appartenance appartenance8 = new Appartenance(equipe8, poule);
 		Appartenance appartenance9 = new Appartenance(equipe9, poule);
-		List<Equipe> equipeList = new ArrayList<>();
-		equipeList.add(equipe);
-		equipeList.add(equipe1);
-		equipeList.add(equipe2);
-		equipeList.add(equipe3);
-		equipeList.add(equipe4);
-		equipeList.add(equipe5);
-		equipeList.add(equipe6);
-		equipeList.add(equipe7);
-		equipeList.add(equipe8);
-		equipeList.add(equipe9);
+		Appartenance appartenance10 = new Appartenance(equipe, poule1);
+		Appartenance appartenance11 = new Appartenance(equipe1, poule1);
+		Appartenance appartenance12 = new Appartenance(equipe2, poule1);
+		Appartenance appartenance13 = new Appartenance(equipe3, poule1);
+		Appartenance appartenance14 = new Appartenance(equipe4, poule1);
+		Appartenance appartenance15 = new Appartenance(equipe5, poule1);
+		Appartenance appartenance16 = new Appartenance(equipe1, poule2);
+		Appartenance appartenance17 = new Appartenance(equipe2, poule2);
+		Appartenance appartenance18 = new Appartenance(equipe3, poule2);
+		Appartenance appartenance19 = new Appartenance(equipe4, poule2);
+		Appartenance appartenance20 = new Appartenance(equipe, poule3);
+		Appartenance appartenance21 = new Appartenance(equipe1, poule3);
+		Appartenance appartenance22 = new Appartenance(equipe2, poule3);
+		Appartenance appartenance23 = new Appartenance(equipe3, poule3);
+		Appartenance appartenance24 = new Appartenance(equipe4, poule3);
+		Appartenance appartenance25 = new Appartenance(equipe5, poule3);
 		try {
 			daoAppartenance.add(appartenance);
 			daoAppartenance.add(appartenance1);
@@ -214,12 +236,68 @@ public class ESporterManagerInitBDD {
 			daoAppartenance.add(appartenance7);
 			daoAppartenance.add(appartenance8);
 			daoAppartenance.add(appartenance9);
+			daoAppartenance.add(appartenance10);
+			daoAppartenance.add(appartenance11);
+			daoAppartenance.add(appartenance12);
+			daoAppartenance.add(appartenance13);
+			daoAppartenance.add(appartenance14);
+			daoAppartenance.add(appartenance15);
+			daoAppartenance.add(appartenance16);
+			daoAppartenance.add(appartenance17);
+			daoAppartenance.add(appartenance18);
+			daoAppartenance.add(appartenance19);
+			daoAppartenance.add(appartenance20);
+			daoAppartenance.add(appartenance21);
+			daoAppartenance.add(appartenance22);
+			daoAppartenance.add(appartenance23);
+			daoAppartenance.add(appartenance24);
+			daoAppartenance.add(appartenance25);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
 
-		//Ajout matchs
-		Creator.creationAutomatiqueMatches(equipeList, tournoi2);
+		//Création Liste des équipes de chaque tournoi pour la création automatique des matches
+		List<Equipe> equipeListTournoi = new ArrayList<>();
+		equipeListTournoi.add(equipe);
+		equipeListTournoi.add(equipe1);
+		equipeListTournoi.add(equipe2);
+		equipeListTournoi.add(equipe3);
+		equipeListTournoi.add(equipe4);
+		equipeListTournoi.add(equipe5);
+		equipeListTournoi.add(equipe6);
+		equipeListTournoi.add(equipe7);
+		equipeListTournoi.add(equipe8);
+		equipeListTournoi.add(equipe9);
+
+		List<Equipe> equipeListTournoi2 = new ArrayList<>();
+		equipeListTournoi2.add(equipe);
+		equipeListTournoi2.add(equipe1);
+		equipeListTournoi2.add(equipe2);
+		equipeListTournoi2.add(equipe3);
+		equipeListTournoi2.add(equipe4);
+		equipeListTournoi2.add(equipe5);
+
+		List<Equipe> equipeListTournoi3 = new ArrayList<>();
+		equipeListTournoi3.add(equipe);
+		equipeListTournoi3.add(equipe1);
+		equipeListTournoi3.add(equipe2);
+		equipeListTournoi3.add(equipe3);
+		equipeListTournoi3.add(equipe4);
+
+		List<Equipe> equipeListTournoi4 = new ArrayList<>();
+		equipeListTournoi4.add(equipe);
+		equipeListTournoi4.add(equipe1);
+		equipeListTournoi4.add(equipe2);
+		equipeListTournoi4.add(equipe3);
+		equipeListTournoi4.add(equipe4);
+		equipeListTournoi4.add(equipe5);
+
+		//Création automatique des matches
+		Creator.creationAutomatiqueMatches(equipeListTournoi, tournoi);
+		Creator.creationAutomatiqueMatches(equipeListTournoi2, tournoi2);
+		Creator.creationAutomatiqueMatches(equipeListTournoi3, tournoi3);
+		Creator.creationAutomatiqueMatches(equipeListTournoi4, tournoi4);
+
 		CustomDate debut = new CustomDate(2024, 12, 5);
 		CustomDate debut1 = new CustomDate(2024, 12, 7);
 		Matche matche = new Matche(1, debut, Categorie.POULE, equipe, equipe1, tournoi);
