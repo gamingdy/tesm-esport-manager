@@ -150,7 +150,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 
 	private boolean isArbitreDejaExistant(Arbitre arbitre) {
 		try {
-			Optional<Arbitre> arbitreOptional = daoArbitre.getById(arbitre.getNom(), arbitre.getPrenom(), arbitre.getNumeroTelephone());
+			Optional<Arbitre> arbitreOptional = daoArbitre.getArbitreByTelephone(arbitre.getNumeroTelephone());
 			return arbitreOptional.isPresent();
 		} catch (Exception e) {
 			e.printStackTrace();
