@@ -51,32 +51,28 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
-		if (bouton.isEnabled()) {
-			champLogin = vue.getIdentifiant();
-			champMotDePasse = vue.getMotDePasse();
+		champLogin = vue.getIdentifiant();
+		champMotDePasse = vue.getMotDePasse();
 
-			if (bouton.getText() == "Connexion") {
-				if (!champMotDePasse.isEmpty() && !champLogin.isEmpty()) {
-					CompteUtilisateur compteActuel = compteAdminOuUtilisateur(champLogin, champMotDePasse);
-					if (compteActuel == null) {
-						JOptionPane.showMessageDialog(vue, "Identifiant ou mot de passe incorrect");
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException ex) {
-							throw new RuntimeException(ex);
-						}
-					} else {
-						if (compteActuel instanceof CompteArbitre) {
+		if (bouton.getText() == "Connexion") {
+			CompteUtilisateur compteActuel = compteAdminOuUtilisateur(champLogin, champMotDePasse);
+			if (compteActuel == null) {
+				JOptionPane.showMessageDialog(vue, "Identifiant ou mot de passe incorrect");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException ex) {
+					throw new RuntimeException(ex);
+				}
+			} else {
+				if (compteActuel instanceof CompteArbitre) {
 
-							obs.notifyVue(Page.ARBITRE);
-							this.vue.clearField();
+					obs.notifyVue(Page.ARBITRE);
+					this.vue.clearField();
 
-						}
-						if (compteActuel == this.admin) {
-							obs.notifyVue(Page.ACCUEIL_ADMIN);
-							this.vue.clearField();
-						}
-					}
+				}
+				if (compteActuel == this.admin) {
+					obs.notifyVue(Page.ACCUEIL_ADMIN);
+					this.vue.clearField();
 				}
 			}
 		}
