@@ -277,10 +277,10 @@ public class ESporterManagerInitBDD {
 		equipeListTournoi.add(equipe9);
 
 		//Création automatique des matches
-		Creator.creationAutomatiqueMatches(equipeListTournoi, tournoi);
-		Creator.creationAutomatiqueMatches(equipeListTournoi2, tournoi2);
-		Creator.creationAutomatiqueMatches(equipeListTournoi3, tournoi3);
-		Creator.creationAutomatiqueMatches(equipeListTournoi4, tournoi4);
+		List<Matche> ListMatcheTournoi = Creator.creationAutomatiqueMatches(equipeListTournoi, tournoi);
+		List<Matche> ListMatcheTournoi2 = Creator.creationAutomatiqueMatches(equipeListTournoi2, tournoi2);
+		List<Matche> ListMatcheTournoi3 = Creator.creationAutomatiqueMatches(equipeListTournoi3, tournoi3);
+		List<Matche> ListMatcheTournoi4 = Creator.creationAutomatiqueMatches(equipeListTournoi4, tournoi4);
 
 		CustomDate debut = new CustomDate(2024, 12, 5);
 		CustomDate debut1 = new CustomDate(2024, 12, 7);

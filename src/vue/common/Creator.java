@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Creator {
 
-	public static void creationAutomatiqueMatches(List<Equipe> listeEquipe, Tournoi tournoi) {
+	public static List<Matche> creationAutomatiqueMatches(List<Equipe> listeEquipe, Tournoi tournoi) {
 		Connexion connexion = Connexion.getConnexion();
 		DaoMatche daoMatche = new DaoMatche(connexion);
 		DaoPartie daoPartie = new DaoPartie(connexion);
@@ -35,7 +35,7 @@ public class Creator {
 		for (int i = 0; i < listeEquipe.size(); i++) {
 			nbMatches += i;
 		}
-		
+
 		int matchParJour = nbMatches / nbDay;
 		int reste = nbMatches % nbDay;
 
@@ -81,5 +81,6 @@ public class Creator {
 				e.printStackTrace();
 			}
 		}
+		return all_match;
 	}
 }
