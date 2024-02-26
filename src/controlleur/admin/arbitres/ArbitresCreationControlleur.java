@@ -49,47 +49,80 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == vue.getBoutonValider()) {
-			String nomArbitre = vue.getTextfieldNom().trim();
-			String prenomArbitre = vue.getTextfieldPrenom().trim();
-			String telephone = vue.getTextTelephone().trim();
-			if (nomArbitre.isEmpty()) {
-				new JFramePopup("Erreur", "Veuillez completer le nom de l'arbitre", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-			} else if (prenomArbitre.isEmpty()) {
-				new JFramePopup("Erreur", "Veuillez completer le prénom de l'arbitre", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-			} else if (telephone.isEmpty()) {
-				new JFramePopup("Erreur", "Le telephone est obligatoire", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-			} else if (telephone.length() != 10) {
-				new JFramePopup("Erreur", "Le telephone doit contenir 10 chiffres, actuellement il y en a " + telephone.length(), () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-			} else if (!isDigit(telephone)) {
-				new JFramePopup("Erreur", "Le telephone ne doit pas contenir des caractères", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-			} else {
-				Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, telephone);
-				//Verifier si l'arbitre existe deja
-				if (isArbitreDejaExistant(arbitre)) {
-					new JFramePopup("Erreur", "L'arbitre existe deja", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-					resetChamps();
-				} else {
-					;
-					try {
-						daoArbitre.add(arbitre);
-						if (!listeTournoiChoisi.isEmpty()) {
-							addTournoisBdd(listeTournoiChoisi, arbitre);
-						}
-						new JFramePopup("Succès", "Arbitre ajouté", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
-						resetChamps();
-					} catch (Exception exceptionInsertion) {
-						exceptionInsertion.printStackTrace();
-						new JFramePopup("Erreur", "Erreur d'insertion", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-					}
-				}
-			}
-
-		}
-		if (e.getSource() == vue.getBoutonAnnuler()) {
-			ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE);
-			resetChamps();
+			validerCreationArbitre();
+		} else if (e.getSource() == vue.getBoutonAnnuler()) {
+			annulerCreationArbitre();
 		}
 	}
+
+	private void validerCreationArbitre() {
+		//recuperer des champs
+		String nomArbitre = vue.getTextfieldNom().trim();
+		String prenomArbitre = vue.getTextfieldPrenom().trim();
+		String telephone = vue.getTextTelephone().trim();
+
+		if (champsArbitreNonValides(nomArbitre, prenomArbitre, telephone)) {
+			return;
+		}
+
+		Arbitre arbitre = new Arbitre(nomArbitre, prenomArbitre, telephone);
+
+		if (isArbitreDejaExistant(arbitre)) {
+			afficherErreur("Ce numéro de telephone est deja utilisé");
+			resetChamps();
+			return;
+		}
+
+		try {
+			daoArbitre.add(arbitre);
+			if (!listeTournoiChoisi.isEmpty()) {
+				addTournoisBdd(listeTournoiChoisi, arbitre);
+			}
+			afficherSucces("Arbitre ajouté");
+			resetChamps();
+		} catch (Exception exceptionInsertion) {
+			exceptionInsertion.printStackTrace();
+			afficherErreur("Erreur d'insertion");
+		}
+	}
+
+	private void annulerCreationArbitre() {
+		ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE);
+		resetChamps();
+	}
+
+	private boolean champsArbitreNonValides(String nomArbitre, String prenomArbitre, String telephone) {
+		if (nomArbitre.isEmpty()) {
+			afficherErreur("Veuillez compléter le nom de l'arbitre");
+			return true;
+		}
+		if (prenomArbitre.isEmpty()) {
+			afficherErreur("Veuillez compléter le prénom de l'arbitre");
+			return true;
+		}
+		if (telephone.isEmpty()) {
+			afficherErreur("Le téléphone est obligatoire");
+			return true;
+		}
+		if (telephone.length() != 10) {
+			afficherErreur("Le téléphone doit contenir 10 chiffres, actuellement il y en a " + telephone.length());
+			return true;
+		}
+		if (!isDigit(telephone)) {
+			afficherErreur("Le téléphone ne doit pas contenir des caractères");
+			return true;
+		}
+		return false;
+	}
+
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur", message, () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+	}
+
+	private void afficherSucces(String message) {
+		new JFramePopup("Succès", message, () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
+	}
+
 
 	public void resetChamps() {
 		this.vue.clearField();
@@ -140,14 +173,13 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 	}
 
 	private boolean isDigit(String telephone) {
-		try {
-			Integer.parseInt(telephone);
-			return true;
-		} catch (NumberFormatException nb) {
-			return false;
+		for (int i = 0; i < telephone.length(); i++) {
+			if (!Character.isDigit(telephone.charAt(i))) {
+				return false;
+			}
 		}
+		return true;
 	}
-
 	private boolean isArbitreDejaExistant(Arbitre arbitre) {
 		try {
 			Optional<Arbitre> arbitreOptional = daoArbitre.getArbitreByTelephone(arbitre.getNumeroTelephone());
