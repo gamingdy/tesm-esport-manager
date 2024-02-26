@@ -94,7 +94,22 @@ public class DaoArbitre implements Dao<Arbitre, Object> {
 
 		}
 	}
-
+	
+	public Optional<Arbitre> getArbitreByTelephone(String numero) throws Exception {
+		try(PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Arbitre WHERE Telephone = ? ")){
+			getById.setString(1, numero);
+			ResultSet resultat = getById.executeQuery();
+			Arbitre arbitre = null;
+			if (resultat.next()) {
+				arbitre = new Arbitre(
+						resultat.getString("Nom"),
+						resultat.getString("Prenom"),
+						resultat.getString("Telephone"));
+			}
+			return Optional.ofNullable(arbitre);
+		}
+	}
+	
 	/**
 	 * Ajoute un arbitre à la table arbitre à partir d'un objet arbitre
 	 */
