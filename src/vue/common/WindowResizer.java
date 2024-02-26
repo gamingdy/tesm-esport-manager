@@ -59,7 +59,6 @@ public class WindowResizer {
 		this.currentHeight = this.mainWindow.getHeight();
 		this.currentWidth = this.mainWindow.getWidth();
 		this.mainWindow.updateBackgroundSize();
-
 	}
 
 	private Point mouseLocationOnScreen(MouseEvent event) {
@@ -74,6 +73,7 @@ public class WindowResizer {
 	private void mouseMotion() {
 		this.mainWindow.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent evt) {
+
 				if (!isResizing) {
 					originalPosition = mouseLocationOnScreen(evt);
 				}
@@ -107,6 +107,7 @@ public class WindowResizer {
 			public void mouseMoved(MouseEvent e) {
 				Point p = mouseLocationOnApp(e);
 				findBorder(p);
+
 				if (side == SIDE.NONE) {
 					mainWindow.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
@@ -144,7 +145,6 @@ public class WindowResizer {
 					updateSize();
 				}
 				isResizing = false;
-
 			}
 
 		});
