@@ -24,6 +24,7 @@ public class TitleBar extends JPanel {
 	final ButtonTitleBar enlarge;
 	private JLabel title;
 	private static TitleBar instance;
+	private boolean isDraggeable = true;
 
 
 	private TitleBar(Vue vue) {
@@ -46,10 +47,12 @@ public class TitleBar extends JPanel {
 			if (vue.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
 				vue.setExtendedState(JFrame.NORMAL);
 				enlarge.updateIcon("Agrandir");
+				this.setDraggeable(true);
 				vue.updateBackgroundSize();
 			} else {
 				vue.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				enlarge.updateIcon("Reduire");
+				this.setDraggeable(false);
 				vue.updateBackgroundSize();
 			}
 		});
@@ -91,13 +94,15 @@ public class TitleBar extends JPanel {
 				coordsWin = e.getPoint();
 			}
 		});
-
+	
 		addMouseMotionListener(new MouseAdapter() {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				Point currCoords = e.getLocationOnScreen();
-				vue.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
+				if (isDraggeable) {
+					Point currCoords = e.getLocationOnScreen();
+					vue.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
+				}
 			}
 		});
 	}
@@ -115,6 +120,10 @@ public class TitleBar extends JPanel {
 
 	public void setTitle(String title) {
 		this.title.setText(title);
+	}
+
+	public void setDraggeable(boolean draggeable) {
+		isDraggeable = draggeable;
 	}
 
 }

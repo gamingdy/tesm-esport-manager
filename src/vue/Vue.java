@@ -46,7 +46,7 @@ public class Vue extends JFrame {
 		panelContenu.setLayout(cl);
 		add(panelContenu, BorderLayout.CENTER);
 		panelContenu.setOpaque(false);
-		VueControlleur mainController = new VueControlleur(this);
+		new VueControlleur(this);
 	}
 
 	private void setBackground() {
