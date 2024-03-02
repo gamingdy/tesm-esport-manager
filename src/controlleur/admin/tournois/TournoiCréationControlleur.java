@@ -58,15 +58,16 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private List<Arbitre> arbitreList;
 	private List<Arbitre> arbitreListChoisi;
 	private DaoArbitre daoArbitre;
-	private DaoMatche daoMatche;
-	private DaoPartie daoPartie;
 	private PopupEquipe popupAjoutEquipe;
 	private PopupCompteArbitre popupCompteArbitre;
 	private PopupArbitres popupArbitres;
 	private String motdePasse;
 
 	public TournoiCréationControlleur(VueAdminTournoisCreation newVue) {
+		// Initialisation de la vue
 		this.vue = newVue;
+
+		// Initialisation de la connexion et des DAOs
 		this.c = Connexion.getConnexion();
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);
@@ -74,13 +75,17 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		daoPoule = new DaoPoule(c);
 		daoInscription = new DaoInscription(c);
 		daoAppartenance = new DaoAppartenance(c);
-		daoInscription = new DaoInscription(c);
 		daoArbitrage = new DaoArbitrage(c);
 		daoArbitre = new DaoArbitre(c);
-		daoMatche = new DaoMatche(c);
+
+		// Initialisation du mot de passe de compte arbitre
 		motdePasse = "";
+
+		// Initialisation des listes d'arbitres et d'équipes choisies
 		arbitreListChoisi = new ArrayList<>();
 		listeEquipeChoisi = new ArrayList<>();
+
+		// Récupération de la dernière saison, des équipes et des arbitres disponibles
 		try {
 			saison = daoSaison.getLastSaison();
 			listeEquipe = daoInscription.getEquipeBySaison(saison.getAnnee());
@@ -88,66 +93,121 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vue.getBoutonValider()) {
-			//Recuperation des champs
-			String nom = vue.getTextfieldNom().trim();
-			String dateDebutString = vue.getTextfieldDateDebut().trim();
-			String dateFinString = vue.getTextfieldDateFin().trim();
-			Niveau niveau = vue.getNiveau();
-			//Gestion des Champs vides
-			if (nom.isEmpty()) {
-				new JFramePopup("Erreur", "Le tournoi doit avoir un nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-			} else if (Objects.equals(niveau, null)) {
-				new JFramePopup("Erreur", "Veuillez choisir un niveau de tournoi", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-			} else if (nbEquipes < 4) {
-				new JFramePopup("Erreur", "Il faut au moins 4 equipes", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-			} else if (dateDebutString.isEmpty()) {
-				new JFramePopup("Erreur", "Le tournoi doit avoir une date de debut", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-			} else if (dateFinString.isEmpty()) {
-				new JFramePopup("Erreur", "Le tournoi doit avoir une date de fin", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-			} else {
-				//Gestion des dates entrées
-				CustomDate dateDebut;
-				CustomDate dateFin;
-				try {
-					dateDebut = CustomDate.fromString(dateDebutString);
-					dateFin = CustomDate.fromString(dateFinString);
-					if (!dateDebut.estAvant(dateFin)) {
-						new JFramePopup("Erreur", "La date debut doit etre avant la date fin", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					} else if (saison.getAnnee() != dateDebut.getAnnee() || saison.getAnnee() != dateFin.getAnnee()) {
-						new JFramePopup("Erreur", "L'année doit etre : " + saison.getAnnee(), () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-					} else {
-						popupCompteArbitre = new PopupCompteArbitre("Compte Arbitre", () ->
-						{
-							TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
-							addMotDePasse();
-							try {
-								Tournoi tournoiInserer = new Tournoi(saison, nom, dateDebut, dateFin, niveau, new CompteArbitre(nom, motdePasse));
-								tentativeAjoutTournoiBDD(tournoiInserer);
-							} catch (FausseDateException fd) {
-								fd.printStackTrace();
-							}
-						}, nom);
-					}
-				} catch (DateTimeException dateTimeException) {
-					new JFramePopup("Erreur", "Le bon format est dd/mm/yyyy", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
-				} catch (Exception ext) {
-					ext.printStackTrace();
-					throw new RuntimeException(ext);
-				}
-
-			}
-
+			validerTournoi();
 		} else if (e.getSource() == this.vue.getBoutonAnnuler()) {
-			TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE);
-			resetChamps();
+			annulerCreationTournoi();
 		}
 	}
+
+	private void validerTournoi() {
+		//recuperation des champs de texte
+		String nom = vue.getTextfieldNom().trim();
+		String dateDebutString = vue.getTextfieldDateDebut().trim();
+		String dateFinString = vue.getTextfieldDateFin().trim();
+		Niveau niveau = vue.getNiveau();
+
+		if (champsTournoiVides(nom, niveau, dateDebutString, dateFinString)) {
+			return;
+		}
+
+		if (!isNombreEquipesValide()) {
+			afficherErreur("Il faut au moins 4 équipes");
+			return;
+		}
+
+		CustomDate dateDebut;
+		CustomDate dateFin;
+
+		try {
+			dateDebut = CustomDate.fromString(dateDebutString);
+			dateFin = CustomDate.fromString(dateFinString);
+			if (!datesValides(dateDebut, dateFin)) {
+				return;
+			}
+
+			if (!anneeSaisonValide(dateDebut, dateFin)) {
+				return;
+			}
+
+			ouvrirPopupCompteArbitre(nom,dateDebut,dateFin,niveau);
+		} catch (DateTimeException dateTimeException) {
+			afficherErreur("Le bon format de date est dd/mm/yyyy");
+		} catch (Exception ext) {
+			ext.printStackTrace();
+			throw new RuntimeException(ext);
+		}
+	}
+
+	private void annulerCreationTournoi() {
+		TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE);
+		resetChamps();
+	}
+
+	private boolean champsTournoiVides(String nom, Niveau niveau, String dateDebutString, String dateFinString) {
+		if (nom.isEmpty()) {
+			afficherErreur("Le tournoi doit avoir un nom");
+			return true;
+		}
+		if (Objects.equals(niveau, null)) {
+			afficherErreur("Veuillez choisir un niveau de tournoi");
+			return true;
+		}
+		if (dateDebutString.isEmpty()) {
+			afficherErreur("Le tournoi doit avoir une date de début");
+			return true;
+		}
+		if (dateFinString.isEmpty()) {
+			afficherErreur("Le tournoi doit avoir une date de fin");
+			return true;
+		}if(!isAtLeastOneArbitre()){
+			afficherErreur("Le tournoi doit avoir au moins un arbitre");
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isNombreEquipesValide() {
+		return nbEquipes >= 4;
+	}
+
+	private boolean datesValides(CustomDate dateDebut, CustomDate dateFin) {
+		if (!dateDebut.estAvant(dateFin)) {
+			afficherErreur("La date début doit être avant la date fin");
+			return false;
+		}
+		return true;
+	}
+
+	private boolean anneeSaisonValide(CustomDate dateDebut, CustomDate dateFin) {
+		if (saison.getAnnee() != dateDebut.getAnnee() || saison.getAnnee() != dateFin.getAnnee()) {
+			afficherErreur("L'année doit être : " + saison.getAnnee());
+			return false;
+		}
+		return true;
+	}
+
+	private void ouvrirPopupCompteArbitre(String nomTournoi,CustomDate dateDebut, CustomDate dateFin,Niveau niveau) {
+		popupCompteArbitre = new PopupCompteArbitre("Compte Arbitre", () -> {
+			TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
+			addMotDePasse();
+			try {
+				Tournoi tournoiInserer = new Tournoi(saison, nomTournoi, dateDebut, dateFin, niveau, new CompteArbitre(nomTournoi, motdePasse));
+				tentativeAjoutTournoiBDD(tournoiInserer);
+			} catch (FausseDateException fd) {
+				fd.printStackTrace();
+			}
+		}, nomTournoi);
+	}
+
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur", message, () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+	}
+
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -179,11 +239,13 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			arbitreListChoisi.add(arbitreChoisi);
 			this.vue.addArbitre(arbitreChoisi.getNom());
 			this.arbitreList.remove(arbitreChoisi);
-
 		} else {
 			new JFramePopup("Erreur", "Arbitre est deja dans la liste", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
 		}
 
+	}
+	public boolean isAtLeastOneArbitre(){
+		return !this.arbitreListChoisi.isEmpty();
 	}
 
 	public void initEquipes(Tournoi tournoi, List<Equipe> listeEquipe) throws Exception {
@@ -239,11 +301,6 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		motdePasse = "";
 
 	}
-
-	private void resetcomboBoxArbitres() {
-
-	}
-
 	public void addMotDePasse() {
 		motdePasse = popupCompteArbitre.getSaisie().trim();
 	}

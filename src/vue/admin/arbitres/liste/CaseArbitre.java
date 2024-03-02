@@ -58,13 +58,14 @@ public class CaseArbitre {
 		panelItem.add(icone, gbcIcone);
 
 
-		JTextArea nom = new JTextArea(getNom() + " " + getPrenom());
+		JTextArea nom = new JTextArea(getNom() + " " + getPrenom() + System.lineSeparator() + getNumero());
 		nom.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		nom.setLineWrap(true);
+		nom.setEditable(false);
 		nom.setWrapStyleWord(true);
 		nom.setOpaque(false);
 		nom.setForeground(CustomColor.BLANC);
-		nom.setFont(MaFont.getFontTitre3());
+		nom.setFont(MaFont.getFontTitre4());
 		GridBagConstraints gbcNom = new GridBagConstraints();
 		gbcNom.fill = GridBagConstraints.HORIZONTAL;
 		gbcNom.gridx = 1;

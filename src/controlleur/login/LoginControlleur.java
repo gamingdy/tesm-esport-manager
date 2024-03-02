@@ -51,8 +51,8 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
-		champLogin = vue.getIdentifiant();
-		champMotDePasse = vue.getMotDePasse();
+		champLogin = vue.getIdentifiant().trim();
+		champMotDePasse = vue.getMotDePasse().trim();
 
 		if (bouton.getText() == "Connexion") {
 			CompteUtilisateur compteActuel = compteAdminOuUtilisateur(champLogin, champMotDePasse);
