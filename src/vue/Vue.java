@@ -33,7 +33,7 @@ public class Vue extends JFrame {
 		titleBar = TitleBar.getInstance(this);
 
 		setLayout(new BorderLayout());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().add(titleBar, BorderLayout.NORTH);
 
 		new WindowResizer(this, HEIGHT, WIDTH);

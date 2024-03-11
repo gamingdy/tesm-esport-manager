@@ -13,17 +13,15 @@ import java.util.List;
 
 public class Impression extends JPanel implements Printable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Equipe> equipes;
 	private List<Float> points;
 	private String nomTournoi;
 	private List<String> textLines;
 	private String date;
-
-	// Définir ces variables pour être utilisées dans la méthode print
-	private int y;
-	private int start;
-	private int end;
-	private int tabSize;
 
 	public Impression(List<Equipe> equipes, List<Float> point, String nomTournoi, String date) {
 		this.equipes = equipes;
@@ -47,6 +45,10 @@ public class Impression extends JPanel implements Printable {
 	}
 
 	public int print(Graphics g, PageFormat pf, int pageIndex) {
+		int y;
+		int start;
+		int end;
+		int tabSize;
 		Font titleFont = new Font("Consolas", Font.BOLD, 16);
 		Font font = new Font("Consolas", Font.PLAIN, 12);
 		g.setFont(font);
