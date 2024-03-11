@@ -16,7 +16,7 @@ public class VueAdmin extends JPanel {
 
 	private Main main;
 	private MenuNavBar navbar;
-	private AdminControlleur controlleurBoutons;
+	private transient AdminControlleur controlleurBoutons;
 
 
 	public VueAdmin() {
