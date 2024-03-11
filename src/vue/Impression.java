@@ -17,11 +17,11 @@ public class Impression extends JPanel implements Printable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<Equipe> equipes;
-	private List<Float> points;
-	private String nomTournoi;
-	private List<String> textLines;
-	private String date;
+	private transient List<Equipe> equipes;
+	private transient List<Float> points;
+	private transient String nomTournoi;
+	private transient List<String> textLines;
+	private transient String date;
 
 	public Impression(List<Equipe> equipes, List<Float> point, String nomTournoi, String date) {
 		this.equipes = equipes;
@@ -49,8 +49,9 @@ public class Impression extends JPanel implements Printable {
 		int start;
 		int end;
 		int tabSize;
-		Font titleFont = new Font("Consolas", Font.BOLD, 16);
-		Font font = new Font("Consolas", Font.PLAIN, 12);
+		final String fontFamily = "Consolas";
+		Font titleFont = new Font(fontFamily, Font.BOLD, 16);
+		Font font = new Font(fontFamily, Font.PLAIN, 12);
 		g.setFont(font);
 		FontMetrics metrics = g.getFontMetrics(font);
 		int lineHeight = metrics.getHeight();
@@ -87,7 +88,7 @@ public class Impression extends JPanel implements Printable {
 		g.drawString("\n", 50, y);
 		y += subTitleMetrics.getHeight();
 		// Table headers en gras
-		Font headerFont = new Font("Consolas", Font.BOLD, 12); // Police en gras pour les titres du tableau
+		Font headerFont = new Font(fontFamily, Font.BOLD, 12); // Police en gras pour les titres du tableau
 		g.setFont(headerFont);
 		FontMetrics headerMetrics = g.getFontMetrics(headerFont);
 		int xHeader = 50;
