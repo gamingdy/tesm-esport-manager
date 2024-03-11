@@ -20,9 +20,9 @@ public class WindowResizer {
 	private SIDE side;
 	private boolean isResizing;
 	private Point originalPosition;
-	private final int BORDERSIZE = 10;
-	private final int MINIMUMHEIGHT = 600;
-	private final int MINIMUMWIDTH = 1100;
+	private static final int BORDERSIZE = 10;
+	private static final int MINIMUMHEIGHT = 600;
+	private static final int MINIMUMWIDTH = 1100;
 
 	public WindowResizer(Vue vue, int height, int width) {
 		this.mainWindow = vue;
@@ -72,6 +72,7 @@ public class WindowResizer {
 
 	private void mouseMotion() {
 		this.mainWindow.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent evt) {
 
 				if (!isResizing) {
@@ -103,7 +104,7 @@ public class WindowResizer {
 					}
 				}
 			}
-
+			@Override
 			public void mouseMoved(MouseEvent e) {
 				Point p = mouseLocationOnApp(e);
 				findBorder(p);
@@ -139,7 +140,7 @@ public class WindowResizer {
 					mainWindow.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
 			}
-
+			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (isResizing) {
 					updateSize();

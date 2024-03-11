@@ -3,6 +3,9 @@ package vue.common;
 import java.awt.Color;
 
 public class CustomColor {
+	private CustomColor() {
+		// default implementation ignored
+	}
 	public static final Color BACKGROUND_MAIN = new Color(15, 3, 25);
 	public static final Color BACKGROUND_MENU = new Color(20, 6, 40);
 	public static final Color ROSE_CONTOURS = new Color(188, 19, 254,190);

@@ -20,7 +20,7 @@ public class JFramePopupEquipe extends JFrame {
 	public JFramePopupEquipe(String title, String message, ActionHandler ajouterHandler, ActionHandler saisonHandler) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(600, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));

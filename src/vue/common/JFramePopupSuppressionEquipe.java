@@ -20,7 +20,7 @@ public class JFramePopupSuppressionEquipe extends JFrame {
 	public JFramePopupSuppressionEquipe(String title, String message, ActionHandler supprimerSaison, ActionHandler supprimerDefinitivement) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(600, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));

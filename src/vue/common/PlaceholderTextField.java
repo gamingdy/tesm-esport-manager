@@ -9,9 +9,6 @@ public class PlaceholderTextField extends JTextField {
 
 	private String placeholder;
 
-	public PlaceholderTextField() {
-	}
-
 
 	@Override
 	protected void paintComponent(final Graphics pG) {

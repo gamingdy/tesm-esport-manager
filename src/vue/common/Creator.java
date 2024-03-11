@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Creator {
+	
+	private Creator() {
+		// default implementation ignored
+	}
 
 	public static List<Matche> creationAutomatiqueMatches(List<Equipe> listeEquipe, Tournoi tournoi) {
 		Connexion connexion = Connexion.getConnexion();
@@ -41,7 +45,7 @@ public class Creator {
 
 		CustomDate dateActuel = dateDebut;
 		int currentDay = 1;
-		List<Matche> all_match = new ArrayList<>();
+		List<Matche> allMatch = new ArrayList<>();
 		List<Matche> matcheOfDay = new ArrayList<>();
 		for (int i = 0; i < listeEquipe.size() - 1; i++) {
 			for (int j = i + 1; j < listeEquipe.size(); j++) {
@@ -53,34 +57,32 @@ public class Creator {
 					if (matcheOfDay.size() >= matchParJour) {
 						if (currentDay == nbDay) {
 							if (matcheOfDay.size() == matchParJour + reste) {
-								all_match.addAll(matcheOfDay);
+								allMatch.addAll(matcheOfDay);
 								matcheOfDay.clear();
 								dateActuel = dateActuel.plusOne();
 								currentDay += 1;
 							}
 						} else {
-							all_match.addAll(matcheOfDay);
+							allMatch.addAll(matcheOfDay);
 							matcheOfDay.clear();
 							dateActuel = dateActuel.plusOne();
 							currentDay += 1;
 						}
 					}
 				} catch (FausseDateException | MemeEquipeException e) {
-					e.printStackTrace();
 				}
 			}
 		}
 
-		for (Matche matche : all_match) {
+		for (Matche matche : allMatch) {
 			try {
 				daoMatche.add(matche);
 				Partie partie = new Partie(matche, 1);
 				daoPartie.add(partie);
 
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
-		return all_match;
+		return allMatch;
 	}
 }

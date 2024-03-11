@@ -5,7 +5,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -24,7 +23,7 @@ public class JFramePopup extends JFrame {
 	public JFramePopup(String title, String message, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
@@ -52,8 +51,8 @@ public class JFramePopup extends JFrame {
 		label.setBorder(BorderFactory.createEmptyBorder(40, 20, 0, 0));
 		label.setOpaque(false);
 		label.setForeground(CustomColor.BLANC);
-		label.setAlignmentX(JTextField.CENTER_ALIGNMENT); // Centre le texte
-		label.setAlignmentY(JTextField.CENTER_ALIGNMENT);
+		label.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT); // Centre le texte
+		label.setAlignmentY(java.awt.Component.CENTER_ALIGNMENT);
 		label.setEditable(false);
 		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
 		label.setPreferredSize(new Dimension());

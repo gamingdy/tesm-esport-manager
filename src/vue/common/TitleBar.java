@@ -40,17 +40,17 @@ public class TitleBar extends JPanel {
 		exit.addActionListener(e -> System.exit(0));
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-		minimize.addActionListener(e -> vue.setState(JFrame.ICONIFIED));
+		minimize.addActionListener(e -> vue.setState(java.awt.Frame.ICONIFIED));
 		minimize.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		enlarge.addActionListener(e -> {
-			if (vue.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
-				vue.setExtendedState(JFrame.NORMAL);
+			if (vue.getExtendedState() == java.awt.Frame.MAXIMIZED_BOTH) {
+				vue.setExtendedState(java.awt.Frame.NORMAL);
 				enlarge.updateIcon("Agrandir");
 				this.setDraggeable(true);
 				vue.updateBackgroundSize();
 			} else {
-				vue.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				vue.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 				enlarge.updateIcon("Reduire");
 				this.setDraggeable(false);
 				vue.updateBackgroundSize();
@@ -89,7 +89,7 @@ public class TitleBar extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				coordsWin = null;
 			}
-
+			@Override
 			public void mousePressed(MouseEvent e) {
 				coordsWin = e.getPoint();
 			}
