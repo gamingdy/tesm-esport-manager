@@ -51,12 +51,7 @@ public class Vue extends JFrame {
 
 	private void setBackground() {
 		JPanel panel = null;
-		try {
-			panel = new JPanelWithBackground("assets/background.jpg", HEIGHT, WIDTH);
-		} catch (IOException e) {
-			panel = new JPanel();
-			panel.setBackground(Color.red.darker());
-		}
+		panel = new JPanelWithBackground("assets/background.jpg", HEIGHT, WIDTH);
 		setContentPane(panel);
 	}
 
