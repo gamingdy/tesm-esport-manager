@@ -19,7 +19,7 @@ public abstract class VueArbitre extends JPanel {
 	protected JButton boutonAction;
 	protected JButton boutonDeconnexion;
 
-	public VueArbitre() {
+	protected VueArbitre() {
 		GridBagLayout gbl = new GridBagLayout();
 		gbl.rowWeights = new double[]{0, 0.85, 0.15};
 		gbl.columnWeights = new double[]{0.5, 0.5};

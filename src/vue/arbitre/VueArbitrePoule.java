@@ -18,10 +18,13 @@ import java.util.List;
 
 public class VueArbitrePoule extends VueArbitre {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel labelTitreParties;
 	private JScrollPane spParties;
 	private JPanel liste;
-	private JPanel listeParties;
 
 	@Override
 	public void initMain() {
