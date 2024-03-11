@@ -3,8 +3,6 @@ package controlleur.admin.accueil;
 import controlleur.ControlleurObserver;
 import controlleur.VueObserver;
 import dao.Connexion;
-import dao.DaoAppartenance;
-import dao.DaoEquipe;
 import dao.DaoMatche;
 import dao.DaoPartie;
 import dao.DaoSaison;
@@ -39,13 +37,8 @@ import java.util.Set;
 
 public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	private VueAccueil vue;
-	private DefaultListModel<LigneTournoi> listeTournoi;
 	private List<Equipe> equipes;
-	private DefaultListModel<LigneEquipe> listeClassement;
-	private DefaultListModel<LigneMatche> listeMatchesR;
 	private DaoTournoi daoTournoi;
-	private DaoEquipe daoEquipe;
-	private DaoAppartenance daoAppartenance;
 	private DaoSaison daoSaison;
 	private DaoMatche daoMatche;
 	private DaoPartie daoPartie;
@@ -56,8 +49,6 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
-		daoEquipe = new DaoEquipe(c);
-		daoAppartenance = new DaoAppartenance(c);
 		daoPartie = new DaoPartie(c);
 		equipes = new ArrayList<>();
 		this.update();
@@ -71,7 +62,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	}
 
 	public void mettreAjourListeTournoi() {
-		listeTournoi = new DefaultListModel<LigneTournoi>();
+		DefaultListModel<LigneTournoi> listeTournoi = new DefaultListModel<>();
 		try {
 			Saison saisonActuelle = daoSaison.getLastSaison();
 			CustomDate debutSaison = new CustomDate(saisonActuelle.getAnnee(), 01, 01);
@@ -96,7 +87,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	}
 
 	public void mettreAjourListeClassement() {
-		listeClassement = new DefaultListModel<LigneEquipe>();
+		DefaultListModel<LigneEquipe> listeClassement = new DefaultListModel<>();
 		try {
 			Optional<Tournoi> tournoiActuel = daoTournoi.getTournoiActuel();
 
@@ -119,7 +110,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	}
 
 	public void mettreAjourListeMatches() {
-		listeMatchesR = new DefaultListModel<LigneMatche>();
+		DefaultListModel<LigneMatche> listeMatchesR = new DefaultListModel<>();
 		try {
 			List<Matche> liste = new ArrayList<>(daoMatche.getTenLastMatch());
 			for (Matche m : liste) {

@@ -68,8 +68,8 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			this.reset();
 		} else if (e.getSource() == this.vue.getBoutonValider() && this.vue.getBoutonValider().getText().equals("Valider")) {
 			passerEnNonEditing();
-			String nom_pays = Objects.requireNonNull(this.vue.getComboboxPays().getSelectedItem()).toString();
-			Pays pays = Pays.trouverPaysParNom(nom_pays);
+			String nomPays = Objects.requireNonNull(this.vue.getComboboxPays().getSelectedItem()).toString();
+			Pays pays = Pays.trouverPaysParNom(nomPays);
 			Equipe equipe = new Equipe(this.vue.getChampNom().getText(), pays);
 			addEquipe(equipe);
 			if (this.saisonDefined) {
@@ -110,28 +110,28 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		this.caseEquipe = caseEquipe;
 
 		try {
-			Optional<Equipe> find_equipe = this.daoEquipe.getById(nomEquipe);
-			if (!find_equipe.isPresent()) {
+			Optional<Equipe> findEquipe = this.daoEquipe.getById(nomEquipe);
+			if (!findEquipe.isPresent()) {
 				throw new RuntimeException("L'équipe n'existe pas");
 			}
 			List<Joueur> joueurs = this.daoJoueur.getJoueurParEquipe(nomEquipe);
-			List<String> liste_joueurs = joueurs.stream().map(Joueur::getPseudo).collect(Collectors.toList());
-			Equipe equipe = find_equipe.get();
+			List<String> listeJoueurs = joueurs.stream().map(Joueur::getPseudo).collect(Collectors.toList());
+			Equipe equipe = findEquipe.get();
 
 			BufferedImage img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
 
-			ImageIcon logo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
+			ImageIcon defaultLogo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
 
 			List<Saison> saisons = this.daoInscription.getSaisonByEquipe(equipe.getNom());
 			if (!saisons.isEmpty()) {
 				this.saisonDefined = true;
 			}
-			List<Integer> lst_saison = saisons.stream().map(Saison::getAnnee).collect(Collectors.toList());
+			List<Integer> listSaison = saisons.stream().map(Saison::getAnnee).collect(Collectors.toList());
 
 			this.vue.setNom(equipe.getNom());
 			this.vue.setPays(equipe.getPays());
-			this.vue.setJoueurs(liste_joueurs);
-			this.vue.setLogo(logo);
+			this.vue.setJoueurs(listeJoueurs);
+			this.vue.setLogo(defaultLogo);
 			this.vue.getChampWorldRank().setEditable(false);
 			this.vue.getChampNom().setEditable(false);
 			if (editing) {
@@ -139,7 +139,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			} else {
 				passerEnNonEditing();
 			}
-			this.vue.setSaisons(lst_saison);
+			this.vue.setSaisons(listSaison);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -174,6 +174,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		// default implementation ignored
 	}
 
 	@Override
@@ -228,17 +229,21 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// default implementation ignored
 	}
 }

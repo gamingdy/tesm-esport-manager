@@ -41,7 +41,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	private DaoSaison daoSaison;
 	private DaoInscription daoInscription;
 	private BufferedImage logo;
-	private static Connexion c;
+	private Connexion c;
 	private PopupPseudo popupPseudo;
 	private List<String> listePseudo;
 	private int nbJoueurs = 0;
@@ -69,7 +69,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			} else {
 				champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
 			}
-			//if ((nomEquipe.isEmpty()) || (logo == null) || (champPaysEquipe == null)) {
+
 			if (nomEquipe.isEmpty()) {
 				new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 			} else if (logo == null) {
@@ -223,21 +223,21 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-
+		// default implementation ignored
 	}
 }

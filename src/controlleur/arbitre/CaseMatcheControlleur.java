@@ -15,15 +15,13 @@ import java.util.Optional;
 public class CaseMatcheControlleur extends MouseAdapter {
 
 	private CaseMatch caseMatch;
-	private boolean is_left;
+	private boolean isLeft;
 	private DaoPartie daoPartie;
 	private DaoMatche daoMatche;
-	private Matche matche;
-	private Partie partie;
 
-	public CaseMatcheControlleur(CaseMatch caseMatch, boolean is_left) {
+	public CaseMatcheControlleur(CaseMatch caseMatch, boolean isLeft) {
 		this.caseMatch = caseMatch;
-		this.is_left = is_left;
+		this.isLeft = isLeft;
 		Connexion c = Connexion.getConnexion();
 		this.daoPartie = new DaoPartie(c);
 		this.daoMatche = new DaoMatche(c);
@@ -31,29 +29,30 @@ public class CaseMatcheControlleur extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		this.matche = this.getMatche();
-		if (this.matche == null) {
+		Matche matche = this.getMatche();
+		Partie partie = null;
+		if (matche == null) {
 			return;
 		}
 		try {
-			this.partie = this.getPartie(this.matche.getId());
+			partie = this.getPartie(matche.getId());
 		} catch (IdNotSetException ex) {
 			throw new RuntimeException(ex);
 		}
-		if (this.partie == null) {
+		if (partie == null) {
 			return;
 		}
 
-		if (is_left) {
-			this.partie.setVainqueur(matche.getEquipe1());
+		if (isLeft) {
+			partie.setVainqueur(matche.getEquipe1());
 			this.setVainqueurEquipe1Affichage();
 		} else {
-			this.partie.setVainqueur(matche.getEquipe2());
+			partie.setVainqueur(matche.getEquipe2());
 			this.setVainqueurEquipe2Affichage();
 		}
 
 		try {
-			this.daoPartie.update(this.partie);
+			this.daoPartie.update(partie);
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}

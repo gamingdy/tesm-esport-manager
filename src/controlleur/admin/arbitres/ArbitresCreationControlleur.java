@@ -180,6 +180,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 		}
 		return true;
 	}
+
 	private boolean isArbitreDejaExistant(Arbitre arbitre) {
 		try {
 			Optional<Arbitre> arbitreOptional = daoArbitre.getArbitreByTelephone(arbitre.getNumeroTelephone());
@@ -205,21 +206,21 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-
+		// default implementation ignored
 	}
 }

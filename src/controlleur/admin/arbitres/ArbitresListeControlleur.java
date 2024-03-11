@@ -2,9 +2,7 @@ package controlleur.admin.arbitres;
 
 import controlleur.ControlleurObserver;
 import dao.Connexion;
-import dao.DaoArbitrage;
 import dao.DaoArbitre;
-import dao.DaoSaison;
 import modele.Arbitre;
 import vue.Page;
 import vue.admin.arbitres.liste.CaseArbitre;
@@ -18,8 +16,6 @@ import java.util.List;
 public class ArbitresListeControlleur implements ControlleurObserver, ActionListener {
 	private VueAdminArbitresListe vue;
 	private DaoArbitre daoArbitre;
-	private DaoArbitrage daoArbitrage;
-	private DaoSaison daoSaison;
 	private Connexion c;
 	private List<Arbitre> arbitreList;
 	private List<CaseArbitre> listeCase;
@@ -28,8 +24,6 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 		this.vue = newVue;
 		c = Connexion.getConnexion();
 		daoArbitre = new DaoArbitre(c);
-		daoArbitrage = new DaoArbitrage(c);
-		daoSaison = new DaoSaison(c);
 		this.arbitreList = new ArrayList<>();
 		this.update();
 	}

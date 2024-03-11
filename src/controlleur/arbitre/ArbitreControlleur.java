@@ -47,7 +47,7 @@ public class ArbitreControlleur implements ActionListener {
 
 			if (tournoiActuel.isPresent()) {
 				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoiActuel.get().getDebut().getAnnee(), tournoiActuel.get().getNom());
-				this.vue.setTitre("Tournoi " +tournoiActuel.get().getNom() + " "+tournoiActuel.get().getDebut().getAnnee());
+				this.vue.setTitre("Tournoi " + tournoiActuel.get().getNom() + " " + tournoiActuel.get().getDebut().getAnnee());
 				if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
 					caseMatchList = new ArrayList<>();
 					for (Matche m : matcheList) {
@@ -59,8 +59,7 @@ public class ArbitreControlleur implements ActionListener {
 							vue.setTexteBouton("Clôturer le tournoi");
 						}
 					}
-				}
-				else {
+				} else {
 					caseMatchList = new ArrayList<>();
 					for (Matche m : matcheList) {
 						List<Partie> partieList = daoPartie.getPartieByMatche(m);
@@ -102,27 +101,23 @@ public class ArbitreControlleur implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vue.getBoutonAnnuler()) {
-			new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> {
-				VueObserver.getInstance().notifyVue(Page.LOGIN);
-			});
+			new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () ->
+					VueObserver.getInstance().notifyVue(Page.LOGIN)
+			);
 		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer la poule")) {
 			closePoule();
 			this.vue.setTexteBouton("Clôturer le tournoi");
 		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer le tournoi")) {
-			if (isAllMatcheClosed()){
-				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () -> {
-					VueObserver.getInstance().notifyVue(Page.LOGIN);
-				});
+			if (isAllMatcheClosed()) {
+				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () ->
+						VueObserver.getInstance().notifyVue(Page.LOGIN)
+				);
 			} else {
-				new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () -> {
-					VueObserver.getInstance().notifyVue(Page.ARBITRE);
-				});
+				new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () ->
+						VueObserver.getInstance().notifyVue(Page.ARBITRE)
+				);
 			}
 		}
-	}
-
-	private void initPhaseFinale() {
-		//to do
 	}
 
 	private boolean isAllMatcheClosed() {
@@ -162,12 +157,12 @@ public class ArbitreControlleur implements ActionListener {
 				daoPartie.add(partieFinale);
 				daoMatche.add(matchePetiteFinale);
 				daoPartie.add(partiePetiteFinale);
-				List<CaseMatch> caseMatchList = new ArrayList<>();
+				List<CaseMatch> currentMatchList = new ArrayList<>();
 
-				caseMatchList.add(convertMatchToCaseMatch(matcheFinale));
-				caseMatchList.add(convertMatchToCaseMatch(matchePetiteFinale));
-				updateMatche(caseMatchList);
-				this.caseMatchList=caseMatchList;
+				currentMatchList.add(convertMatchToCaseMatch(matcheFinale));
+				currentMatchList.add(convertMatchToCaseMatch(matchePetiteFinale));
+				updateMatche(currentMatchList);
+				this.caseMatchList = currentMatchList;
 			} catch (FausseDateException | MemeEquipeException e) {
 				throw new RuntimeException(e);
 			} catch (Exception e) {
@@ -176,9 +171,9 @@ public class ArbitreControlleur implements ActionListener {
 
 
 		} else {
-			new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () -> {
-				VueObserver.getInstance().notifyVue(Page.ARBITRE);
-			});
+			new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () ->
+					VueObserver.getInstance().notifyVue(Page.ARBITRE)
+			);
 		}
 	}
 
