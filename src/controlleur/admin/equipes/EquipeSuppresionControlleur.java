@@ -16,7 +16,6 @@ import vue.common.JFramePopupSuppressionEquipe;
 
 import java.awt.event.MouseAdapter;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 public class EquipeSuppresionControlleur extends MouseAdapter {
@@ -26,7 +25,6 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 	private DaoAppartenance daoAppartenance;
 	private DaoSaison daoSaison;
 	private DaoEquipe daoEquipe;
-	private Equipe equipe;
 
 	public EquipeSuppresionControlleur(CaseEquipe caseEquipe) {
 		this.caseEquipe = caseEquipe;
@@ -104,7 +102,7 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 		return listeSaison.contains(saison);
 	}
 
-	private boolean isEquipeDansTournoiSaisonActuelle(Equipe equipe) throws SQLException, Exception {
+	private boolean isEquipeDansTournoiSaisonActuelle(Equipe equipe) throws Exception {
 		saison = daoSaison.getLastSaison();
 		Inscription inscription = new Inscription(saison, equipe);
 		List<Tournoi> listeTournoisJoue = daoAppartenance.getTournoiByEquipeForSaison(inscription);

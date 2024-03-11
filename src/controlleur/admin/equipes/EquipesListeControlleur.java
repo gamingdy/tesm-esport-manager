@@ -29,12 +29,10 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	private DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
 	private DaoSaison daoSaison;
-	private Saison saison;
 	private DaoInscription daoInscription;
 
 	private enum Etat {SAISON_ACTUELLE, TOUTES}
 
-	;
 	private Etat etat;
 	private List<CaseEquipe> listeCase;
 	private List<Equipe> listeEquipe;
@@ -103,7 +101,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	@Override
 	public void update() {
 		try {
-			saison = daoSaison.getLastSaison();
+			Saison saison = daoSaison.getLastSaison();
 			List<Equipe> liste = new ArrayList<>();
 
 			List<Equipe> listeEquipeSaisonDiff = new ArrayList<>();
@@ -153,8 +151,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 				this.listeEquipeSaison.addAll(nouveauDansSaison);
 				List<CaseEquipe> caseHorsSaison = convertListToCase(horsSaison);
 				List<CaseEquipe> caseSaison = convertListToCase(nouveauDansSaison);
-				List<CaseEquipe> nouvelleCase = new ArrayList<>();
-				nouvelleCase.addAll(caseHorsSaison);
+				List<CaseEquipe> nouvelleCase = new ArrayList<>(caseHorsSaison);
 				if (!differences.isEmpty()) {
 					nouvelleCase.addAll(caseSaison);
 				}
@@ -214,8 +211,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	private List<Equipe> getEquipeSaion(int annee) {
 		List<Equipe> liste = new ArrayList<>();
 		try {
-			List<Equipe> inscriptions = daoInscription.getEquipeBySaison(annee);
-			return inscriptions;
+			return daoInscription.getEquipeBySaison(annee);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
