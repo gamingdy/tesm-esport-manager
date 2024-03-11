@@ -13,24 +13,23 @@ import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
 
 @SuppressWarnings("serial")
 public class VueLogin extends JPanel {
-	private LoginControlleur controleur;
-	private ChampConnexion champIdentifiant;
-	private ChampConnexion champMotDePasse;
-	private JButton boutonConnexion;
+	private transient LoginControlleur controleur;
+	private transient ChampConnexion champIdentifiant;
+	private transient ChampConnexion champMotDePasse;
+	private transient JButton boutonConnexion;
 
 	public VueLogin() throws Exception {
 		controleur = new LoginControlleur(this);
 		setOpaque(false);
-		GridBagLayout gridBagLayout_1 = new GridBagLayout();
-		gridBagLayout_1.columnWidths = new int[]{0, 0, 0};
-		gridBagLayout_1.rowHeights = new int[]{0, 0};
-		gridBagLayout_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout_1);
+		GridBagLayout gridBagLayoutSelf = new GridBagLayout();
+		gridBagLayoutSelf.columnWidths = new int[]{0, 0, 0};
+		gridBagLayoutSelf.rowHeights = new int[]{0, 0};
+		gridBagLayoutSelf.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayoutSelf.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayoutSelf);
 		creerPanelVide(0, 0, this);
 		creerPanelVide(0, 1, this);
 		creerPanelVide(1, 1, this);
@@ -103,7 +102,7 @@ public class VueLogin extends JPanel {
 		boutonConnexion.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.BLANC, 2), BorderFactory.createEmptyBorder(10, 25, 10, 25)));
 		boutonConnexion.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		boutonConnexion.setContentAreaFilled(false);
-		boutonConnexion.addActionListener((ActionListener) controleur);
+		boutonConnexion.addActionListener(controleur);
 		creerPanelVide(0, 3, panel);
 	}
 
