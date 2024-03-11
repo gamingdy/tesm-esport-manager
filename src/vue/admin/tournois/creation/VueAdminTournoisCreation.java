@@ -1,6 +1,6 @@
 package vue.admin.tournois.creation;
 
-import controlleur.admin.tournois.TournoiCréationControlleur;
+import controlleur.admin.tournois.TournoiCreationControlleur;
 import modele.Niveau;
 import vue.Vue;
 import vue.common.CustomColor;
@@ -359,7 +359,7 @@ public class VueAdminTournoisCreation extends JPanel {
 	 *
 	 * @param controleur
 	 */
-	public void setControleur(TournoiCréationControlleur controleur) {
+	public void setControleur(TournoiCreationControlleur controleur) {
 		this.boutonValider.addActionListener(controleur);
 		this.boutonAnnuler.addActionListener(controleur);
 		this.btnAjoutEquipes.addMouseListener(controleur);
