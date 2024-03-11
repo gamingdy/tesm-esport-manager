@@ -23,12 +23,9 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	private VueLogin vue;
 	private CompteAdmin admin = CompteAdmin.compteAdmin;
 	private CompteArbitre arbitre = null;
-	private String champLogin;
-	private String champMotDePasse;
-
 	private VueObserver obs;
 
-	public LoginControlleur(VueLogin newVue) throws Exception {
+	public LoginControlleur(VueLogin newVue) {
 		this.vue = newVue;
 
 		Connexion c = Connexion.getConnexion();
@@ -38,10 +35,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 			Tournoi tournoi = daoTournoi.getTournoiActuel().get();
 			arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 		} catch (Exception e) {
-
 		}
-
-
 	}
 
 	public void attach(VueObserver obs) {
@@ -51,8 +45,8 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
-		champLogin = vue.getIdentifiant().trim();
-		champMotDePasse = vue.getMotDePasse().trim();
+		String champLogin = vue.getIdentifiant().trim();
+		String champMotDePasse = vue.getMotDePasse().trim();
 
 		if (bouton.getText() == "Connexion") {
 			CompteUtilisateur compteActuel = compteAdminOuUtilisateur(champLogin, champMotDePasse);
@@ -92,25 +86,18 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
-			vue.setBoutonActif(false);
-		} else {
-			vue.setBoutonActif(true);
-		}
+		vue.setBoutonActif(!vue.getIdentifiant().isEmpty() && !vue.getMotDePasse().isEmpty());
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		if (vue.getIdentifiant().length() == 0 || vue.getMotDePasse().length() == 0) {
-			vue.setBoutonActif(false);
-		} else {
-			vue.setBoutonActif(true);
-		}
+		vue.setBoutonActif(!vue.getIdentifiant().isEmpty() && !vue.getMotDePasse().isEmpty());
 
 	}
 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
+		// default implementation ignored
 	}
 
 	@Override
@@ -122,13 +109,11 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		// default implementation ignored
 	}
 }
