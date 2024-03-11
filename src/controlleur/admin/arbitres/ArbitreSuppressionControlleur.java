@@ -30,8 +30,7 @@ public class ArbitreSuppressionControlleur extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
-		new JFramePopup("Suppression d'arbitre", "Etes vous sûr de supprimer cet arbitre?", () ->
-				supprimerArbitre()
+		new JFramePopup("Suppression d'arbitre", "Etes vous sûr de supprimer cet arbitre?", this::supprimerArbitre
 		);
 	}
 
