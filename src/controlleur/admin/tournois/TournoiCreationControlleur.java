@@ -6,8 +6,6 @@ import dao.DaoArbitrage;
 import dao.DaoArbitre;
 import dao.DaoEquipe;
 import dao.DaoInscription;
-import dao.DaoMatche;
-import dao.DaoPartie;
 import dao.DaoPoule;
 import dao.DaoSaison;
 import dao.DaoTournoi;
@@ -41,7 +39,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class TournoiCréationControlleur implements ActionListener, MouseListener {
+public class TournoiCreationControlleur implements ActionListener, MouseListener {
 	private VueAdminTournoisCreation vue;
 	private DaoTournoi daoTournoi;
 	private DaoSaison daoSaison;
@@ -63,7 +61,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	private PopupArbitres popupArbitres;
 	private String motdePasse;
 
-	public TournoiCréationControlleur(VueAdminTournoisCreation newVue) {
+	public TournoiCreationControlleur(VueAdminTournoisCreation newVue) {
 		// Initialisation de la vue
 		this.vue = newVue;
 
@@ -134,7 +132,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 				return;
 			}
 
-			ouvrirPopupCompteArbitre(nom,dateDebut,dateFin,niveau);
+			ouvrirPopupCompteArbitre(nom, dateDebut, dateFin, niveau);
 		} catch (DateTimeException dateTimeException) {
 			afficherErreur("Le bon format de date est dd/mm/yyyy");
 		} catch (Exception ext) {
@@ -164,7 +162,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		if (dateFinString.isEmpty()) {
 			afficherErreur("Le tournoi doit avoir une date de fin");
 			return true;
-		}if(!isAtLeastOneArbitre()){
+		}
+		if (!isAtLeastOneArbitre()) {
 			afficherErreur("Le tournoi doit avoir au moins un arbitre");
 			return true;
 		}
@@ -176,7 +175,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	}
 
 	private boolean datesValides(CustomDate dateDebut, CustomDate dateFin) {
-		if (!dateDebut.estAvant(dateFin)) {
+		
+		if (Boolean.FALSE.equals(dateDebut.estAvant(dateFin))) {
 			afficherErreur("La date début doit être avant la date fin");
 			return false;
 		}
@@ -191,7 +191,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		return true;
 	}
 
-	private void ouvrirPopupCompteArbitre(String nomTournoi,CustomDate dateDebut, CustomDate dateFin,Niveau niveau) {
+	private void ouvrirPopupCompteArbitre(String nomTournoi, CustomDate dateDebut, CustomDate dateFin, Niveau niveau) {
 		popupCompteArbitre = new PopupCompteArbitre("Compte Arbitre", () -> {
 			TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
 			addMotDePasse();
@@ -244,7 +244,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		}
 
 	}
-	public boolean isAtLeastOneArbitre(){
+
+	public boolean isAtLeastOneArbitre() {
 		return !this.arbitreListChoisi.isEmpty();
 	}
 
@@ -301,6 +302,7 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 		motdePasse = "";
 
 	}
+
 	public void addMotDePasse() {
 		motdePasse = popupCompteArbitre.getSaisie().trim();
 	}
@@ -310,8 +312,8 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 			Equipe equipe = this.popupAjoutEquipe.getSaisie();
 			String nomEquipe = equipe.getNom();
 			ImageIcon icon = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
-			List<String> lst_equipes = this.vue.getEquipes();
-			if (!lst_equipes.contains(nomEquipe)) {
+			List<String> listEquipes = this.vue.getEquipes();
+			if (!listEquipes.contains(nomEquipe)) {
 				this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
 				this.listeEquipeChoisi.add(equipe);
 				this.nbEquipes++;
@@ -332,28 +334,26 @@ public class TournoiCréationControlleur implements ActionListener, MouseListene
 	public boolean isTournoiMemeDateExistant(Tournoi tournoi) throws Exception {
 		List<Tournoi> tournoiRecherche2;
 		tournoiRecherche2 = daoTournoi.getTournoiBetweenDate(tournoi.getDebut(), tournoi.getFin());
-		return tournoiRecherche2.size() != 0;
+		return !tournoiRecherche2.isEmpty();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-
+		// default implementation ignored
 	}
-
-
 }

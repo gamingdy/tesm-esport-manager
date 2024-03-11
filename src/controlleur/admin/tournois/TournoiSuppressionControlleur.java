@@ -12,8 +12,8 @@ import java.awt.event.MouseAdapter;
 import java.util.Optional;
 
 public class TournoiSuppressionControlleur extends MouseAdapter {
-	private CaseTournoi caseTournoi;
-	private DaoTournoi daoTournoi;
+	private final CaseTournoi caseTournoi;
+	private final DaoTournoi daoTournoi;
 
 	public TournoiSuppressionControlleur(CaseTournoi newCaseTournoi) {
 		this.caseTournoi = newCaseTournoi;
@@ -23,9 +23,7 @@ public class TournoiSuppressionControlleur extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
-		new JFramePopup("Suppression de Tournois", "Etes vous sûr de supprimer ce tournoi ?", () ->
-				supprimerTournoi()
-		);
+		new JFramePopup("Suppression de Tournois", "Etes vous sûr de supprimer ce tournoi ?", this::supprimerTournoi);
 	}
 
 	public void supprimerTournoi() {
