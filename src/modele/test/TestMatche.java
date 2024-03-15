@@ -28,7 +28,7 @@ public class TestMatche {
 	private Saison saison;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws FausseDateException, MemeEquipeException {
 		d1 = new CustomDate(2022, 10, 10);
 		d2 = new CustomDate(2022, 10, 30);
 		saison = new Saison(2022);

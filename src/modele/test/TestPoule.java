@@ -13,13 +13,11 @@ import static org.junit.Assert.assertEquals;
 public class TestPoule {
 	private Poule poule;
 	private Tournoi tournoi;
-	private CustomDate debut;
-	private CustomDate fin;
 
 	@Before
 	public void setUp() throws ExceptionDate, FausseDateException {
-		debut = new CustomDate(2022, 10, 10);
-		fin = new CustomDate(2022, 10, 22);
+		CustomDate debut = new CustomDate(2022, 10, 10);
+		CustomDate fin = new CustomDate(2022, 10, 22);
 
 		poule = new Poule(tournoi, 'A');
 	}
