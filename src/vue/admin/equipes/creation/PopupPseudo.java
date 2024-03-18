@@ -29,7 +29,7 @@ public class PopupPseudo extends JFrame {
 	public PopupPseudo(String title, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));

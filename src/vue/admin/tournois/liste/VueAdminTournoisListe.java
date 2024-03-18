@@ -59,7 +59,7 @@ public class VueAdminTournoisListe extends JPanel {
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
 
-		JLabel recherche = new JLabel("Liste des Tournois", JLabel.CENTER);
+		JLabel recherche = new JLabel("Liste des Tournois", javax.swing.SwingConstants.CENTER);
 		recherche.setBackground(CustomColor.BACKGROUND_MAIN);
 		recherche.setOpaque(true);
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));

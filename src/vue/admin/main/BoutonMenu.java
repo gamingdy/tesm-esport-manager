@@ -14,7 +14,7 @@ public class BoutonMenu extends JButton {
 
 	GridBagConstraints contraintesBouton;
 
-	public BoutonMenu(MenuNavBar menuNavBar, String name, int y) {
+	public BoutonMenu(String name, int y) {
 		super(name);
 		this.setFont(MaFont.getFontBoutonMenu());
 		this.setForeground(CustomColor.BLANC);

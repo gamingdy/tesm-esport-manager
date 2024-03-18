@@ -44,23 +44,23 @@ public class CaseTournoi {
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
 				BorderFactory.createEmptyBorder(20, 20, 20, 20)));
 
-		JLabel nom = new JLabel(getNom());
-		nom.setIconTextGap(15);
-		nom.setForeground(CustomColor.BLANC);
-		nom.setFont(MaFont.getFontTitre2());
+		JLabel labelNom = new JLabel(getNom());
+		labelNom.setIconTextGap(15);
+		labelNom.setForeground(CustomColor.BLANC);
+		labelNom.setFont(MaFont.getFontTitre2());
 		GridBagConstraints gbcNom = new GridBagConstraints();
 		gbcNom.fill = GridBagConstraints.HORIZONTAL;
 		gbcNom.gridx = 0;
 		gbcNom.gridy = 0;
 		gbcNom.weighty = 0.2F;
 		gbcNom.gridwidth = GridBagConstraints.REMAINDER;
-		panelItem.add(nom, gbcNom);
+		panelItem.add(labelNom, gbcNom);
 
 		JLabel labelDate = new JLabel(dateDebut + " - " + dateFin);
 		labelDate.setFont(MaFont.getFontTitre3());
 		labelDate.setForeground(CustomColor.BLANC.darker());
-		labelDate.setHorizontalTextPosition(JLabel.CENTER);
-		labelDate.setVerticalTextPosition(JLabel.CENTER);
+		labelDate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		labelDate.setVerticalTextPosition(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcDate = new GridBagConstraints();
 		gbcDate.fill = GridBagConstraints.HORIZONTAL;
 		gbcDate.gridx = 0;
