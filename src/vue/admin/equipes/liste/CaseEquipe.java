@@ -51,18 +51,18 @@ public class CaseEquipe extends JPanel {
 	 */
 	public void updatePanel() {
 		removeAll();
-		JLabel nom = new JLabel(getNom());
-		nom.setIconTextGap(15);
-		nom.setIcon(Vue.resize(getLogo(), 45, 45));
-		nom.setForeground(CustomColor.BLANC);
-		nom.setFont(MaFont.getFontTitre3());
+		JLabel nomLabel = new JLabel(getNom());
+		nomLabel.setIconTextGap(15);
+		nomLabel.setIcon(Vue.resize(getLogo(), 45, 45));
+		nomLabel.setForeground(CustomColor.BLANC);
+		nomLabel.setFont(MaFont.getFontTitre3());
 		GridBagConstraints gbcNom = new GridBagConstraints();
 		gbcNom.fill = GridBagConstraints.HORIZONTAL;
 		gbcNom.gridx = 0;
 		gbcNom.gridy = 0;
 		gbcNom.weighty = 0.2F;
 		gbcNom.gridwidth = GridBagConstraints.REMAINDER;
-		add(nom, gbcNom);
+		add(nomLabel, gbcNom);
 
 		JPanel panelJoueurs = new JPanel(new GridLayout(0, 1));
 		((GridLayout) panelJoueurs.getLayout()).setVgap(3);
@@ -83,7 +83,7 @@ public class CaseEquipe extends JPanel {
 		add(panelJoueurs, gbcJoueurs);
 
 		JLabel labelDrapeau = new JLabel(Vue.resize(getPays(), 45, 30));
-		labelDrapeau.setHorizontalAlignment(JLabel.LEFT);
+		labelDrapeau.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 		GridBagConstraints gbcDrapeau = new GridBagConstraints();
 		gbcDrapeau.fill = GridBagConstraints.HORIZONTAL;
 		gbcDrapeau.gridx = 0;
@@ -93,7 +93,7 @@ public class CaseEquipe extends JPanel {
 		add(labelDrapeau, gbcDrapeau);
 
 		JLabel labelModif = new JLabel(Vue.resize(new ImageIcon("assets/modif.png"), 30, 30));
-		labelModif.setHorizontalAlignment(JLabel.RIGHT);
+		labelModif.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		GridBagConstraints gbcModif = new GridBagConstraints();
 		gbcModif.fill = GridBagConstraints.HORIZONTAL;
 		gbcModif.gridx = 1;

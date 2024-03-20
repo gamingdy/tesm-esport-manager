@@ -3,16 +3,16 @@ package vue.admin.arbitres.creation;
 public class LigneTournoi {
 
 	private String nom;
-	private String dateDébut;
+	private String dateDebut;
 	private String dateFin;
 	/**
 	 * @param nom
-	 * @param dateDébut
+	 * @param dateDebut
 	 * @param dateFin
 	 */
-	public LigneTournoi(String nom, String dateDébut, String dateFin) {
+	public LigneTournoi(String nom, String dateDebut, String dateFin) {
 		this.nom = nom;
-		this.dateDébut = dateDébut;
+		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 	}
 	/**
@@ -24,8 +24,8 @@ public class LigneTournoi {
 	/**
 	 * @return the dateDébut
 	 */
-	public String getDateDébut() {
-		return dateDébut;
+	public String getDateDebut() {
+		return dateDebut;
 	}
 	/**
 	 * @return the dateFin

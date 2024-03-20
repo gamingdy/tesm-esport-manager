@@ -16,7 +16,7 @@ public class FileChooser {
 		// default implementation ignored
 	}
 
-	public static BufferedImage createPopup(BufferedImage logo, JLabel labelLogo, String descriptionExtension, String extension) {
+	public static BufferedImage createPopup(BufferedImage logo, JLabel labelLogo, String descriptionExtension, String extension) throws IOException {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileFilter(new FileNameExtensionFilter(descriptionExtension, extension));
 		int returnVal = chooser.showOpenDialog(null);
@@ -37,7 +37,7 @@ public class FileChooser {
 				labelLogo.setIcon(imageIcon);
 				labelLogo.setText("");
 			} catch (IOException ex) {
-				throw new RuntimeException(ex);
+				throw new IOException(ex);
 			}
 		}
 

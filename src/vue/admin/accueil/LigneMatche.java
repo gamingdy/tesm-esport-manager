@@ -10,10 +10,10 @@ public class LigneMatche {
 	private String dateHeure;
 	private ImageIcon imageEquipe1;
 	private String nomEquipe1;
-	private ImageIcon trophéeEquipe1;
+	private ImageIcon tropheeEquipe1;
 	private ImageIcon imageEquipe2;
 	private String nomEquipe2;
-	private ImageIcon trophéeEquipe2;
+	private ImageIcon tropheeEquipe2;
 
 	/**
 	 * @param la      date et l'heure du tournoi (en String)
@@ -24,15 +24,15 @@ public class LigneMatche {
 	 * @param le      nom de la deuxième équipe
 	 * @param l'image du trophée (ou du logo) de la deuxième équipe
 	 */
-	public LigneMatche(String dateHeure, ImageIcon imageEquipe1, String nomEquipe1, ImageIcon trophéeEquipe1,
-					   ImageIcon imageEquipe2, String nomEquipe2, ImageIcon trophéeEquipe2) {
+	public LigneMatche(String dateHeure, ImageIcon imageEquipe1, String nomEquipe1, ImageIcon tropheeEquipe1,
+					   ImageIcon imageEquipe2, String nomEquipe2, ImageIcon tropheeEquipe2) {
 		this.dateHeure = dateHeure;
 		this.imageEquipe1 = imageEquipe1;
 		this.nomEquipe1 = nomEquipe1;
-		this.trophéeEquipe1 = trophéeEquipe1;
+		this.tropheeEquipe1 = tropheeEquipe1;
 		this.imageEquipe2 = imageEquipe2;
 		this.nomEquipe2 = nomEquipe2;
-		this.trophéeEquipe2 = trophéeEquipe2;
+		this.tropheeEquipe2 = tropheeEquipe2;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class LigneMatche {
 	 * @return le trophée ou l'icone de la première équipe
 	 */
 	public ImageIcon getTropheeEquipe1() {
-		return trophéeEquipe1;
+		return tropheeEquipe1;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class LigneMatche {
 	 * @return le trophée ou l'icone de la deuxième équipe
 	 */
 	public ImageIcon getTropheeEquipe2() {
-		return trophéeEquipe2;
+		return tropheeEquipe2;
 	}
 
 }

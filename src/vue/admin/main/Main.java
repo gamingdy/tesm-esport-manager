@@ -32,12 +32,12 @@ public class Main extends JPanel {
 	}
 
 	public void setContent() {
-		GridBagLayout gbl_PanelContenu = new GridBagLayout();
-		gbl_PanelContenu.columnWidths = new int[]{0, 0};
-		gbl_PanelContenu.rowHeights = new int[]{0};
-		gbl_PanelContenu.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_PanelContenu.rowWeights = new double[]{Double.MIN_VALUE};
-		setLayout(gbl_PanelContenu);
+		GridBagLayout gblPanelContenu = new GridBagLayout();
+		gblPanelContenu.columnWidths = new int[]{0, 0};
+		gblPanelContenu.rowHeights = new int[]{0};
+		gblPanelContenu.columnWeights = new double[]{Double.MIN_VALUE};
+		gblPanelContenu.rowWeights = new double[]{Double.MIN_VALUE};
+		setLayout(gblPanelContenu);
 
 		panelMain = new ConteneurMain();
 		panelMain.setPreferredSize(new Dimension(0, 0));
@@ -52,13 +52,13 @@ public class Main extends JPanel {
 
 	public void setMenu() {
 		JPanel panelMenu = new JPanel();
-		GridBagLayout gbl_panelMenu = new GridBagLayout();
+		GridBagLayout gblPanelMenu = new GridBagLayout();
 		panelMenu.setPreferredSize(new Dimension(0, 0));
-		panelMenu.setLayout(gbl_panelMenu);
-		gbl_panelMenu.columnWidths = new int[]{0};
-		gbl_panelMenu.rowHeights = new int[]{0};
-		gbl_panelMenu.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_panelMenu.rowWeights = new double[]{Double.MIN_VALUE};
+		panelMenu.setLayout(gblPanelMenu);
+		gblPanelMenu.columnWidths = new int[]{0};
+		gblPanelMenu.rowHeights = new int[]{0};
+		gblPanelMenu.columnWeights = new double[]{Double.MIN_VALUE};
+		gblPanelMenu.rowWeights = new double[]{Double.MIN_VALUE};
 
 		GridBagConstraints contraintesPanelMenu = new GridBagConstraints();
 		panelMenu.setPreferredSize(new Dimension(0, Integer.MAX_VALUE));
@@ -74,7 +74,7 @@ public class Main extends JPanel {
 		labelMenu.setForeground(CustomColor.BLANC);
 		labelMenu.setBorder(BorderFactory.createMatteBorder(0, 0, 4, 0, CustomColor.ROSE_CONTOURS));
 		labelMenu.setFont(MaFont.getFontMenu());
-		labelMenu.setHorizontalAlignment(JLabel.CENTER);
+		labelMenu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints contraintesLabelMenu = new GridBagConstraints();
 		contraintesLabelMenu.gridx = 0;
 		contraintesLabelMenu.gridy = 0;

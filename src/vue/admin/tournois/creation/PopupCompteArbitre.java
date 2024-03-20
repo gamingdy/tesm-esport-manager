@@ -21,7 +21,7 @@ public class PopupCompteArbitre extends JFrame {
 	public PopupCompteArbitre(String title, ActionHandler actionHandler, String nomTournoi) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
