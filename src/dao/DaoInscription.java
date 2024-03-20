@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DaoInscription implements Dao<Inscription, Object> {
+import static dao.DaoEquipe.getEquipes;
+import static dao.DaoSaison.getSaisons;
 
-	private Connexion connexion;
-	private DaoEquipe daoequipe;
-	private DaoSaison daosaison;
+public class DaoInscription extends SuperDao implements Dao<Inscription, Object> {
+
+
+	private final DaoEquipe daoequipe;
+	private final DaoSaison daosaison;
 
 	public DaoInscription(Connexion connexion) {
-		this.connexion = connexion;
+        super(connexion);
 		this.daoequipe = new DaoEquipe(connexion);
 		this.daosaison = new DaoSaison(connexion);
 	}
@@ -27,8 +30,6 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	/**
 	 * Crée la table d'association Inscription qui lie les équipes et les saisons
 	 *
-	 * @param connexion
-	 * @throws SQLException
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Inscription("
@@ -42,7 +43,6 @@ public class DaoInscription implements Dao<Inscription, Object> {
 
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Inscription' créée avec succès");
 		}
 
 	}
@@ -50,13 +50,9 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	/**
 	 * supprime la table Inscription
 	 *
-	 * @param connexion
-	 * @return
-	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Inscription' supprimée avec succès");
 			return deleteTable.execute("drop table Inscription");
 		}
 	}
@@ -65,40 +61,41 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	 * Renvoie toutes les associations d'équipes et de saisons existantes
 	 */
 	@Override
-	public List<Inscription> getAll() throws Exception {
-		try (Statement getAll = connexion.getConnection().createStatement()) {
+	public List<Inscription> getAll() throws SQLException {
+		try (Statement getAll = super.getConnexion().getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Inscription");
 			List<Inscription> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				Inscription inscription = new Inscription(
-						daosaison.getById(resultat.getInt("Annee")).get(),
-						resultat.getInt("World_Rank"),
-						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
-				sortie.add(inscription);
+				Optional<Saison> saison = daosaison.getById(resultat.getInt(super.getConstants().getAnnee()));
+				Optional<Equipe> equipe = daoequipe.getById(resultat.getString(super.getConstants().getNomEquipe()));
+				if (saison.isPresent() && equipe.isPresent()) {
+					sortie.add(new Inscription(saison.get(), resultat.getInt("World_Rank"), equipe.get()));
+				}
 			}
 			return sortie;
 		}
 	}
 
 	/**
-	 * renvoie une association précise
+	 * Renvoie une association précise
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_Equipe (STRING)
 	 */
 	@Override
-	public Optional<Inscription> getById(Object... id) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Inscription WHERE Annee = ? AND Nom_Equipe = ?")) {
+	public Optional<Inscription> getById(Object... id) throws SQLException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Inscription WHERE Annee = ? AND Nom_Equipe = ?")) {
 			getById.setInt(1, (Integer) id[0]);
 			getById.setString(2, (String) id[1]);
 			ResultSet resultat = getById.executeQuery();
-			Inscription inscription = null;
 			if (resultat.next()) {
-				inscription = new Inscription(
-						daosaison.getById(resultat.getInt("Annee")).get(),
-						resultat.getInt("World_Rank"),
-						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
+				Optional<Saison> saison = daosaison.getById(resultat.getInt(super.getConstants().getAnnee()));
+				Optional<Equipe> equipe = daoequipe.getById(resultat.getString(super.getConstants().getNomEquipe()));
+				if (saison.isPresent() && equipe.isPresent()) {
+					return Optional.of(new Inscription(saison.get(), resultat.getInt(super.getConstants().getWorldRank()), equipe.get()));
+				}
+				return Optional.empty();
 
 			}
-			return Optional.ofNullable(inscription);
+			return Optional.empty();
 		}
 	}
 
@@ -106,8 +103,8 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	 * Ajoute une association à partir d'un objet Inscription
 	 */
 	@Override
-	public boolean add(Inscription value) throws Exception {
-		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+	public boolean add(Inscription value) throws SQLException {
+		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Inscription(Annee,World_Rank,Nom_Equipe) values (?,?,?)")) {
 			add.setInt(1, value.getSaison().getAnnee());
 			add.setInt(2, value.getWorldRank());
@@ -117,11 +114,11 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	}
 
 	/**
-	 * update de wolrd rank d'une équipe dans une saison à partir d'un objet Inscription
+	 * Update de wolrd rank d'une équipe dans une saison à partir d'un objet Inscription
 	 */
 	@Override
-	public boolean update(Inscription value) throws Exception {
-		try (PreparedStatement update = connexion.getConnection().prepareStatement(
+	public boolean update(Inscription value) throws SQLException {
+		try (PreparedStatement update = super.getConnexion().getConnection().prepareStatement(
 				"UPDATE Inscription SET "
 						+ "World_Rank = ? "
 						+ "WHERE Nom_Equipe = ? AND Annee = ?")) {
@@ -137,8 +134,8 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER), Nom_Equipe (STRING)
 	 */
 	@Override
-	public boolean delete(Object... value) throws Exception {
-		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+	public boolean delete(Object... value) throws SQLException {
+		try (PreparedStatement delete = super.getConnexion().getConnection().prepareStatement(
 				"DELETE FROM Inscription where Annee = ? AND Nom_Equipe = ?")) {
 			delete.setInt(1, (Integer) value[0]);
 			delete.setString(2, (String) value[1]);
@@ -150,53 +147,37 @@ public class DaoInscription implements Dao<Inscription, Object> {
 	 * Renvoie toutes les equipes d'une saison
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER)
 	 *
-	 * @param value
-	 * @return
-	 * @throws Exception
 	 */
-	public List<Equipe> getEquipeBySaison(Object... value) throws Exception {
-		try (PreparedStatement getEquipeBySaison = connexion.getConnection().prepareStatement(
+	public List<Equipe> getEquipeBySaison(Object... value) throws SQLException {
+		try (PreparedStatement getEquipeBySaison = super.getConnexion().getConnection().prepareStatement(
 				"SELECT * FROM Inscription WHERE Annee = ?")) {
 			getEquipeBySaison.setInt(1, (Integer) value[0]);
-			ResultSet resultat = getEquipeBySaison.executeQuery();
-			List<Equipe> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				sortie.add(daoequipe.getById(resultat.getString("Nom_Equipe")).get());
-			}
-			return sortie;
+			return getEquipes(getEquipeBySaison, daoequipe);
 		}
 	}
 
 
 	/**
-	 * Renvoie tous les saison d'une equipe
+	 * Renvoie tous les saisons d'une equipe
 	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING)
-	 *
-	 * @param value
-	 * @return
-	 * @throws Exception
 	 */
-	public List<Saison> getSaisonByEquipe(Object... value) throws Exception {
-		try (PreparedStatement getSaisonByEquipe = connexion.getConnection().prepareStatement(
+	public List<Saison> getSaisonByEquipe(Object... value) throws SQLException {
+		try (PreparedStatement getSaisonByEquipe = super.getConnexion().getConnection().prepareStatement(
 				"SELECT * FROM Inscription WHERE Nom_Equipe = ?")) {
 			getSaisonByEquipe.setString(1, (String) value[0]);
 			ResultSet resultat = getSaisonByEquipe.executeQuery();
-			List<Saison> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				sortie.add(daosaison.getById(resultat.getInt("Annee")).get());
-			}
-			return sortie;
+			return getSaisons(resultat,daosaison);
 		}
 	}
 
 	@Override
-	public String visualizeTable() throws Exception {
-		String s = "_______________Inscription_______________________" + "\n";
+	public String visualizeTable() throws SQLException {
+		StringBuilder s = new StringBuilder("_______________Inscription_______________________" + "\n");
 		List<Inscription> l = this.getAll();
 		for (Inscription a : l) {
-			s += a.toString() + "\n";
+			s.append(a.toString()).append("\n");
 		}
-		s += "\n\n\n";
-		return s;
+		s.append("\n\n\n");
+		return s.toString();
 	}
 }

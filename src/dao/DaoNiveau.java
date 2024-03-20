@@ -1,6 +1,9 @@
 package dao;
 
 
+import exceptions.FausseDateException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 import modele.Niveau;
 import modele.Tournoi;
 
@@ -12,19 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DaoNiveau implements Dao<Niveau, String> {
-
-	private Connexion connexion;
+public class DaoNiveau extends SuperDao implements Dao<Niveau, String> {
 
 	public DaoNiveau(Connexion connexion) {
-		this.connexion = connexion;
+        super(connexion);
 	}
 
 	/**
 	 * Crée la table niveau
 	 *
-	 * @param connexion
-	 * @throws SQLException
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Niveau("
@@ -34,20 +33,14 @@ public class DaoNiveau implements Dao<Niveau, String> {
 
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Niveau' créée avec succès");
 		}
 	}
 
 	/**
 	 * Supprime la table niveau
-	 *
-	 * @param connexion
-	 * @return
-	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Niveau' supprimée avec succès");
 			return deleteTable.execute("drop table Niveau");
 		}
 	}
@@ -56,12 +49,12 @@ public class DaoNiveau implements Dao<Niveau, String> {
 	 * Renvoie tous les niveaux existants
 	 */
 	@Override
-	public List<Niveau> getAll() throws Exception {
-		try (Statement getAll = connexion.getConnection().createStatement()) {
+	public List<Niveau> getAll() throws SQLException {
+		try (Statement getAll = super.getConnexion().getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Niveau");
 			List<Niveau> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				sortie.add(Niveau.valueOf(resultat.getString("Libelle_Niveau").toUpperCase()));
+				sortie.add(Niveau.valueOf(resultat.getString(super.getConstants().getLibelleN()).toUpperCase()));
 			}
 			return sortie;
 		}
@@ -72,16 +65,15 @@ public class DaoNiveau implements Dao<Niveau, String> {
 	 * Les paramètres sont placés dans cet ordre : Libelle_Niveau (STRING)
 	 */
 	@Override
-	public Optional<Niveau> getById(String... nom) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Niveau WHERE Libelle_Niveau = ?")) {
+	public Optional<Niveau> getById(String... nom) throws SQLException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Niveau WHERE Libelle_Niveau = ?")) {
 			getById.setString(1, nom[0]);
 			ResultSet resultat = getById.executeQuery();
-			Niveau niveau = null;
 			if (resultat.next()) {
-				niveau = Niveau.valueOf(resultat.getString("Libelle_Niveau"));
+				return Optional.of(Niveau.valueOf(resultat.getString(super.getConstants().getLibelleN())));
 
 			}
-			return Optional.ofNullable(niveau);
+			return Optional.empty();
 		}
 	}
 
@@ -89,8 +81,8 @@ public class DaoNiveau implements Dao<Niveau, String> {
 	 * Ajoute un niveau à la table Niveau à partir d'un objet Niveau
 	 */
 	@Override
-	public boolean add(Niveau value) throws Exception {
-		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+	public boolean add(Niveau value) throws SQLException {
+		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Niveau(Libelle_Niveau,Coefficient) values (?,?)")) {
 			add.setString(1, value.name());
 			add.setFloat(2, value.getCoefficient());
@@ -102,7 +94,7 @@ public class DaoNiveau implements Dao<Niveau, String> {
 	 * Ne pas utiliser
 	 */
 	@Override
-	public boolean update(Niveau value) throws Exception {
+	public boolean update(Niveau value) throws SQLException {
 		return false;
 	}
 
@@ -111,27 +103,30 @@ public class DaoNiveau implements Dao<Niveau, String> {
 	 * Les paramètres sont placés dans cet ordre : Libelle_Niveau (STRING)
 	 */
 	@Override
-	public boolean delete(String... value) throws Exception {
-		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+	public boolean delete(String... value) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException {
+		try (PreparedStatement delete = super.getConnexion().getConnection().prepareStatement(
 				"DELETE FROM Niveau where Libelle_Niveau = ?")) {
 			delete.setString(1, value[0]);
-			List<Tournoi> tournois = FactoryDAO.getDaoTournoi(connexion).getTournoiByNiveau(FactoryDAO.getDaoNiveau(connexion).getById(value[0]).get());
-			for (Tournoi t : tournois) {
-				FactoryDAO.getDaoTournoi(connexion).delete(t.getSaison().getAnnee(), t.getNom());
+			Optional<Niveau> niveau = FactoryDAO.getDaoNiveau(super.getConnexion()).getById(value[0]);
+			if (niveau.isPresent()) {
+				List<Tournoi> tournois = FactoryDAO.getDaoTournoi(super.getConnexion()).getTournoiByNiveau(niveau.get());
+				for (Tournoi t : tournois) {
+					FactoryDAO.getDaoTournoi(super.getConnexion()).delete(t.getSaison().getAnnee(), t.getNom());
+				}
 			}
 			return delete.execute();
 		}
-	}
+    }
 
 	@Override
-	public String visualizeTable() throws Exception {
-		String s = "_______________Niveau_______________________" + "\n";
+	public String visualizeTable() throws SQLException {
+		StringBuilder s = new StringBuilder("_______________Niveau_______________________" + "\n");
 		List<Niveau> l = this.getAll();
 		for (Niveau a : l) {
-			s += a.toString() + "\n";
+			s.append(a.toString()).append("\n");
 		}
-		s += "\n\n\n";
-		return s;
+		s.append("\n\n\n");
+		return s.toString();
 	}
 }
 

@@ -2,6 +2,8 @@ package dao;
 
 public class FactoryDAO {
 
+	private FactoryDAO(){}
+
 	public static DaoAppartenance getDaoAppartenance(Connexion c) {
 		return new DaoAppartenance(c);
 	}

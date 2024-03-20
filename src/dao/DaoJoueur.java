@@ -1,5 +1,9 @@
 package dao;
 
+import exceptions.EquipeCompleteException;
+import exceptions.IdNotSetException;
+import exceptions.JoueurException;
+import modele.Equipe;
 import modele.Joueur;
 
 import java.sql.PreparedStatement;
@@ -10,21 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DaoJoueur implements Dao<Joueur, Integer> {
+public class DaoJoueur extends SuperDao implements Dao<Joueur, Integer> {
 
-	private Connexion connexion;
-	private DaoEquipe daoequipe;
+	private final DaoEquipe daoequipe;
 
 	public DaoJoueur(Connexion connexion) {
-		this.connexion = connexion;
+        super(connexion);
 		this.daoequipe = new DaoEquipe(connexion);
 	}
 
 	/**
 	 * Crée la table joueur
-	 *
-	 * @param connexion
-	 * @throws SQLException
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Joueur("
@@ -36,20 +36,15 @@ public class DaoJoueur implements Dao<Joueur, Integer> {
 
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Joueur' créée avec succès");
 		}
 	}
 
 	/**
-	 * supprime la table joueur
+	 * Supprime la table joueur
 	 *
-	 * @param connexion
-	 * @return
-	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Joueur' supprimée avec succès");
 			return deleteTable.execute("drop table Joueur");
 		}
 	}
@@ -58,19 +53,24 @@ public class DaoJoueur implements Dao<Joueur, Integer> {
 	 * Renvoie tous les joueurs existants
 	 */
 	@Override
-	public List<Joueur> getAll() throws Exception {
-		try (Statement getAll = connexion.getConnection().createStatement()) {
+	public List<Joueur> getAll() throws JoueurException, EquipeCompleteException, SQLException {
+		try (Statement getAll = super.getConnexion().getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Joueur");
-			List<Joueur> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				Joueur joueur = new Joueur(
-						resultat.getString("Pseudo"),
-						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
-				joueur.setId(resultat.getInt("Id_Joueur"));
+			return getJoueurs(resultat);
+		}
+    }
+
+	private List<Joueur> getJoueurs(ResultSet resultat) throws SQLException, EquipeCompleteException, JoueurException {
+		List<Joueur> sortie = new ArrayList<>();
+		while (resultat.next()) {
+			Optional<Equipe> equipe = daoequipe.getById(resultat.getString(super.getConstants().getNomEquipe()));
+			if (equipe.isPresent()) {
+				Joueur joueur = new Joueur(resultat.getString(super.getConstants().getPseudo()), equipe.get());
+				joueur.setId(resultat.getInt(super.getConstants().getIdJoueur()));
 				sortie.add(joueur);
 			}
-			return sortie;
 		}
+		return sortie;
 	}
 
 	/**
@@ -78,19 +78,21 @@ public class DaoJoueur implements Dao<Joueur, Integer> {
 	 * Les paramètres sont placés dans cet ordre : Id_Joueur (INTEGER)
 	 */
 	@Override
-	public Optional<Joueur> getById(Integer... id) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Joueur WHERE Id_Joueur = ?")) {
+	public Optional<Joueur> getById(Integer... id) throws JoueurException, EquipeCompleteException, SQLException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Joueur WHERE Id_Joueur = ?")) {
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
-			Joueur joueur = null;
 			if (resultat.next()) {
-				joueur = new Joueur(
-						resultat.getString("Pseudo"),
-						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
-				joueur.setId(resultat.getInt("Id_Joueur"));
+				Optional<Equipe> equipe = daoequipe.getById(resultat.getString(super.getConstants().getNomEquipe()));
+				if (equipe.isPresent()) {
+					Joueur joueur = new Joueur(resultat.getString(super.getConstants().getPseudo()), equipe.get());
+					joueur.setId(resultat.getInt(super.getConstants().getIdJoueur()));
+					return Optional.of(joueur);
+				}
+				return Optional.empty();
 
 			}
-			return Optional.ofNullable(joueur);
+			return Optional.empty();
 		}
 	}
 
@@ -98,8 +100,8 @@ public class DaoJoueur implements Dao<Joueur, Integer> {
 	 * Ajoute un joueur à la table joueur à partir d'un objet joueur
 	 */
 	@Override
-	public boolean add(Joueur value) throws Exception {
-		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+	public boolean add(Joueur value) throws SQLException {
+		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Joueur(Pseudo,Nom_Equipe) values (?,?)")) {
 			add.setString(1, value.getPseudo());
 			add.setString(2, value.getNomEquipe());
@@ -108,11 +110,11 @@ public class DaoJoueur implements Dao<Joueur, Integer> {
 	}
 
 	/**
-	 * update une ligne de la table joueur à partir d'un objet joueur
+	 * Update une ligne de la table joueur à partir d'un objet joueur
 	 */
 	@Override
-	public boolean update(Joueur value) throws Exception {
-		try (PreparedStatement update = connexion.getConnection().prepareStatement(
+	public boolean update(Joueur value) throws SQLException, IdNotSetException {
+		try (PreparedStatement update = super.getConnexion().getConnection().prepareStatement(
 				"UPDATE Joueur SET "
 						+ "Pseudo = ?, "
 						+ "Nom_Equipe = ? "
@@ -125,12 +127,12 @@ public class DaoJoueur implements Dao<Joueur, Integer> {
 	}
 
 	/**
-	 * supprime un joueur
+	 * Supprime un joueur
 	 * Les paramètres sont placés dans cet ordre : Id_Joueur (INTEGER)
 	 */
 	@Override
-	public boolean delete(Integer... value) throws Exception {
-		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+	public boolean delete(Integer... value) throws SQLException {
+		try (PreparedStatement delete = super.getConnexion().getConnection().prepareStatement(
 				"DELETE FROM Joueur where Id_Joueur = ?")) {
 			delete.setInt(1, value[0]);
 			return delete.execute();
@@ -140,34 +142,23 @@ public class DaoJoueur implements Dao<Joueur, Integer> {
 	/**
 	 * Renvoie tous les joueurs d'une équipe en passant en paramètre le nom de l'équipe
 	 *
-	 * @param nom
-	 * @return
-	 * @throws Exception
 	 */
-	public List<Joueur> getJoueurParEquipe(String nom) throws Exception {
-		try (PreparedStatement getAll = connexion.getConnection().prepareStatement("SELECT * FROM Joueur WHERE Nom_Equipe = ?")) {
+	public List<Joueur> getJoueurParEquipe(String nom) throws JoueurException, EquipeCompleteException, SQLException {
+		try (PreparedStatement getAll = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Joueur WHERE Nom_Equipe = ?")) {
 			getAll.setString(1, nom);
 			ResultSet resultat = getAll.executeQuery();
-			List<Joueur> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				Joueur joueur = new Joueur(
-						resultat.getString("Pseudo"),
-						daoequipe.getById(resultat.getString("Nom_Equipe")).get());
-				joueur.setId(resultat.getInt("Id_Joueur"));
-				sortie.add(joueur);
-			}
-			return sortie;
+			return getJoueurs(resultat);
 		}
 	}
 
 	@Override
-	public String visualizeTable() throws Exception {
-		String s = "_______________Joueur_______________________" + "\n";
+	public String visualizeTable() throws JoueurException, EquipeCompleteException, SQLException {
+		StringBuilder s = new StringBuilder("_______________Joueur_______________________" + "\n");
 		List<Joueur> l = this.getAll();
 		for (Joueur a : l) {
-			s += a.toString() + "\n";
+			s.append(a.toString()).append("\n");
 		}
-		s += "\n\n\n";
-		return s;
+		s.append("\n\n\n");
+		return s.toString();
 	}
 }

@@ -1,5 +1,9 @@
 package dao;
 
+import exceptions.FausseDateException;
+import exceptions.GagnantNonChoisiException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 import modele.Equipe;
 import modele.Matche;
 import modele.Partie;
@@ -13,23 +17,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class DaoPartie implements Dao<Partie, Integer> {
+public class DaoPartie extends SuperDao implements Dao<Partie, Integer> {
 
-	private Connexion connexion;
-	private DaoMatche daomatche;
+
+	private final DaoMatche daomatche;
 
 
 	public DaoPartie(Connexion connexion) {
-		this.connexion = connexion;
-		this.daomatche = new DaoMatche(connexion);
+        super(connexion);
+        this.daomatche = new DaoMatche(connexion);
 
 	}
 
 	/**
 	 * Crée la table partie
 	 *
-	 * @param connexion
-	 * @throws SQLException
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Partie("
@@ -42,20 +44,15 @@ public class DaoPartie implements Dao<Partie, Integer> {
 
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Partie' créée avec succès");
 		}
 	}
 
 	/**
 	 * Supprime la table poule
 	 *
-	 * @param connexion
-	 * @return
-	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Partie' supprimée avec succès");
 			return deleteTable.execute("drop table Partie");
 		}
 	}
@@ -64,21 +61,11 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	 * Renvoie toutes les parties existantes
 	 */
 	@Override
-	public List<Partie> getAll() throws Exception {
-		try (Statement getAll = connexion.getConnection().createStatement()) {
+	public List<Partie> getAll() throws SQLException, MemeEquipeException, FausseDateException {
+		try (Statement getAll = super.getConnexion().getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Partie");
 			List<Partie> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				Partie partie = new Partie(
-						daomatche.getById(resultat.getInt("Id_Match")).get(),
-						resultat.getInt("Id_Partie"));
-				Optional<Equipe> vainqueur = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getById(resultat.getString("Nom_Equipe"));
-				if (vainqueur.isPresent()) {
-					partie.setVainqueur(vainqueur.get());
-				}
-				sortie.add(partie);
-			}
-			return sortie;
+			return getParties(resultat, sortie);
 		}
 	}
 
@@ -87,50 +74,55 @@ public class DaoPartie implements Dao<Partie, Integer> {
 	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER), Numero_Partie (INTEGER)
 	 */
 	@Override
-	public Optional<Partie> getById(Integer... id) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement(""
-				+ "SELECT * "
+	public Optional<Partie> getById(Integer... id) throws SQLException, MemeEquipeException, FausseDateException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * "
 				+ "FROM Partie "
 				+ "WHERE Id_Match = ? "
 				+ "AND Id_Partie = ?")) {
 			getById.setInt(1, id[0]);
 			getById.setInt(2, id[1]);
 			ResultSet resultat = getById.executeQuery();
-			Partie partie = null;
 			if (resultat.next()) {
-				partie = new Partie(
-						daomatche.getById(resultat.getInt("Id_Match")).get(),
-						resultat.getInt("Id_Partie")
-				);
-				Optional<Equipe> vainqueur = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getById(resultat.getString("Nom_Equipe"));
-				if (vainqueur.isPresent()) {
-					partie.setVainqueur(vainqueur.get());
+				Optional<Matche> matche = daomatche.getById(resultat.getInt(super.getConstants().getIdMatch()));
+				if (matche.isPresent()) {
+					Partie partie = createPartie(matche.get(), resultat);
+					return Optional.of(partie);
 				}
+				return Optional.empty();
 			}
-			return Optional.ofNullable(partie);
+			return Optional.empty();
 		}
+    }
+
+	private Partie createPartie(Matche matche, ResultSet resultat) throws SQLException {
+		Partie partie = new Partie(
+				matche,
+				resultat.getInt(super.getConstants().getIdPartie()));
+		Optional<Equipe> vainqueur = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getById(resultat.getString(super.getConstants().getNomEquipe()));
+		vainqueur.ifPresent(partie::setVainqueur);
+		return partie;
 	}
 
 	/**
 	 * Ajoute une partie à la table partie à partir d'un objet partie
 	 */
 	@Override
-	public boolean add(Partie value) throws Exception {
-		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+	public boolean add(Partie value) throws SQLException, IdNotSetException  {
+		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Partie(Id_Match,Id_Partie) values (?,?)")) {
 			add.setInt(1, value.getMatche().getId());
 			add.setInt(2, value.getNumeroPartie());
 
 			return add.execute();
 		}
-	}
+    }
 
 	/**
 	 * Met à jour une ligne de la table partie à partir d'un objet Partie
 	 */
 	@Override
-	public boolean update(Partie value) throws Exception {
-		try (PreparedStatement update = connexion.getConnection().prepareStatement(
+	public boolean update(Partie value) throws SQLException, GagnantNonChoisiException, IdNotSetException{
+		try (PreparedStatement update = super.getConnexion().getConnection().prepareStatement(
 				"UPDATE Partie SET "
 						+ "Nom_Equipe = ? "
 						+ "WHERE Id_Partie = ? "
@@ -140,15 +132,15 @@ public class DaoPartie implements Dao<Partie, Integer> {
 			update.setInt(2, value.getNumeroPartie());
 			return update.execute();
 		}
-	}
+    }
 
 	/**
 	 * Supprime une partie de la table partie
 	 * Les paramètres sont placés dans cet ordre : Id_Match (INTEGER), Numero_Partie (INTEGER)
 	 */
 	@Override
-	public boolean delete(Integer... value) throws Exception {
-		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+	public boolean delete(Integer... value) throws SQLException {
+		try (PreparedStatement delete = super.getConnexion().getConnection().prepareStatement(
 				"DELETE FROM Partie where Id_Match = ? AND Id_Partie = ?")) {
 			delete.setInt(1, value[0]);
 			delete.setInt(2, value[1]);
@@ -156,37 +148,38 @@ public class DaoPartie implements Dao<Partie, Integer> {
 		}
 	}
 
-	public List<Partie> getPartieByMatche(Matche matche) throws IllegalArgumentException, SQLException, Exception {
-		try (PreparedStatement getPartieByMatche = connexion.getConnection().prepareStatement(
+	public List<Partie> getPartieByMatche(Matche matche) throws IllegalArgumentException, SQLException, MemeEquipeException, FausseDateException, IdNotSetException  {
+		try (PreparedStatement getPartieByMatche = super.getConnexion().getConnection().prepareStatement(
 				"SELECT * "
 						+ "FROM Partie "
 						+ "WHERE Id_Match = ?")) {
 			getPartieByMatche.setInt(1, matche.getId());
 			ResultSet resultat = getPartieByMatche.executeQuery();
 			List<Partie> sortie = new LinkedList<>();
-			while (resultat.next()) {
-				Partie partie = new Partie(
-						FactoryDAO.getDaoMatche(connexion).getById(resultat.getInt("Id_Match")).get(),
-						resultat.getInt("Id_Partie"));
-				Optional<Equipe> vainqueur = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getById(resultat.getString("Nom_Equipe"));
-				if (vainqueur.isPresent()) {
-					partie.setVainqueur(vainqueur.get());
-				}
+			return getParties(resultat, sortie);
+		}
+    }
+
+	private List<Partie> getParties(ResultSet resultat, List<Partie> sortie) throws SQLException, MemeEquipeException, FausseDateException {
+		while (resultat.next()) {
+			Optional<Matche> matche = daomatche.getById(resultat.getInt(super.getConstants().getIdMatch()));
+			if (matche.isPresent()) {
+				Partie partie = createPartie(matche.get(), resultat);
 				sortie.add(partie);
 			}
-			return sortie;
 		}
+		return sortie;
 	}
 
 	@Override
-	public String visualizeTable() throws Exception {
-		String s = "_______________Partie_______________________" + "\n";
+	public String visualizeTable() throws SQLException, MemeEquipeException, FausseDateException {
+		StringBuilder s = new StringBuilder("_______________Partie_______________________" + "\n");
 		List<Partie> l = this.getAll();
 		for (Partie a : l) {
-			s += a.toString() + "\n";
+			s.append(a.toString()).append("\n");
 		}
-		s += "\n\n\n";
-		return s;
+		s.append("\n\n\n");
+		return s.toString();
 	}
 }
 

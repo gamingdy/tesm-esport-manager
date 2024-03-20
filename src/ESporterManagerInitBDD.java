@@ -42,13 +42,13 @@ public class ESporterManagerInitBDD {
 		//Connexion à la base de données
 		Connexion c = Connexion.getConnexion();
 		try {
-			DBSuppression.main(c);
+			DBSuppression.deleteAllTable(c);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
 
 		try {
-			DBGeneration.main(c);
+			DBGeneration.createAllTables(c);
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		}
