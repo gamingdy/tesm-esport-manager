@@ -29,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +180,12 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		}
 		if (e.getSource() == vue.getLabelLogo()) {
 			JLabel lableLogo = this.vue.getLabelLogo();
-			this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
+			try {
+				this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
