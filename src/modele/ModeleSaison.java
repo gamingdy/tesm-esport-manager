@@ -27,7 +27,6 @@ public class ModeleSaison {
 
 			//A partir de cette inscription on récupère la liste de tous les matchs de l'équipe de la saison passée en paramètre 
 			List<Matche> matchesEquipe = FactoryDAO.getDaoMatche(Connexion.getConnexion()).getMatchByEquipeForSaison(inscription);
-
 			//On en extrait un itérateur
 			Iterator<Matche> it = matchesEquipe.iterator();
 
@@ -61,10 +60,12 @@ public class ModeleSaison {
 	}
 
 	private static void setPointsEquipeMatch(Matche m, Equipe e) throws ExceptionPointsNegatifs {
-		if (m.getVainqueur().equals(e)) {
-			e.setPoint(e.getPoint() + (m.getCategorie().getPtsSaisonVictoire() * m.getTournoi().getNiveau().getCoefficient()));
-		} else {
-			e.setPoint(e.getPoint() + (m.getCategorie().getPtsSaisonDefaite() * m.getTournoi().getNiveau().getCoefficient()));
+		if (m.getVainqueur() != null) {
+			if (m.getVainqueur().equals(e)) {
+				e.setPoint(e.getPoint() + (m.getCategorie().getPtsSaisonVictoire() * m.getTournoi().getNiveau().getCoefficient()));
+			} else {
+				e.setPoint(e.getPoint() + (m.getCategorie().getPtsSaisonDefaite() * m.getTournoi().getNiveau().getCoefficient()));
+			}
 		}
 	}
 

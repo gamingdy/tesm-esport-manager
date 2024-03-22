@@ -71,7 +71,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		this.daoPartie = new DaoPartie(c);
 		try {
 			saisonListAnnees = daoSaison.getAll().stream().map(Saison::getAnnee).collect(Collectors.toList());
-			anneeChoisie = daoSaison.getById(saisonListAnnees.get(saisonListAnnees.size() - 1)).get();
+			anneeChoisie = daoSaison.getLastSaison();
 			tournoiChoisi = Optional.empty();
 
 			DefaultComboBoxModel<Integer> comboBoxModel = this.vue.getModelSaisons();
@@ -79,9 +79,10 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				comboBoxModel.addElement(a);
 			}
 			comboBoxModel.setSelectedItem(saisonListAnnees.get(saisonListAnnees.size() - 1));
-			updateEquipe(anneeChoisie);
-			updateMatches(Optional.empty(), Optional.empty());
-			updateTournoi(Optional.empty(), anneeChoisie);
+				updateEquipe(anneeChoisie);
+				updateMatches(Optional.empty(), Optional.empty());
+				updateTournoi(Optional.empty(), anneeChoisie);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,24 +116,28 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private void updateEquipe(Saison saison) {
 		try {
-			List<Equipe> equipeList;
+			List<Equipe> equipeList=new ArrayList<>();
 			if (tournoiChoisi.isPresent()) {
 				equipeList = daoAppartenance.getEquipeByTournoi(tournoiChoisi.get().getNom(), saison.getAnnee());
 			} else {
 				Saison classmentPrecedent = new Saison(anneeChoisie.getAnnee() - 1);
 				Set<Equipe> classement = ModeleSaison.getClassement(classmentPrecedent);
-				equipeList = new ArrayList<>(classement);
-			}
-			DefaultTableModel table = this.vue.getModelEquipes();
-
-			List<Object[]> liste = constructObjectArrayEquipe(equipeList);
-			if (table.getRowCount() > 0) {
-				for (int i = table.getRowCount() - 1; i > -1; i--) {
-					table.removeRow(i);
+				if(!classement.isEmpty()){
+					equipeList = new ArrayList<>(classement);
 				}
 			}
-			for (Object[] ligne : liste) {
-				table.addRow(ligne);
+			if(!equipeList.isEmpty()) {
+				DefaultTableModel table = this.vue.getModelEquipes();
+
+				List<Object[]> liste = constructObjectArrayEquipe(equipeList);
+				if (table.getRowCount() > 0) {
+					for (int i = table.getRowCount() - 1; i > -1; i--) {
+						table.removeRow(i);
+					}
+				}
+				for (Object[] ligne : liste) {
+					table.addRow(ligne);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -311,7 +316,6 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					if (etat == null) {
 						etat = Etat.TOURNOIS;
 					}
-					System.out.println(tournoiChoisi.isPresent());
 
 					if (etat == Etat.TOURNOIS) {
 						updateEquipe(anneeChoisie);
