@@ -89,6 +89,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 			listeEquipe = daoInscription.getEquipeBySaison(saison.getAnnee());
 			arbitreList = daoArbitre.getAll();
 		} catch (Exception e) {
+			e.printStackTrace();
 			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 	}
@@ -136,6 +137,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 		} catch (DateTimeException dateTimeException) {
 			afficherErreur("Le bon format de date est dd/mm/yyyy");
 		} catch (Exception ext) {
+			ext.printStackTrace();
 			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 	}
@@ -281,6 +283,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 				resetChamps();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 	}
@@ -294,6 +297,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 			this.vue.getBtnAjoutArbitres().setVisible(true);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 		this.vue.clearField();

@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Optional;
 
 public class LoginControlleur implements ActionListener, DocumentListener, KeyListener {
 	private VueLogin vue;
@@ -33,8 +34,11 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 		DaoTournoi daoTournoi = new DaoTournoi(c);
 		try {
-			Tournoi tournoi = daoTournoi.getTournoiActuel().get();
-			arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
+
+			Optional<Tournoi> tournoi = daoTournoi.getTournoiActuel();
+			if(tournoi.isPresent()){
+				arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.get().getSaison().getAnnee(), tournoi.get().getNom());
+			}
 		} catch (Exception e) {
 			new JFramePopup("Erreur sql", "Une erreur sql s'est produite, contactez l'administrateur", () ->
 					VueObserver.getInstance().notifyVue(Page.LOGIN)

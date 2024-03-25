@@ -90,7 +90,8 @@ public class DaoPoule extends SuperDao implements Dao<Poule, Object> {
 	 */
 	@Override
 	public boolean add(Poule value) throws SQLException {
-		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
+		try (
+				PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Poule(Annee,Nom_tournoi,Libelle) values (?,?,?)")) {
 
 			add.setInt(1, value.getTournoi().getSaison().getAnnee());

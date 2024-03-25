@@ -68,12 +68,17 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 			CustomDate debutSaison = new CustomDate(saisonActuelle.getAnnee(), 01, 01);
 			List<Tournoi> liste = new ArrayList<>(daoTournoi.getTournoiBetweenDate(debutSaison, CustomDate.now()));
 			try {
-				Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
-				LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
-				listeTournoi.addElement(ligne);
-				liste.remove(tournoiActuel);
-			} catch (Exception e) {
+				Optional<Tournoi> tournoiOptional=daoTournoi.getTournoiActuel();
+				if(tournoiOptional.isPresent()){
+					Tournoi tournoiActuel = tournoiOptional.get();
+					LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
+					listeTournoi.addElement(ligne);
+					liste.remove(tournoiActuel);
+				}
 
+
+			} catch (Exception e) {
+				new JFramePopup("Erreur Accueil", "Erreur sql s'est produite lors de la mise a jour", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 			}
 
 			for (Tournoi tournoi : liste) {
@@ -82,7 +87,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 			}
 			vue.setListeTournois(listeTournoi);
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur Accueil", "Erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 		}
 	}
 
@@ -105,7 +110,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				vue.setListeEquipes(listeClassement);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur Accueil ", "Erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 		}
 	}
 
@@ -141,7 +146,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 			}
 			vue.setListeMatches(listeMatchesR);
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur Accueil", "Erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 		}
 	}
 
@@ -154,12 +159,10 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 					String nom = tournoi.get().getNom();
 					impression(equipes, nom);
 				} else {
-					new JFramePopup("Erreur", "Il n'y a pas de tournoi actuellement", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
+					new JFramePopup("Erreur Accueil", "Il n'y a pas de tournoi actuellement", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 				}
-			} catch (SQLException ex) {
-				throw new RuntimeException(ex);
-			} catch (FausseDateException ex) {
-				throw new RuntimeException(ex);
+			} catch (SQLException | FausseDateException ex) {
+				new JFramePopup("Erreur Accueil", "Une erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 			}
 
 		}
@@ -180,7 +183,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				// Effectue l'impression
 				job.print();
 			} catch (PrinterException ex) {
-				ex.printStackTrace();
+				new JFramePopup("Erreur Accueil", "Erreur d'impression s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 			}
 		}
 	}

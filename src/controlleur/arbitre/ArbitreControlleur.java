@@ -6,6 +6,7 @@ import dao.DaoMatche;
 import dao.DaoPartie;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
+import exceptions.GagnantNonChoisiException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
 import modele.Categorie;
@@ -22,6 +23,7 @@ import vue.common.JFramePopup;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +33,7 @@ public class ArbitreControlleur implements ActionListener {
 	private VueArbitrePoule vue;
 	private List<CaseMatch> caseMatchList;
 	private DaoTournoi daoTournoi;
-	private Optional<Tournoi> tournoiActuel;
+	private Tournoi tournoi;
 	private DaoMatche daoMatche;
 	private DaoPartie daoPartie;
 
@@ -43,35 +45,43 @@ public class ArbitreControlleur implements ActionListener {
 		this.daoTournoi = new DaoTournoi(c);
 
 		try {
+			Optional<Tournoi> tournoiActuel;
 			tournoiActuel = daoTournoi.getTournoiActuel();
-
-			if (tournoiActuel.isPresent()) {
-				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoiActuel.get().getDebut().getAnnee(), tournoiActuel.get().getNom());
-				this.vue.setTitre("Tournoi " + tournoiActuel.get().getNom() + " " + tournoiActuel.get().getDebut().getAnnee());
-				if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
-					caseMatchList = new ArrayList<>();
-					for (Matche m : matcheList) {
-						if (m.getCategorie() != Categorie.POULE) {
-							List<Partie> partieList = daoPartie.getPartieByMatche(m);
-							m.setVainqueur(partieList.get(0).getVainqueur());
-							CaseMatch caseMatche = convertMatchToCaseMatch(m);
-							caseMatchList.add(caseMatche);
-							vue.setTexteBouton("Clôturer le tournoi");
-						}
-					}
-				} else {
-					caseMatchList = new ArrayList<>();
-					for (Matche m : matcheList) {
+			if(tournoiActuel.isPresent()){
+				tournoi=tournoiActuel.get();
+			}else{
+				new JFramePopup("Erreur", "Une erreur sql s'est produite, contactez l'administrateur", () ->
+						VueObserver.getInstance().notifyVue(Page.ARBITRE)
+				);
+			}
+			List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoi.getDebut().getAnnee(), tournoi.getNom());
+			this.vue.setTitre("Tournoi " + tournoi.getNom() + " " + tournoi.getDebut().getAnnee());
+			if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
+				caseMatchList = new ArrayList<>();
+				for (Matche m : matcheList) {
+					if (m.getCategorie() != Categorie.POULE) {
 						List<Partie> partieList = daoPartie.getPartieByMatche(m);
 						m.setVainqueur(partieList.get(0).getVainqueur());
 						CaseMatch caseMatche = convertMatchToCaseMatch(m);
 						caseMatchList.add(caseMatche);
+						vue.setTexteBouton("Clôturer le tournoi");
 					}
 				}
-				this.vue.addAllMatchs(caseMatchList);
+			}else {
+				caseMatchList = new ArrayList<>();
+				for (Matche m : matcheList) {
+					List<Partie> partieList = daoPartie.getPartieByMatche(m);
+					m.setVainqueur(partieList.get(0).getVainqueur());
+					CaseMatch caseMatche = convertMatchToCaseMatch(m);
+					caseMatchList.add(caseMatche);
+				}
 			}
+			this.vue.addAllMatchs(caseMatchList);
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur sql s'est produite, contactez l'administrateur", () ->
+					VueObserver.getInstance().notifyVue(Page.ARBITRE)
+			);
 		}
 	}
 
@@ -92,7 +102,9 @@ public class ArbitreControlleur implements ActionListener {
 				}
 			}
 		} catch (IdNotSetException e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur sql s'est produite, contactez l'administrateur", () ->
+					VueObserver.getInstance().notifyVue(Page.ARBITRE)
+			);
 		}
 		return resultat;
 	}
@@ -109,8 +121,11 @@ public class ArbitreControlleur implements ActionListener {
 			this.vue.setTexteBouton("Clôturer le tournoi");
 		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer le tournoi")) {
 			if (isAllMatcheClosed()) {
-				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () ->
-						VueObserver.getInstance().notifyVue(Page.LOGIN)
+				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () ->{
+					tournoi.setEstEncours(false);
+					VueObserver.getInstance().notifyVue(Page.LOGIN);
+				}
+
 				);
 			} else {
 				new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () ->
@@ -138,7 +153,7 @@ public class ArbitreControlleur implements ActionListener {
 		List<Equipe> finale = new ArrayList<>();
 		List<Equipe> petiteFinale = new ArrayList<>();
 		try {
-			Set<Equipe> classementTournoi = ModeleTournoi.getClassement(tournoiActuel.get());
+			Set<Equipe> classementTournoi = ModeleTournoi.getClassement(tournoi);
 			List<List<Equipe>> phaseFinale = getPhaseFInale(classementTournoi);
 			finale.addAll(phaseFinale.get(0));
 			petiteFinale.addAll(phaseFinale.get(1));
@@ -147,10 +162,10 @@ public class ArbitreControlleur implements ActionListener {
 		}
 		if (isAllMatcheClosed()) {
 			try {
-				Matche matcheFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.FINALE, finale.get(0), finale.get(1), this.tournoiActuel.get());
+				Matche matcheFinale = new Matche(1, tournoi.getFin(), Categorie.FINALE, finale.get(0), finale.get(1), this.tournoi);
 				Partie partieFinale = new Partie(matcheFinale, 1);
 
-				Matche matchePetiteFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.PETITE_FINALE, petiteFinale.get(0), petiteFinale.get(1), this.tournoiActuel.get());
+				Matche matchePetiteFinale = new Matche(1, this.tournoi.getFin(), Categorie.PETITE_FINALE, petiteFinale.get(0), petiteFinale.get(1), this.tournoi);
 				Partie partiePetiteFinale = new Partie(matchePetiteFinale, 1);
 
 				daoMatche.add(matcheFinale);
@@ -164,7 +179,7 @@ public class ArbitreControlleur implements ActionListener {
 				updateMatche(currentMatchList);
 				this.caseMatchList = currentMatchList;
 			} catch (Exception e) {
-				new JFramePopup("Erreur de initialisation", "Une erreur sql s'est produite, contactez l'administrateur", () ->
+				new JFramePopup("Erreur de cloturation", "Une erreur sql s'est produite, contactez l'administrateur", () ->
 						VueObserver.getInstance().notifyVue(Page.ARBITRE)
 				);
 			}

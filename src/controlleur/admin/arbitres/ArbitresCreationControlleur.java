@@ -116,7 +116,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 	}
 
 	private void afficherErreur(String message) {
-		new JFramePopup("Erreur", message, () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+		new JFramePopup("Erreur création arbitre", message, () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 	}
 
 	private void afficherSucces(String message) {

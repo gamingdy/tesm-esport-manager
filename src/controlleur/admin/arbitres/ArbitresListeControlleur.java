@@ -7,6 +7,7 @@ import modele.Arbitre;
 import vue.Page;
 import vue.admin.arbitres.liste.CaseArbitre;
 import vue.admin.arbitres.liste.VueAdminArbitresListe;
+import vue.common.JFramePopup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,6 +49,7 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 			}
 
 		} catch (Exception e) {
+			new JFramePopup("Erreur liste arbitres", "Une erreur sql s'est produite", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 		}
 
 	}
