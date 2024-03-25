@@ -18,6 +18,7 @@ import vue.common.JFramePopupSuppressionEquipe;
 import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 public class EquipeSuppresionControlleur extends MouseAdapter {
 	private CaseEquipe caseEquipe;
@@ -49,19 +50,27 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 
 	public void supprimerEquipeDefinitivement() {
 		try {
-			Equipe equipe = this.daoEquipe.getById(caseEquipe.getNom()).get();
-			if (isEquipeDansTournoiSaisonActuelle(equipe)) {
-				afficherErreur("L'equipe est inscrite dans un tournoi");} else {
-				if (isEquipeInscriteSaisonActuelle(equipe)) {
-					saison = daoSaison.getLastSaison();
-					daoInscription.delete(saison.getAnnee(), equipe.getNom());
-				}
-				daoEquipe.delete(equipe.getNom());
-				File fichierLogo = new File("assets/logo-equipes/" + equipe.getNom() + ".jpg");
-				fichierLogo.delete();
-				new JFramePopup("Suppression effectuée", "L'equipe est supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+			Optional<Equipe> equipeOptional = this.daoEquipe.getById(caseEquipe.getNom());
+			if (equipeOptional.isPresent()){
+				Equipe equipe = equipeOptional.get();
+				if (isEquipeDansTournoiSaisonActuelle(equipe)) {
+					afficherErreur("L'equipe est inscrite dans un tournoi");} else {
+					if (isEquipeInscriteSaisonActuelle(equipe)) {
+						saison = daoSaison.getLastSaison();
+						daoInscription.delete(saison.getAnnee(), equipe.getNom());
+					}
+					daoEquipe.delete(equipe.getNom());
+					File fichierLogo = new File("assets/logo-equipes/" + equipe.getNom() + ".jpg");
+					boolean result=fichierLogo.delete();
+					if(result){
+						new JFramePopup("Suppression effectuée", "L'equipe est supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+					}else{
+						afficherErreur("Une erreur s'est produite lors de la suppression du logo");
+					}
 
+				}
 			}
+
 
 		} catch (Exception e) {
 			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");}
@@ -69,17 +78,20 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 
 	public void supprimerEquipeSaison() {
 		try {
-			Equipe equipe = this.daoEquipe.getById(caseEquipe.getNom()).get();
-
-			if (isEquipeDansTournoiSaisonActuelle(equipe)) {
-				afficherErreur("L'equipe est inscrite dans un tournoi");} else {
-				if (isEquipeInscriteSaisonActuelle(equipe)) {
-					saison = daoSaison.getLastSaison();
-					daoInscription.delete(saison.getAnnee(), equipe.getNom());
-					new JFramePopup("Succès", "L'equipe a été supprimé de la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-				} else {
-					afficherErreur("L'équipe n'est pas inscrite dans la saison");}
+			Optional<Equipe> equipeOptional = this.daoEquipe.getById(caseEquipe.getNom());
+			if(equipeOptional.isPresent()){
+				Equipe equipe = equipeOptional.get();
+				if (isEquipeDansTournoiSaisonActuelle(equipe)) {
+					afficherErreur("L'equipe est inscrite dans un tournoi");} else {
+					if (isEquipeInscriteSaisonActuelle(equipe)) {
+						saison = daoSaison.getLastSaison();
+						daoInscription.delete(saison.getAnnee(), equipe.getNom());
+						new JFramePopup("Succès", "L'equipe a été supprimé de la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+					} else {
+						afficherErreur("L'équipe n'est pas inscrite dans la saison");}
+				}
 			}
+
 
 		} catch (Exception e) {
 			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");}

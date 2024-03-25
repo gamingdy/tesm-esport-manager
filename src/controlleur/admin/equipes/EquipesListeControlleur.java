@@ -1,7 +1,6 @@
 package controlleur.admin.equipes;
 
 import controlleur.ControlleurObserver;
-import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoInscription;
@@ -82,15 +81,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 				for (int i = 0; i < joueurs.size(); i++) {
 					listeJoueurs[i] = joueurs.get(i).getPseudo();
 				}
-				try {
-					Image img = ImageIO.read(new File("assets/logo-equipes/" + e.getNom() + ".jpg"));
-					ImageIcon icon = new ImageIcon(img);
-					Image imgPays = ImageIO.read(new File("assets/country-flags/png100px/" + e.getPays().getCode() + ".png"));
-					ImageIcon iconPays = new ImageIcon(imgPays);
-					resultat.add(new CaseEquipe(e.getNom(), listeJoueurs, icon, iconPays));
-				} catch (IOException ex) {
-					afficherErreur("Erreur de lecture de fichier");
-					}
+				creerCase(e, resultat, listeJoueurs);
 			} catch (Exception sql) {
 				afficherErreur("Erreur SQL lors de la récupération des joueurs de l'équipe " + e.getNom());
 				}
@@ -98,6 +89,19 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		}
 		return resultat;
 	}
+
+	private void creerCase(Equipe e, List<CaseEquipe> resultat, String[] listeJoueurs) {
+		try {
+			Image img = ImageIO.read(new File("assets/logo-equipes/" + e.getNom() + ".jpg"));
+			ImageIcon icon = new ImageIcon(img);
+			Image imgPays = ImageIO.read(new File("assets/country-flags/png100px/" + e.getPays().getCode() + ".png"));
+			ImageIcon iconPays = new ImageIcon(imgPays);
+			resultat.add(new CaseEquipe(e.getNom(), listeJoueurs, icon, iconPays));
+		} catch (IOException ex) {
+			afficherErreur("Erreur de lecture de fichier");
+			}
+	}
+
 	private void afficherErreur(String message) {
 		new JFramePopup("Erreur liste d'équipes", message, () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 	}

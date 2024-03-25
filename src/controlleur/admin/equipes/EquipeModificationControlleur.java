@@ -111,35 +111,36 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 		try {
 			Optional<Equipe> findEquipe = this.daoEquipe.getById(nomEquipe);
-			if (!findEquipe.isPresent()) {
-				afficherErreur("Equipe non trouvée");
+			if (findEquipe.isPresent()) {
+				List<Joueur> joueurs = this.daoJoueur.getJoueurParEquipe(nomEquipe);
+				List<String> listeJoueurs = joueurs.stream().map(Joueur::getPseudo).collect(Collectors.toList());
+
+				Equipe equipe = findEquipe.get();
+
+				BufferedImage img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
+
+				ImageIcon defaultLogo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
+
+				List<Saison> saisons = this.daoInscription.getSaisonByEquipe(equipe.getNom());
+				if (!saisons.isEmpty()) {
+					this.saisonDefined = true;
+				}
+				List<Integer> listSaison = saisons.stream().map(Saison::getAnnee).collect(Collectors.toList());
+
+				this.vue.setNom(equipe.getNom());
+				this.vue.setPays(equipe.getPays());
+				this.vue.setJoueurs(listeJoueurs);
+				this.vue.setLogo(defaultLogo);
+				this.vue.getChampWorldRank().setEditable(false);
+				this.vue.getChampNom().setEditable(false);
+				if (editing) {
+					passerEnEditing();
+				} else {
+					passerEnNonEditing();
+				}
+				this.vue.setSaisons(listSaison);
 			}
-			List<Joueur> joueurs = this.daoJoueur.getJoueurParEquipe(nomEquipe);
-			List<String> listeJoueurs = joueurs.stream().map(Joueur::getPseudo).collect(Collectors.toList());
-			Equipe equipe = findEquipe.get();
 
-			BufferedImage img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
-
-			ImageIcon defaultLogo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
-
-			List<Saison> saisons = this.daoInscription.getSaisonByEquipe(equipe.getNom());
-			if (!saisons.isEmpty()) {
-				this.saisonDefined = true;
-			}
-			List<Integer> listSaison = saisons.stream().map(Saison::getAnnee).collect(Collectors.toList());
-
-			this.vue.setNom(equipe.getNom());
-			this.vue.setPays(equipe.getPays());
-			this.vue.setJoueurs(listeJoueurs);
-			this.vue.setLogo(defaultLogo);
-			this.vue.getChampWorldRank().setEditable(false);
-			this.vue.getChampNom().setEditable(false);
-			if (editing) {
-				passerEnEditing();
-			} else {
-				passerEnNonEditing();
-			}
-			this.vue.setSaisons(listSaison);
 		} catch (Exception e) {
 			afficherErreur("Erreur SQL");
 			}
@@ -206,8 +207,12 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			String filename = "assets/logo-equipes/" + equipeInserer.getNom() + ".jpg";
 			File outputfile = new File(filename);
 			if (outputfile.exists()) {
-				outputfile.delete();
-				outputfile = new File(filename);
+				boolean result=outputfile.delete();
+				if(result){
+					outputfile = new File(filename);
+				}else{
+					afficherErreur("Erreur de suppression de logo");
+				}
 			}
 			ImageIO.write(this.logo, "jpg", outputfile);
 		} catch (Exception e) {
@@ -221,8 +226,6 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			Saison saison = daoSaison.getLastSaison();
 			Inscription inscription = new Inscription(saison, equipeInserer);
 			daoInscription.add(inscription);
-		} catch (SQLException e) {
-			afficherErreur("Erreur d'insertion dans la saison");
 		} catch (Exception e) {
 			afficherErreur("Erreur d'insertion dans la saison");
 		}

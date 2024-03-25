@@ -1,6 +1,5 @@
 package controlleur.admin.arbitres;
 
-import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoArbitrage;
 import dao.DaoArbitre;
@@ -35,6 +34,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 	private Connexion c;
 	private PopupTournoi popupTournoi;
 	private int positionTournoi = 0;
+	private static final String ERREUR_SQL = "Erreur SQL";
 
 	public ArbitresCreationControlleur(VueAdminArbitresCreation newVue) {
 		this.vue = newVue;
