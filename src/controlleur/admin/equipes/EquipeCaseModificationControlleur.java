@@ -33,8 +33,7 @@ public class EquipeCaseModificationControlleur extends MouseAdapter {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (this.estDansUnTournoiEnCours()) {
-			new JFramePopup("Erreur", "Impossible de modifier une equipe qui est dans un tournoi en cours", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-		}
+			afficherErreur("Impossible de modifier une equipe qui est dans un tournoi en cours");}
 
 		EquipesObserver.getInstance().notifyVue(Page.EQUIPES_DETAILS, this.caseEquipe, editing);
 	}
@@ -51,8 +50,10 @@ public class EquipeCaseModificationControlleur extends MouseAdapter {
 			}
 			return false;
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-		}
+			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");}
 		return false;
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur case modif. equipe", message, () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 	}
 }

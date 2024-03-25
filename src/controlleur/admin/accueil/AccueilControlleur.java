@@ -78,7 +78,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 
 
 			} catch (Exception e) {
-				new JFramePopup("Erreur Accueil", "Erreur sql s'est produite lors de la mise a jour", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
+				afficherErreur("Erreur sql s'est produite lors de la mise a jour");
 			}
 
 			for (Tournoi tournoi : liste) {
@@ -87,8 +87,8 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 			}
 			vue.setListeTournois(listeTournoi);
 		} catch (Exception e) {
-			new JFramePopup("Erreur Accueil", "Erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
-		}
+			afficherErreur("Erreur sql s'est produite");
+			}
 	}
 
 	public void mettreAjourListeClassement() {
@@ -110,7 +110,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				vue.setListeEquipes(listeClassement);
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur Accueil ", "Erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
+			afficherErreur("Erreur sql s'est produite");
 		}
 	}
 
@@ -146,8 +146,8 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 			}
 			vue.setListeMatches(listeMatchesR);
 		} catch (Exception e) {
-			new JFramePopup("Erreur Accueil", "Erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
-		}
+			afficherErreur("Erreur sql s'est produite");
+			}
 	}
 
 	@Override
@@ -159,11 +159,11 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 					String nom = tournoi.get().getNom();
 					impression(equipes, nom);
 				} else {
-					new JFramePopup("Erreur Accueil", "Il n'y a pas de tournoi actuellement", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
-				}
+					afficherErreur("Il n'y a pas de tournoi actuellement");
+					}
 			} catch (SQLException | FausseDateException ex) {
-				new JFramePopup("Erreur Accueil", "Une erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
-			}
+				afficherErreur("Erreur sql s'est produite");
+				}
 
 		}
 	}
@@ -183,8 +183,8 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				// Effectue l'impression
 				job.print();
 			} catch (PrinterException ex) {
-				new JFramePopup("Erreur Accueil", "Erreur d'impression s'est produite", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
-			}
+				afficherErreur("Erreur d'impression s'est produite");
+				}
 		}
 	}
 
@@ -202,5 +202,8 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				}
 			}
 		}
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur Accueil", message, () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 	}
 }

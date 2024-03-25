@@ -7,6 +7,7 @@ import exceptions.IdNotSetException;
 import modele.Matche;
 import modele.Partie;
 import vue.arbitre.CaseMatch;
+import vue.common.JFramePopup;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,7 +38,7 @@ public class CaseMatcheControlleur extends MouseAdapter {
 		try {
 			partie = this.getPartie(matche.getId());
 		} catch (IdNotSetException ex) {
-			throw new RuntimeException(ex);
+			afficherErreur("Erreur de récupération de partie");
 		}
 		if (partie == null) {
 			return;
@@ -54,7 +55,7 @@ public class CaseMatcheControlleur extends MouseAdapter {
 		try {
 			this.daoPartie.update(partie);
 		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+			afficherErreur("Erreur SQL de mise à jour de partie");
 		}
 	}
 
@@ -73,7 +74,7 @@ public class CaseMatcheControlleur extends MouseAdapter {
 				return matche1.get();
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			afficherErreur("Erreur SQL de recuperation de matche");
 		}
 		return null;
 	}
@@ -85,8 +86,11 @@ public class CaseMatcheControlleur extends MouseAdapter {
 				return partie.get();
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			afficherErreur("Erreur SQL");
 		}
 		return null;
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur de case match", message, () -> {});
 	}
 }

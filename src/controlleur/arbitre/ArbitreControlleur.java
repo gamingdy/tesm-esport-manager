@@ -49,42 +49,27 @@ public class ArbitreControlleur implements ActionListener {
 			tournoiActuel = daoTournoi.getTournoiActuel();
 			if(tournoiActuel.isPresent()){
 				tournoi=tournoiActuel.get();
-			}else{
-				new JFramePopup("Erreur", "Une erreur sql s'est produite, contactez l'administrateur", () ->
-						VueObserver.getInstance().notifyVue(Page.ARBITRE)
-				);
-			}
-			List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoi.getDebut().getAnnee(), tournoi.getNom());
-			this.vue.setTitre("Tournoi " + tournoi.getNom() + " " + tournoi.getDebut().getAnnee());
-			if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
-				caseMatchList = new ArrayList<>();
-				for (Matche m : matcheList) {
-					if (m.getCategorie() != Categorie.POULE) {
-						List<Partie> partieList = daoPartie.getPartieByMatche(m);
-						m.setVainqueur(partieList.get(0).getVainqueur());
-						CaseMatch caseMatche = convertMatchToCaseMatch(m);
-						caseMatchList.add(caseMatche);
-						vue.setTexteBouton("Clôturer le tournoi");
-					}
+				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoi.getDebut().getAnnee(), tournoi.getNom());
+				this.vue.setTitre("Tournoi " + tournoi.getNom() + " " + tournoi.getDebut().getAnnee());
+				if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
+					vue.setTexteBouton("Clôturer le tournoi");
 				}
-			}else {
-				caseMatchList = new ArrayList<>();
-				for (Matche m : matcheList) {
-					List<Partie> partieList = daoPartie.getPartieByMatche(m);
-					m.setVainqueur(partieList.get(0).getVainqueur());
-					CaseMatch caseMatche = convertMatchToCaseMatch(m);
-					caseMatchList.add(caseMatche);
-				}
+				recupererMatches(matcheList);
+				this.vue.addAllMatchs(caseMatchList);
 			}
-			this.vue.addAllMatchs(caseMatchList);
-
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur sql s'est produite, contactez l'administrateur", () ->
-					VueObserver.getInstance().notifyVue(Page.ARBITRE)
-			);
+			afficherErreur("Erreur lors de la récupération des matches");
 		}
 	}
-
+	private void recupererMatches(List<Matche> matcheList) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException, GagnantNonChoisiException {
+		caseMatchList = new ArrayList<>();
+		for (Matche m : matcheList) {
+			List<Partie> partieList = daoPartie.getPartieByMatche(m);
+			m.setVainqueur(partieList.get(0).getVainqueur());
+			CaseMatch caseMatche = convertMatchToCaseMatch(m);
+			caseMatchList.add(caseMatche);
+		}
+	}
 	private CaseMatch convertMatchToCaseMatch(Matche matche) {
 		String dateMatche = matche.getDateDebutMatche().toString().substring(6);
 		ImageIcon imageEquipe1 = new ImageIcon("assets/logo-equipes/" + matche.getEquipe1().getNom() + ".jpg");
@@ -102,9 +87,7 @@ public class ArbitreControlleur implements ActionListener {
 				}
 			}
 		} catch (IdNotSetException e) {
-			new JFramePopup("Erreur", "Une erreur sql s'est produite, contactez l'administrateur", () ->
-					VueObserver.getInstance().notifyVue(Page.ARBITRE)
-			);
+			afficherErreur("Erreur lors de la récupération des matches");
 		}
 		return resultat;
 	}
@@ -128,9 +111,7 @@ public class ArbitreControlleur implements ActionListener {
 
 				);
 			} else {
-				new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () ->
-						VueObserver.getInstance().notifyVue(Page.ARBITRE)
-				);
+				afficherErreur("Tout les matches n'ont pas de vainqueur");
 			}
 		}
 	}
@@ -158,7 +139,7 @@ public class ArbitreControlleur implements ActionListener {
 			finale.addAll(phaseFinale.get(0));
 			petiteFinale.addAll(phaseFinale.get(1));
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			afficherErreur("Une erreur s'est produite lors de la cloturation");
 		}
 		if (isAllMatcheClosed()) {
 			try {
@@ -179,16 +160,12 @@ public class ArbitreControlleur implements ActionListener {
 				updateMatche(currentMatchList);
 				this.caseMatchList = currentMatchList;
 			} catch (Exception e) {
-				new JFramePopup("Erreur de cloturation", "Une erreur sql s'est produite, contactez l'administrateur", () ->
-						VueObserver.getInstance().notifyVue(Page.ARBITRE)
-				);
+				afficherErreur("Une erreur s'est produite lors de la cloturation");
 			}
 
 
 		} else {
-			new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () ->
-					VueObserver.getInstance().notifyVue(Page.ARBITRE)
-			);
+			afficherErreur("Tout les matches n'ont pas de vainqueur");
 		}
 	}
 
@@ -214,5 +191,8 @@ public class ArbitreControlleur implements ActionListener {
 		phaseFinale.add(petiteFinale);
 
 		return phaseFinale;
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur arbitre", message, () -> VueObserver.getInstance().notifyVue(Page.ARBITRE));
 	}
 }

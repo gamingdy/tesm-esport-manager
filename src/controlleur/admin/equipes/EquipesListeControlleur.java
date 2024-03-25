@@ -89,16 +89,18 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 					ImageIcon iconPays = new ImageIcon(imgPays);
 					resultat.add(new CaseEquipe(e.getNom(), listeJoueurs, icon, iconPays));
 				} catch (IOException ex) {
-					throw new RuntimeException(ex);
-				}
+					afficherErreur("Erreur de lecture de fichier");
+					}
 			} catch (Exception sql) {
-				new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-			}
+				afficherErreur("Erreur SQL lors de la récupération des joueurs de l'équipe " + e.getNom());
+				}
 
 		}
 		return resultat;
 	}
-
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur liste d'équipes", message, () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+	}
 
 	@Override
 	public void update() {
@@ -124,7 +126,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 					}
 
 				} catch (Exception e) {
-					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+					afficherErreur("Erreur SQL lors de la récupération des équipes de la saison actuelle");
 				}
 			}
 
@@ -170,8 +172,8 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 			}
 
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-		}
+			afficherErreur("Erreur SQL lors de la récupération des équipes");
+			}
 	}
 
 	private void supprimerEquipe(List<Equipe> listeEquipeSupprimer) {
@@ -216,7 +218,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		try {
 			return daoInscription.getEquipeBySaison(annee);
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
+			afficherErreur("Erreur SQL lors de la récupération des équipes de la saison actuelle");
 		}
 		return liste;
 	}

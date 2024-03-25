@@ -89,8 +89,8 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				updateTournoi(Optional.empty(), anneeChoisie);
 
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-		}
+			afficherErreur("Erreur SQL lors de la récupération des équipes");
+			}
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				updateMatches(Optional.empty(), Optional.empty());
 				updateTournoi(Optional.empty(), anneeChoisie);
 			} catch (Exception ex) {
-				throw new RuntimeException(ex);
+				afficherErreur("Erreur SQL lors de la récupération des équipes");
 			}
 		}
 	}
@@ -115,8 +115,9 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			ImageIcon iconResized = Vue.resize(icon, 70, 70);
 			return new VueAdminHistorique.CaseEquipe(iconResized, e.getNom());
 		} catch (IOException ex) {
-			throw new RuntimeException(ex);
+			afficherErreur("Une erreur d'initialisation de case equipe s'est produite");
 		}
+		return null;
 	}
 
 	private void updateEquipe(Saison saison) {
@@ -145,8 +146,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				}
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-		}
+			afficherErreur("Erreur SQL lors de la récupération des équipes");}
 
 	}
 
@@ -167,8 +167,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				}
 
 			} catch (Exception exc) {
-				new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-			}
+				afficherErreur("Erreur SQL lors de la récupération des équipes");}
 		}
 
 		return resultat;
@@ -224,8 +223,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			}
 
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-		}
+			afficherErreur("Erreur SQL lors de la récupération des matchs");}
 	}
 
 	private void updateTournoi(Optional<Equipe> equipe, Saison annee) {
@@ -256,8 +254,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				tableTournois.addRow(ligne);
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-		}
+			afficherErreur("Erreur SQL lors de la récupération des tournois");}
 	}
 
 	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois, Optional<Inscription> inscription) throws Exception {
@@ -310,8 +307,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 						}
 					}
 				} catch (Exception exception) {
-					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-				}
+					afficherErreur("Erreur SQL lors de la récupération des joueurs de l'équipe " + caseObjet.getNom());}
 			}
 
 			if (tableTournoi.getSelectedRow() > -1 && e.getSource() == tableTournoi.getSelectionModel()) {
@@ -327,10 +323,12 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					}
 					updateMatches(equipeChoisie, tournoiChoisi);
 				} catch (Exception ex) {
-					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-				}
+					afficherErreur("Erreur SQL s'est produite, contactez l'administrateur");}
 			}
 		}
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur historique", message, () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 	}
 
 }

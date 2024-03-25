@@ -72,15 +72,15 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			}
 
 			if (nomEquipe.isEmpty()) {
-				new JFramePopup("Erreur", "Nom de l'equipe est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-			} else if (logo == null) {
-				new JFramePopup("Erreur", "Le logo de l'equipe est obligatoire", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-			} else if (champPaysEquipe == null) {
-				new JFramePopup("Erreur", "Veuillez choisir le pays de l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-			} else if (this.nbJoueurs < 5) {
-				new JFramePopup("Erreur", "Pas assez de joueurs dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-			} else if (equipeDejaExistante(nomEquipe)) {
-				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+				afficherErreur("Nom de l'equipe est vide");
+				} else if (logo == null) {
+				afficherErreur("Le logo de l'equipe est obligatoire");
+				} else if (champPaysEquipe == null) {
+				afficherErreur("Veuillez choisir le pays de l'equipe");
+				} else if (this.nbJoueurs < 5) {
+				afficherErreur("Pas assez de joueurs dans l'equipe");
+				} else if (equipeDejaExistante(nomEquipe)) {
+				afficherErreur("L'equipe existe deja");
 				resetChamps();
 			} else {
 				//vérification des joueurs dans les autres équipes
@@ -88,12 +88,12 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				try {
 					for (Object pseudo : liste) {
 						if(daoJoueur.getByPseudo(pseudo.toString()).isPresent()) {
-							new JFramePopup("Erreur", "Un joueur avec ce pseudo \""+pseudo.toString()+"\" existe déjà", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
+							afficherErreur("Un joueur avec ce pseudo \""+pseudo.toString()+"\" existe déjà");
 							return;
 						}
 					}
 				} catch (Exception ex) {
-					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
+					afficherErreur("Erreur SQL s'est produite, contactez l'administrateur");
 					return;
 				}
 				
@@ -125,7 +125,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 				} catch (Exception ex) {
 					this.logo = null;
-					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+					afficherErreur("Erreur d'insertion");
 					resetChamps();
 				}
 			}
@@ -153,7 +153,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			File outputfile = new File("assets/logo-equipes/" + equipeInserer.getNom() + ".jpg");
 			ImageIO.write(logo, "jpg", outputfile);
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			afficherErreur("Erreur d'insertion");
 			resetChamps();
 		}
 	}
@@ -165,10 +165,10 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			Inscription inscription = new Inscription(saison, equipeInserer);
 			daoInscription.add(inscription);
 		} catch (SQLException e) {
-			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			afficherErreur("Erreur d'insertion dans la saison");
 			resetChamps();
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Erreur d'insertion dans la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			afficherErreur("Erreur d'insertion dans la saison");
 			resetChamps();
 		}
 	}
@@ -190,8 +190,8 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 					this.addJoueur();
 				});
 			} else {
-				new JFramePopup("Erreur", "Equipe déjà complète", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-			}
+				afficherErreur("Equipe déjà complète");
+				}
 
 		}
 		if (e.getSource() == vue.getLabelLogo()) {
@@ -199,18 +199,18 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			try {
 				this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
 			} catch (IOException e1) {
-				new JFramePopup("Erreur", "Une erreur de explorateur de fichier est arrivé, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
-			}
+				afficherErreur("Erreur de explorateur de fichier");
+				}
 		}
 	}
 
 	public void addJoueur() {
 		String nomJoueur = this.popupPseudo.getSaisie().trim();
 		if (nomJoueur.isEmpty()) {
-			new JFramePopup("Erreur", "Le pseudo du joueur est vide", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+			afficherErreur("Le pseudo du joueur est vide");
 		} else if (this.listePseudo.contains(nomJoueur)) {
-			new JFramePopup("Erreur", "Le joueur est deja dans l'equipe", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-		} else {
+			afficherErreur("Le joueur est deja dans l'equipe");
+			} else {
 			this.vue.setJoueur(nomJoueur, this.nbJoueurs);
 			this.listePseudo.add(nomJoueur);
 			this.nbJoueurs++;
@@ -231,8 +231,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				daoJoueur.add(new Joueur(pseudo.toString(), equipe));
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
-		}
+			afficherErreur("Erreur d'insertion des joueurs");}
 	}
 
 	public void resetChamps() {
@@ -260,5 +259,8 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// default implementation ignored
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur creation equipe", message, () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
 	}
 }

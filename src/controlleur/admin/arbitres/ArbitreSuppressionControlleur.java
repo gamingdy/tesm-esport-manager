@@ -39,15 +39,14 @@ public class ArbitreSuppressionControlleur extends MouseAdapter {
 			Optional<Arbitre> arbitre = daoArbitre.getById(caseArbitre.getNom(), caseArbitre.getPrenom(), caseArbitre.getNumero());
 			if (arbitre.isPresent()) {
 				if (isArbitreDansTournoiActuel(arbitre.get())) {
-					new JFramePopup("Erreur de suppression", "Arbitre est deja dans un tournoi actuel", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
+					afficherErreur("Arbitre est deja dans un tournoi actuel");
 				} else {
 					daoArbitre.delete(arbitre.get().getNom(), arbitre.get().getPrenom(), arbitre.get().getNumeroTelephone());
 					new JFramePopup("Suppression effectuée", "L'arbitre est supprimé", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
 				}
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
-		}
+			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");}
 	}
 
 	public boolean isArbitreDansTournoiActuel(Arbitre arbitre) {
@@ -58,8 +57,11 @@ public class ArbitreSuppressionControlleur extends MouseAdapter {
 				return listeArbitre.contains(arbitre);
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
+			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");
 		}
 		return false;
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur suppression arbitre", message, () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
 	}
 }

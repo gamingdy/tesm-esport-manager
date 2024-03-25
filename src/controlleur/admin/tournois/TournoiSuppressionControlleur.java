@@ -32,19 +32,20 @@ public class TournoiSuppressionControlleur extends MouseAdapter {
 			Optional<Tournoi> tournoi = daoTournoi.getById(date.getAnnee(), caseTournoi.getNom());
 			if (tournoi.isPresent()) {
 				if (tournoi.get().isEstEncours()) {
-					new JFramePopup("Erreur de suppression", "Le tournoi est en cours", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
+					afficherErreur("Le tournoi est en cours");
 				} else {
 					try {
 						daoTournoi.delete(date.getAnnee(), tournoi.get().getNom());
 						new JFramePopup("Tournoi supprimé", "Le tournoi a été bien supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 					} catch (Exception e) {
-						new JFramePopup("Erreur de suppression", "Le tournoi n'a pas pu être supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-					}
+						afficherErreur("Une erreur s'est produite lors de la suppression");}
 
 				}
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur de suppression", "Une erreur sql s'est produite, contactez l'administrateur", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-		}
+			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");}
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur de suppression", message, () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 	}
 }

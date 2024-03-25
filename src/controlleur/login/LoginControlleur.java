@@ -29,6 +29,14 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 
 	public LoginControlleur(VueLogin newVue) {
 		this.vue = newVue;
+	}
+
+	public void attach(VueObserver obs) {
+		this.obs = obs;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 
 		Connexion c = Connexion.getConnexion();
 
@@ -39,19 +47,11 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 			if(tournoi.isPresent()){
 				arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.get().getSaison().getAnnee(), tournoi.get().getNom());
 			}
-		} catch (Exception e) {
-			new JFramePopup("Erreur sql", "Une erreur sql s'est produite, contactez l'administrateur", () ->
+		} catch (Exception exception) {
+			new JFramePopup("Erreur sql login", "Une erreur sql s'est produite, contactez l'administrateur", () ->
 					VueObserver.getInstance().notifyVue(Page.LOGIN)
 			);
 		}
-	}
-
-	public void attach(VueObserver obs) {
-		this.obs = obs;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
 		JButton bouton = (JButton) e.getSource();
 		String champLogin = vue.getIdentifiant().trim();
 		String champMotDePasse = vue.getMotDePasse().trim();
@@ -63,7 +63,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException ex) {
-					throw new RuntimeException(ex);
+					new JFramePopup("Erreur login", "Une erreur sql s'est produite", () -> VueObserver.getInstance().notifyVue(Page.LOGIN));
 				}
 			} else {
 				if (compteActuel instanceof CompteArbitre) {

@@ -139,7 +139,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 				listeTournoiComboBox.remove(0);
 			}
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
+			afficherErreur("Erreur SQL");
 		}
 	}
 
@@ -147,8 +147,8 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == vue.getBoutonAjoutTournois()) {
 			if (listeTournoiComboBox.isEmpty()) {
-				new JFramePopup("Erreur", "Il n'y a plus de tournois disponibles", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-			} else {
+				afficherErreur("Il n'y a plus de tournois disponibles");
+				} else {
 				try {
 
 					this.popupTournoi = new PopupTournoi("Choisissez le tournoi attribué à l'arbitre", listeTournoiComboBox, () -> {
@@ -160,7 +160,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 						ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION);
 					});
 				} catch (Exception ex) {
-					throw new RuntimeException(ex);
+					afficherErreur("Erreur SQL");
 				}
 			}
 		}
@@ -186,8 +186,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			Optional<Arbitre> arbitreOptional = daoArbitre.getArbitreByTelephone(arbitre.getNumeroTelephone());
 			return arbitreOptional.isPresent();
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-		}
+			afficherErreur("Erreur SQL");}
 		return false;
 	}
 
@@ -197,8 +196,8 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			try {
 				daoArbitrage.add(arbitrage);
 			} catch (Exception e) {
-				new JFramePopup("Erreur", "Erreur d'insertion d'arbitrage", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
-			}
+				afficherErreur("Erreur d'insertion d'arbitrage");
+				}
 
 		}
 

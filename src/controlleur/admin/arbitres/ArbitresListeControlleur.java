@@ -97,4 +97,5 @@ public class ArbitresListeControlleur implements ControlleurObserver, ActionList
 		this.vue.revalidate();
 		this.vue.addAll(this.listeCase);
 	}
+
 }

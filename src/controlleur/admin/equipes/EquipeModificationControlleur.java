@@ -99,7 +99,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			this.caseEquipe.setPays(iconPays);
 			this.caseEquipe.updatePanel();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			afficherErreur("Erreur de lecture de fichier");
 		}
 
 	}
@@ -112,7 +112,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 		try {
 			Optional<Equipe> findEquipe = this.daoEquipe.getById(nomEquipe);
 			if (!findEquipe.isPresent()) {
-				throw new RuntimeException("L'équipe n'existe pas");
+				afficherErreur("Equipe non trouvée");
 			}
 			List<Joueur> joueurs = this.daoJoueur.getJoueurParEquipe(nomEquipe);
 			List<String> listeJoueurs = joueurs.stream().map(Joueur::getPseudo).collect(Collectors.toList());
@@ -141,8 +141,8 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			}
 			this.vue.setSaisons(listSaison);
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
-		}
+			afficherErreur("Erreur SQL");
+			}
 	}
 
 	private void passerEnEditing() {
@@ -184,8 +184,8 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			try {
 				this.logo = FileChooser.createPopup(this.logo, labelLogo, "JPG Images", "jpg");
 			} catch (IOException e1) {
-				new JFramePopup("Erreur", "Une erreur d'explorateur de fichiers s'est produite", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
-			}
+				afficherErreur("Erreur d'explorateur de fichiers");
+				}
 			if (this.logo != null) {
 				this.logoChanged = true;
 			}
@@ -211,8 +211,8 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			}
 			ImageIO.write(this.logo, "jpg", outputfile);
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Erreur d'insertion SQL", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
-		}
+			afficherErreur("Erreur d'insertion");
+			}
 	}
 
 	public void addEquipeSaison(Equipe equipeInserer) {
@@ -222,15 +222,15 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			Inscription inscription = new Inscription(saison, equipeInserer);
 			daoInscription.add(inscription);
 		} catch (SQLException e) {
-			new JFramePopup("Erreur", "Erreur d'insertion", () -> {
-			});
+			afficherErreur("Erreur d'insertion dans la saison");
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Erreur d'insertion dans la saison", () -> {
-			});
+			afficherErreur("Erreur d'insertion dans la saison");
 		}
 	}
 
-
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur modif. equipe", message, () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// default implementation ignored

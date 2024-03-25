@@ -50,8 +50,8 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 			}
 
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-		}
+			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");
+			}
 
 	}
 
@@ -89,6 +89,9 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 		this.vue.resetGrille();
 		this.vue.revalidate();
 		this.vue.addAll(this.listeCase);
+	}
+	private void afficherErreur(String  message) {
+		new JFramePopup("Erreur tournoi liste", message, () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 	}
 
 	private List<Tournoi> getDifference(List<Tournoi> liste1, List<Tournoi> liste2) {
