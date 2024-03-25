@@ -46,7 +46,7 @@ public class ArbitreSuppressionControlleur extends MouseAdapter {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
 		}
 	}
 
@@ -58,7 +58,7 @@ public class ArbitreSuppressionControlleur extends MouseAdapter {
 				return listeArbitre.contains(arbitre);
 			}
 		} catch (Exception e) {
-
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_LISTE));
 		}
 		return false;
 	}

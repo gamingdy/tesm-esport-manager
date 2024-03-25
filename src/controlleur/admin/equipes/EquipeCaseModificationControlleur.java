@@ -1,5 +1,6 @@
 package controlleur.admin.equipes;
 
+import controlleur.admin.arbitres.ArbitresObserver;
 import dao.Connexion;
 import dao.DaoAppartenance;
 import dao.DaoTournoi;
@@ -50,7 +51,7 @@ public class EquipeCaseModificationControlleur extends MouseAdapter {
 			}
 			return false;
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 		}
 		return false;
 	}

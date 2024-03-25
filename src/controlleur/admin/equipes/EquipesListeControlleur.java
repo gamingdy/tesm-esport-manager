@@ -1,6 +1,7 @@
 package controlleur.admin.equipes;
 
 import controlleur.ControlleurObserver;
+import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
 import dao.DaoInscription;
@@ -12,6 +13,7 @@ import modele.Saison;
 import vue.Page;
 import vue.admin.equipes.liste.CaseEquipe;
 import vue.admin.equipes.liste.VueAdminEquipesListe;
+import vue.common.JFramePopup;
 import vue.common.TitleBar;
 
 import javax.imageio.ImageIO;
@@ -90,7 +92,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 					throw new RuntimeException(ex);
 				}
 			} catch (Exception sql) {
-
+				new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 			}
 
 		}
@@ -122,7 +124,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 					}
 
 				} catch (Exception e) {
-					e.printStackTrace();
+					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 				}
 			}
 
@@ -168,6 +170,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 			}
 
 		} catch (Exception e) {
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 		}
 	}
 
@@ -213,7 +216,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 		try {
 			return daoInscription.getEquipeBySaison(annee);
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 		}
 		return liste;
 	}

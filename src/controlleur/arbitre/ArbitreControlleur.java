@@ -163,10 +163,10 @@ public class ArbitreControlleur implements ActionListener {
 				currentMatchList.add(convertMatchToCaseMatch(matchePetiteFinale));
 				updateMatche(currentMatchList);
 				this.caseMatchList = currentMatchList;
-			} catch (FausseDateException | MemeEquipeException e) {
-				throw new RuntimeException(e);
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				new JFramePopup("Erreur de initialisation", "Une erreur sql s'est produite, contactez l'administrateur", () ->
+						VueObserver.getInstance().notifyVue(Page.ARBITRE)
+				);
 			}
 
 

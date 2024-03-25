@@ -89,7 +89,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 			listeEquipe = daoInscription.getEquipeBySaison(saison.getAnnee());
 			arbitreList = daoArbitre.getAll();
 		} catch (Exception e) {
-			e.printStackTrace();
+			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 	}
 
@@ -136,8 +136,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 		} catch (DateTimeException dateTimeException) {
 			afficherErreur("Le bon format de date est dd/mm/yyyy");
 		} catch (Exception ext) {
-			ext.printStackTrace();
-			throw new RuntimeException(ext);
+			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 	}
 
@@ -199,7 +198,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 				Tournoi tournoiInserer = new Tournoi(saison, nomTournoi, dateDebut, dateFin, niveau, new CompteArbitre(nomTournoi, motdePasse));
 				tentativeAjoutTournoiBDD(tournoiInserer);
 			} catch (FausseDateException fd) {
-				fd.printStackTrace();
+				afficherErreur("La date du tournoi n'est pas valide");
 			}
 		}, nomTournoi);
 	}
@@ -214,7 +213,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 
 		if (e.getSource() == this.vue.getBtnAjoutEquipes()) {
 			if (listeEquipe.isEmpty()) {
-				new JFramePopup("Erreur", "Il n'y a plus de equipes disponibles", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+				afficherErreur("Il n'y a plus de equipes disponibles");
 			} else {
 				this.popupAjoutEquipe = new PopupEquipe("Veuillez choisir le nom de l'equipe", listeEquipe, () -> {
 					TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
@@ -223,7 +222,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 			}
 		} else if (e.getSource() == this.vue.getBoutonArbitres()) {
 			if (arbitreList.isEmpty()) {
-				new JFramePopup("Erreur", "Il n'y a plus de arbitres disponibles", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+				afficherErreur("Il n'y a plus de arbitres disponibles");
 			} else {
 				this.popupArbitres = new PopupArbitres("Veuillez choisir au moins un Arbitre", arbitreList, () -> {
 					TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION);
@@ -240,7 +239,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 			this.vue.addArbitre(arbitreChoisi.getNom());
 			this.arbitreList.remove(arbitreChoisi);
 		} else {
-			new JFramePopup("Erreur", "Arbitre est deja dans la liste", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+			afficherErreur("Arbitre est deja dans la liste");
 		}
 
 	}
@@ -266,9 +265,9 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 	private void tentativeAjoutTournoiBDD(Tournoi tournoi) {
 		try {
 			if (isTournoiMemeNomExistant(tournoi)) {
-				new JFramePopup("Erreur", "Le tournoi existe deja avec ce nom", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+				afficherErreur("Le tournoi existe deja avec ce nom");
 			} else if (isTournoiMemeDateExistant(tournoi)) {
-				new JFramePopup("Erreur", "Le tournoi existe à cette date", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_CREATION));
+				afficherErreur("Le tournoi existe à cette date");
 			} else {
 				daoTournoi.add(tournoi);
 				initEquipes(tournoi, listeEquipeChoisi);
@@ -282,7 +281,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 				resetChamps();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 	}
 
@@ -295,7 +294,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 			this.vue.getBtnAjoutArbitres().setVisible(true);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			afficherErreur("Erreur sql s'est produite, contactez l'administrateur");
 		}
 		this.vue.clearField();
 		this.nbEquipes = 0;

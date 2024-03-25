@@ -112,8 +112,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				} catch (Exception ex) {
 					this.logo = null;
 					new JFramePopup("Erreur", "Erreur d'insertion", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-					this.vue.clearField();
-					throw new RuntimeException(ex);
+					resetChamps();
 				}
 			}
 
@@ -141,6 +140,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			ImageIO.write(logo, "jpg", outputfile);
 		} catch (Exception e) {
 			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			resetChamps();
 		}
 	}
 
@@ -152,8 +152,10 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			daoInscription.add(inscription);
 		} catch (SQLException e) {
 			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			resetChamps();
 		} catch (Exception e) {
 			new JFramePopup("Erreur", "Erreur d'insertion dans la saison", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			resetChamps();
 		}
 	}
 
@@ -183,8 +185,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			try {
 				this.logo = FileChooser.createPopup(this.logo, lableLogo, "JPG Images", "jpg");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				new JFramePopup("Erreur", "Une erreur de explorateur de fichier est arrivé, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
 			}
 		}
 	}
@@ -216,7 +217,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				daoJoueur.add(new Joueur(pseudo.toString(), equipe));
 			}
 		} catch (Exception e) {
-
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
 		}
 	}
 

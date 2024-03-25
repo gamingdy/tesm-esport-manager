@@ -1,12 +1,14 @@
 package controlleur.admin.tournois;
 
 import controlleur.ControlleurObserver;
+import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoTournoi;
 import modele.Tournoi;
 import vue.Page;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
+import vue.common.JFramePopup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,6 +50,7 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 			}
 
 		} catch (Exception e) {
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 		}
 
 	}

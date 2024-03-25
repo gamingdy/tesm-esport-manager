@@ -33,25 +33,11 @@ public class ModeleSaison {
 			//Tant qu'un autre match pour l'équipe actuelle est trouvé
 			while (it.hasNext()) {
 				Matche m = it.next();
-
 				//On ajoute les points à l'équipe selon la catégorie du match, la victoire ou la défaite de l'équipe et le niveau du tournoi
-				switch (m.getCategorie()) {
-					case POULE:
-						ModeleSaison.setPointsEquipeMatch(m, e);
-						break;
-					case PETITE_FINALE:
-						ModeleSaison.setPointsEquipeMatch(m, e);
-						break;
-					case FINALE:
-						ModeleSaison.setPointsEquipeMatch(m, e);
-						break;
-					default:
-						break;
-				}
+				ModeleSaison.setPointsEquipeMatch(m, e);
 			}
-
+			System.out.println("Equipe points"+e.getPoint());
 			//En sortant de la boucle on ajoute cette Equipe au set trié
-
 			classement.add(e);
 		}
 

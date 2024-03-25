@@ -1,5 +1,8 @@
 package controlleur.admin.historique;
 
+import controlleur.VueObserver;
+import controlleur.admin.accueil.AccueilControlleur;
+import controlleur.admin.arbitres.ArbitresObserver;
 import dao.Connexion;
 import dao.DaoAppartenance;
 import dao.DaoEquipe;
@@ -17,8 +20,10 @@ import modele.ModeleTournoi;
 import modele.Partie;
 import modele.Saison;
 import modele.Tournoi;
+import vue.Page;
 import vue.Vue;
 import vue.admin.historique.VueAdminHistorique;
+import vue.common.JFramePopup;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -84,7 +89,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				updateTournoi(Optional.empty(), anneeChoisie);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 		}
 	}
 
@@ -120,8 +125,8 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			if (tournoiChoisi.isPresent()) {
 				equipeList = daoAppartenance.getEquipeByTournoi(tournoiChoisi.get().getNom(), saison.getAnnee());
 			} else {
-				Saison classmentPrecedent = new Saison(anneeChoisie.getAnnee() - 1);
-				Set<Equipe> classement = ModeleSaison.getClassement(classmentPrecedent);
+				//Saison classmentPrecedent = new Saison(anneeChoisie.getAnnee() - 1);
+				Set<Equipe> classement = ModeleSaison.getClassement(anneeChoisie);
 				if(!classement.isEmpty()){
 					equipeList = new ArrayList<>(classement);
 				}
@@ -140,7 +145,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 		}
 
 	}
@@ -162,7 +167,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				}
 
 			} catch (Exception exc) {
-				exc.printStackTrace();
+				new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 			}
 		}
 
@@ -219,7 +224,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 		}
 	}
 
@@ -251,7 +256,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				tableTournois.addRow(ligne);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 		}
 	}
 
@@ -305,7 +310,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 						}
 					}
 				} catch (Exception exception) {
-					exception.printStackTrace();
+					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 				}
 			}
 
@@ -322,7 +327,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					}
 					updateMatches(equipeChoisie, tournoiChoisi);
 				} catch (Exception ex) {
-					throw new RuntimeException(ex);
+					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 				}
 			}
 		}

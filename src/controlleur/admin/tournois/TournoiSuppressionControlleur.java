@@ -38,14 +38,13 @@ public class TournoiSuppressionControlleur extends MouseAdapter {
 						daoTournoi.delete(date.getAnnee(), tournoi.get().getNom());
 						new JFramePopup("Tournoi supprimé", "Le tournoi a été bien supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 					} catch (Exception e) {
-						e.printStackTrace();
 						new JFramePopup("Erreur de suppression", "Le tournoi n'a pas pu être supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 					}
 
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur de suppression", "Une erreur sql s'est produite, contactez l'administrateur", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 		}
 	}
 }

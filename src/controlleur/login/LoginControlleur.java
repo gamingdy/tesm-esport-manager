@@ -8,6 +8,7 @@ import modele.CompteArbitre;
 import modele.CompteUtilisateur;
 import modele.Tournoi;
 import vue.Page;
+import vue.common.JFramePopup;
 import vue.login.VueLogin;
 
 import javax.swing.JButton;
@@ -35,6 +36,9 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 			Tournoi tournoi = daoTournoi.getTournoiActuel().get();
 			arbitre = daoTournoi.getCompteArbitreByTournoi(tournoi.getSaison().getAnnee(), tournoi.getNom());
 		} catch (Exception e) {
+			new JFramePopup("Erreur sql", "Une erreur sql s'est produite, contactez l'administrateur", () ->
+					VueObserver.getInstance().notifyVue(Page.LOGIN)
+			);
 		}
 	}
 

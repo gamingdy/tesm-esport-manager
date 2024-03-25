@@ -141,7 +141,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			}
 			this.vue.setSaisons(listSaison);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
 		}
 	}
 
@@ -184,8 +184,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			try {
 				this.logo = FileChooser.createPopup(this.logo, labelLogo, "JPG Images", "jpg");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				new JFramePopup("Erreur", "Une erreur d'explorateur de fichiers s'est produite", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
 			}
 			if (this.logo != null) {
 				this.logoChanged = true;
@@ -212,7 +211,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 			}
 			ImageIO.write(this.logo, "jpg", outputfile);
 		} catch (Exception e) {
-			new JFramePopup("Erreur", "Erreur d'insertion", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
+			new JFramePopup("Erreur", "Erreur d'insertion SQL", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_CREATION));
 		}
 	}
 

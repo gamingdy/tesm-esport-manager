@@ -1,5 +1,6 @@
 package controlleur.admin.equipes;
 
+import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoAppartenance;
 import dao.DaoEquipe;
@@ -38,10 +39,7 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
 		new JFramePopupSuppressionEquipe("Choisissez votre action", "Vous voulez la supprimer de la saison ou de l'equipe ?",
-				() -> {
-					supprimerEquipeSaison();
-					this.update();
-				},
+				this::supprimerEquipeSaison,
 				() -> {
 					supprimerEquipeDefinitivement();
 					EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
@@ -63,12 +61,10 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 				File fichierLogo = new File("assets/logo-equipes/" + equipe.getNom() + ".jpg");
 				fichierLogo.delete();
 				new JFramePopup("Suppression effectuée", "L'equipe est supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
-				this.update();
 
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			new JFramePopup("Suppression echoué", "L'equipe  ne peut pas etre supprimée", () -> EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 		}
 	}
@@ -90,7 +86,7 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE));
 		}
 	}
 
@@ -107,11 +103,6 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 		Inscription inscription = new Inscription(saison, equipe);
 		List<Tournoi> listeTournoisJoue = daoAppartenance.getTournoiByEquipeForSaison(inscription);
 		return !listeTournoisJoue.isEmpty();
-	}
-
-
-	public void update() {
-
 	}
 
 }

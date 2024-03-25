@@ -1,5 +1,6 @@
 package controlleur.admin.arbitres;
 
+import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoArbitrage;
 import dao.DaoArbitre;
@@ -81,7 +82,6 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			afficherSucces("Arbitre ajouté");
 			resetChamps();
 		} catch (Exception exceptionInsertion) {
-			exceptionInsertion.printStackTrace();
 			afficherErreur("Erreur d'insertion");
 		}
 	}
@@ -139,7 +139,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 				listeTournoiComboBox.remove(0);
 			}
 		} catch (Exception e) {
-
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION));
 		}
 	}
 
@@ -186,7 +186,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			Optional<Arbitre> arbitreOptional = daoArbitre.getArbitreByTelephone(arbitre.getNumeroTelephone());
 			return arbitreOptional.isPresent();
 		} catch (Exception e) {
-			e.printStackTrace();
+			new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
 		}
 		return false;
 	}
