@@ -100,28 +100,28 @@ public class VueAdminEquipesCreation extends JPanel {
 		comboboxPays.style();
 		comboboxPays.setFont(MaFont.getFontTitre4());
 		comboboxPays.setRenderer((JList<? extends Pays> list, Pays value, int index, boolean isSelected, boolean cellHasFocus) -> {
-				JLabel panel = new JLabel();
-				panel.setOpaque(true);
-				if (value == null) {
-					if (index == -1) {
-						panel.setText("Choissez le pays de l'équipe");
-					} else {
-						return new JLabel();
-					}
+			JLabel panel = new JLabel();
+			panel.setOpaque(true);
+			if (value == null) {
+				if (index == -1) {
+					panel.setText("Choissez le pays de l'équipe");
 				} else {
-					panel.setText(value.getNom());
+					return new JLabel();
 				}
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				panel.setFont(MaFont.getFontTitre4());
-				panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
-				if (isSelected) {
-					panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
-				} else {
-					panel.setForeground(CustomColor.BLANC);
-				}
-				return panel;
-			});
+			} else {
+				panel.setText(value.getNom());
+			}
+			panel.setBackground(CustomColor.BACKGROUND_MAIN);
+			panel.setFocusable(false);
+			panel.setFont(MaFont.getFontTitre4());
+			panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
+			if (isSelected) {
+				panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
+			} else {
+				panel.setForeground(CustomColor.BLANC);
+			}
+			return panel;
+		});
 		champPays.add(comboboxPays);
 
 		panelChamps.add(champNom);
@@ -175,11 +175,11 @@ public class VueAdminEquipesCreation extends JPanel {
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
 		l.setCellRenderer((JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) -> {
-				JLabel lItem = new JLabel(value);
-				lItem.setForeground(CustomColor.BLANC);
-				lItem.setFont(MaFont.getFontTitre3());
-				return lItem;
-			});
+			JLabel lItem = new JLabel(value);
+			lItem.setForeground(CustomColor.BLANC);
+			lItem.setFont(MaFont.getFontTitre3());
+			return lItem;
+		});
 
 		GridBagConstraints gbcJ = new GridBagConstraints();
 		gbcJ.fill = GridBagConstraints.HORIZONTAL;

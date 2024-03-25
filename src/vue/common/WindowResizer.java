@@ -78,37 +78,36 @@ public class WindowResizer {
 				if (!isResizing) {
 					originalPosition = mouseLocationOnScreen(evt);
 				}
-				if (side != SIDE.NONE) {
-					isResizing = true;
-					Point pOnScreen = mouseLocationOnScreen(evt);
-					Point originalPos = mainWindow.getLocationOnScreen();
-					if (side == SIDE.LEFT) {
-						int newWidth = originalPosition.x - pOnScreen.x;
-						if (!isMinimumSize(newWidth, 0)) {
-							return;
-						}
-						mainWindow.setLocation(pOnScreen.x, originalPos.y);
-						resize(newWidth, 0);
-					} else if (side == SIDE.RIGHT) {
-						int newWidth = pOnScreen.x - originalPosition.x;
-						if (!isMinimumSize(newWidth, 0)) {
-							return;
-						}
-						resize(newWidth, 0);
-					} else if (side == SIDE.BOTTOM) {
-						int newHeight = pOnScreen.y - originalPosition.y;
-						if (!isMinimumSize(0, newHeight)) {
-							return;
-						}
-						resize(0, newHeight);
+				isResizing = true;
+				Point pOnScreen = mouseLocationOnScreen(evt);
+				Point originalPos = mainWindow.getLocationOnScreen();
+				if (side == SIDE.LEFT) {
+					int newWidth = originalPosition.x - pOnScreen.x;
+					if (!isMinimumSize(newWidth, 0)) {
+						return;
 					}
+					mainWindow.setLocation(pOnScreen.x, originalPos.y);
+					resize(newWidth, 0);
+				} else if (side == SIDE.RIGHT) {
+					int newWidth = pOnScreen.x - originalPosition.x;
+					if (!isMinimumSize(newWidth, 0)) {
+						return;
+					}
+					resize(newWidth, 0);
+				} else if (side == SIDE.BOTTOM) {
+					int newHeight = pOnScreen.y - originalPosition.y;
+					if (!isMinimumSize(0, newHeight)) {
+						return;
+					}
+					resize(0, newHeight);
 				}
+
 			}
+
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				Point p = mouseLocationOnApp(e);
 				findBorder(p);
-
 				if (side == SIDE.NONE) {
 					mainWindow.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
@@ -140,6 +139,7 @@ public class WindowResizer {
 					mainWindow.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
 			}
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (isResizing) {

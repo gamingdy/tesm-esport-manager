@@ -2,19 +2,25 @@ package modele;
 
 import dao.Connexion;
 import dao.FactoryDAO;
+import exceptions.ExceptionPointsNegatifs;
+import exceptions.FausseDateException;
+import exceptions.GagnantNonChoisiException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class ModeleTournoi {
+	private ModeleTournoi() {
+	}
 
-	public static Set<Equipe> getClassement(Tournoi tournoi) throws Exception {
+	public static Set<Equipe> getClassement(Tournoi tournoi) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException, GagnantNonChoisiException, ExceptionPointsNegatifs {
 		List<Equipe> allEquipeTournoi = FactoryDAO.getDaoAppartenance(Connexion.getConnexion()).getEquipeByTournoi(tournoi.getNom(), tournoi.getSaison().getAnnee());
-		Set<Equipe> classement = new TreeSet<>((e1, e2) -> {
-			return (int) (e2.getPoint() - e1.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint());
-		});
+		Set<Equipe> classement = new TreeSet<>((e1, e2) -> (int) (e2.getPoint() - e1.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint()));
 		for (Equipe e : allEquipeTournoi) {
 			List<Matche> matchesEquipe = FactoryDAO.getDaoMatche(Connexion.getConnexion()).getMatchByEquipeForTournoi(e, tournoi);
 			Iterator<Matche> it = matchesEquipe.iterator();

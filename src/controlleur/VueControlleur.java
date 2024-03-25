@@ -11,7 +11,7 @@ public class VueControlleur {
 	private Vue vue;
 	private VueObserver observer;
 
-	public VueControlleur(Vue vue) throws Exception {
+	public VueControlleur(Vue vue) {
 		this.vue = vue;
 		this.observer = VueObserver.getInstance();
 		observer.setVue(this);

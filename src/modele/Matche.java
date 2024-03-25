@@ -2,7 +2,6 @@ package modele;
 
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
-import exceptions.MemeEquipeException;
 
 public class Matche {
 
@@ -18,7 +17,7 @@ public class Matche {
 
 
 	public Matche(int nombreMaxParties, CustomDate dateDebutMatche, Categorie categorie,
-				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException, MemeEquipeException {
+				  Equipe equipe1, Equipe equipe2, Tournoi tournoi) throws FausseDateException {
 
 		if (dateDebutMatche == null || categorie == null || equipe1 == null || equipe2 == null || tournoi == null) {
 			throw new IllegalArgumentException("Un des paramètres est null");

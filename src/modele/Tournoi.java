@@ -1,7 +1,5 @@
 package modele;
 
-//import java.util.HashMap;
-//import java.util.Map;
 
 import exceptions.FausseDateException;
 
@@ -14,7 +12,6 @@ public class Tournoi {
 	private Niveau niveau;
 	private boolean estEncours;
 	private CompteArbitre compteArbitre;
-	//private Map<Character,Poule> poules;
 
 	public Tournoi(Saison saison, String nom, CustomDate debut, CustomDate fin, Niveau niveau, CompteArbitre compteArbitre) throws FausseDateException {
 		if (debut.getAnnee() < saison.getAnnee()) {
@@ -110,15 +107,4 @@ public class Tournoi {
 	}
 
 
-	/*public Map<Character, Poule> getPoules() {
-		return poules;
-	}
-
-	public void addPoule(Poule poule) {
-		this.poules.put(poule.getNom(), poule);
-	}
-
-	public void setPoules(Map<Character, Poule> poules) {
-		this.poules = poules;
-	}*/
 }

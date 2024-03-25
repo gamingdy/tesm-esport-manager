@@ -174,7 +174,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 	}
 
 	private boolean datesValides(CustomDate dateDebut, CustomDate dateFin) {
-		
+
 		if (Boolean.FALSE.equals(dateDebut.estAvant(dateFin))) {
 			afficherErreur("La date début doit être avant la date fin");
 			return false;
@@ -220,7 +220,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 					this.addEquipe();
 				});
 			}
-		} else if (e.getSource() == this.vue.getBoutonArbitres()) {
+		} else if (e.getSource() == this.vue.getBtnAjoutArbitres()) {
 			if (arbitreList.isEmpty()) {
 				afficherErreur("Il n'y a plus de arbitres disponibles");
 			} else {

@@ -12,13 +12,13 @@ import java.util.Set;
 public class Equipe {
 
 	private String nom;
-	private Set<Joueur> equipe; //à voir si on laisse ou créer une classe association
+	private Set<Joueur> listJoueur; //à voir si on laisse ou créer une classe association
 	private Float point; //calculable donc pas dans le MCDi
 	private Pays pays;
 
 
 	public Equipe(String nom, Pays pays) {
-		this.equipe = new LinkedHashSet<Joueur>();
+		this.listJoueur = new LinkedHashSet<>();
 		this.nom = nom;
 		this.point = 0F;
 		this.pays = pays;
@@ -33,7 +33,7 @@ public class Equipe {
 	}
 
 	public Set<Joueur> getEquipe() {
-		return equipe;
+		return listJoueur;
 	}
 
 	public String getNom() {
@@ -48,17 +48,17 @@ public class Equipe {
 	}
 
 	public void addJoueur(Joueur joueur) throws EquipeCompleteException {
-		if (this.equipe.size() == 5) {
+		if (this.listJoueur.size() == 5) {
 			throw new EquipeCompleteException("L'équipe est pleine");
 		}
-		this.equipe.add(joueur);
+		this.listJoueur.add(joueur);
 	}
 
 	public Joueur getJoueur(Joueur joueur) throws JoueurNonPresentException, EquipeVideException {
-		if (this.equipe.isEmpty()) {
+		if (this.listJoueur.isEmpty()) {
 			throw new EquipeVideException("L'équipe est vide");
 		}
-		for (Joueur j : this.equipe) {
+		for (Joueur j : this.listJoueur) {
 			if (j.equals(joueur)) {
 				return j;
 			}
@@ -67,30 +67,29 @@ public class Equipe {
 	}
 
 	public void deleteJoueur(Joueur joueur) throws JoueurNonPresentException, EquipeVideException {
-		if (this.equipe.isEmpty()) {
+		if (this.listJoueur.isEmpty()) {
 			throw new EquipeVideException("L'équipe est vide");
 		}
-		Joueur joueur_res = null;
-		for (Joueur j : this.equipe) {
+		Joueur joueurRes = null;
+		for (Joueur j : this.listJoueur) {
 			if (j.equals(joueur)) {
-				joueur_res = j;
+				joueurRes = j;
 			}
 		}
-		if (joueur_res == null) {
+		if (joueurRes == null) {
 			throw new JoueurNonPresentException("Le joueur ne fait pas partie de l'équipe");
 		}
-		this.equipe.remove(joueur);
+		this.listJoueur.remove(joueur);
 	}
 
 	public int getNombreJoueurs() {
-		return this.equipe.size();
+		return this.listJoueur.size();
 	}
 
 	public Float getPoint() {
 		return point;
 	}
 
-	
 
 	@Override
 	public String toString() {

@@ -4,7 +4,6 @@ import vue.Vue;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -89,12 +88,13 @@ public class TitleBar extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				coordsWin = null;
 			}
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				coordsWin = e.getPoint();
 			}
 		});
-	
+
 		addMouseMotionListener(new MouseAdapter() {
 
 			@Override

@@ -11,9 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Image;
-import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class Vue extends JFrame {
@@ -43,6 +41,7 @@ public class Vue extends JFrame {
 
 		panelContenu = new JPanel();
 		cl = new CardLayout();
+
 		panelContenu.setLayout(cl);
 		add(panelContenu, BorderLayout.CENTER);
 		panelContenu.setOpaque(false);

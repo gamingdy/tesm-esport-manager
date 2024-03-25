@@ -205,6 +205,7 @@ public enum Pays {
 		this.code = code;
 	}
 
+	@Override
 	public String toString() {
 		return nom;
 	}

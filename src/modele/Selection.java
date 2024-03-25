@@ -5,33 +5,32 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Selection {
-	
+
 	private Arbitre arbitre;
 	private Saison saison;
-	//TODO à retirer
 	private Set<Selection> selections;
-	
+
 	public Selection(Arbitre arbitre, Saison saison) {
 		this.arbitre = arbitre;
 		this.saison = saison;
 		this.selections = new HashSet<>();
 	}
-	
+
 	public void addSelection(Selection selection) {
 		this.selections.add(selection);
 	}
-	
+
 	public void deleteSelection(Selection selection) {
 		this.selections.remove(selection);
 	}
-	
+
 	public Arbitre getArbitre() {
 		return arbitre;
 	}
 
 	public Saison getSaison() {
 		return saison;
-	} 
+	}
 
 	public Set<Selection> getSelections() {
 		return selections;
@@ -58,8 +57,6 @@ public class Selection {
 	public String toString() {
 		return "Selection [arbitre=" + arbitre + ", saison=" + saison + "]";
 	}
-	
 
-	
 
 }

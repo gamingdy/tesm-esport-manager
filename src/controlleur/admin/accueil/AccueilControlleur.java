@@ -120,7 +120,12 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 			List<Matche> liste = new ArrayList<>(daoMatche.getTenLastMatch());
 			for (Matche m : liste) {
 				List<Partie> partieList = daoPartie.getPartieByMatche(m);
-				m.setVainqueur(partieList.get(0).getVainqueur());
+				try {
+					m.setVainqueur(partieList.get(0).getVainqueur());
+				} catch (Exception e) {
+					m.setVainqueur(null);
+				}
+
 				ImageIcon tropheeGagnant = new ImageIcon("assets/trophéeGagnant.png");
 				ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
 				String nomEquipe1 = m.getEquipe1().getNom();
