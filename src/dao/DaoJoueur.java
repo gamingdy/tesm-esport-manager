@@ -29,13 +29,19 @@ public class DaoJoueur extends SuperDao implements Dao<Joueur, Integer> {
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Joueur("
 				+ "Id_Joueur INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
-				+ "Pseudo VARCHAR(50),"
+				+ "Pseudo VARCHAR(50) UNIQUE,"
 				+ "Nom_Equipe VARCHAR(50) NOT NULL,"
 				+ "PRIMARY KEY(Id_Joueur),"
 				+ "FOREIGN KEY(Nom_Equipe) REFERENCES Equipe(Nom_Equipe))";
 
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
+		}
+		
+		String createIndexSql = "CREATE INDEX jou_index_pse on Joueur (Pseudo)";
+
+		try (Statement createIndex = connexion.getConnection().createStatement()) {
+			createIndex.execute(createIndexSql);
 		}
 	}
 
@@ -96,6 +102,29 @@ public class DaoJoueur extends SuperDao implements Dao<Joueur, Integer> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param pseudo du joueur
+	 * @return un joueur précis en fonction de son pseudo
+	 */
+	public Optional<Joueur> getByPseudo(String pseudo) throws SQLException, EquipeCompleteException, JoueurException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Joueur WHERE Pseudo = ?")) {
+			getById.setString(1, pseudo);
+			ResultSet resultat = getById.executeQuery();
+			if (resultat.next()) {
+				Optional<Equipe> equipe = daoequipe.getById(resultat.getString(super.getConstants().getNomEquipe()));
+				if (equipe.isPresent()) {
+					Joueur joueur = new Joueur(resultat.getString(super.getConstants().getPseudo()), equipe.get());
+					joueur.setId(resultat.getInt(super.getConstants().getIdJoueur()));
+					return Optional.of(joueur);
+				}
+				return Optional.empty();
+
+			}
+			return Optional.empty();
+		}
+	}
+	
 	/**
 	 * Ajoute un joueur à la table joueur à partir d'un objet joueur
 	 */

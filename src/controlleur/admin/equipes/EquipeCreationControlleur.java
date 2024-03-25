@@ -83,6 +83,20 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 				new JFramePopup("Erreur", "L'equipe existe deja", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
 				resetChamps();
 			} else {
+				//vérification des joueurs dans les autres équipes
+				Object[] liste = this.vue.getJoueurs();
+				try {
+					for (Object pseudo : liste) {
+						if(daoJoueur.getByPseudo(pseudo.toString()).isPresent()) {
+							new JFramePopup("Erreur", "Un joueur avec ce pseudo \""+pseudo.toString()+"\" existe déjà", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
+							return;
+						}
+					}
+				} catch (Exception ex) {
+					new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () ->  VueObserver.getInstance().notifyVue(Page.EQUIPES));
+					return;
+				}
+				
 				Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
 
 				try {
