@@ -21,12 +21,10 @@ public class TestDaoArbitre extends TestDao {
 		FactoryDAO.getDaoAbritre(super.getC()).add(a);
 		FactoryDAO.getDaoAbritre(super.getC()).add(b);
 		FactoryDAO.getDaoAbritre(super.getC()).add(c);
-		System.out.println(FactoryDAO.getDaoAbritre(getC()).visualizeTable());
 	}
 
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoAbritre(getC()).delete("Brando", "Titouan", 0606060606);
-		System.out.println(FactoryDAO.getDaoAbritre(getC()).visualizeTable());
 		FactoryDAO.getDaoAbritre(super.getC()).add(a);
 	}
 
@@ -35,7 +33,6 @@ public class TestDaoArbitre extends TestDao {
 		b.get().setNom(randomUsername("Pelletier"));
 		b.get().setPrenom(randomUsername("Alex"));
 		FactoryDAO.getDaoAbritre(getC()).update(b.get());
-		System.out.println(FactoryDAO.getDaoAbritre(getC()).visualizeTable());
 	}
 
 	public static void main(String[] args) throws Exception {

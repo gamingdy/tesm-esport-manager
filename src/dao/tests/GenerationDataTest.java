@@ -13,7 +13,6 @@ public class GenerationDataTest {
 	            @Override
 	            public void run() {
 	                synchronized (lock) {
-	                    System.out.println("Thread 2 : En attente pendant 3 secondes...");
 	                    try {
 	                        
 	                        TestDaoMatche m = new TestDaoMatche();

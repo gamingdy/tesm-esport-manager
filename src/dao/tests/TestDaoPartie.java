@@ -22,15 +22,12 @@ public class TestDaoPartie extends TestDao {
 		for (int i = 0; i < parties.size(); i++) {
 			FactoryDAO.getDaoPartie(getC()).add(parties.get(i));
 		}
-		System.out.println(FactoryDAO.getDaoPartie(getC()).visualizeTable());
-	}
+}
 
 	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoPartie(getC()).delete(0, 3);
 		FactoryDAO.getDaoPartie(getC()).delete(0, 4);
-		System.out.println(FactoryDAO.getDaoPartie(getC()).visualizeTable());
-
 	}
 
 	@Override
@@ -38,17 +35,11 @@ public class TestDaoPartie extends TestDao {
 		Partie partie = FactoryDAO.getDaoPartie(getC()).getById(0, 0).get();
 		partie.setVainqueur(partie.getMatche().getEquipe1());
 		FactoryDAO.getDaoPartie(getC()).update(partie);
-		System.out.println(partie.toString());
-		System.out.println(partie.getVainqueur().toString());
-		System.out.println(FactoryDAO.getDaoPartie(getC()).visualizeTable());
-
 	}
 
 	public void testGetPartiesByMatch() throws Exception {
 		Matche match = FactoryDAO.getDaoMatche(getC()).getById(10).get();
-		System.out.println("______________Test getPartieByMatch________________");
 		List<Partie> p = FactoryDAO.getDaoPartie(getC()).getPartieByMatche(match);
-		p.forEach(x -> System.out.println(x.toString()));
 	}
 
 	public static void main(String[] args) throws Exception {

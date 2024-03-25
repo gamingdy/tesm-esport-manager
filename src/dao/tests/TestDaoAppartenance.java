@@ -46,14 +46,12 @@ public class TestDaoAppartenance extends TestDao {
 		for (Appartenance ap : a) {
 			FactoryDAO.getDaoAppartenance(getC()).add(ap);
 		}
-		System.out.println(FactoryDAO.getDaoAppartenance(getC()).visualizeTable());
 	}
 
 	@Override
 	public void testDelete() throws Exception {
 		Appartenance app = FactoryDAO.getDaoAppartenance(getC()).getById(a.get(0).getEquipe().getNom(), a.get(0).getPoule().getTournoi().getSaison().getAnnee(), a.get(0).getPoule().getTournoi().getNom(), a.get(0).getPoule().getLibelle()).get();
 		FactoryDAO.getDaoAppartenance(getC()).delete(app.getEquipe().getNom(), app.getPoule().getTournoi().getSaison().getAnnee(), app.getPoule().getTournoi().getNom(), app.getPoule().getLibelle());
-		System.out.println(FactoryDAO.getDaoAppartenance(getC()).visualizeTable());
 	}
 
 	@Override
@@ -64,12 +62,10 @@ public class TestDaoAppartenance extends TestDao {
 
 	public void testGetEquipeByPoule() throws Exception {
 		List<Equipe> eq = FactoryDAO.getDaoAppartenance(getC()).getEquipeByPoule(a.get(0).getPoule().getTournoi().getNom(), a.get(0).getPoule().getTournoi().getSaison().getAnnee(), a.get(0).getPoule().getLibelle());
-		eq.stream().forEach(System.out::println);
 	}
 
 	public void testGetEquipeByTournoi() throws Exception {
 		List<Equipe> eq = FactoryDAO.getDaoAppartenance(getC()).getEquipeByTournoi(a.get(0).getPoule().getTournoi().getNom(), a.get(0).getPoule().getTournoi().getSaison().getAnnee());
-		eq.stream().forEach(System.out::println);
 	}
 
 	public void testGetPouleByEquipe() throws Exception {
@@ -93,15 +89,10 @@ public class TestDaoAppartenance extends TestDao {
 		x.setup();
 		//x.testInsert();
 		//x.testDelete();
-		System.out.println("____________________________");
 		x.testGetEquipeByPoule();
-		System.out.println("____________________________");
 		x.testGetEquipeByTournoi();
-		System.out.println("____________________________");
 		x.testGetPouleByEquipe();
-		System.out.println("____________________________");
 		x.testGetTournoiByEquipe();
-		System.out.println("____________________________");
 		x.testGetTournoiByEquipeForSaison();
 
 

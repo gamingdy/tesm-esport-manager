@@ -17,13 +17,11 @@ public class TestDaoNiveau extends TestDao {
 		for (Niveau n : niveaux) {
 			FactoryDAO.getDaoNiveau(getC()).add(n);
 		}
-		System.out.println(FactoryDAO.getDaoNiveau(getC()).visualizeTable());
 	}
 
 	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoNiveau(getC()).delete(Niveau.INTERNATIONAL.name());
-		System.out.println(FactoryDAO.getDaoNiveau(getC()).visualizeTable());
 		FactoryDAO.getDaoNiveau(getC()).add(Niveau.INTERNATIONAL);
 	}
 

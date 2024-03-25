@@ -21,7 +21,6 @@ public class TestDaoSaison extends TestDao {
 		for (Saison s : saisons) {
 			FactoryDAO.getDaoSaison(getC()).add(s);
 		}
-		System.out.println(FactoryDAO.getDaoSaison(getC()).visualizeTable());
 	}
 
 	@Override

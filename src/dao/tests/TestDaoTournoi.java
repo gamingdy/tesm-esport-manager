@@ -32,12 +32,10 @@ public class TestDaoTournoi extends TestDao {
 		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi2);
 		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi3);
 		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi4);
-		System.out.println(FactoryDAO.getDaoTournoi(getC()).visualizeTable());
 	}
 
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoTournoi(getC()).delete(tournoi1.getSaison().getAnnee(), tournoi1.getNom());
-		System.out.println(FactoryDAO.getDaoTournoi(getC()).visualizeTable());
 		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi1);
 	}
 
@@ -45,31 +43,22 @@ public class TestDaoTournoi extends TestDao {
 		Optional<Tournoi> b = FactoryDAO.getDaoTournoi(getC()).getById(tournoi1.getSaison().getAnnee(), tournoi1.getNom());
 		b.get().setNiveau(Niveau.LOCAL);
 		FactoryDAO.getDaoTournoi(getC()).update(b.get());
-		System.out.println(FactoryDAO.getDaoTournoi(getC()).visualizeTable());
 	}
 
 	public void testGetCompteArbitreByTournoi() throws SQLException {
-		System.out.println("______________________________");
 		CompteArbitre c = FactoryDAO.getDaoTournoi(getC()).getCompteArbitreByTournoi(2023, "zzzz");
-		System.out.println(c.getHashMdp() + " " + c.getUsername());
 	}
 
 	public void testGetTournoiActuel() throws SQLException, FausseDateException {
-		System.out.println("______________________________");
 		Optional<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiActuel();
-		System.out.println(t.get().toString());
 	}
 
 	public void testGetTournoiBySaison() throws SQLException, FausseDateException {
-		System.out.println("______________________________");
 		List<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiBySaison(saison);
-		t.forEach(x -> System.out.println(x.toString()));
 	}
 
 	public void testGetTournoiBetweenDate() throws DateTimeException, Exception {
-		System.out.println("______________________________");
 		List<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiBetweenDate(new CustomDate(2023, 12, 29), new CustomDate(2023, 12, 30));
-		t.forEach(x -> System.out.println(x.toString()));
 	}
 
 

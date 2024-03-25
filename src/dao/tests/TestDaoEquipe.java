@@ -27,12 +27,10 @@ public class TestDaoEquipe extends TestDao {
 			FactoryDAO.getDaoEquipe(getC()).add(ekip.get(i));
 		}
 
-		System.out.println(FactoryDAO.getDaoEquipe(getC()).visualizeTable());
 	}
 
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoEquipe(getC()).delete(equipe.getNom());
-		System.out.println(FactoryDAO.getDaoEquipe(getC()).visualizeTable());
 		FactoryDAO.getDaoEquipe(getC()).add(equipe);
 	}
 
@@ -40,7 +38,6 @@ public class TestDaoEquipe extends TestDao {
 		Optional<Equipe> b = FactoryDAO.getDaoEquipe(getC()).getById(equipe2.getNom());
 		b.get().setPays(Pays.FRANCE);
 		FactoryDAO.getDaoEquipe(getC()).update(b.get());
-		System.out.println(FactoryDAO.getDaoEquipe(getC()).visualizeTable());
 	}
 
 	public static void main(String[] args) throws Exception {

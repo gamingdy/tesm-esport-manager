@@ -34,15 +34,11 @@ public class TestDaoArbitrage extends TestDao {
 	public void testInsert() throws Exception {
 		for (Arbitrage arb : ab) {
 			FactoryDAO.getDaoArbitrage(getC()).add(arb);
-		}
-		System.out.println(FactoryDAO.getDaoArbitrage(getC()).visualizeTable());
-	}
+		}}
 
 	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoArbitrage(getC()).delete(ab.get(0).getArbitre().getNom(), ab.get(0).getArbitre().getPrenom(), ab.get(0).getArbitre().getNumeroTelephone(), ab.get(0).getTournoi().getSaison().getAnnee(), ab.get(0).getTournoi().getNom());
-		System.out.println(FactoryDAO.getDaoArbitrage(getC()).visualizeTable());
-
 	}
 
 	@Override
@@ -53,13 +49,11 @@ public class TestDaoArbitrage extends TestDao {
 
 	public void testGetArbitreByTournoi() throws Exception {
 		List<Arbitre> ar = FactoryDAO.getDaoArbitrage(getC()).getArbitreByTournoi(ab.get(0).getTournoi().getNom(), ab.get(0).getTournoi().getSaison().getAnnee());
-		System.out.println("______________________________________");
 		ar.stream().forEach(System.out::println);
 	}
 
 	public void testGetTournoiByArbitre() throws Exception {
 		List<Tournoi> ar = FactoryDAO.getDaoArbitrage(getC()).getTournoiByArbitre(ab.get(0).getArbitre().getNom(), ab.get(0).getArbitre().getPrenom(), ab.get(0).getArbitre().getNumeroTelephone());
-		System.out.println("______________________________________");
 		ar.stream().forEach(System.out::println);
 	}
 

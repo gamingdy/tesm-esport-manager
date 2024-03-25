@@ -30,15 +30,11 @@ public class TestDaoSelection extends TestDao {
 		for (Selection select : sel) {
 			FactoryDAO.getDaoSelection(getC()).add(select);
 		}
-		System.out.println(FactoryDAO.getDaoSelection(getC()).visualizeTable());
-
 	}
 
 	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoSelection(getC()).delete(sel.get(0).getArbitre().getNom(), sel.get(0).getArbitre().getPrenom(), sel.get(0).getArbitre().getNumeroTelephone(), sel.get(0).getSaison().getAnnee());
-		System.out.println(FactoryDAO.getDaoSelection(getC()).visualizeTable());
-
 	}
 
 	@Override
@@ -49,13 +45,11 @@ public class TestDaoSelection extends TestDao {
 
 	public void testGetArbitreBySaison() throws Exception {
 		List<Arbitre> arr = FactoryDAO.getDaoSelection(getC()).getArbitreBySaison(sel.get(0).getSaison().getAnnee());
-		System.out.println("____________________________");
 		arr.stream().forEach(System.out::println);
 	}
 
 	public void testGetSaisonByArbitre() throws Exception {
 		List<Saison> saisons = FactoryDAO.getDaoSelection(getC()).getSaisonByArbitre(sel.get(0).getArbitre().getNom(), sel.get(0).getArbitre().getPrenom(), sel.get(0).getArbitre().getNumeroTelephone());
-		System.out.println("____________________________");
 		saisons.stream().forEach(System.out::println);
 	}
 

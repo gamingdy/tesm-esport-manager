@@ -26,14 +26,12 @@ public class TestDaoMatche extends TestDao {
 		for (int i = 0; i < matche.size(); i++) {
 			FactoryDAO.getDaoMatche(getC()).add(matche.get(i));
 		}
-		System.out.println(FactoryDAO.getDaoMatche(getC()).visualizeTable());
 
 	}
 
 	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoMatche(getC()).delete(FactoryDAO.getDaoMatche(getC()).getLastId());
-		System.out.println(FactoryDAO.getDaoMatche(getC()).visualizeTable());
 
 	}
 
@@ -42,17 +40,14 @@ public class TestDaoMatche extends TestDao {
 		Matche match = FactoryDAO.getDaoMatche(getC()).getById(FactoryDAO.getDaoMatche(getC()).getLastId()).get();
 		match.setCategorie(Categorie.PETITE_FINALE);
 		FactoryDAO.getDaoMatche(getC()).update(match);
-		System.out.println(FactoryDAO.getDaoMatche(getC()).visualizeTable());
 	}
 
 	public void testGetMatchByTournoi() throws Exception {
 		List<Matche> m = FactoryDAO.getDaoMatche(getC()).getMatchByTournoi(2023, "zzzz");
-		m.forEach(x -> System.out.println(x.toString()));
 	}
 
 	public void testGetMatchByTournoiFromCategorie() throws Exception {
 		List<Matche> m = FactoryDAO.getDaoMatche(getC()).getMatchesByTournoiFromCategorie(FactoryDAO.getDaoTournoi(getC()).getById(2023, "zzzz").get(), Categorie.PETITE_FINALE);
-		m.forEach(x -> System.out.println(x.toString()));
 	}
 
 	public void testGetMatchByEquipe() throws Exception {
@@ -61,17 +56,14 @@ public class TestDaoMatche extends TestDao {
 		for (Equipe eq : e) {
 			FactoryDAO.getDaoMatche(getC()).getMatchByEquipe(eq).stream().forEach(x -> m.add(x));
 		}
-		m.forEach(x -> System.out.println(x.toString()));
 	}
 
 	public void testGetMatchBySaison() throws Exception {
 		List<Matche> m = FactoryDAO.getDaoMatche(getC()).getMatchBySaison(t.getSaison());
-		m.forEach(x -> System.out.println(x.toString()));
 	}
 
 	public void testGetMatchByEquipeForTournoi() throws Exception {
 		List<Matche> m = FactoryDAO.getDaoMatche(getC()).getMatchByEquipeForTournoi(FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get(), t2);
-		m.forEach(x -> System.out.println(x.toString()));
 	}
 
 
@@ -81,13 +73,9 @@ public class TestDaoMatche extends TestDao {
 		//x.testInsert();
 		//x.testDelete();
 		//x.testUpdate();
-		System.out.println("_______________GetMatchByTournoi_________________");
 		x.testGetMatchByTournoi();
-		System.out.println("_______________GetMatchByTournoiFromCategorie_________________");
 		x.testGetMatchByTournoiFromCategorie();
-		System.out.println("_______________GetMatchBySaison_________________");
 		x.testGetMatchBySaison();
-		System.out.println("_______________GetMatchByEquipeForTournoi________________");
 		x.testGetMatchByEquipeForTournoi();
 	}
 

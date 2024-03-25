@@ -34,14 +34,12 @@ public class TestDaoInscription extends TestDao {
 		for (Inscription i : inscr) {
 			FactoryDAO.getDaoInscription(getC()).add(i);
 		}
-		System.out.println(FactoryDAO.getDaoInscription(getC()).visualizeTable());
 
 	}
 
 	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoInscription(getC()).delete(inscr.get(0).getSaison().getAnnee(), inscr.get(0).getEquipe().getNom());
-		System.out.println(FactoryDAO.getDaoInscription(getC()).visualizeTable());
 
 	}
 
@@ -49,19 +47,14 @@ public class TestDaoInscription extends TestDao {
 	public void testUpdate() throws Exception {
 		inscr.get(1).setWorldRank(5);
 		FactoryDAO.getDaoInscription(getC()).update(inscr.get(1));
-		System.out.println(FactoryDAO.getDaoInscription(getC()).visualizeTable());
 	}
 
 	public void testGetEquipeBySaison() throws Exception {
 		List<Equipe> eq = FactoryDAO.getDaoInscription(getC()).getEquipeBySaison(inscr.get(1).getSaison().getAnnee());
-		System.out.println("___________________________");
-		eq.stream().forEach(System.out::println);
 	}
 
 	public void testGetSaisonByEquipe() throws Exception {
 		List<Saison> sais = FactoryDAO.getDaoInscription(getC()).getSaisonByEquipe(inscr.get(1).getEquipe().getNom());
-		System.out.println("___________________________");
-		sais.stream().forEach(System.out::println);
 	}
 
 	public static void main(String[] args) throws Exception {

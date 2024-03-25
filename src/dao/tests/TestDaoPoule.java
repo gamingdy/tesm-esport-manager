@@ -23,8 +23,6 @@ public class TestDaoPoule extends TestDao {
 		for (Poule p : poules) {
 			FactoryDAO.getDaoPoule(getC()).add(p);
 		}
-		System.out.println(FactoryDAO.getDaoPoule(getC()).visualizeTable());
-
 
 	}
 
