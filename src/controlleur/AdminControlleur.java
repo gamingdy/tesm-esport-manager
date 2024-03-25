@@ -39,7 +39,10 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		this.vueAccueil.setControlleur(new AccueilControlleur(this.vueAccueil));
 		this.vue.addPage(vueAccueil, Page.ACCUEIL_ADMIN);
 		this.vue.addPage(vueAdminEquipes, Page.EQUIPES);
-		this.vue.setPage(Page.ACCUEIL_ADMIN);
+	}
+
+	public void updateAccueil() {
+		this.vueAccueil.updateControlleur();
 	}
 
 	@Override
