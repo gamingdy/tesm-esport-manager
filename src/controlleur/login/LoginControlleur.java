@@ -56,7 +56,7 @@ public class LoginControlleur implements ActionListener, DocumentListener, KeyLi
 		String champLogin = vue.getIdentifiant().trim();
 		String champMotDePasse = vue.getMotDePasse().trim();
 
-		if (bouton.getText() == "Connexion") {
+		if (bouton.getText().equals("Connexion")) {
 			CompteUtilisateur compteActuel = compteAdminOuUtilisateur(champLogin, champMotDePasse);
 			if (compteActuel == null) {
 				JOptionPane.showMessageDialog(vue, "Identifiant ou mot de passe incorrect");

@@ -1,6 +1,5 @@
 package controlleur.admin.arbitres;
 
-import dao.Connexion;
 import vue.Page;
 import vue.admin.arbitres.VueAdminArbitres;
 import vue.admin.arbitres.creation.VueAdminArbitresCreation;
@@ -11,7 +10,6 @@ public class ArbitresControlleur {
 	private ArbitresListeControlleur arbitresListeControlleur;
 	private ArbitresCreationControlleur arbitresCreationControlleur;
 
-	private Connexion c = Connexion.getConnexion();
 
 	public ArbitresControlleur(VueAdminArbitres newVue) {
 		this.vue = newVue;

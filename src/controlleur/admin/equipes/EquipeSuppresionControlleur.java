@@ -1,11 +1,11 @@
 package controlleur.admin.equipes;
 
-import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoAppartenance;
 import dao.DaoEquipe;
 import dao.DaoInscription;
 import dao.DaoSaison;
+import exceptions.FausseDateException;
 import modele.Equipe;
 import modele.Inscription;
 import modele.Saison;
@@ -17,6 +17,7 @@ import vue.common.JFramePopupSuppressionEquipe;
 
 import java.awt.event.MouseAdapter;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 public class EquipeSuppresionControlleur extends MouseAdapter {
@@ -85,7 +86,7 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");}
 	}
 
-	private boolean isEquipeInscriteSaisonActuelle(Equipe equipe) throws Exception {
+	private boolean isEquipeInscriteSaisonActuelle(Equipe equipe) throws SQLException {
 		saison = daoSaison.getLastSaison();
 
 		List<Saison> listeSaison = daoInscription.getSaisonByEquipe(equipe.getNom());
@@ -93,7 +94,7 @@ public class EquipeSuppresionControlleur extends MouseAdapter {
 		return listeSaison.contains(saison);
 	}
 
-	private boolean isEquipeDansTournoiSaisonActuelle(Equipe equipe) throws Exception {
+	private boolean isEquipeDansTournoiSaisonActuelle(Equipe equipe) throws SQLException, FausseDateException {
 		saison = daoSaison.getLastSaison();
 		Inscription inscription = new Inscription(saison, equipe);
 		List<Tournoi> listeTournoisJoue = daoAppartenance.getTournoiByEquipeForSaison(inscription);

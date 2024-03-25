@@ -2,7 +2,6 @@ package modele.test;
 
 import exceptions.FausseDateException;
 import exceptions.IdNotSetException;
-import exceptions.MemeEquipeException;
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -28,7 +27,7 @@ public class TestMatche {
 	private Saison saison;
 
 	@Before
-	public void setUp() throws FausseDateException, MemeEquipeException {
+	public void setUp() throws FausseDateException {
 		d1 = new CustomDate(2022, 10, 10);
 		d2 = new CustomDate(2022, 10, 30);
 		saison = new Saison(2022);
@@ -36,19 +35,15 @@ public class TestMatche {
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
 
-	@Test(expected = MemeEquipeException.class)
-	public void testConstructeurExceptionMemeEquipe() throws MemeEquipeException, FausseDateException {
-		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e1, tournoi);
-	}
 
 	@Test(expected = FausseDateException.class)
-	public void testContructeurExceptionFausseDate() throws MemeEquipeException, FausseDateException {
+	public void testContructeurExceptionFausseDate() throws FausseDateException {
 		d1 = new CustomDate(2022, 9, 10);
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, e2, tournoi);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testConstructeurExceptionNull() throws MemeEquipeException, FausseDateException {
+	public void testConstructeurExceptionNull() throws FausseDateException {
 		m = new Matche(1, d1, Categorie.DEMI_FINALE, e1, null, tournoi);
 	}
 

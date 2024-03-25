@@ -3,7 +3,6 @@ package modele;
 
 import exceptions.EquipeCompleteException;
 import exceptions.IdNotSetException;
-import exceptions.JoueurException;
 
 public class Joueur implements Comparable<Joueur> {
 
@@ -11,7 +10,7 @@ public class Joueur implements Comparable<Joueur> {
 	private String pseudo;
 	private Equipe equipe;
 
-	public Joueur(String pseudo, Equipe equipe) throws EquipeCompleteException, JoueurException {
+	public Joueur(String pseudo, Equipe equipe) throws EquipeCompleteException {
 		this.pseudo = pseudo;
 		this.equipe = equipe;
 		this.equipe.addJoueur(this);
@@ -43,7 +42,7 @@ public class Joueur implements Comparable<Joueur> {
 	public Equipe getEquipe() {
 		return this.equipe;
 	}
-	
+
 
 	public int compareTo(Joueur j) {
 		return j.getPseudo().compareTo(this.getPseudo());

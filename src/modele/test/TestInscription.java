@@ -8,9 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class TestInscription {
 
@@ -63,8 +62,8 @@ public class TestInscription {
 
 	@Test
 	public void testEquals() {
-		assertTrue(inscription1.equals(inscription3));
-		assertFalse(inscription1.equals(inscription2));
-		assertFalse(inscription2.equals(inscription3));
+		assertEquals(inscription1, inscription3);
+		assertNotEquals(inscription1, inscription2);
+		assertNotEquals(inscription2, inscription3);
 	}
 }

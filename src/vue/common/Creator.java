@@ -4,7 +4,6 @@ import dao.Connexion;
 import dao.DaoMatche;
 import dao.DaoPartie;
 import exceptions.FausseDateException;
-import exceptions.MemeEquipeException;
 import modele.Categorie;
 import modele.CustomDate;
 import modele.Equipe;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Creator {
-	
+
 	private Creator() {
 		// default implementation ignored
 	}
@@ -69,7 +68,7 @@ public class Creator {
 							currentDay += 1;
 						}
 					}
-				} catch (FausseDateException | MemeEquipeException e) {
+				} catch (FausseDateException e) {
 				}
 			}
 		}

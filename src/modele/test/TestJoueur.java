@@ -1,10 +1,7 @@
 package modele.test;
 
 import exceptions.EquipeCompleteException;
-import exceptions.EquipeVideException;
 import exceptions.IdNotSetException;
-import exceptions.JoueurException;
-import exceptions.JoueurNonPresentException;
 import modele.Equipe;
 import modele.Joueur;
 import modele.Pays;
@@ -22,7 +19,7 @@ public class TestJoueur {
 	private Equipe equipe1;
 
 	@Before
-	public void setUp() throws EquipeCompleteException, JoueurException {
+	public void setUp() throws EquipeCompleteException {
 		equipe1 = new Equipe("Faze", Pays.ALGERIE);
 		j = new Joueur("Cricri", equipe1);
 	}
@@ -53,7 +50,7 @@ public class TestJoueur {
 
 
 	@Test
-	public void testGetEquipe() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException, JoueurException {
+	public void testGetEquipe() {
 		assertEquals(equipe1, j.getEquipe());
 	}
 
@@ -63,13 +60,13 @@ public class TestJoueur {
 	}
 
 	@Test
-	public void testSameJoueur() throws EquipeCompleteException, JoueurException {
+	public void testSameJoueur() throws EquipeCompleteException {
 		Joueur j2 = new Joueur("Cricri", equipe1);
 		assertEquals(j, j2);
 	}
 
 	@Test
-	public void testJoueurDifferent() throws EquipeCompleteException, JoueurException {
+	public void testJoueurDifferent() throws EquipeCompleteException {
 		Joueur j2 = new Joueur("Cricri2", equipe1);
 		assertNotEquals(j, j2);
 	}

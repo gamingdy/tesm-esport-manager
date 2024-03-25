@@ -1,6 +1,5 @@
 package controlleur.admin.equipes;
 
-import controlleur.admin.arbitres.ArbitresObserver;
 import dao.Connexion;
 import dao.DaoAppartenance;
 import dao.DaoTournoi;

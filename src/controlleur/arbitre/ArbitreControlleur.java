@@ -8,7 +8,6 @@ import dao.DaoTournoi;
 import exceptions.FausseDateException;
 import exceptions.GagnantNonChoisiException;
 import exceptions.IdNotSetException;
-import exceptions.MemeEquipeException;
 import modele.Categorie;
 import modele.Equipe;
 import modele.Matche;

@@ -3,21 +3,24 @@ package modele;
 import dao.Connexion;
 import dao.FactoryDAO;
 import exceptions.ExceptionPointsNegatifs;
+import exceptions.FausseDateException;
+import exceptions.MemeEquipeException;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class ModeleSaison {
+	private ModeleSaison() {
+	}
 
-	public static Set<Equipe> getClassement(Saison saison) throws Exception {
+	public static Set<Equipe> getClassement(Saison saison) throws SQLException, MemeEquipeException, FausseDateException, ExceptionPointsNegatifs {
 		//On récupère toutes les équipes
 		List<Equipe> allEquipe = FactoryDAO.getDaoEquipe(Connexion.getConnexion()).getAll();
 		//On défini le Set d'équipes de sortie qui est trié en fonction des points
-		Set<Equipe> classement = new TreeSet<>((e1, e2) -> {
-			return (int) (e2.getPoint() - e1.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint());
-		});
+		Set<Equipe> classement = new TreeSet<>((e1, e2) -> (int) (e2.getPoint() - e1.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint()));
 
 		//Pour chaque Equipe de la liste allEquipe définie plus tôt
 		for (Equipe e : allEquipe) {
@@ -36,7 +39,7 @@ public class ModeleSaison {
 				//On ajoute les points à l'équipe selon la catégorie du match, la victoire ou la défaite de l'équipe et le niveau du tournoi
 				ModeleSaison.setPointsEquipeMatch(m, e);
 			}
-			System.out.println("Equipe points"+e.getPoint());
+			System.out.println("Equipe points" + e.getPoint());
 			//En sortant de la boucle on ajoute cette Equipe au set trié
 			classement.add(e);
 		}

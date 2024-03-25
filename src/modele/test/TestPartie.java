@@ -2,7 +2,6 @@ package modele.test;
 
 import exceptions.FausseDateException;
 import exceptions.GagnantNonChoisiException;
-import exceptions.MemeEquipeException;
 import modele.Categorie;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -25,14 +24,14 @@ public class TestPartie {
 	private Equipe equipe2;
 
 	@Before
-	public void setUp() throws FausseDateException, MemeEquipeException {
+	public void setUp() throws FausseDateException {
 		CustomDate debut = new CustomDate(2022, 12, 5);
 		CustomDate finTournoi = new CustomDate(2022, 12, 20);
 		equipe1 = new Equipe("Faze", Pays.ALGERIE);
 		equipe2 = new Equipe("KC", Pays.ALGERIE);
 		Saison saison = new Saison(2022);
 		Tournoi tournoi = new Tournoi(saison, "RLCS", debut, finTournoi, Niveau.INTERNATIONAL, new CompteArbitre("arbitre0", "1234"));
-		matche = new Matche(2, debut, Categorie.DEMI_FINALE, equipe1, equipe2, tournoi);
+		matche = new Matche(3, debut, Categorie.DEMI_FINALE, equipe1, equipe2, tournoi);
 		partie = new Partie(matche);
 	}
 

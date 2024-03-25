@@ -63,11 +63,9 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 		JButton bouton = (JButton) e.getSource();
 		if (Objects.equals(bouton.getText(), "Ajouter")) {
 			String nomEquipe = vue.getNomEquipe().trim();
-			Pays champPaysEquipe;
+			Pays champPaysEquipe = null;
 
-			if (vue.getChampPaysEquipe() == null) {
-				champPaysEquipe = null;
-			} else {
+			if (vue.getChampPaysEquipe() != null) {
 				champPaysEquipe = Pays.trouverPaysParNom(vue.getChampPaysEquipe());
 			}
 
@@ -96,32 +94,35 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 					afficherErreur("Erreur SQL s'est produite, contactez l'administrateur");
 					return;
 				}
-				
-				Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
+			} catch (Exception ex) {
+				new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
+				return;
+			}
 
-				try {
+			Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
 
-					new JFramePopupEquipe("Ajouter", " Voulez vous juste créer une equipe ou l'ajouter dans la saison actuelle",
-							() -> {
-								addEquipe(equipeInserer);
-								new JFramePopup("Succès", "L'équipe est insérée",
-										() -> {
-											VueObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
-											resetChamps();
-										}
-								);
-							},
-							() -> {
-								addEquipeSaison(equipeInserer);
-								new JFramePopup("Succès", "L'équipe est insérée dans la saison",
-										() -> {
-											VueObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
-											resetChamps();
-										}
-								);
-							}
-					);
+			try {
 
+				new JFramePopupEquipe("Ajouter", " Voulez vous juste créer une equipe ou l'ajouter dans la saison actuelle",
+						() -> {
+							addEquipe(equipeInserer);
+							new JFramePopup("Succès", "L'équipe est insérée",
+									() -> {
+										VueObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
+										resetChamps();
+									}
+							);
+						},
+						() -> {
+							addEquipeSaison(equipeInserer);
+							new JFramePopup("Succès", "L'équipe est insérée dans la saison",
+									() -> {
+										VueObserver.getInstance().notifyVue(Page.EQUIPES_CREATION);
+										resetChamps();
+									}
+							);
+						}
+				);
 
 				} catch (Exception ex) {
 					this.logo = null;

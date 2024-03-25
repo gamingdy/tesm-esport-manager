@@ -112,18 +112,18 @@ public class VueAdminTournoisCreation extends JPanel {
 		Arrays.stream(Niveau.values()).forEach(modelNiveaux::addElement);
 		comboboxNiveaux = new CustomComboBox<>(modelNiveaux);
 		comboboxNiveaux.setRenderer((JList<? extends Niveau> list, Niveau value, int index, boolean isSelected, boolean cellHasFocus) -> {
-				JLabel panel = new JLabel();
-				panel.setOpaque(true);
-				if (value != null) {
-					panel.setText(value.getNom());
-				} else {
-					panel.setText("Choissez le niveau du tournoi");
-				}
-				panel.setForeground(CustomColor.BLANC);
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				return panel;
-			});
+			JLabel panel = new JLabel();
+			panel.setOpaque(true);
+			if (value != null) {
+				panel.setText(value.getNom());
+			} else {
+				panel.setText("Choissez le niveau du tournoi");
+			}
+			panel.setForeground(CustomColor.BLANC);
+			panel.setBackground(CustomColor.BACKGROUND_MAIN);
+			panel.setFocusable(false);
+			return panel;
+		});
 		champNiveau.add(comboboxNiveaux);
 		GridBagConstraints gbcNiveau = new GridBagConstraints();
 		gbcNiveau.fill = GridBagConstraints.BOTH;
@@ -239,7 +239,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		l.setLayout(new GridLayout(0, 1));
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
-		l.setCellRenderer((JList<? extends JLabel> list, JLabel value, int index, boolean isSelected, boolean cellHasFocus) -> value );
+		l.setCellRenderer((JList<? extends JLabel> list, JLabel value, int index, boolean isSelected, boolean cellHasFocus) -> value);
 
 		GridBagConstraints gbcJ = new GridBagConstraints();
 		gbcJ.fill = GridBagConstraints.BOTH;
@@ -298,7 +298,7 @@ public class VueAdminTournoisCreation extends JPanel {
 		le.setLayout(new GridLayout(0, 1));
 		le.setBackground(CustomColor.BACKGROUND_MAIN);
 		le.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
-		le.setCellRenderer((JList<? extends JLabel> list, JLabel value, int index, boolean isSelected, boolean cellHasFocus) -> value );
+		le.setCellRenderer((JList<? extends JLabel> list, JLabel value, int index, boolean isSelected, boolean cellHasFocus) -> value);
 
 		panelEquipes.add(le, gbcJ);
 
@@ -417,10 +417,7 @@ public class VueAdminTournoisCreation extends JPanel {
 	public JButton getBoutonValider() {
 		return this.boutonValider;
 	}
-
-	public JLabel getBoutonArbitres() {
-		return this.btnAjoutArbitres;
-	}
+	
 
 	public String getTextfieldNom() {
 		return this.textfieldNom.getText();
@@ -454,7 +451,7 @@ public class VueAdminTournoisCreation extends JPanel {
 	}
 
 	public JLabel getBtnAjoutArbitres() {
-		return this.btnAjoutEquipes;
+		return this.btnAjoutArbitres;
 	}
 
 	public JButton getBoutonAnnuler() {

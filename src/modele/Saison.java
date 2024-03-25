@@ -17,9 +17,9 @@ public class Saison {
 	private Set<Tournoi> tournois;
 
 	public Saison(int annee) {
-		this.equipes = new HashMap<Equipe, Integer>();
-		this.arbitres = new TreeSet<Arbitre>();
-		this.tournois = new HashSet<Tournoi>();
+		this.equipes = new HashMap<>();
+		this.arbitres = new TreeSet<>();
+		this.tournois = new HashSet<>();
 		this.annee = annee;
 	}
 
@@ -44,7 +44,7 @@ public class Saison {
 	}
 
 	public void addEquipe(Equipe equipe, Integer rank) {
-		if (rank.equals(null)) {
+		if (rank == null) {
 			this.equipes.put(equipe, rank);
 		} else {
 			this.equipes.put(equipe, 1000);
@@ -95,7 +95,7 @@ public class Saison {
 	public Tournoi getTournoi(String nom) {
 		Tournoi tournoi = null;
 		for (Tournoi t : this.tournois) {
-			if (t.getNom() == nom) {
+			if (t.getNom().equals(nom)) {
 				tournoi = t;
 			}
 		}

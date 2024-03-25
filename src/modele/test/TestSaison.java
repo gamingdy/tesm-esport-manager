@@ -28,7 +28,6 @@ public class TestSaison {
 	public void setUp() throws FausseDateException {
 		s1 = new Saison(2022);
 		a1 = new Arbitre("Gikapa", "Christian", "12347890");
-		Arbitre a2 = new Arbitre("Brando", "Titouan", "12367890");
 		CustomDate debut = new CustomDate(2022, 10, 20);
 		CustomDate fin = new CustomDate(2022, 10, 25);
 		CompteArbitre compteArbitre = new CompteArbitre("adminRLCS", "dsqd");
@@ -66,7 +65,7 @@ public class TestSaison {
 
 	@Test
 	public void testGetTournois() {
-		Set<Tournoi> set = new HashSet<Tournoi>();
+		Set<Tournoi> set = new HashSet<>();
 		assertEquals(set, s1.getTournois());
 	}
 

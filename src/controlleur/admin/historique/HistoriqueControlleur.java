@@ -1,8 +1,6 @@
 package controlleur.admin.historique;
 
 import controlleur.VueObserver;
-import controlleur.admin.accueil.AccueilControlleur;
-import controlleur.admin.arbitres.ArbitresObserver;
 import dao.Connexion;
 import dao.DaoAppartenance;
 import dao.DaoEquipe;
@@ -84,9 +82,9 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				comboBoxModel.addElement(a);
 			}
 			comboBoxModel.setSelectedItem(saisonListAnnees.get(saisonListAnnees.size() - 1));
-				updateEquipe(anneeChoisie);
-				updateMatches(Optional.empty(), Optional.empty());
-				updateTournoi(Optional.empty(), anneeChoisie);
+			updateEquipe(anneeChoisie);
+			updateMatches(Optional.empty(), Optional.empty());
+			updateTournoi(Optional.empty(), anneeChoisie);
 
 		} catch (Exception e) {
 			afficherErreur("Erreur SQL lors de la récupération des équipes");
@@ -122,17 +120,17 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 	private void updateEquipe(Saison saison) {
 		try {
-			List<Equipe> equipeList=new ArrayList<>();
+			List<Equipe> equipeList = new ArrayList<>();
 			if (tournoiChoisi.isPresent()) {
 				equipeList = daoAppartenance.getEquipeByTournoi(tournoiChoisi.get().getNom(), saison.getAnnee());
 			} else {
 				//Saison classmentPrecedent = new Saison(anneeChoisie.getAnnee() - 1);
 				Set<Equipe> classement = ModeleSaison.getClassement(anneeChoisie);
-				if(!classement.isEmpty()){
+				if (!classement.isEmpty()) {
 					equipeList = new ArrayList<>(classement);
 				}
 			}
-			if(!equipeList.isEmpty()) {
+			if (!equipeList.isEmpty()) {
 				DefaultTableModel table = this.vue.getModelEquipes();
 
 				List<Object[]> liste = constructObjectArrayEquipe(equipeList);
@@ -291,32 +289,34 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		JTable tableEquipe = this.vue.getTableEquipes();
 		JTable tableTournoi = this.vue.getTableTournois();
 
-		if (e.getValueIsAdjusting()) {
-			if (tableEquipe.getSelectedRow() > -1 && e.getSource() == tableEquipe.getSelectionModel()) {
-				VueAdminHistorique.CaseEquipe caseObjet = (VueAdminHistorique.CaseEquipe) tableEquipe.getValueAt(tableEquipe.getSelectedRow(), 1);
-				try {
-					equipeChoisie = daoEquipe.getById(caseObjet.getNom());
-					if (etat == null) {
-						etat = Etat.EQUIPES;
-					}
+		if (!e.getValueIsAdjusting()) {
+			return;
+		}
+		if (tableEquipe.getSelectedRow() > -1 && e.getSource() == tableEquipe.getSelectionModel()) {
+			VueAdminHistorique.CaseEquipe caseObjet = (VueAdminHistorique.CaseEquipe) tableEquipe.getValueAt(tableEquipe.getSelectedRow(), 1);
+			try {
+				equipeChoisie = daoEquipe.getById(caseObjet.getNom());
+				if (etat == null) {
+					etat = Etat.EQUIPES;
+				}
 
-					if (equipeChoisie.isPresent()) {
-						updateMatches(equipeChoisie, Optional.empty());
-						if (etat == Etat.EQUIPES) {
-							updateTournoi(equipeChoisie, anneeChoisie);
-						}
+				if (equipeChoisie.isPresent()) {
+					updateMatches(equipeChoisie, Optional.empty());
+					if (etat == Etat.EQUIPES) {
+						updateTournoi(equipeChoisie, anneeChoisie);
 					}
 				} catch (Exception exception) {
 					afficherErreur("Erreur SQL lors de la récupération des joueurs de l'équipe " + caseObjet.getNom());}
 			}
+		}
 
-			if (tableTournoi.getSelectedRow() > -1 && e.getSource() == tableTournoi.getSelectionModel()) {
-				String nomTournoi = (String) tableTournoi.getValueAt(tableTournoi.getSelectedRow(), 0);
-				try {
-					tournoiChoisi = daoTournoi.getById(anneeChoisie.getAnnee(), nomTournoi);
-					if (etat == null) {
-						etat = Etat.TOURNOIS;
-					}
+		if (tableTournoi.getSelectedRow() > -1 && e.getSource() == tableTournoi.getSelectionModel()) {
+			String nomTournoi = (String) tableTournoi.getValueAt(tableTournoi.getSelectedRow(), 0);
+			try {
+				tournoiChoisi = daoTournoi.getById(anneeChoisie.getAnnee(), nomTournoi);
+				if (etat == null) {
+					etat = Etat.TOURNOIS;
+				}
 
 					if (etat == Etat.TOURNOIS) {
 						updateEquipe(anneeChoisie);

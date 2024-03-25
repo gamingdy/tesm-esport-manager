@@ -21,7 +21,7 @@ public class VueLogin extends JPanel {
 	private transient ChampConnexion champMotDePasse;
 	private transient JButton boutonConnexion;
 
-	public VueLogin() throws Exception {
+	public VueLogin() {
 		controleur = new LoginControlleur(this);
 		setOpaque(false);
 		GridBagLayout gridBagLayoutSelf = new GridBagLayout();

@@ -1,7 +1,6 @@
 package controlleur.admin.tournois;
 
 import controlleur.ControlleurObserver;
-import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoTournoi;
 import modele.Tournoi;

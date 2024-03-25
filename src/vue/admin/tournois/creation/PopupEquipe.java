@@ -62,32 +62,32 @@ public class PopupEquipe extends JFrame {
 		DefaultComboBoxModel<Equipe> model = new DefaultComboBoxModel<>();
 		equipes.forEach(model::addElement);
 
-		c = new JComboBox<Equipe>(model);
+		c = new JComboBox<>(model);
 		c.setRenderer((JList<? extends Equipe> list, Equipe value, int index, boolean isSelected, boolean cellHasFocus) -> {
-				if (value != null) {
-					return new JLabel(value.getNom());
-				}
-				return new JLabel("");
-			});
+			if (value != null) {
+				return new JLabel(value.getNom());
+			}
+			return new JLabel("");
+		});
 		c = new CustomComboBox<>(model);
 		c.setFont(MaFont.getFontTitre1());
 		c.setRenderer((JList<? extends Equipe> list, Equipe value, int index, boolean isSelected, boolean cellHasFocus) -> {
-				JLabel panelRetour;
-				if (value != null) {
-					panelRetour = new JLabel(value.getNom());
-				} else {
-					panelRetour = new JLabel("");
-				}
-				panelRetour.setOpaque(true);
-				panelRetour.setForeground(CustomColor.BLANC);
-				panelRetour.setBackground(CustomColor.BACKGROUND_MAIN);
-				panelRetour.setFocusable(false);
-				panelRetour.setFont(MaFont.getFontTitre1());
-				if (isSelected) {
-					panelRetour.setForeground(CustomColor.ROSE_CONTOURS);
-				}
-				return panelRetour;
-			});
+			JLabel panelRetour;
+			if (value != null) {
+				panelRetour = new JLabel(value.getNom());
+			} else {
+				panelRetour = new JLabel("");
+			}
+			panelRetour.setOpaque(true);
+			panelRetour.setForeground(CustomColor.BLANC);
+			panelRetour.setBackground(CustomColor.BACKGROUND_MAIN);
+			panelRetour.setFocusable(false);
+			panelRetour.setFont(MaFont.getFontTitre1());
+			if (isSelected) {
+				panelRetour.setForeground(CustomColor.ROSE_CONTOURS);
+			}
+			return panelRetour;
+		});
 		panel.add(c);
 		panel.add(c, javax.swing.SwingConstants.CENTER);
 
