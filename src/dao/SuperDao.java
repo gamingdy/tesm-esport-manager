@@ -1,6 +1,6 @@
 package dao;
 
-public abstract class SuperDao {
+abstract class SuperDao {
 
     private final Connexion connexion;
     private final Constants constants;

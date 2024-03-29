@@ -34,8 +34,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class ESporterManagerInitBDD {
+	private static final Logger LOGGER = Logger.getLogger( "Initialisation bd" );
 
 	public static void main(String[] args) throws Exception {
 
@@ -44,13 +47,13 @@ public class ESporterManagerInitBDD {
 		try {
 			DBSuppression.deleteAllTable(c);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		try {
 			DBGeneration.createAllTables(c);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 		DaoInscription daoInscription = new DaoInscription(c);
 		DaoTournoi daoTournoi = new DaoTournoi(c);
@@ -69,7 +72,7 @@ public class ESporterManagerInitBDD {
 			daoNiveau.add(Niveau.INTERNATIONAL_CLASSE);
 			daoNiveau.add(Niveau.NATIONAL);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Ajout saisons
@@ -79,7 +82,7 @@ public class ESporterManagerInitBDD {
 			daoSaison.add(saison);
 			daoSaison.add(saison2);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Ajout tournois
@@ -105,7 +108,7 @@ public class ESporterManagerInitBDD {
 			daoTournoi.add(tournoi3);
 			daoTournoi.add(tournoi4);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Ajout équipes
@@ -131,7 +134,7 @@ public class ESporterManagerInitBDD {
 			daoEquipe.add(equipe8);
 			daoEquipe.add(equipe9);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Ajout joueurs dans équipes
@@ -181,7 +184,7 @@ public class ESporterManagerInitBDD {
 			daoInscription.add(inscription14);
 			daoInscription.add(inscription15);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Ajout poules
@@ -195,7 +198,7 @@ public class ESporterManagerInitBDD {
 			daoPoule.add(poule2);
 			daoPoule.add(poule3);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Ajout équipes dans poules
@@ -253,7 +256,7 @@ public class ESporterManagerInitBDD {
 			daoAppartenance.add(appartenance24);
 			daoAppartenance.add(appartenance25);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Création Liste des équipes de chaque tournoi pour la création automatique des matches
@@ -304,7 +307,7 @@ public class ESporterManagerInitBDD {
 			matche1.setVainqueur(equipe2);
 			daoMatche.update(matche);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 
 		//Ajout arbitres
@@ -316,7 +319,7 @@ public class ESporterManagerInitBDD {
 			daoArbitre.add(arbitre1);
 			daoArbitre.add(arbitre2);
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+			LOGGER.severe(e.getMessage());
 		}
 	}
 
@@ -342,7 +345,7 @@ public class ESporterManagerInitBDD {
 				Joueur j = new Joueur(default_username, equipe);
 				daoJoueur.add(j);
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
 			}
 		}
 	}

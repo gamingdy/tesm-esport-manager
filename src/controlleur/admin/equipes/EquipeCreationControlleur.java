@@ -94,9 +94,6 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 					afficherErreur("Erreur SQL s'est produite, contactez l'administrateur");
 					return;
 				}
-			} catch (Exception ex) {
-				new JFramePopup("Erreur", "Une erreur SQL s'est produite, contactez l'administrateur", () -> VueObserver.getInstance().notifyVue(Page.EQUIPES));
-				return;
 			}
 
 			Equipe equipeInserer = new Equipe(nomEquipe, champPaysEquipe);
@@ -129,12 +126,11 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 					afficherErreur("Erreur d'insertion");
 					resetChamps();
 				}
-			}
-
 		} else if ((Objects.equals(bouton.getText(), "Annuler"))) {
 			EquipesObserver.getInstance().notifyVue(Page.EQUIPES_LISTE);
 			resetChamps();
 		}
+
 	}
 
 	private boolean equipeDejaExistante(String nomEquipe) {

@@ -305,10 +305,12 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					if (etat == Etat.EQUIPES) {
 						updateTournoi(equipeChoisie, anneeChoisie);
 					}
-				} catch (Exception exception) {
-					afficherErreur("Erreur SQL lors de la récupération des joueurs de l'équipe " + caseObjet.getNom());}
+				}
+			} catch (Exception exception) {
+				afficherErreur("Erreur SQL lors de la récupération des joueurs de l'équipe " + caseObjet.getNom());
 			}
 		}
+
 
 		if (tableTournoi.getSelectedRow() > -1 && e.getSource() == tableTournoi.getSelectionModel()) {
 			String nomTournoi = (String) tableTournoi.getValueAt(tableTournoi.getSelectedRow(), 0);
@@ -326,9 +328,8 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					afficherErreur("Erreur SQL s'est produite, contactez l'administrateur");}
 			}
 		}
-	}
-	private void afficherErreur(String message) {
-		new JFramePopup("Erreur historique", message, () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
-	}
 
+private void afficherErreur(String message) {
+	new JFramePopup("Erreur historique", message, () -> VueObserver.getInstance().notifyVue(Page.SAISON_PRECEDENTES));
+}
 }

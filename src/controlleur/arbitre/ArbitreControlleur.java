@@ -8,6 +8,7 @@ import dao.DaoTournoi;
 import exceptions.FausseDateException;
 import exceptions.GagnantNonChoisiException;
 import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 import modele.Categorie;
 import modele.Equipe;
 import modele.Matche;
@@ -29,6 +30,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ArbitreControlleur implements ActionListener {
+	private static final String CLOTURER_TOURNOI = "Clôturer le tournoi";
+	private static final String CLOTURER_POULE = "Clôturer la poule";
 	private VueArbitrePoule vue;
 	private List<CaseMatch> caseMatchList;
 	private DaoTournoi daoTournoi;
@@ -51,7 +54,7 @@ public class ArbitreControlleur implements ActionListener {
 				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoi.getDebut().getAnnee(), tournoi.getNom());
 				this.vue.setTitre("Tournoi " + tournoi.getNom() + " " + tournoi.getDebut().getAnnee());
 				if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
-					vue.setTexteBouton("Clôturer le tournoi");
+					vue.setTexteBouton(CLOTURER_TOURNOI);
 				}
 				recupererMatches(matcheList);
 				this.vue.addAllMatchs(caseMatchList);
@@ -60,7 +63,7 @@ public class ArbitreControlleur implements ActionListener {
 			afficherErreur("Erreur lors de la récupération des matches");
 		}
 	}
-	private void recupererMatches(List<Matche> matcheList) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException, GagnantNonChoisiException {
+	private void recupererMatches(List<Matche> matcheList) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException, GagnantNonChoisiException, MemeEquipeException {
 		caseMatchList = new ArrayList<>();
 		for (Matche m : matcheList) {
 			List<Partie> partieList = daoPartie.getPartieByMatche(m);
@@ -98,10 +101,10 @@ public class ArbitreControlleur implements ActionListener {
 			new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () ->
 					VueObserver.getInstance().notifyVue(Page.LOGIN)
 			);
-		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer la poule")) {
+		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals(CLOTURER_POULE)) {
 			closePoule();
-			this.vue.setTexteBouton("Clôturer le tournoi");
-		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer le tournoi")) {
+			this.vue.setTexteBouton(CLOTURER_TOURNOI);
+		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals(CLOTURER_TOURNOI)) {
 			if (isAllMatcheClosed()) {
 				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () ->{
 					tournoi.setEstEncours(false);
