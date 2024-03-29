@@ -22,9 +22,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public class DaoTournoi extends SuperDao implements Dao<Tournoi, Object> {
-	
+	private static final Logger LOGGER = Logger.getLogger(DaoTournoi.class.getName());
 	public DaoTournoi(Connexion connexion) {
         super(connexion);
 	}
@@ -119,6 +120,9 @@ public class DaoTournoi extends SuperDao implements Dao<Tournoi, Object> {
 			add.setString(7, value.getNiveau().name());
 
 			return add.execute();
+		}catch (SQLException e){
+			LOGGER.severe(e.getMessage());
+			return false;
 		}
 	}
 
@@ -204,8 +208,10 @@ public class DaoTournoi extends SuperDao implements Dao<Tournoi, Object> {
 			getCompteArbitreByTournoi.setInt(1, (Integer) value[0]);
 			getCompteArbitreByTournoi.setString(2, (String) value[1]);
 			ResultSet resultat = getCompteArbitreByTournoi.executeQuery();
-			resultat.next();
-			return new CompteArbitre(resultat.getString(super.getConstants().getUsername()), resultat.getString(super.getConstants().getMdp()));
+			if(resultat.next()){
+				return new CompteArbitre(resultat.getString(super.getConstants().getUsername()), resultat.getString(super.getConstants().getMdp()));
+			}
+			return null;
 		}
 	}
 

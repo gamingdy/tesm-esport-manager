@@ -14,7 +14,6 @@ public class TestDaoInscription extends TestDao {
 	private List<Saison> s = new LinkedList<>();
 	private List<Inscription> inscr = new LinkedList<>();
 
-	@Override
 	public void setup() throws Exception {
 		e = FactoryDAO.getDaoEquipe(getC()).getAll();
 		s = FactoryDAO.getDaoSaison(getC()).getAll();
@@ -29,7 +28,6 @@ public class TestDaoInscription extends TestDao {
 
 	}
 
-	@Override
 	public void testInsert() throws Exception {
 		for (Inscription i : inscr) {
 			FactoryDAO.getDaoInscription(getC()).add(i);
@@ -37,13 +35,11 @@ public class TestDaoInscription extends TestDao {
 
 	}
 
-	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoInscription(getC()).delete(inscr.get(0).getSaison().getAnnee(), inscr.get(0).getEquipe().getNom());
 
 	}
 
-	@Override
 	public void testUpdate() throws Exception {
 		inscr.get(1).setWorldRank(5);
 		FactoryDAO.getDaoInscription(getC()).update(inscr.get(1));

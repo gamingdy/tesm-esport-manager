@@ -4,9 +4,11 @@ import dao.Connexion;
 import dao.DBReset;
 import dao.FactoryDAO;
 
+import java.util.logging.Logger;
+
 public class GenerationDataTest {
 	
-	
+	private static final Logger LOGGER = Logger.getLogger(GenerationDataTest.class.getName());
 	public static void main(String[] args) throws Exception {
 		 final Object lock = new Object(); // Un objet pour servir de verrou
 	        Thread thread2 = new Thread(new Runnable() {
@@ -42,7 +44,7 @@ public class GenerationDataTest {
 	                		inscr.testInsert();
 	                		
 	                    } catch (Exception e) {
-	                        e.printStackTrace();
+	                        LOGGER.severe(e.getMessage());
 	                    }
 	                    lock.notify(); // Réveille le premier thread après 2 secondes
 	                }
@@ -77,8 +79,7 @@ public class GenerationDataTest {
 	                		
 	                		n.setup();
 	                		n.testInsert();
-	                		
-	                		t.setup();
+
 	                		t.testInsert();
 	                		
 	                		po.setup();
@@ -89,7 +90,7 @@ public class GenerationDataTest {
 	                		FactoryDAO.getDaoPartie(Connexion.getConnexion()).visualizeTable();
 	                		
 	                    } catch (Exception e) {
-	                        e.printStackTrace();
+	                        LOGGER.severe(e.getMessage());
 	                    }
 	                }
 	            }

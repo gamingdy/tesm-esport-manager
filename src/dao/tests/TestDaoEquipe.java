@@ -49,7 +49,6 @@ public class TestDaoEquipe extends TestDao {
 
 	}
 
-	@Override
 	public void setup() throws Exception {
 		equipe = new Equipe("Bienveillance", Pays.REPUBLIQUE_DEMOCRATIQUE_DU_CONGO);
 		equipe2 = new Equipe("Bonheur", Pays.REPUBLIQUE_DU_CONGO);

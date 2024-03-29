@@ -21,7 +21,6 @@ public class TestDaoMatche extends TestDao {
 		super();
 	}
 
-	@Override
 	public void testInsert() throws Exception {
 		for (int i = 0; i < matche.size(); i++) {
 			FactoryDAO.getDaoMatche(getC()).add(matche.get(i));
@@ -29,13 +28,12 @@ public class TestDaoMatche extends TestDao {
 
 	}
 
-	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoMatche(getC()).delete(FactoryDAO.getDaoMatche(getC()).getLastId());
 
 	}
 
-	@Override
+
 	public void testUpdate() throws Exception {
 		Matche match = FactoryDAO.getDaoMatche(getC()).getById(FactoryDAO.getDaoMatche(getC()).getLastId()).get();
 		match.setCategorie(Categorie.PETITE_FINALE);
@@ -79,7 +77,6 @@ public class TestDaoMatche extends TestDao {
 		x.testGetMatchByEquipeForTournoi();
 	}
 
-	@Override
 	public void setup() throws Exception {
 		t = FactoryDAO.getDaoTournoi(getC()).getById(2023, "wwww").get();
 		t2 = FactoryDAO.getDaoTournoi(getC()).getById(2023, "zzzz").get();

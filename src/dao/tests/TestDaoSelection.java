@@ -14,7 +14,7 @@ public class TestDaoSelection extends TestDao {
 	private List<Arbitre> a = new LinkedList<>();
 	private List<Selection> sel = new LinkedList<>();
 
-	@Override
+
 	public void setup() throws Exception {
 		a = FactoryDAO.getDaoAbritre(getC()).getAll();
 		s = FactoryDAO.getDaoSaison(getC()).getAll();
@@ -25,19 +25,19 @@ public class TestDaoSelection extends TestDao {
 		}
 	}
 
-	@Override
+
 	public void testInsert() throws Exception {
 		for (Selection select : sel) {
 			FactoryDAO.getDaoSelection(getC()).add(select);
 		}
 	}
 
-	@Override
+
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoSelection(getC()).delete(sel.get(0).getArbitre().getNom(), sel.get(0).getArbitre().getPrenom(), sel.get(0).getArbitre().getNumeroTelephone(), sel.get(0).getSaison().getAnnee());
 	}
 
-	@Override
+
 	public void testUpdate() throws Exception {
 		// TODO Auto-generated method stub
 

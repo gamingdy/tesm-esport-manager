@@ -17,20 +17,20 @@ public class TestDaoPartie extends TestDao {
 
 	}
 
-	@Override
+
 	public void testInsert() throws Exception {
 		for (int i = 0; i < parties.size(); i++) {
 			FactoryDAO.getDaoPartie(getC()).add(parties.get(i));
 		}
 }
 
-	@Override
+
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoPartie(getC()).delete(0, 3);
 		FactoryDAO.getDaoPartie(getC()).delete(0, 4);
 	}
 
-	@Override
+
 	public void testUpdate() throws Exception {
 		Partie partie = FactoryDAO.getDaoPartie(getC()).getById(0, 0).get();
 		partie.setVainqueur(partie.getMatche().getEquipe1());
@@ -52,7 +52,7 @@ public class TestDaoPartie extends TestDao {
 
 	}
 
-	@Override
+
 	public void setup() throws Exception {
 		matches = FactoryDAO.getDaoMatche(getC()).getAll();
 		for (int i = 0; i < matches.size() * 3; i++) {

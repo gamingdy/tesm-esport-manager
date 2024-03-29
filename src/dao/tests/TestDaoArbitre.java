@@ -44,7 +44,6 @@ public class TestDaoArbitre extends TestDao {
 
 	}
 
-	@Override
 	public void setup() throws SQLException {
 		a = new Arbitre("Brando", "Titouan", "0606060606");
 		b = new Arbitre("Pelletier", "Alex", "0230423423");

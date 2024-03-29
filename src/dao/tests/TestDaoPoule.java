@@ -18,7 +18,7 @@ public class TestDaoPoule extends TestDao {
 
 	}
 
-	@Override
+
 	public void testInsert() throws Exception {
 		for (Poule p : poules) {
 			FactoryDAO.getDaoPoule(getC()).add(p);
@@ -26,13 +26,13 @@ public class TestDaoPoule extends TestDao {
 
 	}
 
-	@Override
+
 	public void testDelete() throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+
 	public void testUpdate() throws Exception {
 		// TODO Auto-generated method stub
 
@@ -44,7 +44,7 @@ public class TestDaoPoule extends TestDao {
 		x.testInsert();
 	}
 
-	@Override
+
 	public void setup() throws Exception {
 		this.tournois = FactoryDAO.getDaoTournoi(getC()).getAll();
 		for (Tournoi t : tournois) {

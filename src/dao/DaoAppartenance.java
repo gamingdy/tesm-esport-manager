@@ -103,6 +103,9 @@ public class DaoAppartenance extends SuperDao implements Dao<Appartenance, Objec
 		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Appartenance WHERE Nom_Equipe = ? AND Annee = ? AND Nom_tournoi = ? AND Libelle = ?")) {
 			bindParam(getById, id);
 			ResultSet resultat = getById.executeQuery();
+			if (!resultat.next()) {
+				return Optional.empty();
+			}
 			Appartenance appartenance = findAppartenance(resultat);
 			return Optional.ofNullable(appartenance);
 		}

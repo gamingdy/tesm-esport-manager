@@ -16,20 +16,20 @@ public class TestDaoSaison extends TestDao {
 
 	}
 
-	@Override
+
 	public void testInsert() throws Exception {
 		for (Saison s : saisons) {
 			FactoryDAO.getDaoSaison(getC()).add(s);
 		}
 	}
 
-	@Override
+
 	public void testDelete() throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+
 	public void testUpdate() throws Exception {
 		// TODO Auto-generated method stub
 
@@ -42,7 +42,7 @@ public class TestDaoSaison extends TestDao {
 
 	}
 
-	@Override
+
 	public void setup() throws Exception {
 		for (int i = 0; i < 11; i++) {
 			saisons.add(new Saison(2014 + i));

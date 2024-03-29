@@ -19,7 +19,6 @@ public class TestDaoArbitrage extends TestDao {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public void setup() throws Exception {
 		t = FactoryDAO.getDaoTournoi(getC()).getAll();
 		a = FactoryDAO.getDaoAbritre(getC()).getAll();
@@ -30,21 +29,14 @@ public class TestDaoArbitrage extends TestDao {
 		}
 	}
 
-	@Override
+
 	public void testInsert() throws Exception {
 		for (Arbitrage arb : ab) {
 			FactoryDAO.getDaoArbitrage(getC()).add(arb);
 		}}
 
-	@Override
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoArbitrage(getC()).delete(ab.get(0).getArbitre().getNom(), ab.get(0).getArbitre().getPrenom(), ab.get(0).getArbitre().getNumeroTelephone(), ab.get(0).getTournoi().getSaison().getAnnee(), ab.get(0).getTournoi().getNom());
-	}
-
-	@Override
-	public void testUpdate() throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void testGetArbitreByTournoi() throws Exception {
@@ -62,7 +54,6 @@ public class TestDaoArbitrage extends TestDao {
 		x.setup();
 		x.testInsert();
 		x.testDelete();
-		x.testUpdate();
 		x.testGetArbitreByTournoi();
 		x.testGetTournoiByArbitre();
 	}

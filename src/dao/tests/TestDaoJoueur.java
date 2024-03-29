@@ -57,7 +57,6 @@ public class TestDaoJoueur extends TestDao {
 
 	}
 
-	@Override
 	public void setup() throws Exception {
 		j1 = new Joueur(super.randomUsername(nom), FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());
 		j2 = new Joueur(super.randomUsername(nom), FactoryDAO.getDaoEquipe(getC()).getById("Bonheur").get());

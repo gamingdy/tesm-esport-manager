@@ -12,20 +12,20 @@ public class TestDaoNiveau extends TestDao {
 
 	}
 
-	@Override
+
 	public void testInsert() throws Exception {
 		for (Niveau n : niveaux) {
 			FactoryDAO.getDaoNiveau(getC()).add(n);
 		}
 	}
 
-	@Override
+
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoNiveau(getC()).delete(Niveau.INTERNATIONAL.name());
 		FactoryDAO.getDaoNiveau(getC()).add(Niveau.INTERNATIONAL);
 	}
 
-	@Override
+
 	public void testUpdate() throws Exception {
 
 	}
@@ -37,7 +37,7 @@ public class TestDaoNiveau extends TestDao {
 		x.testDelete();
 	}
 
-	@Override
+
 	public void setup() throws Exception {
 		niveaux = Niveau.values();
 
