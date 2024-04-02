@@ -97,12 +97,26 @@ public class ESporterManagerInitBDD {
 	}
 
 	private static void initEquipes(DaoEquipe daoEquipe, int nombreEquipes) throws SQLException {
-		for (int i = 1; i <= nombreEquipes; i++) {
-			String nomEquipe = "Equipe " + i;
-			Pays pays = Pays.FRANCE; // Modifier le pays au besoin
-			Equipe equipe = new Equipe(nomEquipe, pays);
-			daoEquipe.add(equipe);
-		}
+		Equipe equipe = new Equipe("terros", Pays.FRANCE);
+		Equipe equipe1 = new Equipe("lion-rouge", Pays.FRANCE);
+		Equipe equipe2 = new Equipe("shark", Pays.FRANCE);
+		Equipe equipe3 = new Equipe("goule", Pays.FRANCE);
+		Equipe equipe4 = new Equipe("dragon", Pays.FRANCE);
+		Equipe equipe5 = new Equipe("aigle", Pays.FRANCE);
+		Equipe equipe6 = new Equipe("bear", Pays.FRANCE);
+		Equipe equipe7 = new Equipe("chevarcher", Pays.FRANCE);
+		Equipe equipe8 = new Equipe("loup", Pays.FRANCE);
+		Equipe equipe9 = new Equipe("mort", Pays.FRANCE);
+		daoEquipe.add(equipe);
+		daoEquipe.add(equipe1);
+		daoEquipe.add(equipe2);
+		daoEquipe.add(equipe3);
+		daoEquipe.add(equipe4);
+		daoEquipe.add(equipe5);
+		daoEquipe.add(equipe6);
+		daoEquipe.add(equipe7);
+		daoEquipe.add(equipe8);
+		daoEquipe.add(equipe9);
 	}
 
 	private static void initInscriptions(DaoInscription daoInscription, List<Saison> saisons, List<Equipe> equipes) throws SQLException {
