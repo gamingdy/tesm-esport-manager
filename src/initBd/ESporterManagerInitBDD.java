@@ -6,14 +6,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.FausseDateException;
+import exceptions.*;
 import modele.*;
 
 public class ESporterManagerInitBDD {
 	private static final Logger LOGGER = Logger.getLogger("Initialisation bd");
+	private static Tournoi tournoi2023;
+	private static Saison saison2023;
+	private static Poule poule2023;
 
 	public static void main(String[] args) {
 		try {
@@ -35,6 +39,7 @@ public class ESporterManagerInitBDD {
 	}
 
 	private static void initData(Connexion c) throws SQLException, FausseDateException {
+		DaoMatche daoMatche = new DaoMatche(c);
 		DaoNiveau daoNiveau = new DaoNiveau(c);
 		DaoSaison daoSaison = new DaoSaison(c);
 		DaoTournoi daoTournoi = new DaoTournoi(c);
@@ -42,6 +47,7 @@ public class ESporterManagerInitBDD {
 		DaoInscription daoInscription = new DaoInscription(c);
 		DaoArbitre daoArbitre = new DaoArbitre(c);
 		DaoPoule daoPoule= new DaoPoule(c);
+		DaoPartie daoPartie=new DaoPartie(c);
 		DaoAppartenance daoAppartenance = new DaoAppartenance(c);
 
 		initNiveaux(daoNiveau);
@@ -53,6 +59,11 @@ public class ESporterManagerInitBDD {
 		initInscriptions(daoInscription, saisons, equipes);
 		List<Tournoi> tournois = daoTournoi.getAll(); // Obtenez tous les tournois pour initialiser les poules
 		initPoules(daoPoule, daoAppartenance, tournois, equipes);
+		try {
+			initPoints2023(daoTournoi, daoAppartenance,daoMatche,daoPartie, equipes);
+		}catch (SQLException | MemeEquipeException | ExceptionPointsNegatifs e){
+			LOGGER.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	private static void initNiveaux(DaoNiveau daoNiveau) throws SQLException {
@@ -63,19 +74,21 @@ public class ESporterManagerInitBDD {
 
 	private static void initSaisons(DaoSaison daoSaison) throws SQLException {
 		Saison saison = new Saison(2024);
-		Saison saison2 = new Saison(2023);
+		saison2023 = new Saison(2023);
 		daoSaison.add(saison);
-		daoSaison.add(saison2);
+		daoSaison.add(saison2023);
 	}
 
 	private static void initTournois(DaoTournoi daoTournoi, DaoArbitre daoArbitre, DaoSaison daoSaison) throws SQLException {
 		// Exemple d'ajout de tournois
 		Tournoi tournoi = createTournoi("RLCS", 2024, 12, 1, 2024, 12, 30, Niveau.LOCAL, daoArbitre, daoSaison);
 		Tournoi tournoi2 = createTournoi("RLRS", 2024, 1, 9, 2024, 1, 30, Niveau.LOCAL, daoArbitre, daoSaison);
+		tournoi2023= createTournoi("RLRS", 2023, 1, 1, 2023, 1, 30, Niveau.LOCAL, daoArbitre, daoSaison);
 		// Ajouter d'autres tournois si nécessaire
 
 		daoTournoi.add(tournoi);
 		daoTournoi.add(tournoi2);
+		daoTournoi.add(tournoi2023);
 		// Ajouter d'autres tournois si nécessaire
 	}
 
@@ -152,6 +165,42 @@ public class ESporterManagerInitBDD {
 			}
 		}
 	}
+	private static void initPoints2023(DaoTournoi daoTournoi,DaoAppartenance daoAppartenance, DaoMatche daoMatch,DaoPartie daoPartie, List<Equipe> equipes) throws SQLException, FausseDateException, MemeEquipeException, ExceptionPointsNegatifs {
+		jouerMatchsDansPoule(daoMatch, equipes,daoPartie);
+		afficherResultats(daoMatch, daoAppartenance);
+	}
+
+	private static void jouerMatchsDansPoule(DaoMatche daoMatch, List<Equipe> equipesPoule,DaoPartie daoPartie) throws SQLException, FausseDateException {
+		for (int i = 0; i < equipesPoule.size(); i++) {
+			for (int j = i + 1; j < equipesPoule.size(); j++) {
+				Matche match = new Matche(1, new CustomDate(2023, 1, 1), Categorie.POULE, equipesPoule.get(i), equipesPoule.get(j),tournoi2023);
+				daoMatch.add(match);
+				Partie partie=new Partie(match);
+				try{
+					daoPartie.add(partie);
+					partie.setVainqueur(equipesPoule.get(1));
+					daoPartie.update(partie);
+					match.setVainqueur(equipesPoule.get(1));
+					daoMatch.update(match);
+				}catch (IdNotSetException | GagnantNonChoisiException e ){
+					LOGGER.severe(e.getMessage());
+				}
+
+			}
+		}
+	}
+
+	private static void afficherResultats(DaoMatche daoMatch,DaoAppartenance daoAppartenance) throws SQLException, MemeEquipeException, FausseDateException, ExceptionPointsNegatifs {
+			List<Matche> matchsPoule = daoMatch.getMatchByTournoi(saison2023.getAnnee(), tournoi2023.getNom());
+			Set<Equipe> set=ModeleSaison.getClassement(saison2023);
+			for (Matche match : matchsPoule) {
+				LOGGER.info(match.getEquipe1().getNom()+" - "+ match.getEquipe2().getNom() + " ,VAINQUEUR : " + match.getVainqueur());
+			}
+			for(Equipe equipe : set){
+				LOGGER.info(equipe.getNom() + " ,POINTS : " + equipe.getPoint());
+			}
+	}
+
 
 
 }

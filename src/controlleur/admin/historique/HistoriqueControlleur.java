@@ -9,6 +9,10 @@ import dao.DaoMatche;
 import dao.DaoPartie;
 import dao.DaoSaison;
 import dao.DaoTournoi;
+import exceptions.FausseDateException;
+import exceptions.GagnantNonChoisiException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 import modele.CustomDate;
 import modele.Equipe;
 import modele.Inscription;
@@ -35,13 +39,16 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class HistoriqueControlleur implements ItemListener, ListSelectionListener {
+	private static final Logger LOGGER= Logger.getLogger(HistoriqueControlleur.class.getName());
 	private VueAdminHistorique vue;
 	private DaoSaison daoSaison;
 	private DaoInscription daoInscription;
@@ -87,6 +94,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			updateTournoi(Optional.empty(), anneeChoisie);
 
 		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
 			afficherErreur("Erreur SQL lors de la récupération des équipes");
 			}
 	}
@@ -101,6 +109,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				updateMatches(Optional.empty(), Optional.empty());
 				updateTournoi(Optional.empty(), anneeChoisie);
 			} catch (Exception ex) {
+				LOGGER.severe(ex.getMessage());
 				afficherErreur("Erreur SQL lors de la récupération des équipes");
 			}
 		}
@@ -113,6 +122,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			ImageIcon iconResized = Vue.resize(icon, 70, 70);
 			return new VueAdminHistorique.CaseEquipe(iconResized, e.getNom());
 		} catch (IOException ex) {
+			LOGGER.severe(ex.getMessage());
 			afficherErreur("Une erreur d'initialisation de case equipe s'est produite");
 		}
 		return null;
@@ -144,6 +154,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				}
 			}
 		} catch (Exception e) {
+			LOGGER.severe(e.getMessage());
 			afficherErreur("Erreur SQL lors de la récupération des équipes");}
 
 	}
@@ -171,14 +182,20 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		return resultat;
 	}
 
-	private List<Object[]> constructObjectArrayMatch(List<Matche> matcheList) throws Exception {
+	private List<Object[]> constructObjectArrayMatch(List<Matche> matcheList) {
 		List<Object[]> resultat = new ArrayList<>();
 		for (Matche m : matcheList) {
 			Equipe equipe1 = m.getEquipe1();
 			Equipe equipe2 = m.getEquipe2();
 			CustomDate dateMatche = m.getDateDebutMatche();
-			List<Partie> partieList = daoPartie.getPartieByMatche(m);
-			m.setVainqueur(partieList.get(0).getVainqueur());
+			try {
+				List<Partie> partieList = daoPartie.getPartieByMatche(m);
+				m.setVainqueur(partieList.get(0).getVainqueur());
+			}catch (SQLException | MemeEquipeException | FausseDateException | IdNotSetException e){
+				LOGGER.severe(e.getMessage());
+			} catch (GagnantNonChoisiException e) {
+				LOGGER.severe(e.getMessage());
+			}
 			Equipe winner = m.getVainqueur();
 			int value1 = 0;
 			int value2 = 0;
@@ -197,17 +214,36 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		return resultat;
 	}
 
-	private void updateMatches(Optional<Equipe> equipe, Optional<Tournoi> tournoi) {
-		try {
-			List<Matche> matcheList;
+	private void updateMatches(Optional<Equipe> equipe, Optional<Tournoi> tournoi)  {
+			List<Matche> matcheList= new ArrayList<>();
 			if (!equipe.isPresent() && !tournoi.isPresent()) {
-				matcheList = daoMatche.getMatchBySaison(anneeChoisie);
+				try{
+					matcheList = daoMatche.getMatchBySaison(anneeChoisie);
+				} catch (SQLException | FausseDateException | MemeEquipeException e) {
+					LOGGER.severe(e.getMessage());
+					afficherErreur("Erreur SQL lors de la récupération des matchs");
+				}
 			} else if (!equipe.isPresent()) {
-				matcheList = daoMatche.getMatchByTournoi(anneeChoisie.getAnnee(), tournoi.get().getNom());
+				try {
+					matcheList = daoMatche.getMatchByTournoi(anneeChoisie.getAnnee(), tournoi.get().getNom());
+				} catch (SQLException | FausseDateException | MemeEquipeException ex) {
+					LOGGER.severe(ex.getMessage());
+					afficherErreur("Erreur SQL lors de la récupération des matchs");
+				}
 			} else if (!tournoi.isPresent()) {
-				matcheList = daoMatche.getMatchByEquipe(equipe.get());
+				try{
+					matcheList = daoMatche.getMatchByEquipe(equipe.get());
+				} catch (SQLException | FausseDateException | MemeEquipeException e) {
+					LOGGER.severe(e.getMessage());
+					afficherErreur("Erreur SQL lors de la récupération des matchs");
+				}
 			} else {
-				matcheList = daoMatche.getMatchByEquipeForTournoi(equipe.get(), tournoi.get());
+				try {
+					matcheList = daoMatche.getMatchByEquipeForTournoi(equipe.get(), tournoi.get());
+				} catch (SQLException | FausseDateException | MemeEquipeException e) {
+					LOGGER.severe(e.getMessage());
+					afficherErreur("Erreur SQL lors de la récupération des matchs");
+				}
 			}
 			DefaultTableModel tableMatches = this.vue.getModelMatch();
 			if (tableMatches.getRowCount() > 0) {
@@ -215,13 +251,17 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					tableMatches.removeRow(i);
 				}
 			}
+			if(matcheList.isEmpty()){
+				return;
+			}
+			try{
 			List<Object[]> lignes = constructObjectArrayMatch(matcheList);
 			for (Object[] ligne : lignes) {
 				tableMatches.addRow(ligne);
 			}
-
 		} catch (Exception e) {
-			afficherErreur("Erreur SQL lors de la récupération des matchs");}
+			LOGGER.severe(e.getMessage());
+			}
 	}
 
 	private void updateTournoi(Optional<Equipe> equipe, Saison annee) {
@@ -307,6 +347,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					}
 				}
 			} catch (Exception exception) {
+
 				afficherErreur("Erreur SQL lors de la récupération des joueurs de l'équipe " + caseObjet.getNom());
 			}
 		}
