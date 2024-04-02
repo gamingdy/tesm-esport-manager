@@ -1,6 +1,6 @@
 package dao.tests;
 
-import initBd.ESporterManagerInitBDD;
+import InitBd.ESporterManagerInitBDD;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

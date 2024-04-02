@@ -1,4 +1,4 @@
-package initBd;
+package InitBd;
 
 import dao.*;
 import modele.*;

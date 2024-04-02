@@ -1,8 +1,7 @@
-package initBd;
+package InitBd;
 
 import dao.Connexion;
 import dao.DaoSaison;
-import exceptions.FausseDateException;
 import modele.Saison;
 import java.sql.SQLException;
 import java.util.logging.Level;

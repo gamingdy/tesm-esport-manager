@@ -8,7 +8,6 @@ import modele.CustomDate;
 import modele.Niveau;
 import modele.Saison;
 import modele.Tournoi;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +16,7 @@ import java.time.DateTimeException;
 import java.util.List;
 import java.util.Optional;
 
-import initBd.ESporterManagerInitBDD;
+import InitBd.ESporterManagerInitBDD;
 
 import static org.junit.Assert.*;
 

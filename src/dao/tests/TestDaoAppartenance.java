@@ -7,8 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-import dao.Connexion;
-import initBd.ESporterManagerInitBDD;
+import InitBd.ESporterManagerInitBDD;
 import org.junit.Before;
 import org.junit.Test;
 

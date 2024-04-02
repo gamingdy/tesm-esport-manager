@@ -2,12 +2,10 @@ package dao.tests;
 
 import dao.Connexion;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-import initBd.ESporterManagerInitBDD;
 
 public abstract class TestDao {
 	private static final Logger LOGGER = Logger.getLogger(TestDao.class.getName());

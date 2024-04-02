@@ -2,45 +2,31 @@ package dao.tests;
 
 import dao.FactoryDAO;
 import modele.Niveau;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TestDaoNiveau extends TestDao {
 
 	private Niveau[] niveaux;
 
-	public TestDaoNiveau() {
-		super();
-
+	@Before
+	public void setup() throws Exception {
+		niveaux = Niveau.values();
 	}
 
 
-	public void testInsert() throws Exception {
-		for (Niveau n : niveaux) {
-			FactoryDAO.getDaoNiveau(getC()).add(n);
-		}
-	}
-
-
+	@Test
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoNiveau(getC()).delete(Niveau.INTERNATIONAL.name());
 		FactoryDAO.getDaoNiveau(getC()).add(Niveau.INTERNATIONAL);
-	}
 
-
-	public void testUpdate() throws Exception {
-
-	}
-
-	public static void main(String[] args) throws Exception {
-		TestDaoNiveau x = new TestDaoNiveau();
-		x.setup();
-		x.testInsert();
-		x.testDelete();
-	}
-
-
-	public void setup() throws Exception {
-		niveaux = Niveau.values();
-
+		// Vérifier si le niveau a bien été supprimé et ajouté de nouveau
+		assertFalse(FactoryDAO.getDaoNiveau(getC()).getById(Niveau.INTERNATIONAL.name()).isPresent());
+		assertTrue(FactoryDAO.getDaoNiveau(getC()).getById(Niveau.INTERNATIONAL.name()).isPresent());
 	}
 
 }

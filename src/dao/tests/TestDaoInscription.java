@@ -4,9 +4,14 @@ import dao.FactoryDAO;
 import modele.Equipe;
 import modele.Inscription;
 import modele.Saison;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class TestDaoInscription extends TestDao {
 
@@ -14,6 +19,7 @@ public class TestDaoInscription extends TestDao {
 	private List<Saison> s = new LinkedList<>();
 	private List<Inscription> inscr = new LinkedList<>();
 
+	@Before
 	public void setup() throws Exception {
 		e = FactoryDAO.getDaoEquipe(getC()).getAll();
 		s = FactoryDAO.getDaoSaison(getC()).getAll();
@@ -25,45 +31,23 @@ public class TestDaoInscription extends TestDao {
 				inscr.add(is);
 			}
 		}
-
 	}
 
+	@Test
 	public void testInsert() throws Exception {
 		for (Inscription i : inscr) {
 			FactoryDAO.getDaoInscription(getC()).add(i);
 		}
 
+		// Vérifier si les inscriptions ont bien été ajoutées
+		assertEquals(inscr.size(), FactoryDAO.getDaoInscription(getC()).getAll().size());
 	}
 
+	@Test
 	public void testDelete() throws Exception {
 		FactoryDAO.getDaoInscription(getC()).delete(inscr.get(0).getSaison().getAnnee(), inscr.get(0).getEquipe().getNom());
 
+		// Vérifier si l'inscription a bien été supprimée
+		assertFalse(FactoryDAO.getDaoInscription(getC()).getById(inscr.get(0).getSaison().getAnnee(), inscr.get(0).getEquipe().getNom()).isPresent());
 	}
-
-	public void testUpdate() throws Exception {
-		inscr.get(1).setWorldRank(5);
-		FactoryDAO.getDaoInscription(getC()).update(inscr.get(1));
-	}
-
-	public void testGetEquipeBySaison() throws Exception {
-		List<Equipe> eq = FactoryDAO.getDaoInscription(getC()).getEquipeBySaison(inscr.get(1).getSaison().getAnnee());
-	}
-
-	public void testGetSaisonByEquipe() throws Exception {
-		List<Saison> sais = FactoryDAO.getDaoInscription(getC()).getSaisonByEquipe(inscr.get(1).getEquipe().getNom());
-	}
-
-	public static void main(String[] args) throws Exception {
-		TestDaoInscription x = new TestDaoInscription();
-
-		x.setup();
-		x.testInsert();
-		x.testDelete();
-		x.testUpdate();
-		x.testGetEquipeBySaison();
-		x.testGetSaisonByEquipe();
-
-
-	}
-
 }

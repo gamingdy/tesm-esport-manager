@@ -4,64 +4,59 @@ import dao.FactoryDAO;
 import modele.Arbitre;
 import modele.Saison;
 import modele.Selection;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class TestDaoSelection extends TestDao {
 
-	private List<Saison> s = new LinkedList<>();
-	private List<Arbitre> a = new LinkedList<>();
-	private List<Selection> sel = new LinkedList<>();
+	private List<Saison> saisons = new LinkedList<>();
+	private List<Arbitre> arbitres = new LinkedList<>();
+	private List<Selection> selections = new LinkedList<>();
 
-
+	@Before
 	public void setup() throws Exception {
-		a = FactoryDAO.getDaoAbritre(getC()).getAll();
-		s = FactoryDAO.getDaoSaison(getC()).getAll();
-		for (Saison sa : s) {
-			for (Arbitre ab : a) {
-				sel.add(new Selection(ab, sa));
+		arbitres = FactoryDAO.getDaoAbritre(getC()).getAll();
+		saisons = FactoryDAO.getDaoSaison(getC()).getAll();
+		for (Saison saison : saisons) {
+			for (Arbitre arbitre : arbitres) {
+				selections.add(new Selection(arbitre, saison));
 			}
 		}
 	}
 
-
+	@Test
 	public void testInsert() throws Exception {
-		for (Selection select : sel) {
-			FactoryDAO.getDaoSelection(getC()).add(select);
+		for (Selection selection : selections) {
+			FactoryDAO.getDaoSelection(getC()).add(selection);
 		}
 	}
 
-
+	@Test
 	public void testDelete() throws Exception {
-		FactoryDAO.getDaoSelection(getC()).delete(sel.get(0).getArbitre().getNom(), sel.get(0).getArbitre().getPrenom(), sel.get(0).getArbitre().getNumeroTelephone(), sel.get(0).getSaison().getAnnee());
+		FactoryDAO.getDaoSelection(getC()).delete(
+				selections.get(0).getArbitre().getNom(),
+				selections.get(0).getArbitre().getPrenom(),
+				selections.get(0).getArbitre().getNumeroTelephone(),
+				selections.get(0).getSaison().getAnnee());
 	}
 
+	// Méthode testUpdate() à implémenter si nécessaire
 
-	public void testUpdate() throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
+	@Test
 	public void testGetArbitreBySaison() throws Exception {
-		List<Arbitre> arr = FactoryDAO.getDaoSelection(getC()).getArbitreBySaison(sel.get(0).getSaison().getAnnee());
-		arr.stream().forEach(System.out::println);
+		List<Arbitre> arbitresBySaison = FactoryDAO.getDaoSelection(getC()).getArbitreBySaison(selections.get(0).getSaison().getAnnee());
+		arbitresBySaison.forEach(System.out::println);
 	}
 
+	@Test
 	public void testGetSaisonByArbitre() throws Exception {
-		List<Saison> saisons = FactoryDAO.getDaoSelection(getC()).getSaisonByArbitre(sel.get(0).getArbitre().getNom(), sel.get(0).getArbitre().getPrenom(), sel.get(0).getArbitre().getNumeroTelephone());
-		saisons.stream().forEach(System.out::println);
+		List<Saison> saisonsByArbitre = FactoryDAO.getDaoSelection(getC()).getSaisonByArbitre(
+				selections.get(0).getArbitre().getNom(),
+				selections.get(0).getArbitre().getPrenom(),
+				selections.get(0).getArbitre().getNumeroTelephone());
+		saisonsByArbitre.forEach(System.out::println);
 	}
-
-	public static void main(String[] args) throws Exception {
-		TestDaoSelection x = new TestDaoSelection();
-
-		x.setup();
-		x.testInsert();
-		x.testDelete();
-		x.testGetArbitreBySaison();
-		x.testGetSaisonByArbitre();
-
-	}
-
 }
