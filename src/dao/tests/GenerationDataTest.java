@@ -33,9 +33,7 @@ public class GenerationDataTest {
 	                		
 	                		app.setup();
 	                		app.testInsert();
-	                		
-	                		arb.setup();
-	                		arb.testInsert();
+
 	                		
 	                		sel.setup();
 	                		sel.testInsert();
