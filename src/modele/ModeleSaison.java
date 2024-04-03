@@ -31,7 +31,6 @@ public class ModeleSaison {
 			//A partir de cette inscription on récupère la liste de tous les matchs de l'équipe de la saison passée en paramètre 
 			List<Matche> matchesEquipe = FactoryDAO.getDaoMatche(Connexion.getConnexion()).getMatchByEquipeForSaison(inscription);
 			//On en extrait un itérateur
-			Iterator<Matche> it = matchesEquipe.iterator();
 
 			//Tant qu'un autre match pour l'équipe actuelle est trouvé
 			while (it.hasNext()) {

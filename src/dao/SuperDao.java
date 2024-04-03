@@ -5,13 +5,13 @@ abstract class SuperDao {
     private final Connexion connexion;
     private final Constants constants;
 
-    public  SuperDao(Connexion connexion) {
+    protected SuperDao(Connexion connexion) {
         this.connexion=connexion;
         this.constants=new Constants();
     }
 
     public Connexion getConnexion() {
-        return connexion;
+        return Connexion.getConnexion() ;
     }
 
     Constants getConstants() {

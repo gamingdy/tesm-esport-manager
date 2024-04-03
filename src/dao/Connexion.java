@@ -21,6 +21,14 @@ public class Connexion {
 		}
 	}
 
+	public void closeConnection() throws SQLException {
+		this.connection.close();
+	}
+
+	public static void closeConnexion() throws SQLException {
+		connexion=null;
+	}
+
 	public static synchronized Connexion getConnexion() {
 		if (connexion == null) {
 			connexion = new Connexion();
