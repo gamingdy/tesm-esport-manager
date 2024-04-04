@@ -38,5 +38,6 @@ public class ESporterManagerInitBDD {
 		InitTournois.initTournois();
 		InitAppartenance.initAppartenance();
 		InitMatches.initMatches();
+		InitInscriptions.initInscriptions();
 	}
 }

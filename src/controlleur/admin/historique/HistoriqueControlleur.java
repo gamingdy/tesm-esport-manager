@@ -167,10 +167,12 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				Optional<Inscription> inscription = daoInscription.getById(anneeChoisie.getAnnee(), e.getNom());
 				if (inscription.isPresent()) {
 					VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
+					System.out.println("World rank : "+ inscription.get().getWorldRank());
 					Object[] ligne = new Object[]{inscription.get().getWorldRank(), caseEquipe, e.getPoint()};
 					resultat.add(ligne);
 				} else {
 					VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
+					System.out.println("Points de l'equipe " + e.getPoint());
 					Object[] ligne = new Object[]{1000, caseEquipe, 0.0};
 					resultat.add(ligne);
 				}

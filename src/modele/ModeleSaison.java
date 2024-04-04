@@ -4,6 +4,8 @@ import dao.Connexion;
 import dao.FactoryDAO;
 import exceptions.ExceptionPointsNegatifs;
 import exceptions.FausseDateException;
+import exceptions.GagnantNonChoisiException;
+import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
 
 import java.sql.SQLException;
@@ -35,6 +37,16 @@ public class ModeleSaison {
 			//Tant qu'un autre match pour l'équipe actuelle est trouvé
 			while (it.hasNext()) {
 				Matche m = it.next();
+				try {
+					List<Partie> partieList = FactoryDAO.getDaoPartie(Connexion.getConnexion()).getPartieByMatche(m);
+					m.setVainqueur(partieList.get(0).getVainqueur());
+				} catch (GagnantNonChoisiException e3) {
+					e3.printStackTrace();
+				} catch (IllegalArgumentException e3) {
+					e3.printStackTrace();
+				} catch (IdNotSetException e3) {
+					e3.printStackTrace();
+				}
 				//On ajoute les points à l'équipe selon la catégorie du match, la victoire ou la défaite de l'équipe et le niveau du tournoi
 				ModeleSaison.setPointsEquipeMatch(m, e);
 			}
