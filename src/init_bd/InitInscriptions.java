@@ -1,4 +1,4 @@
-package InitBd;
+package init_bd;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

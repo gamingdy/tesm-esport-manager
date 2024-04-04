@@ -21,6 +21,9 @@ import vue.common.JFramePopup;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+
+import controlleur.AbstractControlleur;
+
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -38,7 +41,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class EquipeModificationControlleur implements ActionListener, MouseListener, ItemListener {
+public class EquipeModificationControlleur extends AbstractControlleur implements ActionListener, MouseListener, ItemListener {
 	private VueAdminEquipesDetails vue;
 	private DaoEquipe daoEquipe;
 	private DaoJoueur daoJoueur;
@@ -91,7 +94,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	private void updateCase(Equipe equipe) {
 		try {
-			Image img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
+			Image img = ImageIO.read(new File(recupererCheminIconeEquipe(equipe.getNom())));
 			ImageIcon icon = new ImageIcon(img);
 			Image imgPays = ImageIO.read(new File("assets/country-flags/png100px/" + equipe.getPays().getCode() + ".png"));
 			ImageIcon iconPays = new ImageIcon(imgPays);
@@ -117,7 +120,7 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 				Equipe equipe = findEquipe.get();
 
-				BufferedImage img = ImageIO.read(new File("assets/logo-equipes/" + equipe.getNom() + ".jpg"));
+				BufferedImage img = ImageIO.read(new File(recupererCheminIconeEquipe(equipe.getNom())));
 
 				ImageIcon defaultLogo = new ImageIcon(resizeImage(img, this.vue.getLabelLogo().getWidth(), this.vue.getLabelLogo().getHeight()));
 
@@ -200,24 +203,28 @@ public class EquipeModificationControlleur implements ActionListener, MouseListe
 
 	public void addEquipe(Equipe equipeInserer) {
 		try {
-			this.daoEquipe.update(equipeInserer);
-			if (!this.logoChanged) {
-				return;
-			}
-			String filename = "assets/logo-equipes/" + equipeInserer.getNom() + ".jpg";
-			File outputfile = new File(filename);
-			if (outputfile.exists()) {
-				boolean result=outputfile.delete();
-				if(result){
-					outputfile = new File(filename);
-				}else{
-					afficherErreur("Erreur de suppression de logo");
-				}
-			}
-			ImageIO.write(this.logo, "jpg", outputfile);
+			modifEquipe(equipeInserer);
 		} catch (Exception e) {
 			afficherErreur("Erreur d'insertion");
 			}
+	}
+
+	private void modifEquipe(Equipe equipeInserer) throws SQLException, IOException {
+		this.daoEquipe.update(equipeInserer);
+		if (!this.logoChanged) {
+			return;
+		}
+		String filename = recupererCheminIconeEquipe(equipeInserer.getNom());
+		File outputfile = new File(filename);
+		if (outputfile.exists()) {
+			try {
+				java.nio.file.Files.delete(outputfile.toPath());
+				outputfile = new File(filename);
+			}catch (Exception e) {
+				afficherErreur("Erreur de suppression de logo");
+			}
+		}
+		ImageIO.write(this.logo, "jpg", outputfile);
 	}
 
 	public void addEquipeSaison(Equipe equipeInserer) {

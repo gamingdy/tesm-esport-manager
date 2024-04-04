@@ -1,5 +1,6 @@
 package controlleur.admin.equipes;
 
+import controlleur.AbstractControlleur;
 import controlleur.ControlleurObserver;
 import dao.Connexion;
 import dao.DaoEquipe;
@@ -22,11 +23,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class EquipesListeControlleur implements ActionListener, ControlleurObserver {
+public class EquipesListeControlleur extends AbstractControlleur implements ActionListener, ControlleurObserver {
 	private VueAdminEquipesListe vue;
 	private static final Logger LOGGER = Logger.getLogger(EquipesListeControlleur.class.getName());
 	private DaoEquipe daoEquipe;
@@ -95,8 +97,7 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 
 	private void creerCase(Equipe e, List<CaseEquipe> resultat, String[] listeJoueurs) {
 		try {
-			Image img = ImageIO.read(new File("assets/logo-equipes/" + e.getNom() + ".jpg"));
-			ImageIcon icon = new ImageIcon(img);
+			ImageIcon icon = new ImageIcon(recupererCheminIconeEquipe(e.getNom()));
 			Image imgPays = ImageIO.read(new File("assets/country-flags/png100px/" + e.getPays().getCode() + ".png"));
 			ImageIcon iconPays = new ImageIcon(imgPays);
 			resultat.add(new CaseEquipe(e.getNom(), listeJoueurs, icon, iconPays));
@@ -113,77 +114,81 @@ public class EquipesListeControlleur implements ActionListener, ControlleurObser
 	@Override
 	public void update() {
 		try {
-			Saison saison = daoSaison.getLastSaison();
-			List<Equipe> liste = new ArrayList<>();
-
-			List<Equipe> listeEquipeSaisonDiff = new ArrayList<>();
-			if (etat == Etat.TOUTES) {
-				liste = daoEquipe.getAll();
-				if (liste.size() < this.listeEquipe.size()) {
-					List<Equipe> caseSupprimer = getDifference(this.listeEquipe, liste);
-					supprimerEquipe(caseSupprimer);
-				}
-				listeEquipeSaisonDiff = getDifference(getEquipeSaion(saison.getAnnee()), this.listeEquipeSaison);
-			} else {
-				try {
-					liste = getEquipeSaion(saison.getAnnee());
-					listeEquipeSaisonDiff = getDifference(liste, this.listeEquipeSaison);
-					if (liste.size() < this.listeEquipe.size()) {
-						List<Equipe> caseSupprimer = getDifference(this.listeEquipe, liste);
-						supprimerEquipe(caseSupprimer);
-					}
-
-				} catch (Exception e) {
-					LOGGER.severe(e.getMessage());
-					afficherErreur("Erreur SQL lors de la récupération des équipes de la saison actuelle");
-				}
-			}
-
-			if (this.listeCase == null) {
-				this.listeEquipe = liste;
-				this.listeEquipeSaison.addAll(listeEquipeSaisonDiff);
-				List<Equipe> listeEquipeHorsSaison = getDifference(this.listeEquipe, this.listeEquipeSaison);
-				List<CaseEquipe> listeCaseHorsSaison = convertListToCase(listeEquipeHorsSaison);
-				this.listeCaseSaison = convertListToCase(this.listeEquipeSaison);
-				this.listeCase = new ArrayList<>();
-				this.listeCase.addAll(this.listeCaseSaison);
-				this.listeCase.addAll(listeCaseHorsSaison);
-				this.vue.addAll(this.listeCase);
-			} else if (etat == Etat.SAISON_ACTUELLE) {
-				this.listeEquipe = liste;
-				List<CaseEquipe> listeCaseDiff = convertListToCase(listeEquipeSaisonDiff);
-				this.listeCaseSaison.addAll(listeCaseDiff);
-				this.vue.resetGrille();
-				this.vue.addAll(this.listeCaseSaison);
-			} else {
-				List<Equipe> differences = getDifference(liste, this.listeEquipe);
-				List<Equipe> nouveauDansSaison = getDifference(listeEquipeSaisonDiff, this.listeEquipeSaison);
-				List<Equipe> horsSaison = getDifference(differences, nouveauDansSaison);
-
-
-				this.listeEquipeSaison.addAll(nouveauDansSaison);
-				List<CaseEquipe> caseHorsSaison = convertListToCase(horsSaison);
-				List<CaseEquipe> caseSaison = convertListToCase(nouveauDansSaison);
-				List<CaseEquipe> nouvelleCase = new ArrayList<>(caseHorsSaison);
-				if (!differences.isEmpty()) {
-					nouvelleCase.addAll(caseSaison);
-				}
-				for (CaseEquipe c : nouvelleCase) {
-					if (!this.listeCase.contains(c)) {
-						this.listeCase.add(c);
-					}
-				}
-
-				this.listeCaseSaison.addAll(caseSaison);
-				this.listeEquipe.addAll(differences);
-
-				this.vue.addAll(nouvelleCase);
-			}
+			updateListeEquipes();
 
 		} catch (Exception e) {
 			LOGGER.severe(e.getMessage());
 			afficherErreur("Erreur SQL lors de la récupération des équipes");
 			}
+	}
+
+	private void updateListeEquipes() throws SQLException {
+		Saison saison = daoSaison.getLastSaison();
+		List<Equipe> liste = new ArrayList<>();
+
+		List<Equipe> listeEquipeSaisonDiff = new ArrayList<>();
+		if (etat == Etat.TOUTES) {
+			liste = daoEquipe.getAll();
+			if (liste.size() < this.listeEquipe.size()) {
+				List<Equipe> caseSupprimer = getDifference(this.listeEquipe, liste);
+				supprimerEquipe(caseSupprimer);
+			}
+			listeEquipeSaisonDiff = getDifference(getEquipeSaion(saison.getAnnee()), this.listeEquipeSaison);
+		} else {
+			try {
+				liste = getEquipeSaion(saison.getAnnee());
+				listeEquipeSaisonDiff = getDifference(liste, this.listeEquipeSaison);
+				if (liste.size() < this.listeEquipe.size()) {
+					List<Equipe> caseSupprimer = getDifference(this.listeEquipe, liste);
+					supprimerEquipe(caseSupprimer);
+				}
+
+			} catch (Exception e) {
+				LOGGER.severe(e.getMessage());
+				afficherErreur("Erreur SQL lors de la récupération des équipes de la saison actuelle");
+			}
+		}
+
+		if (this.listeCase == null) {
+			this.listeEquipe = liste;
+			this.listeEquipeSaison.addAll(listeEquipeSaisonDiff);
+			List<Equipe> listeEquipeHorsSaison = getDifference(this.listeEquipe, this.listeEquipeSaison);
+			List<CaseEquipe> listeCaseHorsSaison = convertListToCase(listeEquipeHorsSaison);
+			this.listeCaseSaison = convertListToCase(this.listeEquipeSaison);
+			this.listeCase = new ArrayList<>();
+			this.listeCase.addAll(this.listeCaseSaison);
+			this.listeCase.addAll(listeCaseHorsSaison);
+			this.vue.addAll(this.listeCase);
+		} else if (etat == Etat.SAISON_ACTUELLE) {
+			this.listeEquipe = liste;
+			List<CaseEquipe> listeCaseDiff = convertListToCase(listeEquipeSaisonDiff);
+			this.listeCaseSaison.addAll(listeCaseDiff);
+			this.vue.resetGrille();
+			this.vue.addAll(this.listeCaseSaison);
+		} else {
+			List<Equipe> differences = getDifference(liste, this.listeEquipe);
+			List<Equipe> nouveauDansSaison = getDifference(listeEquipeSaisonDiff, this.listeEquipeSaison);
+			List<Equipe> horsSaison = getDifference(differences, nouveauDansSaison);
+
+
+			this.listeEquipeSaison.addAll(nouveauDansSaison);
+			List<CaseEquipe> caseHorsSaison = convertListToCase(horsSaison);
+			List<CaseEquipe> caseSaison = convertListToCase(nouveauDansSaison);
+			List<CaseEquipe> nouvelleCase = new ArrayList<>(caseHorsSaison);
+			if (!differences.isEmpty()) {
+				nouvelleCase.addAll(caseSaison);
+			}
+			for (CaseEquipe c : nouvelleCase) {
+				if (!this.listeCase.contains(c)) {
+					this.listeCase.add(c);
+				}
+			}
+
+			this.listeCaseSaison.addAll(caseSaison);
+			this.listeEquipe.addAll(differences);
+
+			this.vue.addAll(nouvelleCase);
+		}
 	}
 
 	private void supprimerEquipe(List<Equipe> listeEquipeSupprimer) {

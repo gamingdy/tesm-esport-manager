@@ -30,10 +30,10 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class EquipeCreationControlleur implements ActionListener, ItemListener, MouseListener {
 	private final VueAdminEquipesCreation vue;
@@ -135,8 +135,13 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 
 	private boolean equipeDejaExistante(String nomEquipe) {
 		try {
-			Equipe equipe = daoEquipe.getById(nomEquipe).get();
-			return equipe != null;
+			Optional<Equipe> equipe = daoEquipe.getById(nomEquipe);
+			if (equipe.isPresent()) {
+				return equipe.get() != null;
+			}
+			else {
+				return false;
+			}
 		} catch (Exception ignored) {
 			return false;
 		}
@@ -161,10 +166,7 @@ public class EquipeCreationControlleur implements ActionListener, ItemListener, 
 			Saison saison = daoSaison.getLastSaison();
 			Inscription inscription = new Inscription(saison, equipeInserer);
 			daoInscription.add(inscription);
-		} catch (SQLException e) {
-			afficherErreur("Erreur d'insertion dans la saison");
-			resetChamps();
-		} catch (Exception e) {
+		} catch (Exception e ) {
 			afficherErreur("Erreur d'insertion dans la saison");
 			resetChamps();
 		}

@@ -1,5 +1,6 @@
 package controlleur.arbitre;
 
+import controlleur.AbstractControlleur;
 import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoMatche;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class ArbitreControlleur implements ActionListener {
+public class ArbitreControlleur extends AbstractControlleur implements ActionListener {
 	private static final String CLOTURER_TOURNOI = "Clôturer le tournoi";
 	private static final String CLOTURER_POULE = "Clôturer la poule";
 	private VueArbitrePoule vue;
@@ -74,8 +75,8 @@ public class ArbitreControlleur implements ActionListener {
 	}
 	private CaseMatch convertMatchToCaseMatch(Matche matche) {
 		String dateMatche = matche.getDateDebutMatche().toString().substring(6);
-		ImageIcon imageEquipe1 = new ImageIcon("assets/logo-equipes/" + matche.getEquipe1().getNom() + ".jpg");
-		ImageIcon imageEquipe2 = new ImageIcon("assets/logo-equipes/" + matche.getEquipe2().getNom() + ".jpg");
+		ImageIcon imageEquipe1 = new ImageIcon(recupererCheminIconeEquipe(matche.getEquipe1().getNom()));
+		ImageIcon imageEquipe2 = new ImageIcon(recupererCheminIconeEquipe(matche.getEquipe2().getNom()));
 		CaseMatch resultat = null;
 		try {
 			resultat = new CaseMatch(dateMatche, matche.getId(), imageEquipe1, matche.getEquipe1().getNom(), matche.getEquipe2().getNom(), imageEquipe2);

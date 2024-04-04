@@ -1,11 +1,11 @@
 package dao.tests;
 
-import InitBd.ESporterManagerInitBDD;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import dao.FactoryDAO;
+import init_bd.ESporterManagerInitBDD;
 import modele.Arbitrage;
 import modele.Arbitre;
 import modele.Tournoi;

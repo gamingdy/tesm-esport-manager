@@ -29,17 +29,21 @@ import vue.common.Creator;
 import vue.common.JFramePopup;
 
 import javax.swing.ImageIcon;
+
+import controlleur.AbstractControlleur;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class TournoiCreationControlleur implements ActionListener, MouseListener {
+public class TournoiCreationControlleur extends AbstractControlleur implements ActionListener, MouseListener {
 	private VueAdminTournoisCreation vue;
 	private DaoTournoi daoTournoi;
 	private DaoSaison daoSaison;
@@ -248,7 +252,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 		return !this.arbitreListChoisi.isEmpty();
 	}
 
-	public void initEquipes(Tournoi tournoi, List<Equipe> listeEquipe) throws Exception {
+	public void initEquipes(Tournoi tournoi, List<Equipe> listeEquipe) throws SQLException {
 		//creation de la poule
 		Poule poule = new Poule(tournoi, 'A');
 		daoPoule.add(poule);
@@ -310,7 +314,7 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 		if (this.nbEquipes < 8) {
 			Equipe equipe = this.popupAjoutEquipe.getSaisie();
 			String nomEquipe = equipe.getNom();
-			ImageIcon icon = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
+			ImageIcon icon = new ImageIcon(recupererCheminIconeEquipe(nomEquipe));
 			List<String> listEquipes = this.vue.getEquipes();
 			if (!listEquipes.contains(nomEquipe)) {
 				this.vue.setEquipe(nomEquipe, icon, this.nbEquipes);
@@ -323,14 +327,14 @@ public class TournoiCreationControlleur implements ActionListener, MouseListener
 
 	}
 
-	public boolean isTournoiMemeNomExistant(Tournoi tournoi) throws Exception {
+	public boolean isTournoiMemeNomExistant(Tournoi tournoi) throws SQLException, FausseDateException {
 		Optional<Tournoi> tournoiRecherche;
 		tournoiRecherche = daoTournoi.getById(saison.getAnnee(), tournoi.getNom());
 		return tournoiRecherche.isPresent();
 
 	}
 
-	public boolean isTournoiMemeDateExistant(Tournoi tournoi) throws Exception {
+	public boolean isTournoiMemeDateExistant(Tournoi tournoi) throws SQLException, FausseDateException {
 		List<Tournoi> tournoiRecherche2;
 		tournoiRecherche2 = daoTournoi.getTournoiBetweenDate(tournoi.getDebut(), tournoi.getFin());
 		return !tournoiRecherche2.isEmpty();
