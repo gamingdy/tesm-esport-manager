@@ -113,7 +113,7 @@ public class HistoriqueControlleur extends AbstractControlleur implements ItemLi
 				if (!optional.isPresent()) {
 					throw new SQLException("Pas de saisons dans la BD");
 				}
-				anneeChoisie = daoSaison.getById((Integer) e.getItem()).get();
+				anneeChoisie = optional.get();
 				updateEquipe(anneeChoisie);
 				updateMatches(Optional.empty(), Optional.empty());
 				updateTournoi(Optional.empty(), anneeChoisie);
