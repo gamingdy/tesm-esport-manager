@@ -139,7 +139,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 				listeTournoiComboBox.remove(0);
 			}
 		} catch (Exception e) {
-			afficherErreur("Erreur SQL");
+			afficherErreur(ERREUR_SQL);
 		}
 	}
 
@@ -160,7 +160,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 						ArbitresObserver.getInstance().notifyVue(Page.ARBITRES_CREATION);
 					});
 				} catch (Exception ex) {
-					afficherErreur("Erreur SQL");
+					afficherErreur(ERREUR_SQL);
 				}
 			}
 		}
@@ -186,7 +186,7 @@ public class ArbitresCreationControlleur implements ActionListener, MouseListene
 			Optional<Arbitre> arbitreOptional = daoArbitre.getArbitreByTelephone(arbitre.getNumeroTelephone());
 			return arbitreOptional.isPresent();
 		} catch (Exception e) {
-			afficherErreur("Erreur SQL");}
+			afficherErreur(ERREUR_SQL);}
 		return false;
 	}
 

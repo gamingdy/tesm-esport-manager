@@ -3,6 +3,7 @@ package dao.tests;
 import dao.Connexion;
 import dao.FactoryDAO;
 import exceptions.FausseDateException;
+import init_bd.ESporterManagerInitBDD;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
@@ -15,8 +16,6 @@ import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.util.List;
 import java.util.Optional;
-
-import InitBd.ESporterManagerInitBDD;
 
 import static org.junit.Assert.*;
 

@@ -1,5 +1,6 @@
 package controlleur.admin.historique;
 
+import controlleur.AbstractControlleur;
 import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoAppartenance;
@@ -9,6 +10,7 @@ import dao.DaoMatche;
 import dao.DaoPartie;
 import dao.DaoSaison;
 import dao.DaoTournoi;
+import exceptions.ExceptionPointsNegatifs;
 import exceptions.FausseDateException;
 import exceptions.GagnantNonChoisiException;
 import exceptions.IdNotSetException;
@@ -47,7 +49,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class HistoriqueControlleur implements ItemListener, ListSelectionListener {
+public class HistoriqueControlleur extends AbstractControlleur implements ItemListener, ListSelectionListener {
 	private static final Logger LOGGER= Logger.getLogger(HistoriqueControlleur.class.getName());
 	private VueAdminHistorique vue;
 	private DaoSaison daoSaison;
@@ -63,6 +65,9 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 	private Optional<Tournoi> tournoiChoisi;
 	private Saison anneeChoisie;
 	private Etat etat;
+
+	private static final String ERREUR_SQL_EQUIPE_MESSAGE = "Erreur SQL lors de la récupération des équipes";
+	private static final String ERREUR_SQL_MATCH_MESSAGE = "Erreur SQL lors de la récupération des matchs";
 
 	private enum Etat {
 		EQUIPES, TOURNOIS;
@@ -95,7 +100,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 
 		} catch (Exception e) {
 			LOGGER.severe(e.getMessage());
-			afficherErreur("Erreur SQL lors de la récupération des équipes");
+			afficherErreur(ERREUR_SQL_EQUIPE_MESSAGE);
 			}
 	}
 
@@ -104,26 +109,30 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			try {
 				tournoiChoisi = Optional.empty();
-				anneeChoisie = daoSaison.getById((Integer) e.getItem()).get();
+				Optional<Saison> optional = daoSaison.getById((Integer) e.getItem());
+				if (!optional.isPresent()) {
+					throw new SQLException("Pas de saisons dans la BD");
+				}
+				anneeChoisie = optional.get();
 				updateEquipe(anneeChoisie);
 				updateMatches(Optional.empty(), Optional.empty());
 				updateTournoi(Optional.empty(), anneeChoisie);
 			} catch (Exception ex) {
 				LOGGER.severe(ex.getMessage());
-				afficherErreur("Erreur SQL lors de la récupération des équipes");
+				afficherErreur(ERREUR_SQL_EQUIPE_MESSAGE);
 			}
 		}
 	}
 
 	private VueAdminHistorique.CaseEquipe constructCaseEquipe(Equipe e) {
 		try {
-			Image img = ImageIO.read(new File("assets/logo-equipes/" + e.getNom() + ".jpg"));
+			Image img = ImageIO.read(new File(recupererCheminIconeEquipe(e.getNom())));
 			ImageIcon icon = new ImageIcon(img);
 			ImageIcon iconResized = Vue.resize(icon, 70, 70);
 			return new VueAdminHistorique.CaseEquipe(iconResized, e.getNom());
 		} catch (IOException ex) {
 			LOGGER.severe(ex.getMessage());
-			afficherErreur("Une erreur d'initialisation de case equipe s'est produite");
+			afficherErreur(ERREUR_SQL_EQUIPE_MESSAGE);
 		}
 		return null;
 	}
@@ -134,7 +143,6 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			if (tournoiChoisi.isPresent()) {
 				equipeList = daoAppartenance.getEquipeByTournoi(tournoiChoisi.get().getNom(), saison.getAnnee());
 			} else {
-				//Saison classmentPrecedent = new Saison(anneeChoisie.getAnnee() - 1);
 				Set<Equipe> classement = ModeleSaison.getClassement(anneeChoisie);
 				if (!classement.isEmpty()) {
 					equipeList = new ArrayList<>(classement);
@@ -155,7 +163,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			}
 		} catch (Exception e) {
 			LOGGER.severe(e.getMessage());
-			afficherErreur("Erreur SQL lors de la récupération des équipes");}
+			afficherErreur(ERREUR_SQL_EQUIPE_MESSAGE);}
 
 	}
 
@@ -167,18 +175,16 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 				Optional<Inscription> inscription = daoInscription.getById(anneeChoisie.getAnnee(), e.getNom());
 				if (inscription.isPresent()) {
 					VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
-					System.out.println("World rank : "+ inscription.get().getWorldRank());
 					Object[] ligne = new Object[]{inscription.get().getWorldRank(), caseEquipe, e.getPoint()};
 					resultat.add(ligne);
 				} else {
 					VueAdminHistorique.CaseEquipe caseEquipe = constructCaseEquipe(e);
-					System.out.println("Points de l'equipe " + e.getPoint());
 					Object[] ligne = new Object[]{1000, caseEquipe, 0.0};
 					resultat.add(ligne);
 				}
 
 			} catch (Exception exc) {
-				afficherErreur("Erreur SQL lors de la récupération des équipes");}
+				afficherErreur(ERREUR_SQL_EQUIPE_MESSAGE);}
 		}
 
 		return resultat;
@@ -193,9 +199,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			try {
 				List<Partie> partieList = daoPartie.getPartieByMatche(m);
 				m.setVainqueur(partieList.get(0).getVainqueur());
-			}catch (SQLException | MemeEquipeException | FausseDateException | IdNotSetException e){
-				LOGGER.severe(e.getMessage());
-			} catch (GagnantNonChoisiException e) {
+			}catch (SQLException | MemeEquipeException | FausseDateException | IdNotSetException | GagnantNonChoisiException e){
 				LOGGER.severe(e.getMessage());
 			}
 			Equipe winner = m.getVainqueur();
@@ -223,28 +227,28 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					matcheList = daoMatche.getMatchBySaison(anneeChoisie);
 				} catch (SQLException | FausseDateException | MemeEquipeException e) {
 					LOGGER.severe(e.getMessage());
-					afficherErreur("Erreur SQL lors de la récupération des matchs");
+					afficherErreur(ERREUR_SQL_MATCH_MESSAGE);
 				}
 			} else if (!equipe.isPresent()) {
 				try {
 					matcheList = daoMatche.getMatchByTournoi(anneeChoisie.getAnnee(), tournoi.get().getNom());
 				} catch (SQLException | FausseDateException | MemeEquipeException ex) {
 					LOGGER.severe(ex.getMessage());
-					afficherErreur("Erreur SQL lors de la récupération des matchs");
+					afficherErreur(ERREUR_SQL_MATCH_MESSAGE);
 				}
 			} else if (!tournoi.isPresent()) {
 				try{
 					matcheList = daoMatche.getMatchByEquipe(equipe.get());
 				} catch (SQLException | FausseDateException | MemeEquipeException e) {
 					LOGGER.severe(e.getMessage());
-					afficherErreur("Erreur SQL lors de la récupération des matchs");
+					afficherErreur(ERREUR_SQL_MATCH_MESSAGE);
 				}
 			} else {
 				try {
 					matcheList = daoMatche.getMatchByEquipeForTournoi(equipe.get(), tournoi.get());
 				} catch (SQLException | FausseDateException | MemeEquipeException e) {
 					LOGGER.severe(e.getMessage());
-					afficherErreur("Erreur SQL lors de la récupération des matchs");
+					afficherErreur(ERREUR_SQL_MATCH_MESSAGE);
 				}
 			}
 			DefaultTableModel tableMatches = this.vue.getModelMatch();
@@ -297,7 +301,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 			afficherErreur("Erreur SQL lors de la récupération des tournois");}
 	}
 
-	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois, Optional<Inscription> inscription) throws Exception {
+	private List<Object[]> constructArrayFromTournoi(List<Tournoi> listeTournois, Optional<Inscription> inscription) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException, GagnantNonChoisiException, ExceptionPointsNegatifs {
 		List<Object[]> resultat = new ArrayList<>();
 
 		if (inscription.isPresent()) {
@@ -311,7 +315,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					}
 				}
 				CustomDate dateDebut = t.getDebut();
-				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), selection.getPoint()};
+				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), ModeleTournoi.getPointsSaison(selection, t)};
 				resultat.add(ligne);
 			}
 			return resultat;

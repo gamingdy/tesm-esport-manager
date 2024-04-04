@@ -1,7 +1,7 @@
 package dao.tests;
 
-import InitBd.ESporterManagerInitBDD;
 import dao.FactoryDAO;
+import init_bd.ESporterManagerInitBDD;
 import modele.Saison;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package InitBd;
+package init_bd;
 
 import dao.Connexion;
 import dao.DaoNiveau;
