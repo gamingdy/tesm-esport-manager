@@ -311,7 +311,7 @@ public class HistoriqueControlleur implements ItemListener, ListSelectionListene
 					}
 				}
 				CustomDate dateDebut = t.getDebut();
-				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), selection.getPoint()};
+				Object[] ligne = new Object[]{t.getNom(), dateDebut.toString().substring(6), ModeleTournoi.getPointsSaison(selection, t)};
 				resultat.add(ligne);
 			}
 			return resultat;
