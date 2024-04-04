@@ -70,7 +70,7 @@ public class VueAccueil extends JPanel {
 		gblPanelClassement.rowWeights = new double[]{0.0, 1.0};
 		panelClassement.setLayout(gblPanelClassement);
 
-		JLabel labelTitreClassement = new JLabel("Classement des équipes de la saison actuelle");
+		JLabel labelTitreClassement = new JLabel("Classement des équipes du tournoi actuel (si il existe)");
 		labelTitreClassement.setFont(MaFont.getFontTitre1());
 		labelTitreClassement.setForeground(CustomColor.BLANC);
 		GridBagConstraints gbcLabelTitreClassement = new GridBagConstraints();
