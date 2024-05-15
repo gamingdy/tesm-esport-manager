@@ -1,14 +1,15 @@
 package modele;
 
 import java.util.Objects;
+
 public class Inscription {
-	
+
 	private Equipe equipe;
 	private Saison saison;
 	private Integer worldRank;
 
 	public Inscription(Saison saison, Equipe equipe) {
-		this(saison,1000,equipe);
+		this(saison, 1000, equipe);
 	}
 
 	public Inscription(Saison saison, Integer worldRank, Equipe equipe) {
@@ -16,7 +17,7 @@ public class Inscription {
 		this.worldRank = worldRank;
 		this.saison = saison;
 	}
-	
+
 	public Equipe getEquipe() {
 		return equipe;
 	}
@@ -55,7 +56,7 @@ public class Inscription {
 		if (getClass() != obj.getClass())
 			return false;
 		Inscription other = (Inscription) obj;
-		return Objects.equals(equipe, other.equipe) && Objects.equals(saison, other.saison);
+		return this.toString().equals(other.toString());
 	}
 
 	@Override
@@ -63,6 +64,5 @@ public class Inscription {
 		return "Inscription [equipe=" + equipe + ", saison=" + saison + ", worldRank=" + worldRank + "]";
 	}
 
-	
 
 }

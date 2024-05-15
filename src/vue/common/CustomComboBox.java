@@ -4,10 +4,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.plaf.ComboBoxUI;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
@@ -30,7 +28,7 @@ public class CustomComboBox<E> extends JComboBox<E> {
 		setBackground(CustomColor.BACKGROUND_MAIN);
 		setForeground(CustomColor.BLANC);
 		setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
-		setUI(CustomComboBoxUI.createUI(this));
+		setUI(new CustomComboBoxUI());
 		setFocusable(false);
 		styleScrollBar();
 	}
@@ -47,19 +45,15 @@ public class CustomComboBox<E> extends JComboBox<E> {
 
 	public void setActif(boolean actif) {
 		if (actif) {
-			setUI(CustomComboBoxUI.createUI(this));
+			setUI(new CustomComboBoxUI());
 			styleScrollBar();
 		} else {
-			setUI(UIDesactiver.createUI(this));
+			setUI(new UIDesactiver());
 		}
 	}
 }
 
 class UIDesactiver extends BasicComboBoxUI {
-
-	public static UIDesactiver createUI(JComponent c) {
-		return new UIDesactiver();
-	}
 
 	@Override
 	protected JButton createArrowButton() {
@@ -93,14 +87,10 @@ class CustomComboBoxUI extends BasicComboBoxUI {
 		super();
 	}
 
-	public static ComboBoxUI createUI(JComponent c) {
-		return new CustomComboBoxUI();
-	}
-
 	@Override
 	protected JButton createArrowButton() {
 		return new BasicArrowButton(
-				BasicArrowButton.SOUTH,
+				javax.swing.SwingConstants.SOUTH,
 				CustomColor.BACKGROUND_MAIN.brighter(), null,
 				CustomColor.ROSE_CONTOURS.darker(), null);
 	}

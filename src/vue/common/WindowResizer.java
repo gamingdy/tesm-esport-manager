@@ -20,9 +20,9 @@ public class WindowResizer {
 	private SIDE side;
 	private boolean isResizing;
 	private Point originalPosition;
-	private final int BORDERSIZE = 10;
-	private final int MINIMUMHEIGHT = 600;
-	private final int MINIMUMWIDTH = 1100;
+	private static final int BORDERSIZE = 10;
+	private static final int MINIMUMHEIGHT = 600;
+	private static final int MINIMUMWIDTH = 1100;
 
 	public WindowResizer(Vue vue, int height, int width) {
 		this.mainWindow = vue;
@@ -59,7 +59,6 @@ public class WindowResizer {
 		this.currentHeight = this.mainWindow.getHeight();
 		this.currentWidth = this.mainWindow.getWidth();
 		this.mainWindow.updateBackgroundSize();
-
 	}
 
 	private Point mouseLocationOnScreen(MouseEvent event) {
@@ -73,37 +72,39 @@ public class WindowResizer {
 
 	private void mouseMotion() {
 		this.mainWindow.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent evt) {
+
 				if (!isResizing) {
 					originalPosition = mouseLocationOnScreen(evt);
 				}
-				if (side != SIDE.NONE) {
-					isResizing = true;
-					Point pOnScreen = mouseLocationOnScreen(evt);
-					Point originalPos = mainWindow.getLocationOnScreen();
-					if (side == SIDE.LEFT) {
-						int newWidth = originalPosition.x - pOnScreen.x;
-						if (!isMinimumSize(newWidth, 0)) {
-							return;
-						}
-						mainWindow.setLocation(pOnScreen.x, originalPos.y);
-						resize(newWidth, 0);
-					} else if (side == SIDE.RIGHT) {
-						int newWidth = pOnScreen.x - originalPosition.x;
-						if (!isMinimumSize(newWidth, 0)) {
-							return;
-						}
-						resize(newWidth, 0);
-					} else if (side == SIDE.BOTTOM) {
-						int newHeight = pOnScreen.y - originalPosition.y;
-						if (!isMinimumSize(0, newHeight)) {
-							return;
-						}
-						resize(0, newHeight);
+				isResizing = true;
+				Point pOnScreen = mouseLocationOnScreen(evt);
+				Point originalPos = mainWindow.getLocationOnScreen();
+				if (side == SIDE.LEFT) {
+					int newWidth = originalPosition.x - pOnScreen.x;
+					if (!isMinimumSize(newWidth, 0)) {
+						return;
 					}
+					mainWindow.setLocation(pOnScreen.x, originalPos.y);
+					resize(newWidth, 0);
+				} else if (side == SIDE.RIGHT) {
+					int newWidth = pOnScreen.x - originalPosition.x;
+					if (!isMinimumSize(newWidth, 0)) {
+						return;
+					}
+					resize(newWidth, 0);
+				} else if (side == SIDE.BOTTOM) {
+					int newHeight = pOnScreen.y - originalPosition.y;
+					if (!isMinimumSize(0, newHeight)) {
+						return;
+					}
+					resize(0, newHeight);
 				}
+
 			}
 
+			@Override
 			public void mouseMoved(MouseEvent e) {
 				Point p = mouseLocationOnApp(e);
 				findBorder(p);
@@ -139,12 +140,12 @@ public class WindowResizer {
 				}
 			}
 
+			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (isResizing) {
 					updateSize();
 				}
 				isResizing = false;
-
 			}
 
 		});

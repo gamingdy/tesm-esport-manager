@@ -1,121 +1,122 @@
 package dao.tests;
 
+import dao.Connexion;
 import dao.FactoryDAO;
 import exceptions.FausseDateException;
+import init_bd.ESporterManagerInitBDD;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
 import modele.Saison;
 import modele.Tournoi;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.util.List;
 import java.util.Optional;
 
-public class TestDaoTournoi extends TestDao {
+import static org.junit.Assert.*;
+
+public class TestDaoTournoi {
 
 	private Saison saison;
-	private Saison saison2;
 	private Tournoi tournoi1;
 	private Tournoi tournoi2;
 	private Tournoi tournoi3;
 	private Tournoi tournoi4;
 
-	public TestDaoTournoi() throws Exception {
-		super();
-
+	@Before
+	public void setUp() throws Exception {
+		initDatabase();
+		saison= FactoryDAO.getDaoSaison(Connexion.getConnexion()).getById(2024).get();
+		initData();
 	}
 
+	@Test
 	public void testInsert() throws Exception {
-		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi1);
-		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi2);
-		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi3);
-		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi4);
-		System.out.println(FactoryDAO.getDaoTournoi(getC()).visualizeTable());
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).add(tournoi1));
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).add(tournoi2));
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).add(tournoi3));
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).add(tournoi4));
 	}
 
+	@Test
 	public void testDelete() throws Exception {
-		FactoryDAO.getDaoTournoi(getC()).delete(tournoi1.getSaison().getAnnee(), tournoi1.getNom());
-		System.out.println(FactoryDAO.getDaoTournoi(getC()).visualizeTable());
-		FactoryDAO.getDaoTournoi(super.getC()).add(tournoi1);
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).add(tournoi1));
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).delete(tournoi1.getSaison().getAnnee(), tournoi1.getNom()));
 	}
 
+	@Test
 	public void testUpdate() throws Exception {
-		Optional<Tournoi> b = FactoryDAO.getDaoTournoi(getC()).getById(tournoi1.getSaison().getAnnee(), tournoi1.getNom());
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).add(tournoi1));
+		Optional<Tournoi> b = FactoryDAO.getDaoTournoi(Connexion.getConnexion()).getById(tournoi1.getSaison().getAnnee(), tournoi1.getNom());
+		assertTrue(b.isPresent());
 		b.get().setNiveau(Niveau.LOCAL);
-		FactoryDAO.getDaoTournoi(getC()).update(b.get());
-		System.out.println(FactoryDAO.getDaoTournoi(getC()).visualizeTable());
+		assertTrue(FactoryDAO.getDaoTournoi(Connexion.getConnexion()).update(b.get()));
 	}
 
+	@Test
 	public void testGetCompteArbitreByTournoi() throws SQLException {
-		System.out.println("______________________________");
-		CompteArbitre c = FactoryDAO.getDaoTournoi(getC()).getCompteArbitreByTournoi(2023, "zzzz");
-		System.out.println(c.getHashMdp() + " " + c.getUsername());
+		CompteArbitre c = FactoryDAO.getDaoTournoi(Connexion.getConnexion()).getCompteArbitreByTournoi(2024, "zzzz");
+		assertNotNull(c);
 	}
 
+	@Test
 	public void testGetTournoiActuel() throws SQLException, FausseDateException {
-		System.out.println("______________________________");
-		Optional<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiActuel();
-		System.out.println(t.get().toString());
+		Optional<Tournoi> t = FactoryDAO.getDaoTournoi(Connexion.getConnexion()).getTournoiActuel();
+		assertFalse(t.isPresent());
 	}
 
+	@Test
 	public void testGetTournoiBySaison() throws SQLException, FausseDateException {
-		System.out.println("______________________________");
-		List<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiBySaison(saison);
-		t.forEach(x -> System.out.println(x.toString()));
+		List<Tournoi> t = FactoryDAO.getDaoTournoi(Connexion.getConnexion()).getTournoiBySaison(saison);
+		assertTrue(t.size() > 0);
 	}
 
+	@Test
 	public void testGetTournoiBetweenDate() throws DateTimeException, Exception {
-		System.out.println("______________________________");
-		List<Tournoi> t = FactoryDAO.getDaoTournoi(getC()).getTournoiBetweenDate(new CustomDate(2023, 12, 29), new CustomDate(2023, 12, 30));
-		t.forEach(x -> System.out.println(x.toString()));
+		List<Tournoi> t = FactoryDAO.getDaoTournoi(Connexion.getConnexion()).getTournoiBetweenDate(new CustomDate(2024, 12, 29), new CustomDate(2024, 12, 30));
+		assertTrue(t.size() > 0);
+	}
+
+	private void initDatabase() throws Exception {
+		// Initialisation de la base de données
+		ESporterManagerInitBDD.initDatabase();
 	}
 
 
-	public static void main(String[] args) throws Exception {
-		TestDaoTournoi x = new TestDaoTournoi();
-		x.setup();
-		x.testInsert();
-		x.testDelete();
-		x.testUpdate();
-		x.testGetCompteArbitreByTournoi();
-		x.testGetTournoiActuel();
-		x.testGetTournoiBySaison();
-		x.testGetTournoiBetweenDate();
-
-	}
-
-	@Override
-	public void setup() throws Exception {
+	private void initData() throws Exception {
+		// Initialisation des données pour les tests
 		tournoi1 = new Tournoi(
-				FactoryDAO.getDaoSaison(getC()).getById(2023).get(),
+				FactoryDAO.getDaoSaison(Connexion.getConnexion()).getById(2024).get(),
 				"zzzz",
-				new CustomDate(2023, 12, 14),
-				new CustomDate(2023, 12, 30),
+				new CustomDate(2024, 12, 14),
+				new CustomDate(2024, 12, 30),
 				Niveau.INTERNATIONAL_CLASSE,
 				new CompteArbitre("username", "potdemasse"));
 
 		tournoi2 = new Tournoi(
-				FactoryDAO.getDaoSaison(getC()).getById(2023).get(),
+				FactoryDAO.getDaoSaison(Connexion.getConnexion()).getById(2024).get(),
 				"wwww",
-				new CustomDate(2023, 12, 1),
-				new CustomDate(2023, 12, 13),
+				new CustomDate(2024, 12, 1),
+				new CustomDate(2024, 12, 13),
 				Niveau.INTERNATIONAL_CLASSE,
 				new CompteArbitre("username", "potdemasse"));
 		tournoi3 = new Tournoi(
-				FactoryDAO.getDaoSaison(getC()).getById(2022).get(),
+				FactoryDAO.getDaoSaison(Connexion.getConnexion()).getById(2024).get(),
 				"zzzzz",
-				new CustomDate(2022, 12, 14),
-				new CustomDate(2022, 12, 30),
+				new CustomDate(2024, 12, 14),
+				new CustomDate(2024, 12, 30),
 				Niveau.INTERNATIONAL_CLASSE,
 				new CompteArbitre("username", "potdemasse"));
 
 		tournoi4 = new Tournoi(
-				FactoryDAO.getDaoSaison(getC()).getById(2022).get(),
+				FactoryDAO.getDaoSaison(Connexion.getConnexion()).getById(2024).get(),
 				"wwwww",
-				new CustomDate(2022, 12, 1),
-				new CustomDate(2022, 12, 13),
+				new CustomDate(2024, 12, 1),
+				new CustomDate(2024, 12, 13),
 				Niveau.INTERNATIONAL_CLASSE,
 				new CompteArbitre("username", "potdemasse"));
 

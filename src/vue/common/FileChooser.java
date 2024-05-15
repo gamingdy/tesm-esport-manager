@@ -11,8 +11,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileChooser {
+	
+	private FileChooser() {
+		// default implementation ignored
+	}
 
-	public static BufferedImage createPopup(BufferedImage logo, JLabel labelLogo, String descriptionExtension, String extension) {
+	public static BufferedImage createPopup(BufferedImage logo, JLabel labelLogo, String descriptionExtension, String extension) throws IOException {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setFileFilter(new FileNameExtensionFilter(descriptionExtension, extension));
 		int returnVal = chooser.showOpenDialog(null);
@@ -23,17 +27,17 @@ public class FileChooser {
 			try {
 				//le transformer en image et la resize
 				BufferedImage image = ImageIO.read(fichier);
-				BufferedImage image_resized = resizeImage(image, labelLogo.getWidth(), labelLogo.getHeight());
+				BufferedImage imageResized = resizeImage(image, labelLogo.getWidth(), labelLogo.getHeight());
 				//transformer en icone pour pouvoir l'afficher
 
-				ImageIcon imageIcon = new ImageIcon(image_resized);
+				ImageIcon imageIcon = new ImageIcon(imageResized);
 				//passer l'image au controleur pour pouvoir la stoquer plus tard
 				logo = image;
 				//affichage
 				labelLogo.setIcon(imageIcon);
 				labelLogo.setText("");
 			} catch (IOException ex) {
-				throw new RuntimeException(ex);
+				throw new IOException(ex);
 			}
 		}
 

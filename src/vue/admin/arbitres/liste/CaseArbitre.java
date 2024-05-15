@@ -58,19 +58,20 @@ public class CaseArbitre {
 		panelItem.add(icone, gbcIcone);
 
 
-		JTextArea nom = new JTextArea(getNom() + " " + getPrenom());
-		nom.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-		nom.setLineWrap(true);
-		nom.setWrapStyleWord(true);
-		nom.setOpaque(false);
-		nom.setForeground(CustomColor.BLANC);
-		nom.setFont(MaFont.getFontTitre3());
+		JTextArea nomTextArea = new JTextArea(getNom() + " " + getPrenom() + System.lineSeparator() + getNumero());
+		nomTextArea.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+		nomTextArea.setLineWrap(true);
+		nomTextArea.setEditable(false);
+		nomTextArea.setWrapStyleWord(true);
+		nomTextArea.setOpaque(false);
+		nomTextArea.setForeground(CustomColor.BLANC);
+		nomTextArea.setFont(MaFont.getFontTitre4());
 		GridBagConstraints gbcNom = new GridBagConstraints();
 		gbcNom.fill = GridBagConstraints.HORIZONTAL;
 		gbcNom.gridx = 1;
 		gbcNom.gridy = 0;
 		gbcNom.gridwidth = 2;
-		panelItem.add(nom, gbcNom);
+		panelItem.add(nomTextArea, gbcNom);
 
 
 		JLabel labelDelete = new JLabel(Vue.resize(new ImageIcon("assets/delete.png"), 30, 30));

@@ -19,15 +19,14 @@ public class MenuNavBar extends JPanel {
 	public MenuNavBar() {
 		super();
 
+		this.boutons = new HashMap<>();
 
-		this.boutons = new HashMap<String, BoutonMenu>();
-
-		GridBagLayout gbl_this = new GridBagLayout();
-		this.setLayout(gbl_this);
-		gbl_this.columnWidths = new int[]{0};
-		gbl_this.rowHeights = new int[]{0};
-		gbl_this.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_this.rowWeights = new double[]{Double.MIN_VALUE};
+		GridBagLayout gblThis = new GridBagLayout();
+		this.setLayout(gblThis);
+		gblThis.columnWidths = new int[]{0};
+		gblThis.rowHeights = new int[]{0};
+		gblThis.columnWeights = new double[]{Double.MIN_VALUE};
+		gblThis.rowWeights = new double[]{Double.MIN_VALUE};
 
 		gbc = new GridBagConstraints();
 		this.setBackground(CustomColor.BACKGROUND_MENU);
@@ -38,28 +37,28 @@ public class MenuNavBar extends JPanel {
 		gbc.gridy = 1;
 
 		String accueil = BoutonNavBar.ACCUEIL.getNom();
-		boutons.put(accueil, new BoutonMenu(this, accueil, 0));
+		boutons.put(accueil, new BoutonMenu(accueil, 0));
 		this.add(boutons.get(accueil), boutons.get(accueil).getContraintes());
 		selectionner(boutons.get(accueil));
 
 		String equipes = BoutonNavBar.EQUIPES.getNom();
-		boutons.put(equipes, new BoutonMenu(this, equipes, 1));
+		boutons.put(equipes, new BoutonMenu(equipes, 1));
 		this.add(boutons.get(equipes), boutons.get(equipes).getContraintes());
 
 		String tournois = BoutonNavBar.TOURNOIS.getNom();
-		boutons.put(tournois, new BoutonMenu(this, tournois, 2));
+		boutons.put(tournois, new BoutonMenu(tournois, 2));
 		this.add(boutons.get(tournois), boutons.get(tournois).getContraintes());
 
 		String arbitres = BoutonNavBar.ARBITRES.getNom();
-		boutons.put(arbitres, new BoutonMenu(this, arbitres, 3));
+		boutons.put(arbitres, new BoutonMenu(arbitres, 3));
 		this.add(boutons.get(arbitres), boutons.get(arbitres).getContraintes());
 
 		String saisons = BoutonNavBar.SAISON_PRECEDENTES.getNom();
-		boutons.put(saisons, new BoutonMenu(this, saisons, 4));
+		boutons.put(saisons, new BoutonMenu(saisons, 4));
 		this.add(boutons.get(saisons), boutons.get(saisons).getContraintes());
 
 		String deconnexion = BoutonNavBar.DECONNEXION.getNom();
-		boutons.put(deconnexion, new BoutonMenu(this, deconnexion, 5));
+		boutons.put(deconnexion, new BoutonMenu(deconnexion, 5));
 		boutons.get(deconnexion).setBorder(BorderFactory.createEmptyBorder());
 		this.add(boutons.get(deconnexion), boutons.get(deconnexion).getContraintes());
 	}
@@ -83,7 +82,6 @@ public class MenuNavBar extends JPanel {
 						e.getValue().deselectionner();
 					}
 				});
-		;
 	}
 
 }

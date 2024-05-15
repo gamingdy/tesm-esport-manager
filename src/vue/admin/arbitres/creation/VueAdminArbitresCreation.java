@@ -15,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -59,10 +57,10 @@ public class VueAdminArbitresCreation extends JPanel {
 		setOpaque(false);
 
 		JPanel panelTop = new JPanel();
-		GridBagLayout gbl_panelTop = new GridBagLayout();
-		gbl_panelTop.columnWeights = new double[]{0.0, 1.0};
-		gbl_panelTop.columnWidths = new int[]{87, 0};
-		panelTop.setLayout(gbl_panelTop);
+		GridBagLayout gblPanelTop = new GridBagLayout();
+		gblPanelTop.columnWeights = new double[]{0.0, 1.0};
+		gblPanelTop.columnWidths = new int[]{87, 0};
+		panelTop.setLayout(gblPanelTop);
 		panelTop.setPreferredSize(new Dimension(0, 0));
 		panelTop.setOpaque(false);
 		GridBagConstraints gbcPanelTop = new GridBagConstraints();
@@ -187,7 +185,7 @@ public class VueAdminArbitresCreation extends JPanel {
 		panelTournois.add(labelTournoi, gbcLabelTournois);
 
 		btnAjoutTournois = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
-		btnAjoutTournois.setHorizontalTextPosition(JLabel.TRAILING);
+		btnAjoutTournois.setHorizontalTextPosition(javax.swing.SwingConstants.TRAILING);
 		btnAjoutTournois.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
 		btnAjoutTournois.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
@@ -197,31 +195,26 @@ public class VueAdminArbitresCreation extends JPanel {
 		gbcAjout.gridy = 0;
 		panelTournois.add(btnAjoutTournois, gbcAjout);
 
-		model = new DefaultListModel<LigneTournoi>();
-		JList<LigneTournoi> l = new JList<LigneTournoi>(model);
+		model = new DefaultListModel<>();
+		JList<LigneTournoi> l = new JList<>(model);
 		l.setPreferredSize(new Dimension());
 		l.setLayout(new GridLayout(0, 1));
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
-		l.setCellRenderer(new ListCellRenderer<LigneTournoi>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends LigneTournoi> list, LigneTournoi value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
+		l.setCellRenderer((JList<? extends LigneTournoi> list, LigneTournoi value, int index,
+														  boolean isSelected, boolean cellHasFocus) ->{
 				JPanel panelItem = new JPanel();
 				panelItem.setOpaque(false);
 				JLabel nom = new JLabel(value.getNom());
 				nom.setForeground(CustomColor.BLANC);
 				nom.setFont(MaFont.getFontTitre3());
 				panelItem.add(nom);
-				JLabel date = new JLabel(value.getDateDébut() + "  " + value.getDateFin());
+				JLabel date = new JLabel(value.getDateDebut() + "  " + value.getDateFin());
 				date.setForeground(CustomColor.BLANC.darker());
 				date.setFont(MaFont.getFontTitre4());
 				panelItem.add(date);
 				return panelItem;
-			}
-
-		});
+			});
 
 		GridBagConstraints gbcJ = new GridBagConstraints();
 		gbcJ.fill = GridBagConstraints.BOTH;
@@ -291,8 +284,8 @@ public class VueAdminArbitresCreation extends JPanel {
 		return this.labelLogo;
 	}
 
-	public void addTournoi(String nom, String dateDébut, String dateFin, int i) {
-		this.model.add(i, new LigneTournoi(nom, dateDébut, dateFin));
+	public void addTournoi(String nom, String dateDebut, String dateFin, int i) {
+		this.model.add(i, new LigneTournoi(nom, dateDebut, dateFin));
 	}
 
 	public String getTextTelephone() {

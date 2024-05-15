@@ -4,6 +4,7 @@
 bin/
 out/
 TESM/
+.scannerwork/
 derby.log
 .classpath
 .project
@@ -13,3 +14,10 @@ assets/logo-equipes/*.jpg
 *.json
 ~$BurndownChartSAE.xlsx
 ~$TESM E-Sporter Manager.pptx
+~WRL3187.tmp
+~$pport d'audit revue de code.docx
+scanner.bat
+~$Rapport d’audit.pptx
+tesm.smproj
+~$pport Final SAE S4.docx
+~WRL3205.tmp

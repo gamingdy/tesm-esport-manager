@@ -23,7 +23,7 @@ public class VueAdmin extends JPanel {
 		setLayout(new BorderLayout());
 		navbar = new MenuNavBar();
 		main = new Main(navbar);
-		controlleurBoutons = new AdminControlleur(navbar, this);
+		this.controlleurBoutons = new AdminControlleur(navbar, this);
 		navbar.addButtonControlleur(controlleurBoutons);
 		main.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		main.setOpaque(false);
@@ -38,6 +38,9 @@ public class VueAdmin extends JPanel {
 	 * @param equipes l'identifiant
 	 */
 	public void setPage(Page equipes) {
+		if (equipes == Page.ACCUEIL_ADMIN) {
+			this.controlleurBoutons.updateAccueil();
+		}
 		main.setPage(equipes);
 		TitleBar.getInstance().setTitle(equipes.getNom());
 	}

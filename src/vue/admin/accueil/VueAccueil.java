@@ -30,7 +30,7 @@ public class VueAccueil extends JPanel {
 	private JList<LigneTournoi> listeTournois;
 
 	private JList<LigneEquipe> listeEquipes;
-	private AccueilControlleur controlleur;
+	private transient AccueilControlleur controlleur;
 
 	private JButton boutonImprimer;
 
@@ -56,21 +56,21 @@ public class VueAccueil extends JPanel {
 		panelClassement.setPreferredSize(new Dimension(0, 0));
 		panelClassement.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		panelClassement.setBackground(CustomColor.BACKGROUND_MAIN);
-		GridBagConstraints gbc_panelClassement = new GridBagConstraints();
-		gbc_panelClassement.weighty = 0.3;
-		gbc_panelClassement.insets = new Insets(0, 0, 20, 0);
-		gbc_panelClassement.fill = GridBagConstraints.BOTH;
-		gbc_panelClassement.gridx = 0;
-		gbc_panelClassement.gridy = 0;
-		add(panelClassement, gbc_panelClassement);
-		GridBagLayout gbl_panelClassement = new GridBagLayout();
-		gbl_panelClassement.columnWidths = new int[]{0, 0};
-		gbl_panelClassement.rowHeights = new int[]{0};
-		gbl_panelClassement.columnWeights = new double[]{1.0, 0.0};
-		gbl_panelClassement.rowWeights = new double[]{0.0, 1.0};
-		panelClassement.setLayout(gbl_panelClassement);
+		GridBagConstraints gbcPanelClassement = new GridBagConstraints();
+		gbcPanelClassement.weighty = 0.3;
+		gbcPanelClassement.insets = new Insets(0, 0, 20, 0);
+		gbcPanelClassement.fill = GridBagConstraints.BOTH;
+		gbcPanelClassement.gridx = 0;
+		gbcPanelClassement.gridy = 0;
+		add(panelClassement, gbcPanelClassement);
+		GridBagLayout gblPanelClassement = new GridBagLayout();
+		gblPanelClassement.columnWidths = new int[]{0, 0};
+		gblPanelClassement.rowHeights = new int[]{0};
+		gblPanelClassement.columnWeights = new double[]{1.0, 0.0};
+		gblPanelClassement.rowWeights = new double[]{0.0, 1.0};
+		panelClassement.setLayout(gblPanelClassement);
 
-		JLabel labelTitreClassement = new JLabel("Classement des équipes de la saison actuelle");
+		JLabel labelTitreClassement = new JLabel("Classement des équipes du tournoi actuel (si il existe)");
 		labelTitreClassement.setFont(MaFont.getFontTitre1());
 		labelTitreClassement.setForeground(CustomColor.BLANC);
 		GridBagConstraints gbcLabelTitreClassement = new GridBagConstraints();
@@ -97,7 +97,7 @@ public class VueAccueil extends JPanel {
 		listeEquipes.setCellRenderer(new EquipeCellRenderer());
 		listeEquipes.setBackground(CustomColor.BACKGROUND_MAIN);
 
-		JScrollPane scrollPaneEquipe = new JScrollPane(listeEquipes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPaneEquipe = new JScrollPane(listeEquipes, javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneEquipe.setWheelScrollingEnabled(true);
 		scrollPaneEquipe.setBorder(BorderFactory.createMatteBorder(0, 20, 10, 20, CustomColor.BACKGROUND_MAIN));
 		GridBagConstraints gbcScrollPaneEquipe = new GridBagConstraints();
@@ -114,35 +114,35 @@ public class VueAccueil extends JPanel {
 
 		JPanel panelBas = new JPanel();
 		panelBas.setOpaque(false);
-		GridBagConstraints gbc_panelBas = new GridBagConstraints();
-		gbc_panelBas.weighty = 0.7;
-		gbc_panelBas.fill = GridBagConstraints.BOTH;
-		gbc_panelBas.gridx = 0;
-		gbc_panelBas.gridy = 1;
-		add(panelBas, gbc_panelBas);
-		GridBagLayout gbl_panelBas = new GridBagLayout();
-		gbl_panelBas.columnWidths = new int[]{0, 0, 0};
-		gbl_panelBas.rowHeights = new int[]{0};
-		gbl_panelBas.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panelBas.rowWeights = new double[]{1.0};
-		panelBas.setLayout(gbl_panelBas);
+		GridBagConstraints gbcPanelBas = new GridBagConstraints();
+		gbcPanelBas.weighty = 0.7;
+		gbcPanelBas.fill = GridBagConstraints.BOTH;
+		gbcPanelBas.gridx = 0;
+		gbcPanelBas.gridy = 1;
+		add(panelBas, gbcPanelBas);
+		GridBagLayout gblPanelBas = new GridBagLayout();
+		gblPanelBas.columnWidths = new int[]{0, 0, 0};
+		gblPanelBas.rowHeights = new int[]{0};
+		gblPanelBas.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gblPanelBas.rowWeights = new double[]{1.0};
+		panelBas.setLayout(gblPanelBas);
 
 		JPanel panelTournois = new JPanel();
 		panelTournois.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelTournois.setPreferredSize(new Dimension(0, 0));
-		GridBagConstraints gbc_panelTournois = new GridBagConstraints();
-		gbc_panelTournois.insets = new Insets(0, 0, 0, 10);
-		gbc_panelTournois.weightx = 0.5;
-		gbc_panelTournois.fill = GridBagConstraints.BOTH;
-		gbc_panelTournois.gridx = 0;
-		gbc_panelTournois.gridy = 0;
-		panelBas.add(panelTournois, gbc_panelTournois);
-		GridBagLayout gbl_panelTournois = new GridBagLayout();
-		gbl_panelTournois.columnWidths = new int[]{0};
-		gbl_panelTournois.rowHeights = new int[]{0, 0};
-		gbl_panelTournois.columnWeights = new double[]{1.0};
-		gbl_panelTournois.rowWeights = new double[]{0.0, 1.0};
-		panelTournois.setLayout(gbl_panelTournois);
+		GridBagConstraints gbcPanelTournois = new GridBagConstraints();
+		gbcPanelTournois.insets = new Insets(0, 0, 0, 10);
+		gbcPanelTournois.weightx = 0.5;
+		gbcPanelTournois.fill = GridBagConstraints.BOTH;
+		gbcPanelTournois.gridx = 0;
+		gbcPanelTournois.gridy = 0;
+		panelBas.add(panelTournois, gbcPanelTournois);
+		GridBagLayout gblPanelTournois = new GridBagLayout();
+		gblPanelTournois.columnWidths = new int[]{0};
+		gblPanelTournois.rowHeights = new int[]{0, 0};
+		gblPanelTournois.columnWeights = new double[]{1.0};
+		gblPanelTournois.rowWeights = new double[]{0.0, 1.0};
+		panelTournois.setLayout(gblPanelTournois);
 		panelTournois.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		JLabel labelTitreTournois = new JLabel("Tournois");
@@ -155,12 +155,12 @@ public class VueAccueil extends JPanel {
 		gbcLabelTitreTournois.gridy = 0;
 		panelTournois.add(labelTitreTournois, gbcLabelTitreTournois);
 
-		listeTournois = new JList<LigneTournoi>(tournois);
+		listeTournois = new JList<>(tournois);
 		listeTournois.setCellRenderer(new TournoiCellRenderer());
 		listeTournois.setBackground(CustomColor.TRANSPARENT);
 
 
-		JScrollPane scrollPaneTournois = new JScrollPane(listeTournois, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPaneTournois = new JScrollPane(listeTournois, javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneTournois.setWheelScrollingEnabled(true);
 		scrollPaneTournois.setOpaque(false);
 		scrollPaneTournois.setBorder(null);
@@ -176,13 +176,13 @@ public class VueAccueil extends JPanel {
 		JPanel panelMatchs = new JPanel();
 		panelMatchs.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelMatchs.setPreferredSize(new Dimension(0, 0));
-		GridBagConstraints gbc_panelMatchs = new GridBagConstraints();
-		gbc_panelMatchs.insets = new Insets(0, 10, 0, 0);
-		gbc_panelMatchs.weightx = 0.5;
-		gbc_panelMatchs.fill = GridBagConstraints.BOTH;
-		gbc_panelMatchs.gridx = 1;
-		gbc_panelMatchs.gridy = 0;
-		panelBas.add(panelMatchs, gbc_panelMatchs);
+		GridBagConstraints gbcPanelMatchs = new GridBagConstraints();
+		gbcPanelMatchs.insets = new Insets(0, 10, 0, 0);
+		gbcPanelMatchs.weightx = 0.5;
+		gbcPanelMatchs.fill = GridBagConstraints.BOTH;
+		gbcPanelMatchs.gridx = 1;
+		gbcPanelMatchs.gridy = 0;
+		panelBas.add(panelMatchs, gbcPanelMatchs);
 		GridBagLayout gblPanelMatch = new GridBagLayout();
 		gblPanelMatch.columnWidths = new int[]{0};
 		gblPanelMatch.rowHeights = new int[]{0, 0};
@@ -190,11 +190,11 @@ public class VueAccueil extends JPanel {
 		gblPanelMatch.rowWeights = new double[]{0.0, 1.0};
 		panelMatchs.setLayout(gblPanelMatch);
 
-		listeMatches = new JList<LigneMatche>(matches);
+		listeMatches = new JList<>(matches);
 		listeMatches.setCellRenderer(new MatchCellRenderer());
 		listeMatches.setBackground(CustomColor.TRANSPARENT);
 
-		JScrollPane scrollPaneMatch = new JScrollPane(listeMatches, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane scrollPaneMatch = new JScrollPane(listeMatches, javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		GridBagConstraints gbcScrollPaneMatchs = new GridBagConstraints();
 		gbcScrollPaneMatchs.fill = GridBagConstraints.BOTH;
 		gbcScrollPaneMatchs.insets = new Insets(0, 20, 0, 0);
@@ -221,7 +221,7 @@ public class VueAccueil extends JPanel {
 	}
 
 	public VueAccueil() {
-		this(new DefaultListModel<LigneEquipe>(), new DefaultListModel<LigneTournoi>(), new DefaultListModel<LigneMatche>());
+		this(new DefaultListModel<>(), new DefaultListModel<>(), new DefaultListModel<>());
 	}
 
 	public void setListeEquipes(DefaultListModel<LigneEquipe> equipes) {

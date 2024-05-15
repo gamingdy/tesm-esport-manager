@@ -7,7 +7,6 @@ public class VueObserver {
 	private static VueObserver instance;
 
 	private VueObserver() {
-
 	}
 
 	public static synchronized VueObserver getInstance() {

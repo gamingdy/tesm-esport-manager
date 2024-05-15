@@ -39,7 +39,10 @@ public class AdminControlleur implements ActionListener, MouseListener {
 		this.vueAccueil.setControlleur(new AccueilControlleur(this.vueAccueil));
 		this.vue.addPage(vueAccueil, Page.ACCUEIL_ADMIN);
 		this.vue.addPage(vueAdminEquipes, Page.EQUIPES);
-		this.vue.setPage(Page.ACCUEIL_ADMIN);
+	}
+
+	public void updateAccueil() {
+		this.vueAccueil.updateControlleur();
 	}
 
 	@Override
@@ -68,7 +71,6 @@ public class AdminControlleur implements ActionListener, MouseListener {
 
 			} else if ((Objects.equals(boutonSelection.getText(), BoutonNavBar.ACCUEIL.getNom())) && etat != ETAT.ACCUEIL) {
 				this.etat = ETAT.ACCUEIL;
-				//this.vue.addPage(new VueAccueil(), Page.ACCUEIL_ADMIN);
 
 				this.vueAccueil.updateControlleur();
 				this.vue.setPage(Page.ACCUEIL_ADMIN);
@@ -95,14 +97,12 @@ public class AdminControlleur implements ActionListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// default implementation ignored
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		// default implementation ignored
 	}
 
 	@Override

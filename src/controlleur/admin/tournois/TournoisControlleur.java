@@ -12,8 +12,8 @@ public class TournoisControlleur {
 	public TournoisControlleur(VueAdminTournois newVue) {
 		this.vueAdminTournois = newVue;
 		VueAdminTournoisCreation vueAdminTournoisCreation = new VueAdminTournoisCreation();
-		TournoiCréationControlleur tournoiCréationControlleur = new TournoiCréationControlleur(vueAdminTournoisCreation);
-		vueAdminTournoisCreation.setControleur(tournoiCréationControlleur);
+		TournoiCreationControlleur tournoiCreationControlleur = new TournoiCreationControlleur(vueAdminTournoisCreation);
+		vueAdminTournoisCreation.setControleur(tournoiCreationControlleur);
 
 		VueAdminTournoisListe vueAdminTournoisListe = new VueAdminTournoisListe();
 		tournoisListeControlleur = new TournoisListeControlleur(vueAdminTournoisListe);

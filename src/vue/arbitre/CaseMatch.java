@@ -31,8 +31,8 @@ public class CaseMatch extends JPanel {
 	private JButton tropheeDroiteBTN;
 	private String nomEquipe2;
 	private ImageIcon logoEquipe2;
-	private ActionListener alGauche;
-	private ActionListener alDroite;
+	private transient ActionListener alGauche;
+	private transient ActionListener alDroite;
 
 	private int numEquipeGagnante;
 
@@ -50,8 +50,8 @@ public class CaseMatch extends JPanel {
 		this.idMatche = idMatche;
 		this.logoEquipe1 = logoGauche;
 		this.nomEquipe1 = nomGauche;
-		this.tropheGauche = this.tropheePerdant;
-		this.tropheDroite = this.tropheePerdant;
+		this.tropheGauche = CaseMatch.tropheePerdant;
+		this.tropheDroite = CaseMatch.tropheePerdant;
 		this.nomEquipe2 = nomDroite;
 		this.logoEquipe2 = logoDroite;
 		this.numEquipeGagnante = 0;
@@ -129,9 +129,9 @@ public class CaseMatch extends JPanel {
 		nomEquipe2Label.setText(getNomEquipe2());
 		equipe2.add(nomEquipe2Label);
 
-		JLabel logoEquipe2 = new JLabel();
-		logoEquipe2.setIcon(Vue.resize(getLogoEquipe2(), 50, 50));
-		equipe2.add(logoEquipe2);
+		JLabel logoEquipe2Label = new JLabel();
+		logoEquipe2Label.setIcon(Vue.resize(getLogoEquipe2(), 50, 50));
+		equipe2.add(logoEquipe2Label);
 
 		equipe2.setPreferredSize(new Dimension(0, 80));
 		GridBagConstraints gbcEquipe2 = new GridBagConstraints();

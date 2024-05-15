@@ -1,6 +1,7 @@
 package modele.test;
 
 import exceptions.EquipeInexistanteException;
+import exceptions.FausseDateException;
 import modele.Arbitre;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -21,20 +22,15 @@ public class TestSaison {
 	private Tournoi tournoi;
 	private Saison s1;
 	private Arbitre a1;
-	private Arbitre a2;
-	private CustomDate debut;
-	private CustomDate fin;
-	private CompteArbitre compteArbitre;
 	private Equipe equipe;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws FausseDateException {
 		s1 = new Saison(2022);
-		a1 = new Arbitre("Gikapa", "Christian","12347890");
-		a2 = new Arbitre("Brando", "Titouan", "12367890");
-		debut = new CustomDate(2022, 10, 20);
-		fin = new CustomDate(2022, 10, 25);
-		compteArbitre = new CompteArbitre("adminRLCS", "dsqd");
+		a1 = new Arbitre("Gikapa", "Christian", "12347890");
+		CustomDate debut = new CustomDate(2022, 10, 20);
+		CustomDate fin = new CustomDate(2022, 10, 25);
+		CompteArbitre compteArbitre = new CompteArbitre("adminRLCS", "dsqd");
 		tournoi = new Tournoi(s1, "RLCS", debut, fin, Niveau.INTERNATIONAL, compteArbitre);
 		equipe = new Equipe("FAZE", Pays.POLOGNE);
 	}
@@ -69,7 +65,7 @@ public class TestSaison {
 
 	@Test
 	public void testGetTournois() {
-		Set<Tournoi> set = new HashSet<Tournoi>();
+		Set<Tournoi> set = new HashSet<>();
 		assertEquals(set, s1.getTournois());
 	}
 

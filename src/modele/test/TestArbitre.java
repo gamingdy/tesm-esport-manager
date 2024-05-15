@@ -11,7 +11,7 @@ public class TestArbitre {
 	private Arbitre a;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		a = new Arbitre("Brando", "Titouan", "124567890");
 	}
 
@@ -52,7 +52,7 @@ public class TestArbitre {
 
 	@Test
 	public void testToString() {
-		assertEquals(a.getNom() + " " + a.getPrenom(), a.toString());
+		assertEquals("Arbitre [nom=" + a.getNom() + ", prenom=" + a.getPrenom() + ", numeroTelephone=" + a.getNumeroTelephone() + "]", a.toString());
 	}
 
 	@Test

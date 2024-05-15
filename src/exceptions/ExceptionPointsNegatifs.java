@@ -5,6 +5,5 @@ public class ExceptionPointsNegatifs extends Exception {
 
 	public ExceptionPointsNegatifs(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 }

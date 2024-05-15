@@ -13,11 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -35,7 +33,7 @@ public class PopupEquipe extends JFrame {
 	public PopupEquipe(String title, List<Equipe> equipes, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
@@ -61,46 +59,37 @@ public class PopupEquipe extends JFrame {
 		panel.add(label, BorderLayout.NORTH);
 
 
-		DefaultComboBoxModel<Equipe> model = new DefaultComboBoxModel<Equipe>();
+		DefaultComboBoxModel<Equipe> model = new DefaultComboBoxModel<>();
 		equipes.forEach(model::addElement);
 
-		c = new JComboBox<Equipe>(model);
-		c.setRenderer(new ListCellRenderer<Equipe>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				if (value != null) {
-					return new JLabel(value.getNom());
-				}
-				return new JLabel("");
+		c = new JComboBox<>(model);
+		c.setRenderer((JList<? extends Equipe> list, Equipe value, int index, boolean isSelected, boolean cellHasFocus) -> {
+			if (value != null) {
+				return new JLabel(value.getNom());
 			}
+			return new JLabel("");
 		});
-		c = new CustomComboBox<Equipe>(model);
+		c = new CustomComboBox<>(model);
 		c.setFont(MaFont.getFontTitre1());
-		c.setRenderer(new ListCellRenderer<Equipe>() {
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Equipe> list, Equipe value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel panel;
-				if (value != null) {
-					panel = new JLabel(value.getNom());
-				} else {
-					panel = new JLabel("");
-				}
-				panel.setOpaque(true);
-				panel.setForeground(CustomColor.BLANC);
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				panel.setFont(MaFont.getFontTitre1());
-				if (isSelected) {
-					panel.setForeground(CustomColor.ROSE_CONTOURS);
-				}
-				return panel;
+		c.setRenderer((JList<? extends Equipe> list, Equipe value, int index, boolean isSelected, boolean cellHasFocus) -> {
+			JLabel panelRetour;
+			if (value != null) {
+				panelRetour = new JLabel(value.getNom());
+			} else {
+				panelRetour = new JLabel("");
 			}
+			panelRetour.setOpaque(true);
+			panelRetour.setForeground(CustomColor.BLANC);
+			panelRetour.setBackground(CustomColor.BACKGROUND_MAIN);
+			panelRetour.setFocusable(false);
+			panelRetour.setFont(MaFont.getFontTitre1());
+			if (isSelected) {
+				panelRetour.setForeground(CustomColor.ROSE_CONTOURS);
+			}
+			return panelRetour;
 		});
 		panel.add(c);
-		panel.add(c, BorderLayout.CENTER);
+		panel.add(c, javax.swing.SwingConstants.CENTER);
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());

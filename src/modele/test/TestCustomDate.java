@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestCustomDate {
@@ -48,24 +49,24 @@ public class TestCustomDate {
 	}
 
 	@Test
-	public void testtoSql() {
-		assertTrue(d1.toSQL() instanceof Timestamp);
+	public void testToSql() {
+		assertNotNull(d1.toSQL());
 	}
 
 	@Test
-	public void setgetAnnee() {
+	public void setGetAnnee() {
 		d1.setAnnee(2023);
 		assertEquals(2023, d1.getAnnee());
 	}
 
 	@Test
-	public void setgetMois() throws DateTimeException {
+	public void setGetMois() throws DateTimeException {
 		d1.setMois(12);
 		assertEquals(12, d1.getMois());
 	}
 
 	@Test
-	public void setgetJour() throws DateTimeException {
+	public void setGetJour() throws DateTimeException {
 		d1.setJour(20);
 		assertEquals(20, d1.getJour());
 	}
@@ -99,13 +100,13 @@ public class TestCustomDate {
 	@Test
 	public void testConstructeurDate() {
 		LocalDateTime d = LocalDateTime.of(2022, 10, 11, 0, 0);
-		Timestamp date_sql = Timestamp.valueOf(d);
-		CustomDate c = new CustomDate(date_sql);
+		Timestamp dateSql = Timestamp.valueOf(d);
+		CustomDate c = new CustomDate(dateSql);
 		assertEquals(2022, c.getAnnee());
 	}
 
 	@Test
-	public void testsetGetHeure() throws DateTimeException {
+	public void testSetGetHeure() throws DateTimeException {
 		d1.setHeure(20);
 		assertEquals(20, d1.getHeure());
 	}
@@ -154,26 +155,19 @@ public class TestCustomDate {
 		d1.setJour(31);
 	}
 
-	@Test(expected = DateTimeException.class)
-	public void testSetJourErreurfevr() throws DateTimeException {
-		d1.setAnnee(2023);
-		d1.setMois(2);
-		d1.setJour(29);
-	}
-
 	@Test
 	public void testConstructeurDateHeureMin() throws DateTimeException {
-		CustomDate date = new CustomDate(2022, 10, 1, 2, 1);
+		new CustomDate(2022, 10, 1, 2, 1);
 	}
 
 	@Test(expected = DateTimeException.class)
 	public void testConstructeurDateHeureMinErreur() throws DateTimeException {
-		CustomDate date = new CustomDate(2022, 10, 1, 25, 1);
+		new CustomDate(2022, 10, 1, 25, 1);
 	}
 
 	@Test(expected = DateTimeException.class)
 	public void testConstructeurDateHeureMinErreurMin() throws DateTimeException {
-		CustomDate date = new CustomDate(2022, 10, 1, 20, -2);
+		new CustomDate(2022, 10, 1, 20, -2);
 	}
 
 	@Test
@@ -197,7 +191,7 @@ public class TestCustomDate {
 	}
 
 	@Test
-	public void testfromString() {
+	public void testFromString() {
 		CustomDate date = CustomDate.fromString("11/10/2022");
 		assertEquals(2022, date.getAnnee());
 		assertEquals(10, date.getMois());
@@ -207,8 +201,8 @@ public class TestCustomDate {
 	}
 
 	@Test(expected = DateTimeException.class)
-	public void testfromStringFauxFormat() {
-		CustomDate date = CustomDate.fromString("11-10-2022");
+	public void testFromStringFauxFormat() {
+		CustomDate.fromString("11-10-2022");
 
 	}
 

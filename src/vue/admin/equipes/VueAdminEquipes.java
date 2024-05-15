@@ -12,7 +12,7 @@ public class VueAdminEquipes extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private CardLayout cl;
-	private EquipesControlleur controlleur;
+	private transient EquipesControlleur controlleur;
 
 	/**
 	 * Create the panel.

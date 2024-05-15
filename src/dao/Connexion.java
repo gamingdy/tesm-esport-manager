@@ -17,18 +17,16 @@ public class Connexion {
 			String urlConnexion = "jdbc:derby:TESM;create=true";
 			connection = DriverManager.getConnection(urlConnexion);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.fillInStackTrace();
 		}
 	}
 
-	public void stop() {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void closeConnection() throws SQLException {
+		this.connection.close();
+	}
+
+	public static void closeConnexion() throws SQLException {
+		connexion=null;
 	}
 
 	public static synchronized Connexion getConnexion() {

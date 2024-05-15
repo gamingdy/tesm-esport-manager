@@ -2,19 +2,25 @@ package modele;
 
 import dao.Connexion;
 import dao.FactoryDAO;
+import exceptions.ExceptionPointsNegatifs;
+import exceptions.FausseDateException;
+import exceptions.GagnantNonChoisiException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class ModeleTournoi {
+	private ModeleTournoi() {
+	}
 
-	public static Set<Equipe> getClassement(Tournoi tournoi) throws Exception {
+	public static Set<Equipe> getClassement(Tournoi tournoi) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException, GagnantNonChoisiException, ExceptionPointsNegatifs {
 		List<Equipe> allEquipeTournoi = FactoryDAO.getDaoAppartenance(Connexion.getConnexion()).getEquipeByTournoi(tournoi.getNom(), tournoi.getSaison().getAnnee());
-		Set<Equipe> classement = new TreeSet<>((e1, e2) -> {
-			return (int) (e2.getPoint() - e1.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e1.getPoint() - e2.getPoint());
-		});
+		Set<Equipe> classement = new TreeSet<>((e1, e2) -> (int) (e1.getPoint() - e2.getPoint()) == 0 ? e1.getNom().compareTo(e2.getNom()) : (int) (e2.getPoint() - e1.getPoint()));
 		for (Equipe e : allEquipeTournoi) {
 			List<Matche> matchesEquipe = FactoryDAO.getDaoMatche(Connexion.getConnexion()).getMatchByEquipeForTournoi(e, tournoi);
 			Iterator<Matche> it = matchesEquipe.iterator();
@@ -28,12 +34,31 @@ public class ModeleTournoi {
 					} else {
 						e.setPoint(e.getPoint() + 1);
 					}
-				}
+				}	
 
 			}
 			classement.add(e);
 		}
 		return classement;
+	}
+	
+	public static float getPointsSaison(Equipe equipe, Tournoi tournoi) throws FausseDateException, MemeEquipeException, SQLException, GagnantNonChoisiException, IllegalArgumentException, IdNotSetException {
+		float points = 0;
+		List<Matche> matchesEquipe = FactoryDAO.getDaoMatche(Connexion.getConnexion()).getMatchByEquipeForTournoi(equipe, tournoi);
+		Iterator<Matche> it = matchesEquipe.iterator();
+		while (it.hasNext()) {
+			Matche m = it.next();
+			List<Partie> partieList = FactoryDAO.getDaoPartie(Connexion.getConnexion()).getPartieByMatche(m);
+			m.setVainqueur(partieList.get(0).getVainqueur());
+			if (m.getVainqueur() != null) {
+				if (m.getVainqueur().equals(equipe)) {
+					points += (m.getCategorie().getPtsSaisonVictoire() * m.getTournoi().getNiveau().getCoefficient());
+				} else {
+					points += (m.getCategorie().getPtsSaisonDefaite() * m.getTournoi().getNiveau().getCoefficient());
+				}
+			}	
+		}
+		return points;
 	}
 
 

@@ -11,9 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Image;
-import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class Vue extends JFrame {
@@ -33,7 +31,7 @@ public class Vue extends JFrame {
 		titleBar = TitleBar.getInstance(this);
 
 		setLayout(new BorderLayout());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().add(titleBar, BorderLayout.NORTH);
 
 		new WindowResizer(this, HEIGHT, WIDTH);
@@ -43,20 +41,16 @@ public class Vue extends JFrame {
 
 		panelContenu = new JPanel();
 		cl = new CardLayout();
+
 		panelContenu.setLayout(cl);
 		add(panelContenu, BorderLayout.CENTER);
 		panelContenu.setOpaque(false);
-		VueControlleur mainController = new VueControlleur(this);
+		new VueControlleur(this);
 	}
 
 	private void setBackground() {
 		JPanel panel = null;
-		try {
-			panel = new JPanelWithBackground("assets/background.jpg", HEIGHT, WIDTH);
-		} catch (IOException e) {
-			panel = new JPanel();
-			panel.setBackground(Color.red.darker());
-		}
+		panel = new JPanelWithBackground("assets/background.jpg", HEIGHT, WIDTH);
 		setContentPane(panel);
 	}
 

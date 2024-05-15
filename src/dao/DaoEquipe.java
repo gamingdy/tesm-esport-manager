@@ -17,19 +17,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class DaoEquipe implements Dao<Equipe, String> {
+public class DaoEquipe extends SuperDao implements Dao<Equipe, String> {
 
-	private Connexion connexion;
+
 
 	public DaoEquipe(Connexion connexion) {
-		this.connexion = connexion;
+        super(connexion);
+
 	}
 
 	/**
 	 * Crée la table equipe
 	 *
-	 * @param connexion
-	 * @throws SQLException
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Equipe (" +
@@ -38,20 +37,15 @@ public class DaoEquipe implements Dao<Equipe, String> {
 				"PRIMARY KEY (Nom_Equipe))";
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Equipe' créée avec succès");
 		}
 	}
 
 	/**
 	 * Supprime la table Equipe
 	 *
-	 * @param connexion
-	 * @return
-	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Equipe' supprimée avec succès");
 			return deleteTable.execute("drop table Equipe");
 		}
 	}
@@ -60,18 +54,21 @@ public class DaoEquipe implements Dao<Equipe, String> {
 	 * Renvoie toutes les équipes existantes
 	 */
 	@Override
-	public List<Equipe> getAll() throws Exception {
-		try (Statement getAll = connexion.getConnection().createStatement()) {
+	public List<Equipe> getAll() throws SQLException {
+		try (Statement getAll = super.getConnexion().getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Equipe");
 			List<Equipe> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				Equipe equipe = new Equipe(
-						resultat.getString("Nom_Equipe"),
-						Pays.valueOf(resultat.getString("Pays_Equipe")));
-				sortie.add(equipe);
+				sortie.add(createEquipe(resultat));
 			}
 			return sortie;
 		}
+	}
+
+	private Equipe createEquipe(ResultSet resultat) throws SQLException {
+		return new Equipe(
+				resultat.getString(super.getConstants().getNomEquipe()),
+				Pays.valueOf(resultat.getString(super.getConstants().getPaysEquipe())));
 	}
 
 	/**
@@ -79,18 +76,14 @@ public class DaoEquipe implements Dao<Equipe, String> {
 	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING)
 	 */
 	@Override
-	public Optional<Equipe> getById(String... nom) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Equipe WHERE Nom_Equipe = ?")) {
+	public Optional<Equipe> getById(String... nom) throws SQLException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Equipe WHERE Nom_Equipe = ?")) {
 			getById.setString(1, nom[0]);
 			ResultSet resultat = getById.executeQuery();
-			Equipe equipe = null;
 			if (resultat.next()) {
-				equipe = new Equipe(
-						resultat.getString("Nom_Equipe"),
-						Pays.valueOf(resultat.getString("Pays_Equipe")));
-
+				return Optional.of(createEquipe(resultat));
 			}
-			return Optional.ofNullable(equipe);
+			return Optional.empty();
 		}
 	}
 
@@ -98,8 +91,8 @@ public class DaoEquipe implements Dao<Equipe, String> {
 	 * Ajoute une équipe à la table équipe à partir d'un objet équipe
 	 */
 	@Override
-	public boolean add(Equipe value) throws Exception {
-		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+	public boolean add(Equipe value) throws SQLException {
+		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Equipe(Nom_Equipe,Pays_Equipe) values (?,?)")) {
 			add.setString(1, value.getNom());
 			add.setString(2, value.getPays().name());
@@ -111,8 +104,8 @@ public class DaoEquipe implements Dao<Equipe, String> {
 	 * update une équipe à partir d'un objet équipe
 	 */
 	@Override
-	public boolean update(Equipe value) throws Exception {
-		try (PreparedStatement update = connexion.getConnection().prepareStatement(
+	public boolean update(Equipe value) throws SQLException {
+		try (PreparedStatement update = super.getConnexion().getConnection().prepareStatement(
 				"UPDATE Equipe SET "
 						+ "Pays_Equipe = ?"
 						+ "WHERE Nom_Equipe = ?")) {
@@ -128,44 +121,57 @@ public class DaoEquipe implements Dao<Equipe, String> {
 	 */
 	@Override
 	public boolean delete(String... value) throws Exception {
-		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+		try (PreparedStatement delete = super.getConnexion().getConnection().prepareStatement(
 				"DELETE FROM Equipe where Nom_Equipe = ?")) {
 			delete.setString(1, value[0]);
-			List<Joueur> joueurs = FactoryDAO.getDaoJoueur(connexion).getJoueurParEquipe(value[0]);
-			List<Saison> saisons = FactoryDAO.getDaoInscription(connexion).getSaisonByEquipe(value[0]);
-			List<Tournoi> tournois = FactoryDAO.getDaoAppartenance(connexion).getTournoiByEquipe(value[0]);
+			List<Joueur> joueurs = FactoryDAO.getDaoJoueur(super.getConnexion()).getJoueurParEquipe(value[0]);
+			List<Saison> saisons = FactoryDAO.getDaoInscription(super.getConnexion()).getSaisonByEquipe(value[0]);
+			List<Tournoi> tournois = FactoryDAO.getDaoAppartenance(super.getConnexion()).getTournoiByEquipe(value[0]);
 			List<Poule> poules = new LinkedList<>();
-			List<Matche> matches = FactoryDAO.getDaoMatche(connexion).getMatchByEquipe(FactoryDAO.getDaoEquipe(connexion).getById(value[0]).get());
-			for (Tournoi t : tournois) {
-				for (Poule p : FactoryDAO.getDaoAppartenance(connexion).getPouleByEquipe(value[0], t.getNom(), t.getSaison().getAnnee())) {
-					poules.add(p);
+			Optional<Equipe> equipe = FactoryDAO.getDaoEquipe(super.getConnexion()).getById(value[0]);
+			if (equipe.isPresent()) {
+				List<Matche> matches = FactoryDAO.getDaoMatche(super.getConnexion()).getMatchByEquipe(equipe.get());
+				for (Tournoi t : tournois) {
+					poules.addAll(FactoryDAO.getDaoAppartenance(super.getConnexion()).getPouleByEquipe(value[0], t.getNom(), t.getSaison().getAnnee()));
 				}
-			}
-			for (Joueur j : joueurs) {
-				FactoryDAO.getDaoJoueur(connexion).delete(j.getId());
-			}
-			for (Saison s : saisons) {
-				FactoryDAO.getDaoInscription(connexion).delete(s.getAnnee(), value[0]);
-			}
-			for (Poule p : poules) {
-				FactoryDAO.getDaoAppartenance(connexion).delete(value[0], p.getTournoi().getSaison().getAnnee(), p.getTournoi().getNom(), p.getLibelle());
-			}
-			for (Matche m : matches) {
-				FactoryDAO.getDaoMatche(connexion).delete(m.getId());
+				for (Joueur j : joueurs) {
+					FactoryDAO.getDaoJoueur(super.getConnexion()).delete(j.getId());
+				}
+				for (Saison s : saisons) {
+					FactoryDAO.getDaoInscription(super.getConnexion()).delete(s.getAnnee(), value[0]);
+				}
+				for (Poule p : poules) {
+					FactoryDAO.getDaoAppartenance(super.getConnexion()).delete(value[0], p.getTournoi().getSaison().getAnnee(), p.getTournoi().getNom(), p.getLibelle());
+				}
+				for (Matche m : matches) {
+					FactoryDAO.getDaoMatche(super.getConnexion()).delete(m.getId());
+				}
+				return delete.execute();
+			} else {
+				return false;
 			}
 
-			return delete.execute();
+    	}
+	}
+
+	static List<Equipe> getEquipes(PreparedStatement getEquipeByPoule, DaoEquipe daoequipe) throws SQLException {
+		ResultSet resultat = getEquipeByPoule.executeQuery();
+		List<Equipe> sortie = new ArrayList<>();
+		while (resultat.next()) {
+			Optional<Equipe> equipe = daoequipe.getById(resultat.getString("Nom_Equipe"));
+			equipe.ifPresent(sortie::add);
 		}
+		return sortie;
 	}
 
 	@Override
-	public String visualizeTable() throws Exception {
-		String s = "_______________Equipe_______________________" + "\n";
+	public String visualizeTable() throws SQLException {
+		StringBuilder s = new StringBuilder("_______________Equipe_______________________" + "\n");
 		List<Equipe> l = this.getAll();
 		for (Equipe a : l) {
-			s += a.toString() + "\n";
+			s.append(a.toString()).append("\n");
 		}
-		s += "\n\n\n";
-		return s;
+		s.append("\n\n\n");
+		return s.toString();
 	}
 }

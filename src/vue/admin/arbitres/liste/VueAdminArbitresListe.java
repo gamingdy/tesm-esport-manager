@@ -59,7 +59,7 @@ public class VueAdminArbitresListe extends JPanel {
 
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
-		JLabel recherche = new JLabel("Liste des Arbitres", JLabel.CENTER);
+		JLabel recherche = new JLabel("Liste des Arbitres", javax.swing.SwingConstants.CENTER);
 		recherche.setBackground(CustomColor.BACKGROUND_MAIN);
 		recherche.setOpaque(true);
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));

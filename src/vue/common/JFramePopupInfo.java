@@ -17,16 +17,16 @@ public class JFramePopupInfo extends JFrame {
 		void handleAction();
 	}
 
-	public JFramePopupInfo(String title, String message, ActionHandler actionHandler) {
+	public JFramePopupInfo(String title, String message) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
 		setIconImage(icon.getImage());
 
-		JPanel panel = createPanel(message, actionHandler);
+		JPanel panel = createPanel(message);
 		add(panel);
 
 		pack();
@@ -34,7 +34,7 @@ public class JFramePopupInfo extends JFrame {
 		setVisible(true);
 	}
 
-	private JPanel createPanel(String message, ActionHandler actionHandler) {
+	private JPanel createPanel(String message) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));

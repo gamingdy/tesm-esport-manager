@@ -1,10 +1,7 @@
 package dao;
 
-import modele.Appartenance;
-import modele.Equipe;
-import modele.Inscription;
-import modele.Poule;
-import modele.Tournoi;
+import exceptions.FausseDateException;
+import modele.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,28 +10,30 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import static dao.DaoEquipe.getEquipes;
+import static dao.DaoTournoi.getTournois;
 
 
-public class DaoAppartenance implements Dao<Appartenance, Object> {
-
-	private Connexion connexion;
-	private DaoPoule daopoule;
-	private DaoEquipe daoequipe;
-	private DaoTournoi daotournoi;
+public class DaoAppartenance extends SuperDao implements Dao<Appartenance, Object>  {
+	
+	private final DaoPoule daopoule;
+	private final DaoEquipe daoequipe;
+	private final DaoTournoi daotournoi;
 
 	public DaoAppartenance(Connexion connexion) {
-		this.connexion = connexion;
+        super(connexion);
 		this.daopoule = new DaoPoule(connexion);
 		this.daoequipe = new DaoEquipe(connexion);
 		this.daotournoi = new DaoTournoi(connexion);
 	}
 
 	/**
-	 * Crée la table d'association apparenance qui associe les équipes et les poules
+	 * Crée la table d'association appartenance qui associe les équipes et les poules
 	 *
-	 * @param connexion
-	 * @throws SQLException
-	 */
+	 *
+     */
+
+
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql =
 				"CREATE TABLE Appartenance("
@@ -49,7 +48,6 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Appartenance' créée avec succès");
 		}
 
 	}
@@ -57,13 +55,9 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 	/**
 	 * Supprime la table Appartenance
 	 *
-	 * @param connexion
-	 * @return
-	 * @throws SQLException
-	 */
+     */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Appartenance' supprimée avec succès");
 			return deleteTable.execute("drop table Appartenance");
 		}
 	}
@@ -72,61 +66,76 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 	 * Renvoie toutes les associations de poules et d'équipes existantes
 	 */
 	@Override
-	public List<Appartenance> getAll() throws Exception {
-		try (Statement getAll = connexion.getConnection().createStatement()) {
+	public List<Appartenance> getAll() throws SQLException, FausseDateException {
+		try (Statement getAll = super.getConnexion().getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Appartenance");
 			List<Appartenance> sortie = new ArrayList<>();
 			generateListAppartenance(resultat, sortie);
 			return sortie;
 		}
-	}
+    }
 
 	private void generateListAppartenance(ResultSet resultat, List<Appartenance> sortie)
-			throws SQLException, Exception {
+			throws SQLException, FausseDateException {
 		while (resultat.next()) {
-			Appartenance appartenance = new Appartenance(
-					daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
-					daopoule.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi"), resultat.getString("Libelle")).get());
-			sortie.add(appartenance);
+			Optional<Equipe> equipe = createOptionalEquipe(resultat);
+			Optional<Poule> poule = createOptionalPoule(resultat);
+			if (equipe.isPresent() && poule.isPresent()) {
+				sortie.add(new Appartenance(equipe.get(), poule.get()));
+			}
 		}
+	}
+
+	private Optional<Equipe> createOptionalEquipe(ResultSet resultat) throws SQLException {
+		return daoequipe.getById(resultat.getString(super.getConstants().getNomEquipe()));
+	}
+
+	private Optional<Poule> createOptionalPoule(ResultSet resultat) throws SQLException, FausseDateException {
+		return daopoule.getById(resultat.getInt(super.getConstants().getAnnee()), resultat.getString(super.getConstants().getNomTournoi()), resultat.getString(super.getConstants().getLibelle()));
 	}
 
 	/**
 	 * Renvoie une association précise
-	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING) , Annee (INTEGER) , Nom_tournoi (STRING) , Libelle (STRING)
+	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING), Annee (INTEGER) , Nom_tournoi (STRING) , Libelle (STRING)
 	 */
 	@Override
-	public Optional<Appartenance> getById(Object... id) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance WHERE Nom_Equipe = ? AND Annee = ? AND Nom_tournoi = ? AND Libelle = ?")) {
-			getById.setString(1, (String) id[0]);
-			getById.setInt(2, (Integer) id[1]);
-			getById.setString(3, (String) id[2]);
-			Character c = (Character)id[3];
-			String libelle = c.toString();
-			getById.setString(4, libelle);
+	public Optional<Appartenance> getById(Object... id) throws SQLException, FausseDateException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Appartenance WHERE Nom_Equipe = ? AND Annee = ? AND Nom_tournoi = ? AND Libelle = ?")) {
+			bindParam(getById, id);
 			ResultSet resultat = getById.executeQuery();
-			Appartenance appartenance = null;
-			appartenance = findAppartenance(resultat, appartenance);
+			if (!resultat.next()) {
+				return Optional.empty();
+			}
+			Appartenance appartenance = findAppartenance(resultat);
 			return Optional.ofNullable(appartenance);
 		}
+    }
+
+	private void bindParam(PreparedStatement getById, Object[] id) throws SQLException {
+		getById.setString(1, (String) id[0]);
+		getById.setInt(2, (Integer) id[1]);
+		getById.setString(3, (String) id[2]);
+		Character c = (Character)id[3];
+		String libelle = c.toString();
+		getById.setString(4, libelle);
 	}
 
-	private Appartenance findAppartenance(ResultSet resultat, Appartenance appartenance)
-			throws SQLException, Exception {
-		if (resultat.next()) {
-			appartenance = new Appartenance(
-					daoequipe.getById(resultat.getString("Nom_Equipe")).get(),
-					daopoule.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi"), resultat.getString("Libelle")).get());
+	private Appartenance findAppartenance(ResultSet resultat)
+			throws SQLException, FausseDateException {
+		Optional<Equipe> equipe = createOptionalEquipe(resultat);
+		Optional<Poule> poule = createOptionalPoule(resultat);
+		if (equipe.isPresent() && poule.isPresent()) {
+			return new Appartenance(equipe.get(), poule.get());
 		}
-		return appartenance;
+		return null;
 	}
 
 	/**
 	 * Ajoute une association d'une équipe et d'une poule à partir d'un objet Appartenance
 	 */
 	@Override
-	public boolean add(Appartenance value) throws Exception {
-		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+	public boolean add(Appartenance value) throws SQLException {
+		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Appartenance(Nom_Equipe,Annee,Nom_Tournoi,Libelle) values (?,?,?,?)")) {
 			add.setString(1, value.getEquipe().getNom());
 			add.setInt(2, value.getPoule().getTournoi().getSaison().getAnnee());
@@ -137,150 +146,121 @@ public class DaoAppartenance implements Dao<Appartenance, Object> {
 	}
 
 	/**
-	 * ne pas utiliser
+	 * Ne pas utiliser
 	 */
 	@Override
-	public boolean update(Appartenance value) throws Exception {
-		// TODO Auto-generated method stub
+	public boolean update(Appartenance value) throws SQLException {
 		return false;
 	}
 
 	/**
-	 * supprime une association d'une équipe et d'une poule
-	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING) , Annee (INTEGER) , Nom_tournoi (STRING) , Libelle (STRING)
+	 * Supprime une association d'une équipe et d'une poule
+	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING), Annee (INTEGER), Nom_tournoi (STRING), Libelle (STRING)
 	 */
 	@Override
-	public boolean delete(Object... value) throws Exception {
-		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+	public boolean delete(Object... value) throws SQLException {
+		try (PreparedStatement delete = super.getConnexion().getConnection().prepareStatement(
 				"DELETE FROM Appartenance where Nom_Equipe = ? AND Annee = ? AND Nom_tournoi = ? AND Libelle = ?")) {
-			delete.setString(1, (String) value[0]);
-			delete.setInt(2, (Integer) value[1]);
-			delete.setString(3, (String) value[2]);
-			Character c = (Character)value[3];
-			String libelle = c.toString();
-			delete.setString(4, libelle);
-			
+			bindParam(delete, value);
+
 			return delete.execute();
 		}
 	}
 
 	/**
 	 * Renvoie toutes les équipes d'une poule pour une poule donnée
-	 * @param value
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Equipe> getEquipeByPoule(Object... value) throws Exception {
-		try(PreparedStatement getEquipeByPoule = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Tournoi = ? AND Annee = ? AND Libelle = ?")){
+	 *
+	 *
+     */
+	public List<Equipe> getEquipeByPoule(Object... value) throws SQLException {
+		try(PreparedStatement getEquipeByPoule = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Tournoi = ? AND Annee = ? AND Libelle = ?")){
 			getEquipeByPoule.setString(1,(String)value[0]);
 			getEquipeByPoule.setInt(2,(Integer)value[1]);
 			Character c = (Character)value[2];
 			String libelle = c.toString();
 			getEquipeByPoule.setString(3, libelle);
-			ResultSet resultat = getEquipeByPoule.executeQuery();
-			List<Equipe> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				Equipe equipe = daoequipe.getById(resultat.getString("Nom_Equipe")).get();
-				sortie.add(equipe);
-			}
-			return sortie;
+			return bindParam(getEquipeByPoule);
 		}
+	}
+
+	private List<Equipe> bindParam(PreparedStatement getEquipeByPoule) throws SQLException {
+		return getEquipes(getEquipeByPoule, daoequipe);
 	}
 
 	/**
 	 * Renvoie toutes les équipes d'un tournoi
 	 * Les paramètres sont placés dans cet ordre : Nom_tournoi (STRING), Annee (INTEGER)
 	 *
-	 * @param value
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Equipe> getEquipeByTournoi(Object... value) throws Exception {
-		try (PreparedStatement getAll = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Tournoi = ? AND Annee = ?")) {
+	 *
+     */
+	public List<Equipe> getEquipeByTournoi(Object... value) throws SQLException {
+		try (PreparedStatement getAll = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Tournoi = ? AND Annee = ?")) {
 			getAll.setString(1, (String) value[0]);
 			getAll.setInt(2, (Integer) value[1]);
-			ResultSet resultat = getAll.executeQuery();
-			List<Equipe> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				Equipe equipe = daoequipe.getById(resultat.getString("Nom_Equipe")).get();
-				sortie.add(equipe);
-			}
-			return sortie;
+			return bindParam(getAll);
 		}
 	}
 
 	/**
 	 * Renvoie toutes les poules pour une équipe 
 	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING), 
-	 * @param value
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Poule> getPouleByEquipe(Object... value) throws Exception {
-		try(PreparedStatement getEquipeByPoule = connexion.getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ?")){
+	 *
+     */
+	public List<Poule> getPouleByEquipe(Object... value) throws SQLException, FausseDateException {
+		try(PreparedStatement getEquipeByPoule = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ?")){
 			getEquipeByPoule.setString(1, (String)value[0]);
 			ResultSet resultat = getEquipeByPoule.executeQuery();
 			List<Poule> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				sortie.add(daopoule.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi"), resultat.getString("Libelle")).get());
+				Optional<Poule> poule = createOptionalPoule(resultat);
+                poule.ifPresent(sortie::add);
 			}
 			return sortie;
 		}
-	}
+    }
 
 	/**
-	 * Renvoie toutes les tournoi pour une équipe
+	 * Renvoie tous les tournois pour une équipe
 	 * Les paramètres sont placés dans cet ordre : Nom_Equipe (STRING)
 	 *
-	 * @param value
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Tournoi> getTournoiByEquipe(Object... value) throws Exception {
-		try(PreparedStatement getTournoiByEquipe = connexion.getConnection().prepareStatement("SELECT DISTINCT * FROM Appartenance where Nom_Equipe = ?")){
+	 *
+	 *
+     */
+	public List<Tournoi> getTournoiByEquipe(Object... value) throws SQLException, FausseDateException {
+		try(PreparedStatement getTournoiByEquipe = super.getConnexion().getConnection().prepareStatement("SELECT DISTINCT * FROM Appartenance where Nom_Equipe = ?")){
 			getTournoiByEquipe.setString(1, (String)value[0]);
 			ResultSet resultat = getTournoiByEquipe.executeQuery();
-			List<Tournoi> sortie = new ArrayList<>();
-			while(resultat.next()) {
-					sortie.add(daotournoi.getById(resultat.getInt("Annee"),resultat.getString("Nom_tournoi")).get());
-				
-				
-			}
-			return sortie;
+			return getTournois(resultat, daotournoi, super.getConstants());
 		}
-	}
+    }
+
+
 
 	/**
-	 * A partir d'un objet inscription (association d'une équipe et d'une saison, ici la saison précédente)
+	 * À partir d'un objet inscription (association d'une équipe et d'une saison, ici la saison précédente)
 	 * renvoie la liste de tous les tournois où l'équipe était présente
 	 *
-	 * @param inscription
-	 * @return
-	 * @throws Exception
-	 */
-	public List<Tournoi> getTournoiByEquipeForSaison(Inscription inscription) throws Exception {
-		try(PreparedStatement getTournoiByEquipeForSaison = connexion.getConnection().prepareStatement(""
-				+ "SELECT * FROM Appartenance where Nom_Equipe = ? AND Annee = ?")){
+	 *
+	 *
+     */
+	public List<Tournoi> getTournoiByEquipeForSaison(Inscription inscription) throws SQLException, FausseDateException {
+		try(PreparedStatement getTournoiByEquipeForSaison = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Appartenance where Nom_Equipe = ? AND Annee = ?")){
 			getTournoiByEquipeForSaison.setString(1, inscription.getEquipe().getNom());
 			getTournoiByEquipeForSaison.setInt(2, inscription.getSaison().getAnnee());
 			ResultSet resultat = getTournoiByEquipeForSaison.executeQuery();
-			List<Tournoi> sortie = new ArrayList<>();
-			while (resultat.next()) {
-				sortie.add(daotournoi.getById(resultat.getInt("Annee"), resultat.getString("Nom_tournoi")).get());
-			}
-			return sortie;
+			return getTournois(resultat, daotournoi, super.getConstants());
 		}
 	}
 
 	@Override
-	public String visualizeTable() throws Exception {
-		String s = "_______________Appartenance_______________________" + "\n";
+	public String visualizeTable() throws SQLException, FausseDateException {
+		StringBuilder s = new StringBuilder("_______________Appartenance_______________________" + "\n");
 		List<Appartenance> l = this.getAll();
 		for (Appartenance a : l) {
-			s += a.toString() + "\n";
+			s.append(a.toString()).append("\n");
 		}
-		s += "\n\n\n";
-		return s;
+		s.append("\n\n\n");
+		return s.toString();
 	}
 
 

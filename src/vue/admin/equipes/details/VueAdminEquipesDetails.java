@@ -15,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -74,8 +72,8 @@ public class VueAdminEquipesDetails extends JPanel {
 		labelLogo.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelLogo.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		labelLogo.setForeground(CustomColor.BLANC);
-		labelLogo.setHorizontalAlignment(JLabel.CENTER);
-		labelLogo.setVerticalAlignment(JLabel.CENTER);
+		labelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		labelLogo.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
 		labelLogo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelTop.add(labelLogo);
 
@@ -107,15 +105,12 @@ public class VueAdminEquipesDetails extends JPanel {
 		labelPays.setForeground(CustomColor.BLANC);
 		labelPays.setFont(MaFont.getFontTitre2());
 		champPays.add(labelPays);
-		DefaultComboBoxModel<Pays> modelPays = new DefaultComboBoxModel<Pays>();
+		DefaultComboBoxModel<Pays> modelPays = new DefaultComboBoxModel<>();
 		modelPays.addElement(null);
-		Arrays.stream(Pays.values()).forEach(p -> modelPays.addElement(p));
-		comboboxPays = new CustomComboBox<Pays>(modelPays);
+		Arrays.stream(Pays.values()).forEach(modelPays::addElement);
+		comboboxPays = new CustomComboBox<>(modelPays);
 		comboboxPays.setFont(MaFont.getFontTitre4());
-		comboboxPays.setRenderer(new javax.swing.ListCellRenderer<Pays>() {
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
+		comboboxPays.setRenderer((JList<? extends Pays> list, Pays value, int index, boolean isSelected, boolean cellHasFocus) -> {
 				JLabel panel = new JLabel();
 				panel.setOpaque(true);
 				if (value == null) {
@@ -133,8 +128,7 @@ public class VueAdminEquipesDetails extends JPanel {
 					panel.setForeground(CustomColor.BLANC);
 				}
 				return panel;
-			}
-		});
+			});
 		champPays.add(comboboxPays);
 
 		JPanel champWR = new JPanel();
@@ -170,7 +164,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		labelJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre2());
-		labelJoueurs.setVerticalTextPosition(JLabel.CENTER);
+		labelJoueurs.setVerticalTextPosition(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelJoueurs = new GridBagConstraints();
 		gbcLabelJoueurs.fill = GridBagConstraints.BOTH;
 		gbcLabelJoueurs.gridx = 0;
@@ -185,23 +179,17 @@ public class VueAdminEquipesDetails extends JPanel {
 		gbcAjout.gridx = 1;
 		gbcAjout.gridy = 0;
 
-		modelJoueurs = new DefaultListModel<String>();
-		JList<String> l = new JList<String>(modelJoueurs);
+		modelJoueurs = new DefaultListModel<>();
+		JList<String> l = new JList<>(modelJoueurs);
 		l.setLayout(new GridLayout(0, 1));
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
-		l.setCellRenderer(new ListCellRenderer<String>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel l = new JLabel(value);
-				l.setForeground(CustomColor.BLANC);
-				l.setFont(MaFont.getFontTitre3());
-				return l;
-			}
-
-		});
+		l.setCellRenderer((JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) -> {
+				JLabel labelRetour = new JLabel(value);
+				labelRetour.setForeground(CustomColor.BLANC);
+				labelRetour.setFont(MaFont.getFontTitre3());
+				return labelRetour;
+			});
 
 		GridBagConstraints gbcL = new GridBagConstraints();
 		gbcL.fill = GridBagConstraints.HORIZONTAL;
@@ -223,7 +211,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		labelSaisons.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		labelSaisons.setForeground(CustomColor.BLANC);
 		labelSaisons.setFont(MaFont.getFontTitre2());
-		labelSaisons.setVerticalTextPosition(JLabel.CENTER);
+		labelSaisons.setVerticalTextPosition(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelSaisons = new GridBagConstraints();
 		gbcLabelSaisons.fill = GridBagConstraints.BOTH;
 		gbcLabelSaisons.gridx = 0;
@@ -233,7 +221,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		panelSaisons.add(labelSaisons, gbcLabelSaisons);
 
 		btnAjoutSaisons = new JLabel("Ajouter à la saison actuelle");
-		btnAjoutSaisons.setHorizontalAlignment(JLabel.CENTER);
+		btnAjoutSaisons.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		btnAjoutSaisons.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2),
 				BorderFactory.createEmptyBorder(5,10,5,10)));
@@ -250,24 +238,18 @@ public class VueAdminEquipesDetails extends JPanel {
 
 		panelSaisons.add(btnAjoutSaisons, gbcAjoutSaison);
 
-		modelSaisons = new DefaultListModel<String>();
+		modelSaisons = new DefaultListModel<>();
 
-		JList<String> ls = new JList<String>(modelSaisons);
+		JList<String> ls = new JList<>(modelSaisons);
 		ls.setLayout(new GridLayout(0, 1));
 		ls.setBackground(CustomColor.BACKGROUND_MAIN);
 		ls.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
-		ls.setCellRenderer(new ListCellRenderer<String>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel l = new JLabel(value);
-				l.setForeground(CustomColor.BLANC);
-				l.setFont(MaFont.getFontTitre3());
-				return l;
-			}
-
-		});
+		ls.setCellRenderer((JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) -> {
+				JLabel lsRetour = new JLabel(value);
+				lsRetour.setForeground(CustomColor.BLANC);
+				lsRetour.setFont(MaFont.getFontTitre3());
+				return lsRetour;
+			});
 
 		panelSaisons.add(ls, gbcL);
 
@@ -285,7 +267,7 @@ public class VueAdminEquipesDetails extends JPanel {
 		add(panelBot, gbcPanelBot);
 
 		panelBot.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-		panelBot.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 0));
+		panelBot.setLayout(new FlowLayout(javax.swing.SwingConstants.CENTER, 150, 0));
 
 		boutonAnnuler = new JButton("Retour");
 		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());

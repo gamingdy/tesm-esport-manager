@@ -1,15 +1,16 @@
 package controlleur.admin.accueil;
 
+import controlleur.AbstractControlleur;
 import controlleur.ControlleurObserver;
 import controlleur.VueObserver;
 import dao.Connexion;
-import dao.DaoAppartenance;
-import dao.DaoEquipe;
 import dao.DaoMatche;
 import dao.DaoPartie;
 import dao.DaoSaison;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 import modele.CustomDate;
 import modele.Equipe;
 import modele.Matche;
@@ -37,15 +38,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class AccueilControlleur implements ControlleurObserver, ActionListener {
+public class AccueilControlleur extends AbstractControlleur implements ControlleurObserver, ActionListener {
+	private static final String ERREUR_SQL_MESSAGE = "Erreur sql s'est produite";
 	private VueAccueil vue;
-	private DefaultListModel<LigneTournoi> listeTournoi;
 	private List<Equipe> equipes;
-	private DefaultListModel<LigneEquipe> listeClassement;
-	private DefaultListModel<LigneMatche> listeMatchesR;
 	private DaoTournoi daoTournoi;
-	private DaoEquipe daoEquipe;
-	private DaoAppartenance daoAppartenance;
 	private DaoSaison daoSaison;
 	private DaoMatche daoMatche;
 	private DaoPartie daoPartie;
@@ -56,8 +53,6 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 		daoTournoi = new DaoTournoi(c);
 		daoSaison = new DaoSaison(c);
 		daoMatche = new DaoMatche(c);
-		daoEquipe = new DaoEquipe(c);
-		daoAppartenance = new DaoAppartenance(c);
 		daoPartie = new DaoPartie(c);
 		equipes = new ArrayList<>();
 		this.update();
@@ -71,32 +66,41 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 	}
 
 	public void mettreAjourListeTournoi() {
-		listeTournoi = new DefaultListModel<LigneTournoi>();
+		DefaultListModel<LigneTournoi> listeTournoi = new DefaultListModel<>();
 		try {
-			Saison saisonActuelle = daoSaison.getLastSaison();
-			CustomDate debutSaison = new CustomDate(saisonActuelle.getAnnee(), 01, 01);
-			List<Tournoi> liste = new ArrayList<>(daoTournoi.getTournoiBetweenDate(debutSaison, CustomDate.now()));
-			try {
-				Tournoi tournoiActuel = daoTournoi.getTournoiActuel().get();
+			updateTournois(listeTournoi);
+		} catch (Exception e) {
+			afficherErreur(ERREUR_SQL_MESSAGE);
+			}
+	}
+
+	private void updateTournois(DefaultListModel<LigneTournoi> listeTournoi) throws SQLException, FausseDateException {
+		Saison saisonActuelle = daoSaison.getLastSaison();
+		CustomDate debutSaison = new CustomDate(saisonActuelle.getAnnee(), 01, 01);
+		List<Tournoi> liste = new ArrayList<>(daoTournoi.getTournoiBetweenDate(debutSaison, CustomDate.now()));
+		try {
+			Optional<Tournoi> tournoiOptional=daoTournoi.getTournoiActuel();
+			if(tournoiOptional.isPresent()){
+				Tournoi tournoiActuel = tournoiOptional.get();
 				LigneTournoi ligne = new LigneTournoi(tournoiActuel.getNom(), tournoiActuel.isEstEncours());
 				listeTournoi.addElement(ligne);
 				liste.remove(tournoiActuel);
-			} catch (Exception e) {
-
 			}
 
-			for (Tournoi tournoi : liste) {
-				LigneTournoi ligne1 = new LigneTournoi(tournoi.getNom(), tournoi.isEstEncours());
-				listeTournoi.addElement(ligne1);
-			}
-			vue.setListeTournois(listeTournoi);
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			afficherErreur("Erreur sql s'est produite lors de la mise a jour");
 		}
+
+		for (Tournoi tournoi : liste) {
+			LigneTournoi ligne1 = new LigneTournoi(tournoi.getNom(), tournoi.isEstEncours());
+			listeTournoi.addElement(ligne1);
+		}
+		vue.setListeTournois(listeTournoi);
 	}
 
 	public void mettreAjourListeClassement() {
-		listeClassement = new DefaultListModel<LigneEquipe>();
+		DefaultListModel<LigneEquipe> listeClassement = new DefaultListModel<>();
 		try {
 			Optional<Tournoi> tournoiActuel = daoTournoi.getTournoiActuel();
 
@@ -105,7 +109,7 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				int i = 0;
 				for (Equipe e : liste) {
 					String nomEquipe = e.getNom();
-					ImageIcon icone = new ImageIcon("assets/logo-equipes/" + nomEquipe + ".jpg");
+					ImageIcon icone = new ImageIcon(recupererCheminIconeEquipe(nomEquipe));
 					LigneEquipe ligneEquipe = new LigneEquipe(i + 1, icone, nomEquipe, e.getPoint());
 					listeClassement.addElement(ligneEquipe);
 					equipes.add(e);
@@ -114,44 +118,53 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				vue.setListeEquipes(listeClassement);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			afficherErreur(ERREUR_SQL_MESSAGE);
 		}
 	}
 
 	public void mettreAjourListeMatches() {
-		listeMatchesR = new DefaultListModel<LigneMatche>();
+		DefaultListModel<LigneMatche> listeMatchesR = new DefaultListModel<>();
 		try {
-			List<Matche> liste = new ArrayList<>(daoMatche.getTenLastMatch());
-			for (Matche m : liste) {
-				List<Partie> partieList = daoPartie.getPartieByMatche(m);
-				m.setVainqueur(partieList.get(0).getVainqueur());
-				ImageIcon tropheeGagnant = new ImageIcon("assets/trophéeGagnant.png");
-				ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
-				String nomEquipe1 = m.getEquipe1().getNom();
-				String nomEquipe2 = m.getEquipe2().getNom();
-				ImageIcon imageEquipe1 = new ImageIcon("assets/logo-equipes/" + nomEquipe1 + ".jpg");
-				ImageIcon imageEquipe2 = new ImageIcon("assets/logo-equipes/" + nomEquipe2 + ".jpg");
-				String dateHeure = m.getDateDebutMatche().toString().substring(6);
-				ImageIcon trophee1;
-				ImageIcon trophee2;
-
-				if (m.getVainqueur() == null) {
-					trophee1 = tropheePerdant;
-					trophee2 = tropheePerdant;
-				} else if (m.getVainqueur().equals(m.getEquipe1())) {
-					trophee1 = tropheeGagnant;
-					trophee2 = tropheePerdant;
-				} else {
-					trophee1 = tropheePerdant;
-					trophee2 = tropheeGagnant;
-				}
-				LigneMatche ligneMatche = new LigneMatche(dateHeure, imageEquipe1, nomEquipe1, trophee1, imageEquipe2, nomEquipe2, trophee2);
-				listeMatchesR.addElement(ligneMatche);
-			}
-			vue.setListeMatches(listeMatchesR);
+			updateMatchs(listeMatchesR);
 		} catch (Exception e) {
-			e.printStackTrace();
+			afficherErreur(ERREUR_SQL_MESSAGE);
+			}
+	}
+
+	private void updateMatchs(DefaultListModel<LigneMatche> listeMatchesR ) throws FausseDateException, MemeEquipeException, SQLException, IllegalArgumentException, IdNotSetException {
+		List<Matche> liste = new ArrayList<>(daoMatche.getTenLastMatch());
+		for (Matche m : liste) {
+			List<Partie> partieList = daoPartie.getPartieByMatche(m);
+			try {
+				m.setVainqueur(partieList.get(0).getVainqueur());
+			} catch (Exception e) {
+				m.setVainqueur(null);
+			}
+
+			ImageIcon tropheeGagnant = new ImageIcon("assets/trophéeGagnant.png");
+			ImageIcon tropheePerdant = new ImageIcon("assets/trophéePerdant.png");
+			String nomEquipe1 = m.getEquipe1().getNom();
+			String nomEquipe2 = m.getEquipe2().getNom();
+			ImageIcon imageEquipe1 = new ImageIcon(recupererCheminIconeEquipe(nomEquipe1));
+			ImageIcon imageEquipe2 = new ImageIcon(recupererCheminIconeEquipe(nomEquipe2));
+			String dateHeure = m.getDateDebutMatche().toString().substring(6);
+			ImageIcon trophee1;
+			ImageIcon trophee2;
+
+			if (m.getVainqueur() == null) {
+				trophee1 = tropheePerdant;
+				trophee2 = tropheePerdant;
+			} else if (m.getVainqueur().equals(m.getEquipe1())) {
+				trophee1 = tropheeGagnant;
+				trophee2 = tropheePerdant;
+			} else {
+				trophee1 = tropheePerdant;
+				trophee2 = tropheeGagnant;
+			}
+			LigneMatche ligneMatche = new LigneMatche(dateHeure, imageEquipe1, nomEquipe1, trophee1, imageEquipe2, nomEquipe2, trophee2);
+			listeMatchesR.addElement(ligneMatche);
 		}
+		vue.setListeMatches(listeMatchesR);
 	}
 
 	@Override
@@ -163,13 +176,11 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 					String nom = tournoi.get().getNom();
 					impression(equipes, nom);
 				} else {
-					new JFramePopup("Erreur", "Il n'y a pas de tournoi actuellement", () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
+					afficherErreur("Il n'y a pas de tournoi actuellement");
+					}
+			} catch (SQLException | FausseDateException ex) {
+				afficherErreur(ERREUR_SQL_MESSAGE);
 				}
-			} catch (SQLException ex) {
-				throw new RuntimeException(ex);
-			} catch (FausseDateException ex) {
-				throw new RuntimeException(ex);
-			}
 
 		}
 	}
@@ -189,8 +200,8 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				// Effectue l'impression
 				job.print();
 			} catch (PrinterException ex) {
-				ex.printStackTrace();
-			}
+				afficherErreur("Erreur d'impression s'est produite");
+				}
 		}
 	}
 
@@ -208,5 +219,8 @@ public class AccueilControlleur implements ControlleurObserver, ActionListener {
 				}
 			}
 		}
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur Accueil", message, () -> VueObserver.getInstance().notifyVue(Page.ACCUEIL_ADMIN));
 	}
 }

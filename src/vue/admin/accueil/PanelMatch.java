@@ -23,14 +23,14 @@ public class PanelMatch extends JPanel {
 	public PanelMatch(String date, ImageIcon img1, String nomEquipe1, ImageIcon trophee1, ImageIcon img2, String nomEquipe2, ImageIcon trophee2) {
 		this.setBackground(CustomColor.BACKGROUND_MAIN);
 		JLabel labelDate = new JLabel(date);
-		labelDate.setHorizontalAlignment(JLabel.CENTER);
+		labelDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		labelDate.setFont(MaFont.getFontTitre4());
 		labelDate.setForeground(CustomColor.BLANC);
 		setLayout(new BorderLayout(0, 0));
 		add(labelDate, BorderLayout.NORTH);
 
 		panelBot = new JPanel();
-		add(panelBot, BorderLayout.CENTER);
+		add(panelBot, javax.swing.SwingConstants.CENTER);
 		panelBot.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelBot.setLayout(new GridLayout(1, 0, 0, 0));
 		panelBot.setBorder(new LineBorder(CustomColor.ROSE_CONTOURS));
@@ -47,7 +47,7 @@ public class PanelMatch extends JPanel {
 
 		JLabel labelIcone1 = new JLabel();
 		labelIcone1.setIcon(new ImageIcon(img1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		labelIcone1.setHorizontalAlignment(JLabel.CENTER);
+		labelIcone1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelIcone1 = new GridBagConstraints();
 		gbcLabelIcone1.fill = GridBagConstraints.BOTH;
 		gbcLabelIcone1.gridx = 0;
@@ -58,7 +58,7 @@ public class PanelMatch extends JPanel {
 		JLabel labelNom1 = new JLabel(nomEquipe1);
 		labelNom1.setFont(MaFont.getFontTitre3());
 		labelNom1.setForeground(CustomColor.BLANC);
-		labelNom1.setHorizontalAlignment(JLabel.CENTER);
+		labelNom1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelNom1 = new GridBagConstraints();
 		gbcLabelNom1.fill = GridBagConstraints.BOTH;
 		gbcLabelNom1.gridx = 1;
@@ -68,7 +68,7 @@ public class PanelMatch extends JPanel {
 
 		JLabel labelTrophee1 = new JLabel();
 		labelTrophee1.setIcon(new ImageIcon(trophee1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		labelTrophee1.setHorizontalAlignment(JLabel.CENTER);
+		labelTrophee1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelTrophee1 = new GridBagConstraints();
 		gbcLabelTrophee1.fill = GridBagConstraints.BOTH;
 		gbcLabelTrophee1.gridx = 2;
@@ -88,7 +88,7 @@ public class PanelMatch extends JPanel {
 
 		JLabel labelTrophee2 = new JLabel();
 		labelTrophee2.setIcon(new ImageIcon(trophee2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		labelTrophee2.setHorizontalAlignment(JLabel.CENTER);
+		labelTrophee2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelTrophee2 = new GridBagConstraints();
 		gbcLabelTrophee2.fill = GridBagConstraints.BOTH;
 		gbcLabelTrophee2.gridx = 0;
@@ -99,7 +99,7 @@ public class PanelMatch extends JPanel {
 		JLabel labelNom2 = new JLabel(nomEquipe2);
 		labelNom2.setFont(MaFont.getFontTitre3());
 		labelNom2.setForeground(CustomColor.BLANC);
-		labelNom2.setHorizontalAlignment(JLabel.CENTER);
+		labelNom2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelNom2 = new GridBagConstraints();
 		gbcLabelNom2.fill = GridBagConstraints.BOTH;
 		gbcLabelNom2.gridx = 1;
@@ -109,7 +109,7 @@ public class PanelMatch extends JPanel {
 
 		JLabel labelIcone2 = new JLabel();
 		labelIcone2.setIcon(new ImageIcon(img2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		labelIcone2.setHorizontalAlignment(JLabel.CENTER);
+		labelIcone2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelIcone2 = new GridBagConstraints();
 		gbcLabelIcone2.fill = GridBagConstraints.BOTH;
 		gbcLabelIcone2.gridx = 2;
@@ -124,11 +124,6 @@ public class PanelMatch extends JPanel {
 		setBackground(CustomColor.BACKGROUND_MAIN);
 		panelBot.setBackground(CustomColor.BACKGROUND_MAIN);
 		panelEquipeDeux.setBackground(CustomColor.BACKGROUND_MAIN);
-	}
-
-	@Override
-	public void setOpaque(boolean bool) {
-		super.setOpaque(bool);
 	}
 
 }

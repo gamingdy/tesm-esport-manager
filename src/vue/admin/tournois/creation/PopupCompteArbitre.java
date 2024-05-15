@@ -3,14 +3,7 @@ package vue.admin.tournois.creation;
 import vue.common.CustomColor;
 import vue.common.MaFont;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -28,7 +21,7 @@ public class PopupCompteArbitre extends JFrame {
 	public PopupCompteArbitre(String title, ActionHandler actionHandler, String nomTournoi) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
@@ -47,10 +40,14 @@ public class PopupCompteArbitre extends JFrame {
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(15, 3, 25));
 
-		JLabel label = new JLabel("Le login pour les arbitres : " + nomTournoi);
-		label.setForeground(Color.white);
-		label.setHorizontalAlignment(SwingConstants.CENTER); // Centre le texte
-		label.setFont(MaFont.getFontTitre3()); // Agrandir la police
+		JTextArea label = new JTextArea("Voici le login  de l'arbitre : " + nomTournoi + System.lineSeparator()+"Saisissez le mot de passe :");
+		label.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+		label.setLineWrap(true);
+		label.setWrapStyleWord(true);
+		label.setOpaque(false);
+		label.setEditable(false);
+		label.setForeground(CustomColor.BLANC);
+		label.setFont(MaFont.getFontTitre3());
 		panel.add(label, BorderLayout.NORTH);
 
 		tf = new JTextField(25);

@@ -4,7 +4,9 @@ import java.sql.SQLException;
 
 public class DBSuppression {
 
-	public static void main(Connexion c) throws SQLException {
+	private DBSuppression() {}
+
+	public static void deleteAllTable(Connexion c) throws SQLException {
 		DaoAppartenance.dropTable(c);
 		DaoArbitrage.dropTable(c);
 		DaoSelection.dropTable(c);
@@ -18,7 +20,6 @@ public class DBSuppression {
 		DaoArbitre.dropTable(c);
 		DaoJoueur.dropTable(c);
 		DaoEquipe.dropTable(c);
-		System.out.println("Toutes les tables ont été correctement supprimées");
 	}
 
 }

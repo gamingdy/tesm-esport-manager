@@ -1,11 +1,13 @@
 package controlleur.arbitre;
 
+import controlleur.AbstractControlleur;
 import controlleur.VueObserver;
 import dao.Connexion;
 import dao.DaoMatche;
 import dao.DaoPartie;
 import dao.DaoTournoi;
 import exceptions.FausseDateException;
+import exceptions.GagnantNonChoisiException;
 import exceptions.IdNotSetException;
 import exceptions.MemeEquipeException;
 import modele.Categorie;
@@ -22,16 +24,19 @@ import vue.common.JFramePopup;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class ArbitreControlleur implements ActionListener {
+public class ArbitreControlleur extends AbstractControlleur implements ActionListener {
+	private static final String CLOTURER_TOURNOI = "Clôturer le tournoi";
+	private static final String CLOTURER_POULE = "Clôturer la poule";
 	private VueArbitrePoule vue;
 	private List<CaseMatch> caseMatchList;
 	private DaoTournoi daoTournoi;
-	private Optional<Tournoi> tournoiActuel;
+	private Tournoi tournoi;
 	private DaoMatche daoMatche;
 	private DaoPartie daoPartie;
 
@@ -43,44 +48,35 @@ public class ArbitreControlleur implements ActionListener {
 		this.daoTournoi = new DaoTournoi(c);
 
 		try {
+			Optional<Tournoi> tournoiActuel;
 			tournoiActuel = daoTournoi.getTournoiActuel();
-
-			if (tournoiActuel.isPresent()) {
-				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoiActuel.get().getDebut().getAnnee(), tournoiActuel.get().getNom());
-				this.vue.setTitre("Tournoi " +tournoiActuel.get().getNom() + " "+tournoiActuel.get().getDebut().getAnnee());
+			if(tournoiActuel.isPresent()){
+				tournoi=tournoiActuel.get();
+				List<Matche> matcheList = daoMatche.getMatchByTournoi(tournoi.getDebut().getAnnee(), tournoi.getNom());
+				this.vue.setTitre("Tournoi " + tournoi.getNom() + " " + tournoi.getDebut().getAnnee());
 				if (matcheList.stream().anyMatch(m -> m.getCategorie() != Categorie.POULE)) {
-					
-					caseMatchList = new ArrayList<>();
-					for (Matche m : matcheList) {
-						if (m.getCategorie() != Categorie.POULE) {
-							List<Partie> partieList = daoPartie.getPartieByMatche(m);
-							m.setVainqueur(partieList.get(0).getVainqueur());
-							CaseMatch caseMatche = convertMatchToCaseMatch(m);
-							caseMatchList.add(caseMatche);
-							vue.setTexteBouton("Clôturer le tournoi");
-						}
-					}
+					vue.setTexteBouton(CLOTURER_TOURNOI);
 				}
-				else {
-					caseMatchList = new ArrayList<>();
-					for (Matche m : matcheList) {
-						List<Partie> partieList = daoPartie.getPartieByMatche(m);
-						m.setVainqueur(partieList.get(0).getVainqueur());
-						CaseMatch caseMatche = convertMatchToCaseMatch(m);
-						caseMatchList.add(caseMatche);
-					}
-				}
+				recupererMatches(matcheList);
 				this.vue.addAllMatchs(caseMatchList);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			afficherErreur("Erreur lors de la récupération des matches");
 		}
 	}
-
+	private void recupererMatches(List<Matche> matcheList) throws SQLException, MemeEquipeException, FausseDateException, IdNotSetException, GagnantNonChoisiException, MemeEquipeException {
+		caseMatchList = new ArrayList<>();
+		for (Matche m : matcheList) {
+			List<Partie> partieList = daoPartie.getPartieByMatche(m);
+			m.setVainqueur(partieList.get(0).getVainqueur());
+			CaseMatch caseMatche = convertMatchToCaseMatch(m);
+			caseMatchList.add(caseMatche);
+		}
+	}
 	private CaseMatch convertMatchToCaseMatch(Matche matche) {
 		String dateMatche = matche.getDateDebutMatche().toString().substring(6);
-		ImageIcon imageEquipe1 = new ImageIcon("assets/logo-equipes/" + matche.getEquipe1().getNom() + ".jpg");
-		ImageIcon imageEquipe2 = new ImageIcon("assets/logo-equipes/" + matche.getEquipe2().getNom() + ".jpg");
+		ImageIcon imageEquipe1 = new ImageIcon(recupererCheminIconeEquipe(matche.getEquipe1().getNom()));
+		ImageIcon imageEquipe2 = new ImageIcon(recupererCheminIconeEquipe(matche.getEquipe2().getNom()));
 		CaseMatch resultat = null;
 		try {
 			resultat = new CaseMatch(dateMatche, matche.getId(), imageEquipe1, matche.getEquipe1().getNom(), matche.getEquipe2().getNom(), imageEquipe2);
@@ -94,7 +90,7 @@ public class ArbitreControlleur implements ActionListener {
 				}
 			}
 		} catch (IdNotSetException e) {
-			e.printStackTrace();
+			afficherErreur("Erreur lors de la récupération des matches");
 		}
 		return resultat;
 	}
@@ -103,27 +99,24 @@ public class ArbitreControlleur implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.vue.getBoutonAnnuler()) {
-			new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () -> {
-				VueObserver.getInstance().notifyVue(Page.LOGIN);
-			});
-		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer la poule")) {
+			new JFramePopup("Déconnexion", "Etes vous sur de vous déconnecter ?", () ->
+					VueObserver.getInstance().notifyVue(Page.LOGIN)
+			);
+		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals(CLOTURER_POULE)) {
 			closePoule();
-			this.vue.setTexteBouton("Clôturer le tournoi");
-		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals("Clôturer le tournoi")) {
-			if (isAllMatcheClosed()){
-				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () -> {
+			this.vue.setTexteBouton(CLOTURER_TOURNOI);
+		} else if (e.getSource() == this.vue.getBoutonClosePoule() && this.vue.getBoutonClosePoule().getText().equals(CLOTURER_TOURNOI)) {
+			if (isAllMatcheClosed()) {
+				new JFramePopup("Fin du tournoi", "Le tournoi est clos", () ->{
+					tournoi.setEstEncours(false);
 					VueObserver.getInstance().notifyVue(Page.LOGIN);
-				});
+				}
+
+				);
 			} else {
-				new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () -> {
-					VueObserver.getInstance().notifyVue(Page.ARBITRE);
-				});
+				afficherErreur("Tout les matches n'ont pas de vainqueur");
 			}
 		}
-	}
-
-	private void initPhaseFinale() {
-		//to do
 	}
 
 	private boolean isAllMatcheClosed() {
@@ -144,42 +137,38 @@ public class ArbitreControlleur implements ActionListener {
 		List<Equipe> finale = new ArrayList<>();
 		List<Equipe> petiteFinale = new ArrayList<>();
 		try {
-			Set<Equipe> classementTournoi = ModeleTournoi.getClassement(tournoiActuel.get());
+			Set<Equipe> classementTournoi = ModeleTournoi.getClassement(tournoi);
 			List<List<Equipe>> phaseFinale = getPhaseFInale(classementTournoi);
 			finale.addAll(phaseFinale.get(0));
 			petiteFinale.addAll(phaseFinale.get(1));
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			afficherErreur("Une erreur s'est produite lors de la cloturation");
 		}
 		if (isAllMatcheClosed()) {
 			try {
-				Matche matcheFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.FINALE, finale.get(0), finale.get(1), this.tournoiActuel.get());
+				Matche matcheFinale = new Matche(1, tournoi.getFin(), Categorie.FINALE, finale.get(0), finale.get(1), this.tournoi);
 				Partie partieFinale = new Partie(matcheFinale, 1);
 
-				Matche matchePetiteFinale = new Matche(1, this.tournoiActuel.get().getFin(), Categorie.PETITE_FINALE, petiteFinale.get(0), petiteFinale.get(1), this.tournoiActuel.get());
+				Matche matchePetiteFinale = new Matche(1, this.tournoi.getFin(), Categorie.PETITE_FINALE, petiteFinale.get(0), petiteFinale.get(1), this.tournoi);
 				Partie partiePetiteFinale = new Partie(matchePetiteFinale, 1);
 
 				daoMatche.add(matcheFinale);
 				daoPartie.add(partieFinale);
 				daoMatche.add(matchePetiteFinale);
 				daoPartie.add(partiePetiteFinale);
-				List<CaseMatch> caseMatchList = new ArrayList<>();
+				List<CaseMatch> currentMatchList = new ArrayList<>();
 
-				caseMatchList.add(convertMatchToCaseMatch(matcheFinale));
-				caseMatchList.add(convertMatchToCaseMatch(matchePetiteFinale));
-				updateMatche(caseMatchList);
-				this.caseMatchList=caseMatchList;
-			} catch (FausseDateException | MemeEquipeException e) {
-				throw new RuntimeException(e);
+				currentMatchList.add(convertMatchToCaseMatch(matcheFinale));
+				currentMatchList.add(convertMatchToCaseMatch(matchePetiteFinale));
+				updateMatche(currentMatchList);
+				this.caseMatchList = currentMatchList;
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				afficherErreur("Une erreur s'est produite lors de la cloturation");
 			}
 
 
 		} else {
-			new JFramePopup("Erreur de cloture", "Tout les matches n'ont pas de vainqueur", () -> {
-				VueObserver.getInstance().notifyVue(Page.ARBITRE);
-			});
+			afficherErreur("Tout les matches n'ont pas de vainqueur");
 		}
 	}
 
@@ -205,5 +194,8 @@ public class ArbitreControlleur implements ActionListener {
 		phaseFinale.add(petiteFinale);
 
 		return phaseFinale;
+	}
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur arbitre", message, () -> VueObserver.getInstance().notifyVue(Page.ARBITRE));
 	}
 }

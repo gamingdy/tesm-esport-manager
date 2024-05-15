@@ -15,10 +15,14 @@ import modele.Selection;
 import modele.Tournoi;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VisualizeDB {
+	private static final Logger LOGGER = Logger.getLogger(VisualizeDB.class.getName());
 
 	public static void main(String[] args) throws Exception {
+
 		Connexion c = Connexion.getConnexion();
 		DaoAppartenance daoappartenance = new DaoAppartenance(c);
 		DaoArbitrage daoarbitrage = new DaoArbitrage(c);
@@ -33,83 +37,61 @@ public class VisualizeDB {
 		DaoSaison daosaison = new DaoSaison(c);
 		DaoSelection daoselection = new DaoSelection(c);
 		DaoTournoi daotournoi = new DaoTournoi(c);
-
-		System.out.println("_______________Appartenance_______________________");
-		System.out.println("\n");
+		LOGGER.info("VisualizeDB started");
+		LOGGER.info("_______________Appartenance_______________________");
 		List<Appartenance> l = daoappartenance.getAll();
-		l.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Arbitrage__________________________");
-		System.out.println("\n");
+
+		LOGGER.info("_______________Arbitrage__________________________");
 		List<Arbitrage> l1 = daoarbitrage.getAll();
-		l1.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l1.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Arbitre____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Arbitre____________________________");
 		List<Arbitre> l2 = daoarbitre.getAll();
-		l2.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l2.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Equipe_____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Equipe_____________________________");
 		List<Equipe> l3 = daoequipe.getAll();
-		l3.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l3.forEach(x ->LOGGER.info(x.toString()));
 
-		System.out.println("_______________Inscription________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Inscription________________________");
 		List<Inscription> l4 = daoinscription.getAll();
-		l4.stream().forEach(x -> System.out.println(x.toString()));
+		l4.forEach(x -> LOGGER.info(x.toString()));
 		System.out.println("\n\n\n");
 
-		System.out.println("_______________Joueur_____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Joueur_____________________________");
 		List<Joueur> l5 = daojoueur.getAll();
-		l5.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l5.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Matche_____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Matche_____________________________");
 		List<Matche> l6 = daomatche.getAll();
-		l6.stream().forEach(x -> System.out.println(x.toString()));
+		l6.forEach(x -> LOGGER.info(x.toString()));
 		System.out.println("\n\n\n");
 
-		System.out.println("_______________Niveau_____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Niveau_____________________________");
 		List<Niveau> l7 = daoniveau.getAll();
-		l7.stream().forEach(x -> System.out.println(x));
-		System.out.println("\n\n\n");
+		l7.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Partie_____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Partie_____________________________");
 		List<Partie> l8 = daopartie.getAll();
-		l8.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l8.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Poule______________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Poule______________________________");
 		List<Poule> l9 = daopoule.getAll();
-		l9.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l9.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Saison_____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Saison_____________________________");
 		List<Saison> l10 = daosaison.getAll();
-		l10.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l10.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Selection__________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Selection__________________________");
 		List<Selection> l11 = daoselection.getAll();
-		l11.stream().forEach(x -> System.out.println(x.toString()));
-		System.out.println("\n\n\n");
+		l11.forEach(x -> LOGGER.info(x.toString()));
 
-		System.out.println("_______________Tournoi____________________________");
-		System.out.println("\n");
+		LOGGER.info("_______________Tournoi____________________________");
 		List<Tournoi> l12 = daotournoi.getAll();
-		l12.stream().forEach(x -> System.out.println(x.toString()));
+		l12.forEach(x ->LOGGER.info(x.toString()));
 
 	}
 

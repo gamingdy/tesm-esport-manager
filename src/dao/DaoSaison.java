@@ -1,5 +1,8 @@
 package dao;
 
+import exceptions.FausseDateException;
+import exceptions.IdNotSetException;
+import exceptions.MemeEquipeException;
 import modele.Arbitre;
 import modele.Equipe;
 import modele.Saison;
@@ -13,19 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DaoSaison implements Dao<Saison, Integer> {
+public class DaoSaison extends SuperDao implements Dao<Saison, Integer> {
 
-	private Connexion connexion;
+
 
 	public DaoSaison(Connexion connexion) {
-		this.connexion = connexion;
+        super(connexion);
+
 	}
 
 	/**
 	 * Crée la table Saison
 	 *
-	 * @param connexion
-	 * @throws SQLException
 	 */
 	public static void createTable(Connexion connexion) throws SQLException {
 		String createTableSql = "CREATE TABLE Saison("
@@ -33,20 +35,14 @@ public class DaoSaison implements Dao<Saison, Integer> {
 				+ "PRIMARY KEY(Annee))";
 		try (Statement createTable = connexion.getConnection().createStatement()) {
 			createTable.execute(createTableSql);
-			System.out.println("Table 'Saison' créée avec succès");
 		}
 	}
 
 	/**
 	 * Supprime la table saison
-	 *
-	 * @param connexion
-	 * @return
-	 * @throws SQLException
 	 */
 	public static boolean dropTable(Connexion connexion) throws SQLException {
 		try (Statement deleteTable = connexion.getConnection().createStatement()) {
-			System.out.println("Table 'Saison' supprimée avec succès");
 			return deleteTable.execute("drop table Saison");
 		}
 	}
@@ -55,14 +51,12 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	 * Renvoie la liste de toutes les saisons (années)
 	 */
 	@Override
-	public List<Saison> getAll() throws Exception {
-		try (Statement getAll = connexion.getConnection().createStatement()) {
+	public List<Saison> getAll() throws SQLException {
+		try (Statement getAll = super.getConnexion().getConnection().createStatement()) {
 			ResultSet resultat = getAll.executeQuery("SELECT * FROM Saison");
 			List<Saison> sortie = new ArrayList<>();
 			while (resultat.next()) {
-				Saison saison = new Saison(
-						resultat.getInt("Annee"));
-				sortie.add(saison);
+				sortie.add(new Saison(resultat.getInt(super.getConstants().getAnnee())));
 			}
 			return sortie;
 		}
@@ -73,17 +67,14 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	 * Les paramètres sont placés dans cet ordre : Annee (INTEGER)
 	 */
 	@Override
-	public Optional<Saison> getById(Integer... id) throws Exception {
-		try (PreparedStatement getById = connexion.getConnection().prepareStatement("SELECT * FROM Saison WHERE Annee = ?")) {
+	public Optional<Saison> getById(Integer... id) throws SQLException {
+		try (PreparedStatement getById = super.getConnexion().getConnection().prepareStatement("SELECT * FROM Saison WHERE Annee = ?")) {
 			getById.setInt(1, id[0]);
 			ResultSet resultat = getById.executeQuery();
-			Saison saison = null;
 			if (resultat.next()) {
-				saison = new Saison(
-						resultat.getInt("Annee"));
-
+				return Optional.of(new Saison(resultat.getInt(super.getConstants().getAnnee())));
 			}
-			return Optional.ofNullable(saison);
+			return Optional.empty();
 		}
 	}
 
@@ -91,8 +82,8 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	 * Ajoute une saison à la table saison à partir d'un objet saison
 	 */
 	@Override
-	public boolean add(Saison value) throws Exception {
-		try (PreparedStatement add = connexion.getConnection().prepareStatement(
+	public boolean add(Saison value) throws SQLException {
+		try (PreparedStatement add = super.getConnexion().getConnection().prepareStatement(
 				"INSERT INTO Saison(Annee) values (?)")) {
 			add.setInt(1, value.getAnnee());
 			return add.execute();
@@ -100,10 +91,10 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	}
 
 	/**
-	 * ne pas utiliser
+	 * Ne pas utiliser
 	 */
 	@Override
-	public boolean update(Saison value) throws Exception {
+	public boolean update(Saison value) throws SQLException {
 		return false;
 	}
 
@@ -111,57 +102,65 @@ public class DaoSaison implements Dao<Saison, Integer> {
 	 * supprime une saison de la table saison
 	 */
 	@Override
-	public boolean delete(Integer... value) throws Exception {
-		try (PreparedStatement delete = connexion.getConnection().prepareStatement(
+	public boolean delete(Integer... value) throws SQLException, FausseDateException, MemeEquipeException,IdNotSetException {
+		try (PreparedStatement delete = super.getConnexion().getConnection().prepareStatement(
 				"DELETE FROM Saison where Annee = ?")) {
 			delete.setInt(1, value[0]);
-			List<Tournoi> tournois = FactoryDAO.getDaoTournoi(connexion).getTournoiBySaison(FactoryDAO.getDaoSaison(connexion).getById(value[0]).get());
-			List<Equipe> equipes = FactoryDAO.getDaoInscription(connexion).getEquipeBySaison(value[0]);
-			List<Arbitre> arbitres = FactoryDAO.getDaoSelection(connexion).getArbitreBySaison(FactoryDAO.getDaoSaison(connexion).getById(value[0]).get());
-			for (Tournoi t : tournois) {
-				FactoryDAO.getDaoTournoi(connexion).delete(t.getSaison().getAnnee(), t.getNom());
+			Optional<Saison> saison = FactoryDAO.getDaoSaison(super.getConnexion()).getById(value[0]);
+			if (saison.isPresent()) {
+				List<Tournoi> tournois = FactoryDAO.getDaoTournoi(super.getConnexion()).getTournoiBySaison(saison.get());
+				List<Equipe> equipes = FactoryDAO.getDaoInscription(super.getConnexion()).getEquipeBySaison(value[0]);
+				List<Arbitre> arbitres = FactoryDAO.getDaoSelection(super.getConnexion()).getArbitreBySaison(saison.get());
+				for (Tournoi t : tournois) {
+					FactoryDAO.getDaoTournoi(super.getConnexion()).delete(t.getSaison().getAnnee(), t.getNom());
+				}
+				for (Equipe e : equipes) {
+					FactoryDAO.getDaoInscription(super.getConnexion()).delete(value[0], e.getNom());
+				}
+				for (Arbitre a : arbitres) {
+					FactoryDAO.getDaoSelection(super.getConnexion()).delete(a.getNom(), a.getPrenom(), a.getNumeroTelephone(), value[0]);
+				}
 			}
-			for (Equipe e : equipes) {
-				FactoryDAO.getDaoInscription(connexion).delete(value[0], e.getNom());
-			}
-			for (Arbitre a : arbitres) {
-				FactoryDAO.getDaoSelection(connexion).delete(a.getNom(), a.getPrenom(), a.getNumeroTelephone(), value[0]);
-			}
-
 			return delete.execute();
 		}
-	}
+    }
 
 	/**
 	 * Renvoie la dernière saison ajoutée de la table
 	 *
-	 * @return
-	 * @throws SQLException
 	 */
 	public Saison getLastSaison() throws SQLException {
-		try (PreparedStatement lastInsert = connexion.getConnection().prepareStatement(
+		try (PreparedStatement lastInsert = super.getConnexion().getConnection().prepareStatement(
 				"SELECT Annee "
 						+ "FROM Saison "
 						+ "ORDER BY Annee DESC "
 						+ "FETCH FIRST 1 ROW ONLY")) {
 			ResultSet resultat = lastInsert.executeQuery();
-			Saison saison = null;
 			if (resultat.next()) {
-				saison = new Saison(resultat.getInt("Annee"));
+				return new Saison(resultat.getInt(super.getConstants().getAnnee()));
 			}
-			return saison;
+			return null;
 		}
 	}
 
+	static List<Saison> getSaisons(ResultSet resultat, DaoSaison daoSaison) throws SQLException {
+		List<Saison> sortie = new ArrayList<>();
+		while (resultat.next()) {
+			Optional<Saison> saison = daoSaison.getById(resultat.getInt("Annee"));
+			saison.ifPresent(sortie::add);
+		}
+		return sortie;
+	}
+
 	@Override
-	public String visualizeTable() throws Exception {
-		String s = "_______________Saison_______________________" + "\n";
+	public String visualizeTable() throws SQLException {
+		StringBuilder s = new StringBuilder("_______________Saison_______________________" + "\n");
 		List<Saison> l = this.getAll();
 		for (Saison a : l) {
-			s += a.toString() + "\n";
+			s.append(a.toString()).append("\n");
 		}
-		s += "\n\n\n";
-		return s;
+		s.append("\n\n\n");
+		return s.toString();
 	}
 
 }

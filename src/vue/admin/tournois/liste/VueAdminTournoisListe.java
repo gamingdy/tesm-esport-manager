@@ -43,7 +43,7 @@ public class VueAdminTournoisListe extends JPanel {
 			j.setOpaque(false);
 			list.add(j);
 		}
-		JScrollPane sp = new JScrollPane(list);
+		JScrollPane sp = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		sp.setBackground(CustomColor.BACKGROUND_MAIN);
 		sp.getVerticalScrollBar().setUnitIncrement(15);
 		sp.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 3));
@@ -59,7 +59,7 @@ public class VueAdminTournoisListe extends JPanel {
 		sp.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 
 
-		JLabel recherche = new JLabel("Liste des Tournois", JLabel.CENTER);
+		JLabel recherche = new JLabel("Liste des Tournois", javax.swing.SwingConstants.CENTER);
 		recherche.setBackground(CustomColor.BACKGROUND_MAIN);
 		recherche.setOpaque(true);
 		recherche.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2), BorderFactory.createEmptyBorder(10, 5, 10, 0)));

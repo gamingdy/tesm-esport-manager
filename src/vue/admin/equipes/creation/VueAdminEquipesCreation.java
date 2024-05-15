@@ -17,8 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -95,38 +93,34 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelPays.setForeground(CustomColor.BLANC);
 		labelPays.setFont(MaFont.getFontTitre2());
 		champPays.add(labelPays);
-		DefaultComboBoxModel<Pays> modelPays = new DefaultComboBoxModel<Pays>();
+		DefaultComboBoxModel<Pays> modelPays = new DefaultComboBoxModel<>();
 		modelPays.addElement(null);
-		Arrays.stream(Pays.values()).forEach(p -> modelPays.addElement(p));
-		comboboxPays = new CustomComboBox<Pays>(modelPays);
+		Arrays.stream(Pays.values()).forEach(modelPays::addElement);
+		comboboxPays = new CustomComboBox<>(modelPays);
 		comboboxPays.style();
 		comboboxPays.setFont(MaFont.getFontTitre4());
-		comboboxPays.setRenderer(new javax.swing.ListCellRenderer<Pays>() {
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Pays> list, Pays value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel panel = new JLabel();
-				panel.setOpaque(true);
-				if (value == null) {
-					if (index == -1) {
-						panel.setText("Choissez le pays de l'équipe");
-					} else {
-						return new JLabel();
-					}
+		comboboxPays.setRenderer((JList<? extends Pays> list, Pays value, int index, boolean isSelected, boolean cellHasFocus) -> {
+			JLabel panel = new JLabel();
+			panel.setOpaque(true);
+			if (value == null) {
+				if (index == -1) {
+					panel.setText("Choissez le pays de l'équipe");
 				} else {
-					panel.setText(value.getNom());
+					return new JLabel();
 				}
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				panel.setFont(MaFont.getFontTitre4());
-				panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
-				if (isSelected) {
-					panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
-				} else {
-					panel.setForeground(CustomColor.BLANC);
-				}
-				return panel;
+			} else {
+				panel.setText(value.getNom());
 			}
+			panel.setBackground(CustomColor.BACKGROUND_MAIN);
+			panel.setFocusable(false);
+			panel.setFont(MaFont.getFontTitre4());
+			panel.setBorder(BorderFactory.createEmptyBorder(3, 5, 0, 0));
+			if (isSelected) {
+				panel.setForeground(CustomColor.ROSE_CONTOURS.darker());
+			} else {
+				panel.setForeground(CustomColor.BLANC);
+			}
+			return panel;
 		});
 		champPays.add(comboboxPays);
 
@@ -138,9 +132,8 @@ public class VueAdminEquipesCreation extends JPanel {
 		this.setDrapeau("earth");
 		labelDrapeau.setMaximumSize(new Dimension(labelDrapeau.getIcon().getIconHeight(), labelDrapeau.getIcon().getIconWidth()));
 		labelDrapeau.setBackground(CustomColor.BACKGROUND_MAIN);
-//		labelDrapeau.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
-		labelDrapeau.setHorizontalAlignment(JLabel.CENTER);
-		labelDrapeau.setVerticalAlignment(JLabel.CENTER);
+		labelDrapeau.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		labelDrapeau.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
 		panelTop.add(labelDrapeau);
 
 		panelJoueurs = new JPanel();
@@ -155,7 +148,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		labelJoueurs.setForeground(CustomColor.BLANC);
 		labelJoueurs.setFont(MaFont.getFontTitre2());
-		labelJoueurs.setVerticalTextPosition(JLabel.CENTER);
+		labelJoueurs.setVerticalTextPosition(javax.swing.SwingConstants.CENTER);
 		GridBagConstraints gbcLabelJoueurs = new GridBagConstraints();
 		gbcLabelJoueurs.fill = GridBagConstraints.BOTH;
 		gbcLabelJoueurs.gridx = 0;
@@ -166,7 +159,7 @@ public class VueAdminEquipesCreation extends JPanel {
 
 		btnAjoutJoueurs = new JLabel(Vue.resize(new ImageIcon("assets/plus.png"), 20, 20));
 		btnAjoutJoueurs.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 20));
-		btnAjoutJoueurs.setHorizontalTextPosition(JLabel.TRAILING);
+		btnAjoutJoueurs.setHorizontalTextPosition(javax.swing.SwingConstants.TRAILING);
 		btnAjoutJoueurs.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		GridBagConstraints gbcAjout = new GridBagConstraints();
@@ -175,23 +168,17 @@ public class VueAdminEquipesCreation extends JPanel {
 		gbcAjout.gridy = 0;
 		panelJoueurs.add(btnAjoutJoueurs, gbcAjout);
 
-		model = new DefaultListModel<String>();
+		model = new DefaultListModel<>();
 
-		JList<String> l = new JList<String>(model);
+		JList<String> l = new JList<>(model);
 		l.setLayout(new GridLayout(0, 1));
 		l.setBackground(CustomColor.BACKGROUND_MAIN);
 		l.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, CustomColor.ROSE_CONTOURS));
-		l.setCellRenderer(new ListCellRenderer<String>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel l = new JLabel(value);
-				l.setForeground(CustomColor.BLANC);
-				l.setFont(MaFont.getFontTitre3());
-				return l;
-			}
-
+		l.setCellRenderer((JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) -> {
+			JLabel lItem = new JLabel(value);
+			lItem.setForeground(CustomColor.BLANC);
+			lItem.setFont(MaFont.getFontTitre3());
+			return lItem;
 		});
 
 		GridBagConstraints gbcJ = new GridBagConstraints();
@@ -207,8 +194,8 @@ public class VueAdminEquipesCreation extends JPanel {
 		labelLogo.setBackground(CustomColor.BACKGROUND_MAIN);
 		labelLogo.setBorder(BorderFactory.createLineBorder(CustomColor.ROSE_CONTOURS, 2));
 		labelLogo.setForeground(CustomColor.BLANC);
-		labelLogo.setHorizontalAlignment(JLabel.CENTER);
-		labelLogo.setVerticalAlignment(JLabel.CENTER);
+		labelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		labelLogo.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
 		labelLogo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelTop.add(labelLogo);
 
@@ -225,7 +212,7 @@ public class VueAdminEquipesCreation extends JPanel {
 		add(panelBot, gbcPanelBot);
 
 		panelBot.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-		panelBot.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 0));
+		panelBot.setLayout(new FlowLayout(javax.swing.SwingConstants.CENTER, 150, 0));
 
 		boutonAnnuler = new JButton("Annuler");
 		boutonAnnuler.setBackground(CustomColor.BACKGROUND_MENU.darker());

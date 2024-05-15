@@ -75,10 +75,7 @@ public class VueAdminHistorique extends JPanel {
 		comboBoxSaison = new CustomComboBox<>(modelSaisons);
 		comboBoxSaison.setForeground(CustomColor.BLANC);
 		comboBoxSaison.setFont(MaFont.getFontTitre1());
-		comboBoxSaison.setRenderer(new javax.swing.ListCellRenderer<Integer>() {
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Integer> list, Integer value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
+		comboBoxSaison.setRenderer((JList<? extends Integer> list, Integer value, int index,boolean isSelected, boolean cellHasFocus) -> {
 				JLabel panel = new JLabel();
 				panel.setOpaque(true);
 				panel.setText("" + value);
@@ -92,8 +89,7 @@ public class VueAdminHistorique extends JPanel {
 					panel.setForeground(CustomColor.BLANC);
 				}
 				return panel;
-			}
-		});
+			});
 		panelSaisons.add(comboBoxSaison);
 
 		modelEquipes = new DefaultTableModel(null, new String[]{"World Rank", "Équipe", "Points"}) {
@@ -118,9 +114,7 @@ public class VueAdminHistorique extends JPanel {
 		tableEquipes.getColumnModel().getColumn(2).setMaxWidth(75);
 		tableEquipes.getColumnModel().getColumn(2).setPreferredWidth(75);
 		tableEquipes.getColumnModel().getColumn(0).setCellRenderer(new SimpleRenderer());
-		tableEquipes.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		tableEquipes.getColumnModel().getColumn(1).setCellRenderer((JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> {
 
 				CaseEquipe equipe = (CaseEquipe) value;
 				JLabel label = new JLabel(equipe.getNom());
@@ -132,8 +126,8 @@ public class VueAdminHistorique extends JPanel {
 					label.setBackground(CustomColor.BACKGROUND_MENU.brighter());
 				}
 				return label;
-			}
-		});
+			});
+		
 		tableEquipes.getColumnModel().getColumn(2).setCellRenderer(new SimpleRenderer());
 		GridBagConstraints gbcEquipes = new GridBagConstraints();
 		gbcEquipes.gridx = 0;
@@ -309,7 +303,7 @@ public class VueAdminHistorique extends JPanel {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			JLabel label = new JLabel("" + value, SwingConstants.CENTER);
 			label.setForeground(CustomColor.BLANC);
-			label.setHorizontalTextPosition(JLabel.CENTER);
+			label.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 			label.setFont(font);
 			if (isSelected || hasFocus) {
 				label.setOpaque(true);
@@ -321,23 +315,6 @@ public class VueAdminHistorique extends JPanel {
 		public SimpleRenderer smaller() {
 			font = MaFont.getFontPetitCorps();
 			return this;
-		}
-	}
-
-	private class EquipeRenderer implements TableCellRenderer {
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			CaseEquipe equipe = (CaseEquipe) value;
-			JLabel label = new JLabel(equipe.getNom(), SwingConstants.CENTER);
-			label.setIcon(equipe.getLogo());
-			label.setFont(MaFont.getFontTitre3());
-			label.setForeground(CustomColor.BLANC);
-//			label.setHorizontalTextPosition(equipe.aDroite ? JLabel.LEFT : JLabel.RIGHT);
-			if (isSelected || hasFocus) {
-				label.setOpaque(true);
-				label.setBackground(CustomColor.BACKGROUND_MENU.brighter());
-			}
-			return label;
 		}
 	}
 

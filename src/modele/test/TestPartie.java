@@ -1,5 +1,6 @@
 package modele.test;
 
+import exceptions.FausseDateException;
 import exceptions.GagnantNonChoisiException;
 import modele.Categorie;
 import modele.CompteArbitre;
@@ -19,22 +20,18 @@ import static org.junit.Assert.assertEquals;
 public class TestPartie {
 	private Partie partie;
 	private Matche matche;
-	private CustomDate debut;
-	private CustomDate finTournoi;
 	private Equipe equipe1;
 	private Equipe equipe2;
-	private Tournoi tournoi;
-	private Saison saison;
 
 	@Before
-	public void setUp() throws Exception {
-		debut = new CustomDate(2022, 12, 5);
-		finTournoi = new CustomDate(2022, 12, 20);
+	public void setUp() throws FausseDateException {
+		CustomDate debut = new CustomDate(2022, 12, 5);
+		CustomDate finTournoi = new CustomDate(2022, 12, 20);
 		equipe1 = new Equipe("Faze", Pays.ALGERIE);
 		equipe2 = new Equipe("KC", Pays.ALGERIE);
-		saison = new Saison(2022);
-		tournoi = new Tournoi(saison, "RLCS", debut, finTournoi, Niveau.INTERNATIONAL, new CompteArbitre("arbitre0", "1234"));
-		matche = new Matche(2, debut, Categorie.DEMI_FINALE, equipe1, equipe2, tournoi);
+		Saison saison = new Saison(2022);
+		Tournoi tournoi = new Tournoi(saison, "RLCS", debut, finTournoi, Niveau.INTERNATIONAL, new CompteArbitre("arbitre0", "1234"));
+		matche = new Matche(3, debut, Categorie.DEMI_FINALE, equipe1, equipe2, tournoi);
 		partie = new Partie(matche);
 	}
 

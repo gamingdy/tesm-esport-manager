@@ -12,11 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -34,7 +32,7 @@ public class PopupArbitres extends JFrame {
 	public PopupArbitres(String title, List<Arbitre> arbitres, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
@@ -60,32 +58,27 @@ public class PopupArbitres extends JFrame {
 		panel.add(label, BorderLayout.NORTH);
 
 
-		DefaultComboBoxModel<Arbitre> model = new DefaultComboBoxModel<Arbitre>();
+		DefaultComboBoxModel<Arbitre> model = new DefaultComboBoxModel<>();
 		arbitres.forEach(model::addElement);
 
-		c = new CustomComboBox<Arbitre>(model);
-		c.setRenderer(new ListCellRenderer<Arbitre>() {
-
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Arbitre> list, Arbitre value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel panel;
+		c = new CustomComboBox<>(model);
+		c.setRenderer((JList<? extends Arbitre> list, Arbitre value, int index, boolean isSelected, boolean cellHasFocus) -> {
+				JLabel panelCase;
 				if (value != null) {
-					panel = new JLabel(value.getNom() + " " + value.getPrenom());
+					panelCase = new JLabel(value.getNom() + " " + value.getPrenom());
 				} else {
-					panel = new JLabel("");
+					panelCase = new JLabel("");
 				}
-				panel.setOpaque(true);
-				panel.setForeground(CustomColor.BLANC);
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				panel.setFont(MaFont.getFontTitre1());
+				panelCase.setOpaque(true);
+				panelCase.setForeground(CustomColor.BLANC);
+				panelCase.setBackground(CustomColor.BACKGROUND_MAIN);
+				panelCase.setFocusable(false);
+				panelCase.setFont(MaFont.getFontTitre1());
 				if (isSelected) {
-					panel.setForeground(CustomColor.ROSE_CONTOURS);
+					panelCase.setForeground(CustomColor.ROSE_CONTOURS);
 				}
-				return panel;
-			}
-		});
+				return panelCase;
+			});
 		panel.add(c, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel();

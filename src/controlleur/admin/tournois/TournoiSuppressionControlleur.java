@@ -12,8 +12,8 @@ import java.awt.event.MouseAdapter;
 import java.util.Optional;
 
 public class TournoiSuppressionControlleur extends MouseAdapter {
-	private CaseTournoi caseTournoi;
-	private DaoTournoi daoTournoi;
+	private final CaseTournoi caseTournoi;
+	private final DaoTournoi daoTournoi;
 
 	public TournoiSuppressionControlleur(CaseTournoi newCaseTournoi) {
 		this.caseTournoi = newCaseTournoi;
@@ -23,9 +23,7 @@ public class TournoiSuppressionControlleur extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
-		new JFramePopup("Suppression de Tournois", "Etes vous sûr de supprimer ce tournoi ?", () ->
-				supprimerTournoi()
-		);
+		new JFramePopup("Suppression de Tournois", "Etes vous sûr de supprimer ce tournoi ?", this::supprimerTournoi);
 	}
 
 	public void supprimerTournoi() {
@@ -34,20 +32,25 @@ public class TournoiSuppressionControlleur extends MouseAdapter {
 			Optional<Tournoi> tournoi = daoTournoi.getById(date.getAnnee(), caseTournoi.getNom());
 			if (tournoi.isPresent()) {
 				if (tournoi.get().isEstEncours()) {
-					new JFramePopup("Erreur de suppression", "Le tournoi est en cours", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
+					afficherErreur("Le tournoi est en cours");
 				} else {
-					try {
-						daoTournoi.delete(date.getAnnee(), tournoi.get().getNom());
-						new JFramePopup("Tournoi supprimé", "Le tournoi a été bien supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-					} catch (Exception e) {
-						e.printStackTrace();
-						new JFramePopup("Erreur de suppression", "Le tournoi n'a pas pu être supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
-					}
+					supprimerTournoi(date, tournoi);
 
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");}
+	}
+
+	private void supprimerTournoi(CustomDate date, Optional<Tournoi> tournoi) {
+		try {
+			daoTournoi.delete(date.getAnnee(), tournoi.get().getNom());
+			new JFramePopup("Tournoi supprimé", "Le tournoi a été bien supprimé", () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
+		} catch (Exception e) {
+			afficherErreur("Une erreur s'est produite lors de la suppression");}
+	}
+
+	private void afficherErreur(String message) {
+		new JFramePopup("Erreur de suppression", message, () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 	}
 }

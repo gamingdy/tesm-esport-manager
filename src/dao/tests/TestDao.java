@@ -5,8 +5,10 @@ import dao.Connexion;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class TestDao {
+	private static final Logger LOGGER = Logger.getLogger(TestDao.class.getName());
 
 	private Connexion c;
 
@@ -28,12 +30,4 @@ public abstract class TestDao {
 		}
 		return afterShuffle;
 	}
-
-	public abstract void setup() throws Exception;
-
-	public abstract void testInsert() throws Exception;
-
-	public abstract void testDelete() throws Exception;
-
-	public abstract void testUpdate() throws Exception;
 }

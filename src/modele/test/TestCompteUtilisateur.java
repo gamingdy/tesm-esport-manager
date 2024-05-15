@@ -10,7 +10,7 @@ public class TestCompteUtilisateur {
 	private CompteUtilisateur compte;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		compte = new CompteUtilisateur("admin", "1234");
 	}
 

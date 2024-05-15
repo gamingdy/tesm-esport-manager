@@ -7,6 +7,7 @@ import modele.Tournoi;
 import vue.Page;
 import vue.admin.tournois.liste.CaseTournoi;
 import vue.admin.tournois.liste.VueAdminTournoisListe;
+import vue.common.JFramePopup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +49,8 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 			}
 
 		} catch (Exception e) {
-		}
+			afficherErreur("Une erreur SQL s'est produite, contactez l'administrateur");
+			}
 
 	}
 
@@ -86,6 +88,9 @@ public class TournoisListeControlleur implements ActionListener, ControlleurObse
 		this.vue.resetGrille();
 		this.vue.revalidate();
 		this.vue.addAll(this.listeCase);
+	}
+	private void afficherErreur(String  message) {
+		new JFramePopup("Erreur tournoi liste", message, () -> TournoisObserver.getInstance().notifyVue(Page.TOURNOIS_LISTE));
 	}
 
 	private List<Tournoi> getDifference(List<Tournoi> liste1, List<Tournoi> liste2) {

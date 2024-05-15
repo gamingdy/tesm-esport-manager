@@ -4,7 +4,6 @@ import vue.Vue;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -24,6 +23,7 @@ public class TitleBar extends JPanel {
 	final ButtonTitleBar enlarge;
 	private JLabel title;
 	private static TitleBar instance;
+	private boolean isDraggeable = true;
 
 
 	private TitleBar(Vue vue) {
@@ -39,17 +39,19 @@ public class TitleBar extends JPanel {
 		exit.addActionListener(e -> System.exit(0));
 		exit.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-		minimize.addActionListener(e -> vue.setState(JFrame.ICONIFIED));
+		minimize.addActionListener(e -> vue.setState(java.awt.Frame.ICONIFIED));
 		minimize.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 		enlarge.addActionListener(e -> {
-			if (vue.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
-				vue.setExtendedState(JFrame.NORMAL);
+			if (vue.getExtendedState() == java.awt.Frame.MAXIMIZED_BOTH) {
+				vue.setExtendedState(java.awt.Frame.NORMAL);
 				enlarge.updateIcon("Agrandir");
+				this.setDraggeable(true);
 				vue.updateBackgroundSize();
 			} else {
-				vue.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				vue.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 				enlarge.updateIcon("Reduire");
+				this.setDraggeable(false);
 				vue.updateBackgroundSize();
 			}
 		});
@@ -87,6 +89,7 @@ public class TitleBar extends JPanel {
 				coordsWin = null;
 			}
 
+			@Override
 			public void mousePressed(MouseEvent e) {
 				coordsWin = e.getPoint();
 			}
@@ -96,8 +99,10 @@ public class TitleBar extends JPanel {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				Point currCoords = e.getLocationOnScreen();
-				vue.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
+				if (isDraggeable) {
+					Point currCoords = e.getLocationOnScreen();
+					vue.setLocation(currCoords.x - coordsWin.x, currCoords.y - coordsWin.y);
+				}
 			}
 		});
 	}
@@ -115,6 +120,10 @@ public class TitleBar extends JPanel {
 
 	public void setTitle(String title) {
 		this.title.setText(title);
+	}
+
+	public void setDraggeable(boolean draggeable) {
+		isDraggeable = draggeable;
 	}
 
 }

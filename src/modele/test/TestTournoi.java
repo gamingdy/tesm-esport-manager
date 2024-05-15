@@ -1,8 +1,6 @@
 package modele.test;
 
-import exceptions.ExceptionDate;
 import exceptions.FausseDateException;
-import exceptions.MemeEquipeException;
 import modele.CompteArbitre;
 import modele.CustomDate;
 import modele.Niveau;
@@ -17,16 +15,13 @@ import static org.junit.Assert.assertTrue;
 
 public class TestTournoi {
 	private Tournoi tournoi;
-	private Saison saison;
-	private CustomDate debut;
-	private CustomDate fin;
 	private CompteArbitre compteArbitre;
 
 	@Before
-	public void setUp() throws ExceptionDate, FausseDateException, MemeEquipeException {
-		saison = new Saison(2023);
-		debut = new CustomDate(2023, 10, 20);
-		fin = new CustomDate(2023, 10, 25);
+	public void setUp() throws FausseDateException {
+		Saison saison = new Saison(2023);
+		CustomDate debut = new CustomDate(2023, 10, 20);
+		CustomDate fin = new CustomDate(2023, 10, 25);
 		compteArbitre = new CompteArbitre("adminRLCS", "dsqd");
 		tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.INTERNATIONAL, compteArbitre);
 	}
@@ -44,13 +39,13 @@ public class TestTournoi {
 	}
 
 	@Test
-	public void setDebut() throws ExceptionDate {
+	public void setDebut() {
 		tournoi.setDebut(new CustomDate(2022, 10, 13));
 		assertEquals(new CustomDate(2022, 10, 13), tournoi.getDebut());
 	}
 
 	@Test
-	public void setFin() throws ExceptionDate {
+	public void setFin() {
 		tournoi.setFin(new CustomDate(2022, 10, 25));
 		assertEquals(new CustomDate(2022, 10, 25), tournoi.getFin());
 	}
@@ -63,18 +58,18 @@ public class TestTournoi {
 
 	@Test(expected = FausseDateException.class)
 	public void testTournoiAvantSaison() throws FausseDateException {
-		CustomDate debut = new CustomDate(2022, 10, 20);
-		CustomDate fin = new CustomDate(2022, 10, 25);
+		CustomDate debutAvantSaison = new CustomDate(2022, 10, 20);
+		CustomDate finAvantSaison = new CustomDate(2022, 10, 25);
 		Saison saison = new Saison(2023);
-		Tournoi tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("adminRLCS", "dsqd"));
+		new Tournoi(saison, "RLCS", debutAvantSaison, finAvantSaison, Niveau.INTERNATIONAL, new CompteArbitre("adminRLCS", "dsqd"));
 	}
 
 	@Test(expected = FausseDateException.class)
 	public void testTournoiApresSaison() throws FausseDateException {
-		CustomDate debut = new CustomDate(2022, 10, 20);
-		CustomDate fin = new CustomDate(2022, 10, 25);
+		CustomDate debutApresSaison = new CustomDate(2022, 10, 20);
+		CustomDate finApresSaison = new CustomDate(2022, 10, 25);
 		Saison saison = new Saison(2021);
-		Tournoi tournoi = new Tournoi(saison, "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("adminRLCS", "dsqd"));
+		new Tournoi(saison, "RLCS", debutApresSaison, finApresSaison, Niveau.INTERNATIONAL, new CompteArbitre("adminRLCS", "dsqd"));
 	}
 
 	@Test

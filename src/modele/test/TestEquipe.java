@@ -3,7 +3,6 @@ package modele.test;
 import exceptions.EquipeCompleteException;
 import exceptions.EquipeVideException;
 import exceptions.ExceptionPointsNegatifs;
-import exceptions.JoueurException;
 import exceptions.JoueurNonPresentException;
 import modele.Equipe;
 import modele.Joueur;
@@ -11,7 +10,6 @@ import modele.Pays;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -22,26 +20,22 @@ public class TestEquipe {
 	private Equipe equipe2;
 	private Joueur j;
 	private Joueur j2;
-	private Joueur j3;
-	private Joueur j4;
-	private Joueur j5;
-	private Joueur j6;
 
 	@Before
-	public void setUp() throws EquipeCompleteException, JoueurException {
+	public void setUp() throws EquipeCompleteException {
 		equipe1 = new Equipe("Faze", Pays.ALGERIE);
 		equipe2 = new Equipe("Patate", Pays.ALGERIE);
 		j2 = new Joueur("Soso1", equipe1);
-		j3 = new Joueur("SoSo2", equipe1);
-		j4 = new Joueur("Sososo3", equipe1);
 	}
 
 
 	@Test
-	public void testAjoutMemeJoueur() throws EquipeCompleteException, JoueurException {
+	public void testAjoutMemeJoueur() throws EquipeCompleteException {
 		j = new Joueur("Cricri", equipe1);
 		equipe1.addJoueur(j);
-		assertEquals(4, equipe1.getNombreJoueurs());
+		Joueur j1 = new Joueur("Cricri", equipe1);
+		equipe1.addJoueur(j1);
+		assertEquals(2, equipe1.getNombreJoueurs());
 	}
 
 	@Test
@@ -67,34 +61,38 @@ public class TestEquipe {
 
 
 	@Test
-	public void testAjout5joueurs() throws EquipeCompleteException, JoueurException {
-		j = new Joueur("Cricri", equipe1);
-
-		j5 = new Joueur("Sosososo4", equipe1);
+	public void testAjout5joueurs() throws EquipeCompleteException {
+		new Joueur("Cricri", equipe1);
+		new Joueur("Sosososo4", equipe1);
+		new Joueur("Sosososo3", equipe1);
+		new Joueur("Sosososo5", equipe1);
 		assertEquals(5, equipe1.getNombreJoueurs());
 	}
 
 	@Test(expected = EquipeCompleteException.class)
-	public void testAjout6joueursException() throws EquipeCompleteException, JoueurException {
+	public void testAjout6joueursException() throws EquipeCompleteException {
 		j = new Joueur("Cricri", equipe1);
-		j5 = new Joueur("Sosososo4", equipe1);
-		j6 = new Joueur("exception", equipe1);
+		new Joueur("Sosososo4", equipe1);
+		new Joueur("exception", equipe1);
+		new Joueur("Sosososo3", equipe1);
+		new Joueur("Sosososo5", equipe1);
 	}
 
 	@Test(expected = JoueurNonPresentException.class)
-	public void testgetJoueurInexistant() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException, JoueurException {
+	public void testgetJoueurInexistant() throws EquipeCompleteException, JoueurNonPresentException, EquipeVideException {
 		equipe1.getJoueur(new Joueur("klklk", equipe2));
 	}
 
 	@Test(expected = EquipeVideException.class)
-	public void testgetJoueurEquipeVide() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException {
+	public void testgetJoueurEquipeVide() throws JoueurNonPresentException, EquipeVideException {
 		equipe2.getJoueur(j2);
 	}
 
 	@Test
-	public void testSupprimerJoueur() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException {
+	public void testSupprimerJoueur() throws JoueurNonPresentException, EquipeVideException {
+		assertEquals(1, equipe1.getNombreJoueurs());
 		equipe1.deleteJoueur(j2);
-		assertEquals(2, equipe1.getNombreJoueurs());
+		assertEquals(0, equipe1.getNombreJoueurs());
 	}
 
 	@Test(expected = EquipeVideException.class)
@@ -103,13 +101,13 @@ public class TestEquipe {
 	}
 
 	@Test
-	public void testgetJoueurNormal() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException, JoueurException {
+	public void testGetJoueurNormal() throws JoueurNonPresentException, EquipeVideException, EquipeCompleteException {
 		j = new Joueur("Cricri", equipe1);
 		assertEquals(j, equipe1.getJoueur(j));
 	}
 
 	@Test
-	public void testgetNom() {
+	public void testGetNom() {
 		assertEquals("Faze", equipe1.getNom());
 	}
 
@@ -122,20 +120,20 @@ public class TestEquipe {
 	@Test
 	public void testSetGetPoint() throws ExceptionPointsNegatifs {
 		equipe1.setPoint(10.0f);
-		assertEquals(Optional.of(10.0f), equipe1.getPoint());
+		assertEquals(10.0f, equipe1.getPoint(), 0.01);
 	}
 
 	@Test
-	public void testReturnGetEquipe() throws EquipeCompleteException, JoueurException {
+	public void testReturnGetEquipe() throws EquipeCompleteException {
 		j = new Joueur("Cricri", equipe1);
-		Set<Joueur> set = new TreeSet<Joueur>();
+		Set<Joueur> set = new TreeSet<>();
 		set.add(j);
 		equipe2.addJoueur(j);
 		assertEquals(set, equipe2.getEquipe());
 	}
 
 	@Test(expected = JoueurNonPresentException.class)
-	public void testDeleteJoueur() throws EquipeCompleteException, JoueurException, JoueurNonPresentException, EquipeVideException {
+	public void testDeleteJoueur() throws EquipeCompleteException, JoueurNonPresentException, EquipeVideException {
 		j = new Joueur("fjkdfj", equipe2);
 		equipe1.deleteJoueur(j);
 	}

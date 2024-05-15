@@ -1,5 +1,6 @@
 package modele.test;
 
+import exceptions.FausseDateException;
 import modele.Appartenance;
 import modele.CompteArbitre;
 import modele.CustomDate;
@@ -16,17 +17,14 @@ import static org.junit.Assert.assertEquals;
 public class TestAppartenance {
 	private Appartenance appartenance;
 	private Poule poule;
-	private Tournoi tournoi;
 	private Equipe e1;
-	private CustomDate debut;
-	private CustomDate fin;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws FausseDateException {
 		e1 = new Equipe("Faze", Pays.ALGERIE);
-		debut = new CustomDate(2022, 10, 10);
-		fin = new CustomDate(2022, 10, 22);
-		tournoi = new Tournoi(new modele.Saison(2022), "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("admin", "dsdsd00"));
+		CustomDate debut = new CustomDate(2022, 10, 10);
+		CustomDate fin = new CustomDate(2022, 10, 22);
+		Tournoi tournoi = new Tournoi(new modele.Saison(2022), "RLCS", debut, fin, Niveau.INTERNATIONAL, new CompteArbitre("admin", "dsdsd00"));
 		poule = new Poule(tournoi, 'A');
 		appartenance = new Appartenance(e1, poule);
 	}

@@ -13,11 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -35,7 +33,7 @@ public class PopupTournoi extends JFrame {
 	public PopupTournoi(String title, List<Tournoi> equipes, ActionHandler actionHandler) {
 		super(title);
 		setType(Type.UTILITY);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(400, 200));
 
 		ImageIcon icon = new ImageIcon(("assets/logo.png"));
@@ -61,22 +59,18 @@ public class PopupTournoi extends JFrame {
 		panel.add(label, BorderLayout.NORTH);
 
 
-		DefaultComboBoxModel<Tournoi> model = new DefaultComboBoxModel<Tournoi>();
+		DefaultComboBoxModel<Tournoi> model = new DefaultComboBoxModel<>();
 		equipes.forEach(model::addElement);
 
-		c = new CustomComboBox<Tournoi>(model);
-		c.setRenderer(new ListCellRenderer<Tournoi>() {
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Tournoi> list, Tournoi value, int index,
-														  boolean isSelected, boolean cellHasFocus) {
-				JLabel panel = new JLabel(value.getNom() + " " + value.getSaison().getAnnee());
-				panel.setOpaque(true);
-				panel.setForeground(CustomColor.BLANC);
-				panel.setBackground(CustomColor.BACKGROUND_MAIN);
-				panel.setFocusable(false);
-				return panel;
-			}
-		});
+		c = new CustomComboBox<>(model);
+		c.setRenderer((JList<? extends Tournoi> list, Tournoi value, int index, boolean isSelected, boolean cellHasFocus) -> {
+				JLabel itemPanel = new JLabel(value.getNom() + " " + value.getSaison().getAnnee());
+				itemPanel.setOpaque(true);
+				itemPanel.setForeground(CustomColor.BLANC);
+				itemPanel.setBackground(CustomColor.BACKGROUND_MAIN);
+				itemPanel.setFocusable(false);
+				return itemPanel;
+			});
 		panel.add(c);
 
 		JPanel buttonPanel = new JPanel();

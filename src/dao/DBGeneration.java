@@ -4,7 +4,9 @@ import java.sql.SQLException;
 
 public class DBGeneration {
 
-	public static void main(Connexion c) throws SQLException {
+	private DBGeneration() {}
+
+	public static void createAllTables(Connexion c) throws SQLException {
 		DaoEquipe.createTable(c);
 		DaoJoueur.createTable(c);
 		DaoArbitre.createTable(c);
@@ -18,7 +20,6 @@ public class DBGeneration {
 		DaoSelection.createTable(c);
 		DaoArbitrage.createTable(c);
 		DaoAppartenance.createTable(c);
-		System.out.println("Toutes les tables ont été correctement créées");
 	}
 
 }
